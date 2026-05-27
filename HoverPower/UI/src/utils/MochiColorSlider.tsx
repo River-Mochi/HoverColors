@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './MochiColorSlider.module.scss';
 import { trigger } from 'cs2/api';
-import { VanillaResolver } from "./VanilliaResolver";
+import { VanillaComponentResolver } from "./vanilla/VanillaComponentResolver";
 
 interface MochiSliderProps {
     className?: string;
@@ -95,7 +95,7 @@ export const MochiColorSlider: React.FC<MochiSliderProps> = ({
                     <div className={styles.thumb} style={{ left: `${fillPercentage}%` }}></div>
                 </div>
             </div>
-            <div className={`${styles.valueDisplay} ${VanillaResolver.instance.mouseToolOptionsTheme["number-field"]}`}>
+            <div className={`${styles.valueDisplay} ${VanillaComponentResolver.instance.mouseToolOptionsTheme["number-field"]}`}>
                 {formatValue ? formatValue(value) : value.toString()}
             </div>
         </div>

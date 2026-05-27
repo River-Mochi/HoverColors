@@ -1,10 +1,10 @@
 ﻿import { ModRegistrar } from "cs2/modding";
-import { VanillaResolver } from "./utils/VanilliaResolver";
+import { VanillaComponentResolver } from "./utils/vanilla/VanillaComponentResolver";
 
 import ModIconButton from "./ModIconButton";
 
 const register: ModRegistrar = (moduleRegistry) => {
-    VanillaResolver.setRegistry(moduleRegistry);
+    VanillaComponentResolver.setRegistry(moduleRegistry);
 
     moduleRegistry.append(
         "GameTopLeft",

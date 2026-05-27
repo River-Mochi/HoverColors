@@ -4,30 +4,84 @@
     left: 0;
     margin-top: 6rem;
     z-index: 10000;
+    pointer-events: auto;
 }
 
 .panelFrame {
+    position: relative;
     overflow: visible;
 }
 
 .panelContent {
+    position: relative;
     overflow: visible;
 }
 
 .body {
-    width: 320rem;
-    padding: 10rem 10rem 6rem 10rem;
+    width: 290rem;
+    padding: 4rem 10rem 4rem 10rem;
     display: flex;
     flex-direction: column;
-    gap: 10rem;
+    gap: 8rem;
+}
+
+.panelUtilityRow {
+    min-height: 22rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 6rem 8rem 0 8rem;
+}
+
+.closeButton {
+    width: 22rem;
+    height: 22rem;
+    min-width: 22rem;
+    padding: 0 !important;
+    border-radius: 999rem;
+}
+
+.closeIcon {
+    width: 14rem;
+    height: 14rem;
+    display: block;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.outlineControl {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3rem;
+}
+
+.outlineFieldAnchor {
+    display: inline-flex;
 }
 
 .outlineField {
+    width: 96rem !important;
     height: 30rem !important;
 }
 
+.outlineField > button {
+    width: 96rem !important;
+    height: 30rem !important;
+    padding-right: 2rem !important;
+    opacity: 1 !important;
+}
+
+.helperText {
+    max-width: 150rem;
+    text-align: right;
+    font-size: 10rem;
+    line-height: 1.2;
+    color: rgba(255, 255, 255, 0.72);
+}
+
 .sliderRow {
-    min-width: 210rem;
+    min-width: 196rem;
     display: flex;
     align-items: center;
     gap: 8rem;
@@ -38,8 +92,8 @@
 }
 
 .valueField {
-    width: 50rem;
-    flex: 0 0 50rem;
+    width: 42rem;
+    flex: 0 0 42rem;
     text-align: center;
     border-radius: 4rem;
     border: 1rem solid rgba(255, 255, 255, 0.20);
@@ -49,6 +103,47 @@
     display: flex;
     justify-content: flex-end;
     gap: 4rem;
-    padding: 8rem;
+    padding: 6rem 28rem 10rem 8rem;
     border-top: 1rem solid rgba(255, 255, 255, 0.15);
+}
+
+.presetButton {
+    min-width: 54rem !important;
+    height: 28rem !important;
+    padding: 0 8rem !important;
+    font-size: 11rem !important;
+    line-height: 1 !important;
+    text-transform: uppercase;
+}
+
+.dragGrip {
+    position: absolute;
+    right: 8rem;
+    bottom: 8rem;
+    width: 16rem;
+    height: 16rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: 4rem;
+    border: 1rem solid rgba(255, 255, 255, 0.20);
+    background-color: rgba(255, 255, 255, 0.06);
+    cursor: move;
+    user-select: none;
+}
+
+.dragGrip:hover,
+.dragGripActive {
+    background-color: rgba(84, 215, 255, 0.18);
+    border-color: rgba(84, 215, 255, 0.50);
+}
+
+.dragGripDot {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.82);
+    justify-self: center;
+    align-self: center;
 }
