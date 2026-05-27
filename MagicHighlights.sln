@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11819.183
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicHighlights", "MagicHighlights\MagicHighlights.csproj", "{40713286-E1C9-6A92-A4B0-A2FA8FCC17D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ABD5F361-023D-4170-8900-9ADBE9569576}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		docs\HideBlueHighlight.cs = docs\HideBlueHighlight.cs
+		docs\Internals.md = docs\Internals.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40713286-E1C9-6A92-A4B0-A2FA8FCC17D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40713286-E1C9-6A92-A4B0-A2FA8FCC17D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40713286-E1C9-6A92-A4B0-A2FA8FCC17D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40713286-E1C9-6A92-A4B0-A2FA8FCC17D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {638C7B11-991F-40F4-A92E-B2C13D1195BC}
+	EndGlobalSection
+EndGlobal

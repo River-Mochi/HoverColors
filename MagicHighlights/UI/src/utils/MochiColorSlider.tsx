@@ -1,0 +1,103 @@
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import styles from './MochiColorSlider.module.scss';
+import { trigger } from 'cs2/api';
+import { VanillaResolver } from "./VanilliaResolver";
+
+interface MochiSliderProps {
+    className?: string;
+    style?: React.CSSProperties;
+    value: number;
+    min: number;
+    max: number;
+    step?: number;
+    onChange: (val: number) => void;
+    formatValue?: (val: number) => string;
+    onDragStart?: () => void;
+    onDragEnd?: () => void;
+}
+
+export const MochiColorSlider: React.FC<MochiSliderProps> = ({
+    className, style, value, min, max, step = 1, onChange, formatValue, onDragStart, onDragEnd
+}) => {
+    const trackRef = useRef<HTMLDivElement>(null);
+    const lastSentValueRef = useRef<number | null>(null);
+    const sendChange = useCallback((nextValue: number) => {
+        if (lastSentValueRef.current !== null && Math.abs(lastSentValueRef.current - nextValue) < 0.0001) {
+            return;
+        }
+
+        lastSentValueRef.current = nextValue;
+        onChange(nextValue);
+    }, [onChange]);
+
+    const [isDragging, setIsDragging] = useState(false);
+
+    const calculateValueFromMouse = useCallback((clientX: number) => {
+        if (!trackRef.current) return value;
+
+        const rect = trackRef.current.getBoundingClientRect();
+        const xPos = Math.max(0, Math.min(clientX - rect.left, rect.width));
+        const percentage = xPos / rect.width;
+        const rawValue = min + percentage * (max - min);
+        const steppedValue = Math.round(rawValue / step) * step;
+
+        return Math.min(Math.max(steppedValue, min), max);
+    }, [min, max, step, value]);
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        trigger("MagicHighlights", "UiInteracted");
+
+        onDragStart?.();
+
+        setIsDragging(true);
+        onChange(calculateValueFromMouse(e.clientX));
+    };
+
+    useEffect(() => {
+        if (!isDragging) return;
+
+        const handleMouseMove = (e: MouseEvent) => {
+            sendChange(calculateValueFromMouse(e.clientX));
+        };
+
+        const handleMouseUp = () => {
+            setIsDragging(false);
+            onDragEnd?.();
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDragging, calculateValueFromMouse, onChange]);
+
+    const fillPercentage = Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
+
+    return (
+        <div
+            className={`${styles.sliderContainer} ${className ? styles[className] : ""}`}
+            style={style}
+            onContextMenu={(e) => e.stopPropagation()}
+        >
+            <div
+                className={`${styles.trackWrapper} ${isDragging ? styles.dragging : ''}`}
+                ref={trackRef}
+                onMouseDown={handleMouseDown}
+            >
+                <div className={styles.track}>
+                    <div className={styles.fill} style={{ width: `100%` }}></div>
+                    <div className={styles.thumb} style={{ left: `${fillPercentage}%` }}></div>
+                </div>
+            </div>
+            <div className={`${styles.valueDisplay} ${VanillaResolver.instance.mouseToolOptionsTheme["number-field"]}`}>
+                {formatValue ? formatValue(value) : value.toString()}
+            </div>
+        </div>
+    );
+};
