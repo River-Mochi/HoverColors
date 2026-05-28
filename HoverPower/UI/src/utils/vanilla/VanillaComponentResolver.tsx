@@ -1,6 +1,9 @@
 import type { FocusKey, UniqueFocusKey } from "cs2/bindings";
 import type { ModuleRegistry } from "cs2/modding";
 import type { FC } from "react";
+import { VANILLA_COMPONENT_MODULES, type VanillaComponentModuleName } from "./components";
+import { VANILLA_FOCUS_MODULES, type VanillaFocusModuleName } from "./focus";
+import { VANILLA_THEME_MODULES, type VanillaThemeModuleName } from "./themes";
 import type {
     VanillaCheckboxProps,
     VanillaColorFieldProps,
@@ -36,59 +39,6 @@ import type {
 //
 // Remember: `UI/types/bindings.d.ts` is helpful for binding/widget payloads,
 // but the vanilla React module props can differ from the binding model.
-
-export const VANILLA_COMPONENT_MODULES = {
-    Section: ["game-ui/game/components/tool-options/mouse-tool-options/mouse-tool-options.tsx", "Section"],
-    ToolButton: ["game-ui/game/components/tool-options/tool-button/tool-button.tsx", "ToolButton"],
-    StepToolButton: ["game-ui/game/components/tool-options/tool-button/tool-button.tsx", "StepToolButton"],
-    Checkbox: ["game-ui/common/input/toggle/checkbox/checkbox.tsx", "Checkbox"],
-    DescriptionTooltip: ["game-ui/common/tooltip/description-tooltip/description-tooltip.tsx", "DescriptionTooltip"],
-    ColorField: ["game-ui/common/input/color-picker/color-field/color-field.tsx", "ColorField"],
-    Slider: ["game-ui/common/input/slider/slider.tsx", "Slider"],
-    InfoSection: ["game-ui/game/components/selected-info-panel/shared-components/info-section/info-section.tsx", "InfoSection"],
-    InfoRow: ["game-ui/game/components/selected-info-panel/shared-components/info-row/info-row.tsx", "InfoRow"],
-    InfoLink: ["game-ui/game/components/selected-info-panel/shared-components/info-link/info-link.tsx", "InfoLink"],
-    PageSelector: ["game-ui/menu/components/whats-new-panel/page-selector/page-selector.tsx", "PageSelector"],
-    PageSwitcher: ["game-ui/common/animations/paging/page-switcher.tsx", "PageSwitcher"],
-    Page: ["game-ui/common/animations/paging/page-switcher.tsx", "Page"],
-    Scrollable: ["game-ui/common/scrolling/scrollable.tsx", "Scrollable"],
-    TextInput: ["game-ui/common/input/text/text-input.tsx", "TextInput"],
-    DropdownItem: ["game-ui/common/input/dropdown/items/dropdown-item.tsx", "DropdownItem"],
-} as const;
-
-export const VANILLA_THEME_MODULES = {
-    toolButtonTheme: ["game-ui/game/components/tool-options/tool-button/tool-button.module.scss", "classes"],
-    mouseToolOptionsTheme: ["game-ui/game/components/tool-options/mouse-tool-options/mouse-tool-options.module.scss", "classes"],
-    descriptionTooltipTheme: ["game-ui/common/tooltip/description-tooltip/description-tooltip.module.scss", "classes"],
-    colorFieldTheme: ["game-ui/common/input/color-picker/color-field/color-field.module.scss", "classes"],
-    commonDropdownTheme: ["game-ui/common/input/dropdown/dropdown.module.scss", "classes"],
-    menuDropdownTheme: ["game-ui/menu/themes/dropdown.module.scss", "classes"],
-    checkboxTheme: ["game-ui/common/input/toggle/checkbox/checkbox.module.scss", "classes"],
-    statisticsCheckboxTheme: ["game-ui/game/components/statistics-panel/menu/item/statistics-item.module.scss", "classes"],
-    toolbarFeatureButtonTheme: ["game-ui/game/components/toolbar/components/feature-button/toolbar-feature-button.module.scss", "classes"],
-    roundHighlightButtonTheme: ["game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes"],
-    infoRowTheme: ["game-ui/game/components/selected-info-panel/shared-components/info-row/info-row.module.scss", "classes"],
-    panelTheme: ["game-ui/common/panel/themes/default.module.scss", "classes"],
-    pageSelectorTheme: ["game-ui/menu/components/whats-new-panel/page-selector/page-selector.module.scss", "classes"],
-    whatsNewPageTheme: ["game-ui/menu/components/whats-new-panel/whats-new-page/whats-new-page.module.scss", "classes"],
-    horizontalTransitionTheme: ["game-ui/common/animations/paging/transitions/horizontal-transition.module.scss", "classes"],
-    whatsNewTabTheme: ["game-ui/menu/components/whats-new-panel/whats-new-tab/whats-new-tab.module.scss", "classes"],
-    toolOptionsPanelTheme: ["game-ui/game/components/tool-options/tool-options-panel.module.scss", "classes"],
-    assetCategoryTabItemTheme: ["game-ui/game/components/asset-menu/asset-category-tab-bar/category-item.module.scss", "classes"],
-    assetCategoryTabBarTheme: ["game-ui/game/components/asset-menu/asset-category-tab-bar/asset-category-tab-bar.module.scss", "classes"],
-    itemGridTheme: ["game-ui/game/components/item-grid/item-grid.module.scss", "classes"],
-    textInputTheme: ["game-ui/editor/widgets/item/editor-item.module.scss", "classes"],
-} as const;
-
-export const VANILLA_FOCUS_MODULES = {
-    FOCUS_DISABLED: ["game-ui/common/focus/focus-key.ts", "FOCUS_DISABLED"],
-    FOCUS_AUTO: ["game-ui/common/focus/focus-key.ts", "FOCUS_AUTO"],
-    useUniqueFocusKey: ["game-ui/common/focus/focus-key.ts", "useUniqueFocusKey"],
-} as const;
-
-export type VanillaComponentModuleName = keyof typeof VANILLA_COMPONENT_MODULES;
-export type VanillaThemeModuleName = keyof typeof VANILLA_THEME_MODULES;
-export type VanillaFocusModuleName = keyof typeof VANILLA_FOCUS_MODULES;
 
 type VanillaModuleName =
     | VanillaComponentModuleName

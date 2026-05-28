@@ -1,39 +1,39 @@
 // File: UI/src/MochiColorPickerPanel.tsx
 // Purpose: Compact in-city hover-color panel anchored under the GameTopLeft icon button.
 // Layout:
-//   - Short draggable title bar with info tooltip + close button
-//   - Outline row: larger vanilla ColorField launcher
-//   - Fill / Guidelines rows: compact sliders with percent readouts
-//   - Preset row: right-aligned bordered buttons
+//   - Short draggable title bar with info tooltip, title, close button, and backup grip
+//   - Outline row: icon + vanilla ColorField swatch launcher
+//   - Fill / Guidelines rows: icon-led compact sliders with percent readouts
+//   - Preset row: compact slot buttons + icon reset
 
 import React from "react";
-import { Button, Tooltip } from "cs2/ui";
+import { Tooltip } from "cs2/ui";
 import { Color } from "cs2/bindings";
 import { bindValue, trigger, useValue } from "cs2/api";
 import { VanillaComponentResolver } from "./utils/vanilla/VanillaComponentResolver";
 import infoIconSrc from "../images/AdvisorInfoViewWhite.svg";
+import fillIconSrc from "../images/Building_PrimaryColor.svg";
+import outlineIconSrc from "../images/Building_TertiaryColor.svg";
+import guidelinesIconSrc from "../images/GuideLines.svg";
+import resetIconSrc from "../images/Reset_Button.svg";
+import saveIconSrc from "../images/Save.svg";
 import styles from "./MochiColorPickerPanel.module.scss";
 
 const CHANNEL = "HoverPower";
 
-const outlineR$ = bindValue<number>(CHANNEL, "OutlineR", 0.50);
-const outlineG$ = bindValue<number>(CHANNEL, "OutlineG", 0.50);
+const outlineR$ = bindValue<number>(CHANNEL, "OutlineR", 0.502);
+const outlineG$ = bindValue<number>(CHANNEL, "OutlineG", 0.869);
 const outlineB$ = bindValue<number>(CHANNEL, "OutlineB", 1);
-const outlineA$ = bindValue<number>(CHANNEL, "OutlineA", 0.50);
+const outlineA$ = bindValue<number>(CHANNEL, "OutlineA", 0.855);
 const fillA$ = bindValue<number>(CHANNEL, "FillA", 0);
 const guidelineOpacity$ = bindValue<number>(CHANNEL, "GuidelineOpacityPercent", 40);
-const closeIconSrc = "coui://uil/Standard/XClose.svg";
 
-// Vanilla cyan-blue defaults confirmed by Mert's original mod.
-const PRESET_VANILLA_OUTLINE: Color = { r: 0.50, g: 0.50, b: 1, a: 0.50 };
-const PRESET_VANILLA_FILL_A = 0;
-
-// Gentle neutral preset for River-Mochi's preferred subtle highlight.
-const PRESET_RIVER_MOCHI_GRAY_OUTLINE: Color = { r: 0.85, g: 0.85, b: 0.88, a: 0.10 };
-const PRESET_RIVER_MOCHI_GRAY_FILL_A = 0;
+// Gentle neutral preset for Mochi's preferred subtle highlight.
+const PRESET_MOCHI_GRAY_OUTLINE: Color = { r: 140 / 255, g: 140 / 255, b: 171 / 255, a: 0.5 };
+const PRESET_MOCHI_GRAY_FILL_A = 0;
 
 // Purple-gray test preset inspired by yenyang's highlight experiments.
-const PRESET_YENYANG_OUTLINE: Color = { r: 0.25, g: 0.15, b: 0.25, a: 0.3 };
+const PRESET_YENYANG_OUTLINE: Color = { r: 0.25, g: 0.15, b: 0.25, a: 0.5 };
 const PRESET_YENYANG_FILL_A = 0;
 
 export const MochiColorPickerPanel = () => {
@@ -125,9 +125,9 @@ export const MochiColorPickerPanel = () => {
         trigger(CHANNEL, "SetFillAlpha", fillAlpha);
     };
 
-    const handleSet1 = () => applyPreset(PRESET_RIVER_MOCHI_GRAY_OUTLINE, PRESET_RIVER_MOCHI_GRAY_FILL_A);
+    const handleSet1 = () => applyPreset(PRESET_MOCHI_GRAY_OUTLINE, PRESET_MOCHI_GRAY_FILL_A);
     const handleSet2 = () => applyPreset(PRESET_YENYANG_OUTLINE, PRESET_YENYANG_FILL_A);
-    const handleReset = () => applyPreset(PRESET_VANILLA_OUTLINE, PRESET_VANILLA_FILL_A);
+    const handleReset = () => trigger(CHANNEL, "ResetToVanilla");
     const handleClosePanel = () => trigger(CHANNEL, "SetPanelOpen", false);
 
     const handlePanelDragStart = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -147,9 +147,7 @@ export const MochiColorPickerPanel = () => {
     const focusDisabled = VanillaComponentResolver.instance.FOCUS_DISABLED;
     const numberFieldClass = VanillaComponentResolver.instance.mouseToolOptionsTheme["number-field"];
     const colorFieldTheme = VanillaComponentResolver.instance.colorFieldTheme;
-    const roundHighlightButtonTheme = VanillaComponentResolver.instance.roundHighlightButtonTheme;
     const outlineFieldClass = `${colorFieldTheme["colorField"] ?? ""} ${styles.outlineField}`;
-    const closeButtonClass = `${roundHighlightButtonTheme["button"] ?? ""} ${styles.closeButton}`;
 
     return (
         <div
@@ -170,26 +168,28 @@ export const MochiColorPickerPanel = () => {
                                 className={`${styles.titleDragHandle} ${panelDragging ? styles.titleDragHandleActive : ""}`}
                                 onMouseDown={handlePanelDragStart}
                             >
-                                <span className={styles.dragHandleLine}></span>
+                                <span className={styles.titleText}>Mochi&apos;s Blue Buster</span>
                             </div>
                         </Tooltip>
 
                         <Tooltip tooltip="Close this panel. You can also toggle it with the GTL icon or the H hotkey.">
-                            <Button
-                                className={closeButtonClass}
-                                variant="icon"
-                                focusKey={focusDisabled}
-                                onSelect={handleClosePanel}
+                            <button
+                                type="button"
+                                className={styles.closeButton}
+                                onClick={handleClosePanel}
+                                aria-label="Close panel"
                             >
-                                <img src={closeIconSrc} className={styles.closeIcon} alt="" />
-                            </Button>
+                                <span className={styles.closeGlyph}>X</span>
+                            </button>
                         </Tooltip>
                     </div>
 
                     <div className={styles.body}>
                         <div className={styles.controlRow}>
                             <Tooltip tooltip="Outline color for the active hover and selection highlight. Click the swatch to open the vanilla color picker.">
-                                <div className={styles.controlLabel}>Outline</div>
+                                <div className={styles.controlIconButton}>
+                                    <img src={outlineIconSrc} className={styles.controlIcon} alt="" />
+                                </div>
                             </Tooltip>
                             <div className={styles.controlBody}>
                                 <Tooltip tooltip="Click this color box to open the full vanilla picker with wheel, RGB sliders, alpha, and hex input. This changes only the active hover/selection highlight, not the building permanently.">
@@ -212,7 +212,9 @@ export const MochiColorPickerPanel = () => {
 
                         <div className={styles.controlRow}>
                             <Tooltip tooltip="Opacity of the fill inside the hovered outline. 0% = no inner fill, 100% = fully visible fill.">
-                                <div className={styles.controlLabel}>Fill</div>
+                                <div className={styles.controlIconButton}>
+                                    <img src={fillIconSrc} className={styles.controlIcon} alt="" />
+                                </div>
                             </Tooltip>
                             <Tooltip tooltip="Opacity of the fill inside the hovered outline. 0% = no inner fill, 100% = fully visible fill.">
                                 <div className={styles.controlBody}>
@@ -236,7 +238,9 @@ export const MochiColorPickerPanel = () => {
 
                         <div className={styles.controlRow}>
                             <Tooltip tooltip="Guidelines opacity. This is the same setting used in the Options menu, so both places stay in sync.">
-                                <div className={styles.controlLabel}>Guidelines</div>
+                                <div className={styles.controlIconButton}>
+                                    <img src={guidelinesIconSrc} className={styles.controlIcon} alt="" />
+                                </div>
                             </Tooltip>
                             <Tooltip tooltip="Guidelines opacity. This is the same setting used in the Options menu, so both places stay in sync.">
                                 <div className={styles.controlBody}>
@@ -260,22 +264,36 @@ export const MochiColorPickerPanel = () => {
                     </div>
 
                     <div className={styles.actions}>
-                        <Tooltip tooltip="River-Mochi Gray: light gray with a subtle 10% outline halo.">
-                            <Button className={`${styles.actionButton} ${styles.actionButtonWide}`} focusKey={focusDisabled} onSelect={handleSet1}>
-                                River-Mochi Gray
-                            </Button>
+                        <Tooltip tooltip="Preset 1: Mochi-gray.">
+                            <button type="button" className={`${styles.actionButton} ${styles.presetButton}`} onClick={handleSet1}>
+                                <span className={styles.slotBadge}>1</span>
+                                <img src={saveIconSrc} className={styles.actionIcon} alt="" />
+                            </button>
                         </Tooltip>
-                        <Tooltip tooltip="Preset 2: purple-gray test colors inspired by yenyang's highlight experiments.">
-                            <Button className={styles.actionButton} focusKey={focusDisabled} onSelect={handleSet2}>
-                                Set 2
-                            </Button>
+                        <Tooltip tooltip="Preset 2: yenyang purple-gray.">
+                            <button type="button" className={`${styles.actionButton} ${styles.presetButton}`} onClick={handleSet2}>
+                                <span className={styles.slotBadge}>2</span>
+                                <img src={saveIconSrc} className={styles.actionIcon} alt="" />
+                            </button>
                         </Tooltip>
-                        <Tooltip tooltip="Reset to the vanilla cyan-blue outline and no fill.">
-                            <Button className={styles.actionButton} focusKey={focusDisabled} onSelect={handleReset}>
-                                Reset
-                            </Button>
+                        <Tooltip tooltip="Reset to vanilla hover colors and no fill.">
+                            <button type="button" className={`${styles.actionButton} ${styles.resetButton}`} onClick={handleReset}>
+                                <img src={resetIconSrc} className={styles.actionIcon} alt="" />
+                            </button>
                         </Tooltip>
                     </div>
+
+                    <Tooltip tooltip="Draggable">
+                        <div
+                            className={`${styles.dragGrip} ${panelDragging ? styles.dragGripActive : ""}`}
+                            onMouseDown={handlePanelDragStart}
+                        >
+                            <span className={styles.dragGripDot}></span>
+                            <span className={styles.dragGripDot}></span>
+                            <span className={styles.dragGripDot}></span>
+                            <span className={styles.dragGripDot}></span>
+                        </div>
+                    </Tooltip>
                 </div>
             </div>
         </div>

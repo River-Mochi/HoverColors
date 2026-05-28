@@ -9,6 +9,7 @@ using Game.Input;
 using Game.SceneFlow;
 using Game.UI;
 using HoverPower.Settings;
+using HoverPower.Systems;
 using System;
 
 namespace HoverPower.UI
@@ -98,6 +99,23 @@ namespace HoverPower.UI
                     if (percent > 100) percent = 100;
 
                     settings.GuidelineOpacityPercent = percent;
+                    settings.ApplyAndSave();
+                }));
+
+            AddBinding(new TriggerBinding(
+                Mod.ModId,
+                "ResetToVanilla",
+                () =>
+                {
+                    HoverPowerSettings? settings = Mod.Settings;
+                    if (settings == null) return;
+
+                    UnityEngine.Color hovered = OutlineColorSystem.CapturedHoveredColor;
+                    settings.OutlineR = hovered.r;
+                    settings.OutlineG = hovered.g;
+                    settings.OutlineB = hovered.b;
+                    settings.OutlineA = OutlineColorSystem.CapturedOutlineA;
+                    settings.FillA = OutlineColorSystem.CapturedFillA;
                     settings.ApplyAndSave();
                 }));
 
