@@ -38,12 +38,25 @@ namespace HoverPower.Localization
                 { m_Settings.GetOptionTabLocaleID(HoverPowerSettings.About), "About" },
 
                 // Groups
+                { m_Settings.GetOptionGroupLocaleID(HoverPowerSettings.ToolColors), "Tool colors" },
                 { m_Settings.GetOptionGroupLocaleID(HoverPowerSettings.KeyBindings), "Key bindings" },
                 { m_Settings.GetOptionGroupLocaleID(HoverPowerSettings.Guidelines), "Guidelines" },
                 // AboutInfo + AboutLinks intentionally have empty group headers.
                 { m_Settings.GetOptionGroupLocaleID(HoverPowerSettings.AboutInfo), string.Empty },
                 { m_Settings.GetOptionGroupLocaleID(HoverPowerSettings.AboutLinks), string.Empty },
 
+                // Tool color behavior
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.ToolColorMode)), "Bulldozer / road color behavior" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverPowerSettings.ToolColorMode)),
+                    "Controls temporary outline colors while Bulldozer, Better Bulldozer, or road tools are active.\n\n" +
+                    "**Mod recommended** uses the game's WarningColor for demolition and a softer vanilla blue for roads.\n" +
+                    "**Vanilla tool colors** restores the game's normal vanilla blue while those tools are active.\n" +
+                    "**Keep my custom color** uses your chosen Hover Power color everywhere.\n\n" +
+                    "This does not overwrite your saved custom color."
+                },
+                { m_Settings.GetToolColorModeLocaleID("Recommended"), "Mod recommended" },
+                { m_Settings.GetToolColorModeLocaleID("Vanilla"), "Vanilla tool colors" },
+                { m_Settings.GetToolColorModeLocaleID("Custom"), "Keep my custom color" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.GuidelineOpacityPercent)), "Guidelines opacity" },

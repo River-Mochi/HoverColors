@@ -93,7 +93,6 @@ export const MochiColorPickerPanel = () => {
     const [panelDragging, setPanelDragging] = React.useState(false);
     const [colorPickerDirection, setColorPickerDirection] = React.useState<"up" | "down">("down");
     const outlineSwatchRef = React.useRef<HTMLDivElement | null>(null);
-    const panelAnchorRef = React.useRef<HTMLDivElement | null>(null);
     const panelElementRef = React.useRef<HTMLDivElement | null>(null);
     const panelDragFrameRef = React.useRef<number | null>(null);
     const panelDragPendingOffsetRef = React.useRef(panelOffset);
@@ -159,11 +158,8 @@ export const MochiColorPickerPanel = () => {
             if (panelDragFrameRef.current == null) {
                 panelDragFrameRef.current = window.requestAnimationFrame(() => {
                     panelDragFrameRef.current = null;
-                    const anchor = panelAnchorRef.current;
-                    if (anchor != null) {
-                        const pending = panelDragPendingOffsetRef.current;
-                        anchor.style.transform = `translate(${pending.x}px, ${pending.y}px)`;
-                    }
+                    // Keep React as the owner of the DOM; rAF only limits mousemove churn.
+                    setPanelOffset(panelDragPendingOffsetRef.current);
                 });
             }
         };
@@ -262,7 +258,6 @@ export const MochiColorPickerPanel = () => {
 
     return (
         <div
-            ref={panelAnchorRef}
             className={styles.panelAnchor}
             style={{ transform: `translate(${panelOffset.x}px, ${panelOffset.y}px)` }}
         >

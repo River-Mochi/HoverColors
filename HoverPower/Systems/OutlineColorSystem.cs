@@ -1,7 +1,7 @@
 // File: Systems/OutlineColorSystem.cs
 // Purpose: Apply user-chosen outline color + fill/outline alpha to the game's selection highlight.
-// Also auto-overrides to vanilla cyan while the player is using Bulldoze or Net (road) tools so
-// invisible-alpha settings don't make the targeted house / road preview impossible to see.
+// Can temporarily override colors while the player is using Bulldoze / Better Bulldozer or
+// Net (road) tools so invisible-alpha settings don't make targets impossible to see.
 //
 // Surfaces written (one color choice covers all of them, two alpha sliders control opacity):
 //   - RenderingSettingsData.m_HoveredColor.RGB   ← Outline RGB (lot-pattern tint on hovered building)
@@ -11,10 +11,11 @@
 //   - Material _InnerColor.RGB                   ← Outline RGB (color of fill overlay inside silhouette)
 //   - Material _InnerColor.a                     ← FillA      (fill overlay opacity)
 //
-// Tool override: when ToolSystem.activeTool is BulldozeToolSystem or NetToolSystem we substitute
-// the vanilla cyan defaults (Outline R=0.502 G=0.869 B=1.0 A=0.855, Fill A=0) so the player can
-// see their target. The dirty-flag tracks the *effective* values so an idle bulldozer session is
-// still ~free per frame.
+// Tool override: controlled by HoverPowerSettings.ToolColorMode.
+//   - Recommended: WarningColor for bulldozer, softer vanilla blue for roads.
+//   - Vanilla: captured vanilla hover profile while those tools are active.
+//   - Custom: player color everywhere.
+// The dirty-flag tracks the *effective* values so an idle tool session is still ~free per frame.
 //
 // Performance contract (matters because this system runs every Rendering tick):
 //   - The HDRP CustomPassVolume / OutlinesWorldUIPass / Material refs are found ONCE and cached.
@@ -31,6 +32,7 @@ namespace HoverPower.Systems
     using Game.Rendering;
     using Game.Tools;
     using HoverPower.Settings;
+    using System;
     using Unity.Entities;
     using UnityEngine;
     using UnityEngine.Rendering.HighDefinition;
@@ -48,6 +50,7 @@ namespace HoverPower.Systems
         private const float VanillaOwnerG = 0.981f;
         private const float VanillaOwnerB = 0.247f;
         private const float VanillaOwnerA = 0.702f;
+        private const float RoadRecommendedOutlineA = 0.75f;
 
         public static Color CapturedHoveredColor { get; private set; } = new Color(VanillaR, VanillaG, VanillaB, VanillaOutlineA);
         public static Color CapturedOwnerColor { get; private set; } = new Color(VanillaOwnerR, VanillaOwnerG, VanillaOwnerB, VanillaOwnerA);
@@ -71,8 +74,27 @@ namespace HoverPower.Systems
 
         // Last-applied EFFECTIVE values (after tool-override decision).
         private float m_LastR, m_LastG, m_LastB, m_LastOutlineA, m_LastFillA;
-        private bool m_LastUsedVanillaPalette;
+        private EffectivePalette m_LastPalette;
         private bool m_Applied;
+
+        // RenderingSettings.WarningColor = 1, 1, 0.5, 0.447058827.
+        // Kept here as a release-safe fallback even if capture order changes on a future patch.
+        private static readonly Color s_WarningColor = new(1f, 1f, 0.5f, 0.447058827f);
+
+        private enum ToolKind
+        {
+            None,
+            Bulldoze,
+            Net,
+        }
+
+        private enum EffectivePalette
+        {
+            Custom,
+            CapturedVanilla,
+            RecommendedBulldoze,
+            RecommendedNet,
+        }
 
         protected override void OnCreate()
         {
@@ -93,14 +115,32 @@ namespace HoverPower.Systems
 
             TryCaptureVanillaDefaults();
 
-            // Tool-override decision: while the player is targeting things with bulldoze or net
-            // (road) tools, ignore user settings and use vanilla cyan so the target stays visible.
-            bool toolOverride = m_ToolSystem != null
-                && m_ToolSystem.activeTool is (BulldozeToolSystem or NetToolSystem);
-
             float r, g, b, outlineA, fillA;
-            bool useVanillaPalette;
-            if (toolOverride)
+            EffectivePalette palette;
+            ToolKind activeTool = GetActiveToolKind(m_ToolSystem?.activeTool);
+            if (settings.ToolColorMode == HoverPowerSettings.ToolColorModeRecommended
+                && activeTool == ToolKind.Bulldoze)
+            {
+                r = s_WarningColor.r;
+                g = s_WarningColor.g;
+                b = s_WarningColor.b;
+                outlineA = s_WarningColor.a;
+                fillA = CapturedFillA;
+                palette = EffectivePalette.RecommendedBulldoze;
+            }
+            else if (settings.ToolColorMode == HoverPowerSettings.ToolColorModeRecommended
+                && activeTool == ToolKind.Net)
+            {
+                Color hovered = CapturedHoveredColor;
+                r = hovered.r;
+                g = hovered.g;
+                b = hovered.b;
+                outlineA = Mathf.Min(CapturedOutlineA, RoadRecommendedOutlineA);
+                fillA = CapturedFillA;
+                palette = EffectivePalette.RecommendedNet;
+            }
+            else if (settings.ToolColorMode == HoverPowerSettings.ToolColorModeVanilla
+                && activeTool != ToolKind.None)
             {
                 Color hovered = CapturedHoveredColor;
                 r = hovered.r;
@@ -108,7 +148,7 @@ namespace HoverPower.Systems
                 b = hovered.b;
                 outlineA = CapturedOutlineA;
                 fillA = CapturedFillA;
-                useVanillaPalette = true;
+                palette = EffectivePalette.CapturedVanilla;
             }
             else
             {
@@ -117,7 +157,9 @@ namespace HoverPower.Systems
                 b = settings.OutlineB;
                 outlineA = settings.OutlineA;
                 fillA = settings.FillA;
-                useVanillaPalette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA);
+                palette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA)
+                    ? EffectivePalette.CapturedVanilla
+                    : EffectivePalette.Custom;
             }
 
             // Hot-path: neither effective slider value nor the override flag has shifted.
@@ -127,13 +169,13 @@ namespace HoverPower.Systems
                 && b == m_LastB
                 && outlineA == m_LastOutlineA
                 && fillA == m_LastFillA
-                && useVanillaPalette == m_LastUsedVanillaPalette)
+                && palette == m_LastPalette)
             {
                 return;
             }
 
-            bool ecsOk = ApplyRenderingSettingsColors(r, g, b, outlineA, useVanillaPalette);
-            bool matOk = ApplyOutlineMaterialColors(r, g, b, outlineA, fillA, useVanillaPalette);
+            bool ecsOk = ApplyRenderingSettingsColors(r, g, b, outlineA, palette);
+            bool matOk = ApplyOutlineMaterialColors(r, g, b, outlineA, fillA, palette);
 
             // Only cache the snapshot when BOTH writes land — otherwise retry next frame.
             if (ecsOk && matOk)
@@ -143,7 +185,7 @@ namespace HoverPower.Systems
                 m_LastB = b;
                 m_LastOutlineA = outlineA;
                 m_LastFillA = fillA;
-                m_LastUsedVanillaPalette = useVanillaPalette;
+                m_LastPalette = palette;
                 m_Applied = true;
             }
         }
@@ -206,7 +248,7 @@ namespace HoverPower.Systems
         // Building lots clamp this alpha internally, but area/surface borders read it directly,
         // so we forward OutlineA here to make extractor and painted-area borders respect the
         // same outline-opacity control as the main hover highlight.
-        private bool ApplyRenderingSettingsColors(float r, float g, float b, float outlineA, bool useVanillaPalette)
+        private bool ApplyRenderingSettingsColors(float r, float g, float b, float outlineA, EffectivePalette palette)
         {
             if (m_RenderSettingsQuery.IsEmptyIgnoreFilter)
             {
@@ -216,16 +258,29 @@ namespace HoverPower.Systems
             Entity entity = m_RenderSettingsQuery.GetSingletonEntity();
             RenderingSettingsData data = EntityManager.GetComponentData<RenderingSettingsData>(entity);
 
-            if (useVanillaPalette)
+            switch (palette)
             {
-                data.m_HoveredColor = CapturedHoveredColor;
-                data.m_OwnerColor = CapturedOwnerColor;
-            }
-            else
-            {
-                Color rgb = new Color(r, g, b, outlineA);
-                data.m_HoveredColor = rgb;
-                data.m_OwnerColor = rgb;
+                case EffectivePalette.CapturedVanilla:
+                    data.m_HoveredColor = CapturedHoveredColor;
+                    data.m_OwnerColor = CapturedOwnerColor;
+                    break;
+                case EffectivePalette.RecommendedBulldoze:
+                    data.m_HoveredColor = s_WarningColor;
+                    data.m_OwnerColor = s_WarningColor;
+                    break;
+                case EffectivePalette.RecommendedNet:
+                    Color hovered = CapturedHoveredColor;
+                    hovered.a = outlineA;
+                    Color owner = CapturedOwnerColor;
+                    owner.a = Mathf.Min(owner.a, outlineA);
+                    data.m_HoveredColor = hovered;
+                    data.m_OwnerColor = owner;
+                    break;
+                default:
+                    Color rgb = new Color(r, g, b, outlineA);
+                    data.m_HoveredColor = rgb;
+                    data.m_OwnerColor = rgb;
+                    break;
             }
 
             EntityManager.SetComponentData(entity, data);
@@ -236,7 +291,7 @@ namespace HoverPower.Systems
         // the fill overlay inside the silhouette). Two distinct alphas:
         //   _OuterColor.a = outlineA (halo edge opacity)
         //   _InnerColor.a = fillA    (fill overlay opacity inside the silhouette)
-        private bool ApplyOutlineMaterialColors(float r, float g, float b, float outlineA, float fillA, bool useVanillaPalette)
+        private bool ApplyOutlineMaterialColors(float r, float g, float b, float outlineA, float fillA, EffectivePalette palette)
         {
             if (!TryResolveOutlineMaterial())
             {
@@ -245,20 +300,73 @@ namespace HoverPower.Systems
 
             Color outer;
             Color inner;
-            if (useVanillaPalette)
+            switch (palette)
             {
-                outer = CapturedOuterColor;
-                inner = CapturedInnerColor;
-            }
-            else
-            {
-                outer = new Color(r, g, b, outlineA);
-                inner = new Color(r, g, b, fillA);
+                case EffectivePalette.CapturedVanilla:
+                    outer = CapturedOuterColor;
+                    inner = CapturedInnerColor;
+                    break;
+                case EffectivePalette.RecommendedBulldoze:
+                    outer = s_WarningColor;
+                    inner = new Color(s_WarningColor.r, s_WarningColor.g, s_WarningColor.b, CapturedFillA);
+                    break;
+                case EffectivePalette.RecommendedNet:
+                    outer = CapturedOuterColor;
+                    outer.a = outlineA;
+                    inner = CapturedInnerColor;
+                    break;
+                default:
+                    outer = new Color(r, g, b, outlineA);
+                    inner = new Color(r, g, b, fillA);
+                    break;
             }
 
             m_OutlineMaterial!.SetColor("_OuterColor", outer);
             m_OutlineMaterial.SetColor("_InnerColor", inner);
             return true;
+        }
+
+        private static ToolKind GetActiveToolKind(ToolBaseSystem? tool)
+        {
+            if (tool == null)
+            {
+                return ToolKind.None;
+            }
+
+            if (tool is BulldozeToolSystem)
+            {
+                return ToolKind.Bulldoze;
+            }
+
+            if (tool is NetToolSystem)
+            {
+                return ToolKind.Net;
+            }
+
+            // Better Bulldozer may still drive vanilla BulldozeToolSystem, but this keeps the
+            // feature resilient if a tool wrapper becomes active instead.
+            string typeName = tool.GetType().Name;
+            if (typeName.IndexOf("Bulldoze", StringComparison.OrdinalIgnoreCase) >= 0
+                || typeName.IndexOf("Bulldozer", StringComparison.OrdinalIgnoreCase) >= 0
+                || SafeToolId(tool).IndexOf("Bulldoze", StringComparison.OrdinalIgnoreCase) >= 0
+                || SafeToolId(tool).IndexOf("Bulldozer", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return ToolKind.Bulldoze;
+            }
+
+            return ToolKind.None;
+        }
+
+        private static string SafeToolId(ToolBaseSystem tool)
+        {
+            try
+            {
+                return tool.toolID ?? string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         public static bool MatchesCapturedVanillaProfile(float r, float g, float b, float outlineA, float fillA)
@@ -284,7 +392,7 @@ namespace HoverPower.Systems
                 return true;
             }
 
-            CustomPassVolume[] volumes = Object.FindObjectsOfType<CustomPassVolume>();
+            CustomPassVolume[] volumes = UnityEngine.Object.FindObjectsOfType<CustomPassVolume>();
             for (int i = 0; i < volumes.Length; i++)
             {
                 CustomPassVolume volume = volumes[i];

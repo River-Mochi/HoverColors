@@ -12,13 +12,14 @@ namespace HoverPower.Settings
     using Game.Modding;
     using Game.Settings;
     using Game.UI;
+    using Game.UI.Widgets;
     using System;
     using UnityEngine;
 
     [FileLocation("ModsSettings/HoverPower/HoverPower")]
     [SettingsUITabOrder(Actions, About)]
-    [SettingsUIGroupOrder(KeyBindings, Guidelines, AboutInfo, AboutLinks)]
-    [SettingsUIShowGroupName(KeyBindings, Guidelines)]
+    [SettingsUIGroupOrder(ToolColors, KeyBindings, Guidelines, AboutInfo, AboutLinks)]
+    [SettingsUIShowGroupName(ToolColors, KeyBindings, Guidelines)]
     public class HoverPowerSettings : ModSetting
     {
         // Tab IDs
@@ -26,10 +27,15 @@ namespace HoverPower.Settings
         internal const string About = nameof(About);
 
         // Group IDs
+        internal const string ToolColors = nameof(ToolColors);
         internal const string Guidelines = nameof(Guidelines);
         internal const string KeyBindings = nameof(KeyBindings);
         internal const string AboutInfo = nameof(AboutInfo);
         internal const string AboutLinks = nameof(AboutLinks);
+
+        public const int ToolColorModeRecommended = 0;
+        public const int ToolColorModeVanilla = 1;
+        public const int ToolColorModeCustom = 2;
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
         // Same Paradox URL pattern as CityWatchdog — lands on River-Mochi's author page filtered to CS2.
@@ -53,6 +59,16 @@ namespace HoverPower.Settings
         public float OutlineB { get; set; }
         public float OutlineA { get; set; }
         public float FillA { get; set; }
+
+        // -----------------------------------------------------------------------
+        // Actions tab — Tool color behavior
+        // -----------------------------------------------------------------------
+        // This controls temporary effective colors only. It never overwrites the
+        // player's saved swatch color in ModsSettings/HoverPower/HoverPower.coc.
+
+        [SettingsUIDropdown(typeof(HoverPowerSettings), nameof(GetToolColorModeItems))]
+        [SettingsUISection(Actions, ToolColors)]
+        public int ToolColorMode { get; set; }
 
         // -----------------------------------------------------------------------
         // Actions tab — Guidelines
@@ -122,6 +138,10 @@ namespace HoverPower.Settings
             // FillA=0 matches vanilla CS2: no extra silhouette overlay until the player turns it up.
             FillA = 0f;
 
+            // Release default: help players see demolition/road targets even if their custom
+            // alpha is very low, without changing their saved custom color.
+            ToolColorMode = ToolColorModeRecommended;
+
             // 100 = no change from game defaults. Lower = more transparent guidelines.
             GuidelineOpacityPercent = 40;
         }
@@ -129,6 +149,33 @@ namespace HoverPower.Settings
         // -----------------------------------------------------------------------
         // Helpers
         // -----------------------------------------------------------------------
+
+        public DropdownItem<int>[] GetToolColorModeItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = ToolColorModeRecommended,
+                    displayName = GetToolColorModeLocaleID("Recommended"),
+                },
+                new DropdownItem<int>
+                {
+                    value = ToolColorModeVanilla,
+                    displayName = GetToolColorModeLocaleID("Vanilla"),
+                },
+                new DropdownItem<int>
+                {
+                    value = ToolColorModeCustom,
+                    displayName = GetToolColorModeLocaleID("Custom"),
+                },
+            };
+        }
+
+        public string GetToolColorModeLocaleID(string valueName)
+        {
+            return "Options[" + id + ".ToolColorMode." + valueName + "]";
+        }
 
         private static void TryOpenUrl(string url)
         {
