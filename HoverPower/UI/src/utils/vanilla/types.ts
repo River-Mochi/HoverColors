@@ -28,6 +28,7 @@ export type VanillaColorFieldProps = {
     onClick?: (event: any) => void;
     onMouseEnter?: (event: any) => void;
     onMouseLeave?: (event: any) => void;
+    onOpenPicker?: () => void;
     onClosePicker?: (event?: any) => void;
 };
 

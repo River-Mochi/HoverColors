@@ -17,21 +17,21 @@
 //   - Compare current slider value against last-applied value at the top of OnUpdate and
 //     early-return when the user isn't moving the slider. Idle cost = one float compare.
 
-using CS2Shared.RiverMochi;
-using Game;
-using Game.Prefabs;
-using HoverPower.Settings;
-using Unity.Entities;
-using UnityEngine;
-
 namespace HoverPower.Systems
 {
+    using CS2Shared.RiverMochi;
+    using Game;
+    using Game.Prefabs;
+    using HoverPower.Settings;
+    using Unity.Entities;
+    using UnityEngine;
+
     public partial class GuidelineColorSystem : GameSystemBase
     {
         private EntityQuery m_Query;
 
         // Snapshot of the game's default alphas, captured the first time we successfully read the
-        // singleton. The multiplier scales these, never the previously-modified values.
+        // singleton. multiplier scales these, never the previously-modified values.
         private float m_DefAlphaVeryLow;
         private float m_DefAlphaLow;
         private float m_DefAlphaMedium;

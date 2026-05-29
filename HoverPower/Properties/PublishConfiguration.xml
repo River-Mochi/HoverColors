@@ -9,16 +9,21 @@
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
 
-- Change Blue Color Highlights over all buildings and cars
-- Change Opacity of Guidelines
+- Change Blue Color Highlights over all buildings, cars, cims, trees and more!
+- Guidelines - opacity slider
+- Surfaces preview layer toggle - does it annoy you that a cloudy layer prevents you from seeing your real surfaces and interrupting workflow? - Now you can toggle that silly vanilla preview layer OFF.
+
+- If you can hover over it then you can probably change it :)
+
+### Feedback  and Support:
 
 
 ### Credits
 River-Mochi - modder/maintainer
 Flashbond - collab, updates, testing
-yenyang - collab, tech feedback
+yenyang - collab, tech feedback, testing
 StarQ - tech feedback, testing
-Dx, MayorCheeks - testing
+Dx, MayorCheeks, BugsyG - testing
 
 </LongDescription>
 	<!--Thumbnail-->

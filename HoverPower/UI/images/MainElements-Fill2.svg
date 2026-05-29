@@ -33,7 +33,7 @@
     </g>
 
     <!-- Blue interior panels -->
-    <g id="house-panels" fill="#80DDFF">
+    <g id="house-panels" fill="#54D7FF">
       <!-- Left wall panel -->
       <polygon
         id="left-panel"

@@ -55,6 +55,8 @@ export const MochiColorPickerPanel = () => {
     const [guidelineOpacity, setGuidelineOpacity] = React.useState<number>(boundGuideline);
     const [panelOffset, setPanelOffset] = React.useState({ x: 0, y: 0 });
     const [panelDragging, setPanelDragging] = React.useState(false);
+    const [colorPickerDirection, setColorPickerDirection] = React.useState<"up" | "down">("down");
+    const outlineSwatchRef = React.useRef<HTMLDivElement | null>(null);
     const panelDragRef = React.useRef<{
         pointerX: number;
         pointerY: number;
@@ -138,6 +140,17 @@ export const MochiColorPickerPanel = () => {
     const handleResetGuidelines = () => handleGuidelineChange(40);
     const handleToggleSurfaceToolAreas = () => trigger(CHANNEL, "ToggleSurfaceToolAreas");
 
+    const updateColorPickerDirection = React.useCallback(() => {
+        const swatch = outlineSwatchRef.current;
+        if (swatch == null) {
+            return;
+        }
+
+        const rect = swatch.getBoundingClientRect();
+        const swatchMiddleY = rect.top + rect.height / 2;
+        setColorPickerDirection(swatchMiddleY < window.innerHeight / 2 ? "down" : "up");
+    }, []);
+
     const handlePanelDragStart = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -155,9 +168,8 @@ export const MochiColorPickerPanel = () => {
     const Slider = resolver.Slider;
     const focusDisabled = resolver.FOCUS_DISABLED;
     const numberFieldClass = resolver.mouseToolOptionsTheme["number-field"];
-    const colorFieldTheme = resolver.colorFieldTheme;
     const roundHighlightButtonTheme = resolver.roundHighlightButtonTheme;
-    const outlineFieldClass = `${colorFieldTheme["colorField"] ?? ""} ${styles.outlineField}`;
+    const outlineFieldClass = styles.outlineField;
     const closeButtonClass = `${roundHighlightButtonTheme["button"] ?? ""} ${styles.closeButton}`;
 
     return (
@@ -179,11 +191,11 @@ export const MochiColorPickerPanel = () => {
                                 className={`${styles.titleDragHandle} ${panelDragging ? styles.titleDragHandleActive : ""}`}
                                 onMouseDown={handlePanelDragStart}
                             >
-                                <span className={styles.titleText}>Mochi&apos;s Blue Buster</span>
+                                <span className={styles.titleText}>Mochi&apos;s Blue Scrubber</span>
                             </div>
                         </Tooltip>
 
-                        <Tooltip tooltip="Close this panel. You can also toggle it with the GTL icon or the H hotkey.">
+                        <Tooltip tooltip="Close this. You can also toggle it with hotkey H or click on Game top left icon.">
                             <Button
                                 className={closeButtonClass}
                                 variant="icon"
@@ -198,24 +210,30 @@ export const MochiColorPickerPanel = () => {
 
                     <div className={styles.body}>
                         <div className={`${styles.controlRow} ${styles.outlineRow}`}>
-                            <Tooltip tooltip="Reset outline color and alpha to the game default. District and specialized-industry borders also use this path, so if those lines get faint, raise Outline alpha or use Reset.">
+                            <Tooltip tooltip="Reset Outline color and alpha to the game default. District and specialized-industry borders also use this path, so if those lines get faint, raise Outline alpha or use Reset.">
                                 <button type="button" className={styles.controlIconButton} onClick={handleResetOutline}>
                                     <img src={outlineIconSrc} className={styles.controlIcon} alt="" />
                                 </button>
                             </Tooltip>
                             <div className={`${styles.controlBody} ${styles.outlineControlBody}`}>
                                 <Tooltip tooltip="Click this swatch to open the vanilla color picker. District and specialized-industry borders also follow this color and alpha path in vanilla.">
-                                    <div className={styles.outlineFieldShell}>
+                                    <div
+                                        ref={outlineSwatchRef}
+                                        className={styles.outlineFieldShell}
+                                        onMouseEnter={updateColorPickerDirection}
+                                        onMouseDown={updateColorPickerDirection}
+                                    >
                                         <ColorField
                                             focusKey={focusDisabled}
                                             className={outlineFieldClass}
                                             value={outline}
                                             alpha={true}
-                                            popupDirection="right"
+                                            popupDirection={colorPickerDirection}
                                             hideHint={true}
                                             hexInput={true}
                                             colorWheel={true}
                                             onChange={handleOutlineChange}
+                                            onOpenPicker={updateColorPickerDirection}
                                         />
                                     </div>
                                 </Tooltip>
@@ -251,7 +269,7 @@ export const MochiColorPickerPanel = () => {
                         <div className={styles.controlRow}>
                             <Tooltip tooltip="Reset Guidelines to the default HoverPower level. Both this panel and Options menu slider stay in sync.">
                                 <button type="button" className={styles.controlIconButton} onClick={handleResetGuidelines}>
-                                    <img src={guidelinesIconSrc} className={styles.controlIcon} alt="" />
+                                    <img src={guidelinesIconSrc} className={`${styles.controlIcon} ${styles.guidelinesIcon}`} alt="" />
                                 </button>
                             </Tooltip>
                             <Tooltip tooltip="Guidelines opacity. Below 15% is not advised because the guides may become too hard to see.">
@@ -277,7 +295,7 @@ export const MochiColorPickerPanel = () => {
 
                     <div className={styles.actions}>
                         <div className={styles.surfaceActions}>
-                            <Tooltip tooltip="Hide Surface tool boundary preview lines.\n Hotkey: L.">
+                            <Tooltip tooltip="Hide Surface tool boundary preview lines.\nDefault hotkey: L.">
                                 <button
                                     type="button"
                                     className={`${styles.actionButton} ${styles.surfaceButton} ${surfaceToolAreasSuppressed ? styles.surfaceButtonActive : ""}`}

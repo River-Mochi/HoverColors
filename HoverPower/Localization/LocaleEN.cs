@@ -62,9 +62,12 @@ namespace HoverPower.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.TogglePanelBinding)), "Toggle panel (H)" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverPowerSettings.TogglePanelBinding)),
                     "Keyboard shortcut to open / close the in-city Hover objects Color Panel." },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePanelActionName), "Toggle Hover Power panel" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.ToggleSurfaceToolAreasBinding)), "Toggle Surface tool lines (L)" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverPowerSettings.ToggleSurfaceToolAreasBinding)),
                     "Keyboard shortcut to hide or restore active Surface tool boundary preview lines while placing surfaces." },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Toggle Surface tool lines" },
 
                 // About — name + version
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.NameText)), "Mod" },
