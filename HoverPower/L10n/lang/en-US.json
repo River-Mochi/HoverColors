@@ -1,17 +1,19 @@
 {
-  "HoverPower.Panel.Title": "Mochi's Miracle Blue Scrubber",
-  "HoverPower.Panel.Tooltip": "Pick the inner fill and outer outline colors for hovered objects.",
+  "HoverPower.UI.Title": "Mochi's Blue Scrubber",
+  "HoverPower.UI.TopLeft.Tooltip": "Hover Power - highlights + opacity",
+  "HoverPower.UI.Aria.ClosePanel": "Close panel",
 
-  "HoverPower.Panel.Section.Fill": "Fill",
-  "HoverPower.Panel.Section.Outline": "Outline",
-
-  "HoverPower.Panel.Reset.Label": "Reset",
-  "HoverPower.Panel.Reset.Tooltip": "Reset colors to game defaults, cyan blue.",
-
-  "HoverPower.Slider.Red": "Red",
-  "HoverPower.Slider.Green": "Green",
-  "HoverPower.Slider.Blue": "Blue",
-  "HoverPower.Slider.Alpha": "Alpha",
-
-  "HoverPower.TopLeft.Tooltip": "Hover Power - highlights + opacity"
+  "HoverPower.UI.Tooltip.Info": "Mochi's color picker.",
+  "HoverPower.UI.Tooltip.Draggable": "Draggable",
+  "HoverPower.UI.Tooltip.Close": "Close this. You can also toggle it with hotkey H or click on the Game top-left icon.",
+  "HoverPower.UI.Tooltip.ResetOutline": "Reset Outline color and alpha to the game default. District and specialized-industry borders also use this path, so if those lines get faint, raise Outline alpha or use Reset.",
+  "HoverPower.UI.Tooltip.OutlineSwatch": "Click this swatch to open the vanilla color picker. District and specialized-industry borders also follow this color and alpha path in vanilla.",
+  "HoverPower.UI.Tooltip.ResetFill": "Reset Fill to game defaults. Vanilla fill is 0% for normal building hover.",
+  "HoverPower.UI.Tooltip.FillOpacity": "Opacity of the fill inside the hovered outline. 0% = no inner fill, 100% = fully visible fill.",
+  "HoverPower.UI.Tooltip.ResetGuidelines": "Reset Guidelines to the default HoverPower level. Both this panel and Options menu slider stay in sync.",
+  "HoverPower.UI.Tooltip.GuidelinesOpacity": "Guidelines opacity. Below 15% is not advised because the guides may become too hard to see.",
+  "HoverPower.UI.Tooltip.SurfaceToggle": "Hide Surface tool boundary preview lines.\nDefault hotkey: L.",
+  "HoverPower.UI.Tooltip.Preset1": "Mochi's gray-purple preset.",
+  "HoverPower.UI.Tooltip.Preset2": "yenyang purple-gray preset.",
+  "HoverPower.UI.Tooltip.Reset": "Reset Outline back to game defaults."
 }

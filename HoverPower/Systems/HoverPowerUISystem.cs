@@ -65,6 +65,20 @@ namespace HoverPower.UI
                 Mod.ModId, "SurfaceToolAreasSuppressed",
                 () => SurfaceToolOverlaySystem.SuppressSurfaceToolAreas));
 
+            AddUpdateBinding(new GetterValueBinding<bool>(
+                Mod.ModId, "VanillaOutlineActive",
+                () =>
+                {
+                    HoverPowerSettings? settings = Mod.Settings;
+                    return settings != null
+                        && OutlineColorSystem.MatchesCapturedVanillaProfile(
+                            settings.OutlineR,
+                            settings.OutlineG,
+                            settings.OutlineB,
+                            settings.OutlineA,
+                            settings.FillA);
+                }));
+
             AddBinding(new TriggerBinding<float, float, float, float>(
                 Mod.ModId,
                 "SetOutlineColor",

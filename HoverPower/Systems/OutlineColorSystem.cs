@@ -261,7 +261,7 @@ namespace HoverPower.Systems
             return true;
         }
 
-        private bool MatchesCapturedVanillaProfile(float r, float g, float b, float outlineA, float fillA)
+        public static bool MatchesCapturedVanillaProfile(float r, float g, float b, float outlineA, float fillA)
         {
             return ApproximatelyEqual(r, CapturedHoveredColor.r)
                 && ApproximatelyEqual(g, CapturedHoveredColor.g)

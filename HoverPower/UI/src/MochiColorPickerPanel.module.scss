@@ -50,7 +50,7 @@
     justify-content: center;
     border-radius: 4rem;
     border: 1rem solid rgba(255, 255, 255, 0.35);
-    // Matches CityWatchdog's neutral framed buttons; less blue means the swatch reads truer.
+    // Match CityWatchdog's neutral framed buttons; less blue means the swatch reads truer.
     background-color: rgba(36, 54, 66, 0.58);
     transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
     box-shadow: none;
@@ -185,7 +185,7 @@
 }
 
 .guidelinesIcon {
-    transform: translateY(-1rem);
+    transform: none;
 }
 
 .controlBody {
@@ -199,6 +199,11 @@
 
 .outlineControlBody {
     justify-content: flex-start;
+    box-sizing: border-box;
+    // Match the horizontal span of the slider track below:
+    // left padding mirrors .sliderRow padding-left; right padding loosely reserves the percent-box lane.
+    padding-left: 10rem;
+    padding-right: 42rem;
 }
 
 .outlineFieldShell {
@@ -207,9 +212,12 @@
     justify-content: center;
     // Swatch frame size: padding is the dark neutral border around the color preview.
     // Keep this dark/gray instead of blue so it does not bias perceived color.
-    padding: 6rem 8rem;
-    // Swatch horizontal position: increase margin-left to move the swatch right, decrease to move left.
-    margin-left: 6rem;
+    width: 100%;
+    height: 30rem;
+    box-sizing: border-box;
+    padding: 4rem 10rem;
+    // The shell is the black-ish banner; the actual ColorField is centered inside it.
+    margin-left: 0;
     margin-right: 0;
     border-radius: 8rem;
     border: 1rem solid rgba(255, 255, 255, 0.18);
@@ -226,8 +234,8 @@
 }
 
 .outlineField {
-    width: 74rem !important;
-    height: 26rem !important;
+    width: calc(100% - 18rem) !important;
+    height: 20rem !important;
     display: block !important;
     overflow: hidden !important;
     border-radius: 7rem !important;
@@ -245,8 +253,8 @@
 }
 
 .outlineField button {
-    width: 74rem !important;
-    height: 26rem !important;
+    width: calc(100% - 18rem) !important;
+    height: 20rem !important;
     padding: 0 !important;
     border: 0 !important;
     border-radius: 7rem !important;
@@ -268,12 +276,17 @@
     width: 100%;
     display: flex;
     align-items: center;
-    // Gap between slider end and % box. Raise this if the slider visually touches the box.
-    gap: 14rem;
+    box-sizing: border-box;
+    // Slider spacing knobs:
+    // - padding-left keeps the slider from touching the icon button.
+    // - gap keeps the slider from touching the percent box.
+    padding-left: 10rem;
+    gap: 20rem;
 }
 
 .slider {
     flex: 1 1 auto;
+    min-width: 0;
 }
 
 .valueField {
@@ -355,7 +368,9 @@
 }
 
 .presetButton {
-    min-width: 42rem;
+    min-width: 36rem;
+    width: 36rem;
+    padding: 0;
 }
 
 .surfaceButton {
@@ -371,11 +386,19 @@
 }
 
 .surfaceButtonActive {
+    position: relative;
     border-color: rgba(84, 215, 255, 1);
     box-shadow: inset 0 0 0 1rem rgba(84, 215, 255, 0.35), 0 0 0 1rem rgba(84, 215, 255, 0.7) !important;
 }
 
-.surfaceButtonActive::after {
+.presetButtonActive,
+.resetButtonActive {
+    position: relative;
+}
+
+.surfaceButtonActive::after,
+.presetButtonActive::after,
+.resetButtonActive::after {
     content: "";
     position: absolute;
     left: 6rem;
@@ -395,25 +418,22 @@
     filter: drop-shadow(0 1rem 1rem rgba(0, 0, 0, 0.24));
 }
 
-.slotBadge {
-    min-width: 14rem;
-    height: 14rem;
-    padding: 0 2rem;
+.presetGlyph {
+    min-width: 24rem;
+    height: 24rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 3rem;
-    background-color: rgba(255, 255, 255, 0.14);
     color: rgba(255, 255, 255, 1);
-    font-size: 11rem;
-    font-weight: 700;
+    font-size: 20rem;
+    font-weight: 900;
     line-height: 1;
-    text-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.45);
+    text-shadow: 0 0 0 #ffffff, 0 1rem 1rem rgba(0, 0, 0, 0.55);
 }
 
 .resetButton {
-    min-width: 34rem;
-    width: 34rem;
+    min-width: 36rem;
+    width: 36rem;
     padding: 0;
 }
 
