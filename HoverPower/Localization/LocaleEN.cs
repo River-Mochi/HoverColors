@@ -53,7 +53,7 @@ namespace HoverPower.Localization
                     "**100%** keeps vanilla default look.\n" +
                     "**Lower** makes guidelines more transparent.\n" +
                     "**0%** hides them entirely - <Not recommended>.\n" +           
-                    "Recommend stay above 15% or it's hard to see what is happenin\n" +
+                    "Recommend stay above 15% or it's hard to see what is happening\n" +
                     "The same slider lives on the city mod panel. They are both synced;\n" +
                     "if you change this one, the one in-city conveniently changes."
                 },

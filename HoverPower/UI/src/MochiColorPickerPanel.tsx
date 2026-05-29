@@ -277,7 +277,7 @@ export const MochiColorPickerPanel = () => {
 
                     <div className={styles.actions}>
                         <div className={styles.surfaceActions}>
-                            <Tooltip tooltip="Hide or restore Surface tool boundary preview lines. Hotkey: L.">
+                            <Tooltip tooltip="Hide Surface tool boundary preview lines.\n Hotkey: L.">
                                 <button
                                     type="button"
                                     className={`${styles.actionButton} ${styles.surfaceButton} ${surfaceToolAreasSuppressed ? styles.surfaceButtonActive : ""}`}
