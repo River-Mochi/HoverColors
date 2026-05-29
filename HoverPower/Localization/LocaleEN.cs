@@ -53,12 +53,18 @@ namespace HoverPower.Localization
                     "**100%** keeps vanilla default look.\n" +
                     "**Lower** makes guidelines more transparent.\n" +
                     "**0%** hides them entirely - <Not recommended>.\n" +           
-                    "Recommend not going lower than 10%" },
+                    "Recommend stay above 15% or it's hard to see what is happenin\n" +
+                    "The same slider lives on the city mod panel. They are both synced;\n" +
+                    "if you change this one, the one in-city conveniently changes."
+                },
 
                 // Keybinds
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.TogglePanelBinding)), "Toggle panel (H)" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverPowerSettings.TogglePanelBinding)),
-                    "Keyboard shortcut to open / close the in-city Hover Power Color Panel panel." },
+                    "Keyboard shortcut to open / close the in-city Hover objects Color Panel." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.ToggleSurfaceToolAreasBinding)), "Toggle Surface tool lines (L)" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverPowerSettings.ToggleSurfaceToolAreasBinding)),
+                    "Keyboard shortcut to hide or restore active Surface tool boundary preview lines while placing surfaces." },
 
                 // About — name + version
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.NameText)), "Mod" },

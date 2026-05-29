@@ -24,6 +24,7 @@ namespace HoverPower.UI
         // ProxyAction for the H key, fetched after Setting.RegisterKeyBindings() ran in Mod.OnLoad.
         // Polled via WasReleasedThisFrame() each tick — matches CityWatchdog (no event handlers).
         private ProxyAction? m_TogglePanelAction;
+        private ProxyAction? m_ToggleSurfaceToolAreasAction;
 
         protected override void OnCreate()
         {
@@ -49,10 +50,6 @@ namespace HoverPower.UI
                 () => Mod.Settings?.OutlineA ?? 0.855f));
 
             AddUpdateBinding(new GetterValueBinding<float>(
-                Mod.ModId, "AreaBorderA",
-                () => Mod.Settings?.AreaBorderA ?? 0.702f));
-
-            AddUpdateBinding(new GetterValueBinding<float>(
                 Mod.ModId, "FillA",
                 () => Mod.Settings?.FillA ?? 0f));
 
@@ -63,6 +60,10 @@ namespace HoverPower.UI
             AddUpdateBinding(new GetterValueBinding<bool>(
                 Mod.ModId, "PanelOpen",
                 () => s_PanelOpen));
+
+            AddUpdateBinding(new GetterValueBinding<bool>(
+                Mod.ModId, "SurfaceToolAreasSuppressed",
+                () => SurfaceToolOverlaySystem.SuppressSurfaceToolAreas));
 
             AddBinding(new TriggerBinding<float, float, float, float>(
                 Mod.ModId,
@@ -76,18 +77,6 @@ namespace HoverPower.UI
                     settings.OutlineG = g;
                     settings.OutlineB = b;
                     settings.OutlineA = a;
-                    settings.ApplyAndSave();
-                }));
-
-            AddBinding(new TriggerBinding<float>(
-                Mod.ModId,
-                "SetAreaAlpha",
-                a =>
-                {
-                    HoverPowerSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    settings.AreaBorderA = a;
                     settings.ApplyAndSave();
                 }));
 
@@ -131,7 +120,6 @@ namespace HoverPower.UI
                     settings.OutlineG = hovered.g;
                     settings.OutlineB = hovered.b;
                     settings.OutlineA = OutlineColorSystem.CapturedOutlineA;
-                    settings.AreaBorderA = OutlineColorSystem.CapturedAreaBorderA;
                     settings.FillA = OutlineColorSystem.CapturedFillA;
                     settings.ApplyAndSave();
                 }));
@@ -152,22 +140,15 @@ namespace HoverPower.UI
                     settings.ApplyAndSave();
                 }));
 
-            AddBinding(new TriggerBinding(
-                Mod.ModId,
-                "ResetAreaToVanilla",
-                () =>
-                {
-                    HoverPowerSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    settings.AreaBorderA = OutlineColorSystem.CapturedAreaBorderA;
-                    settings.ApplyAndSave();
-                }));
-
             AddBinding(new TriggerBinding<bool>(
                 Mod.ModId,
                 "SetPanelOpen",
                 open => s_PanelOpen = open));
+
+            AddBinding(new TriggerBinding(
+                Mod.ModId,
+                "ToggleSurfaceToolAreas",
+                SurfaceToolOverlaySystem.ToggleSuppression));
         }
 
         protected override void OnUpdate()
@@ -193,11 +174,17 @@ namespace HoverPower.UI
             {
                 TogglePanel();
             }
+
+            if (m_ToggleSurfaceToolAreasAction?.WasReleasedThisFrame() == true)
+            {
+                SurfaceToolOverlaySystem.ToggleSuppression();
+            }
         }
 
         private void InitializeKeybindActions()
         {
             m_TogglePanelAction = EnableAction(Mod.kTogglePanelActionName);
+            m_ToggleSurfaceToolAreasAction = EnableAction(Mod.kToggleSurfaceToolAreasActionName);
         }
 
         private void RefreshKeybindActions()
@@ -205,6 +192,11 @@ namespace HoverPower.UI
             if (m_TogglePanelAction == null)
             {
                 m_TogglePanelAction = EnableAction(Mod.kTogglePanelActionName);
+            }
+
+            if (m_ToggleSurfaceToolAreasAction == null)
+            {
+                m_ToggleSurfaceToolAreasAction = EnableAction(Mod.kToggleSurfaceToolAreasActionName);
             }
         }
 

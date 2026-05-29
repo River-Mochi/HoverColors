@@ -25,6 +25,7 @@ namespace HoverPower
         public const string ModId = "HoverPower";
         public const string ModTag = "[HP]";
         public const string kTogglePanelActionName = "TogglePanel";
+        public const string kToggleSurfaceToolAreasActionName = "ToggleSurfaceToolAreas";
 
         public static readonly string ModVersion =
             Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.5.0";
@@ -158,6 +159,9 @@ namespace HoverPower
 
             World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<GuidelineColorSystem>();
             updateSystem.UpdateAt<GuidelineColorSystem>(SystemUpdatePhase.Rendering);
+
+            World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<SurfaceToolOverlaySystem>();
+            updateSystem.UpdateAt<SurfaceToolOverlaySystem>(SystemUpdatePhase.Rendering);
 
             updateSystem.UpdateAt<HoverPowerUISystem>(SystemUpdatePhase.UIUpdate);
         }

@@ -5,8 +5,7 @@
 //
 // Surfaces written (one color choice covers all of them, two alpha sliders control opacity):
 //   - RenderingSettingsData.m_HoveredColor.RGB   ← Outline RGB (lot-pattern tint on hovered building)
-//   - RenderingSettingsData.m_OwnerColor.RGB     ← Outline RGB (parent/owner/area objects share same color)
-//   - RenderingSettingsData.m_OwnerColor.a       ← AreaBorderA (district / extractor / area-border opacity)
+//   - RenderingSettingsData.m_OwnerColor.RGB     ← Outline RGB (parent/owner objects of placed building)
 //   - Material _OuterColor.RGB                   ← Outline RGB (the visible halo edge color)
 //   - Material _OuterColor.a                     ← OutlineA   (halo edge opacity)
 //   - Material _InnerColor.RGB                   ← Outline RGB (color of fill overlay inside silhouette)
@@ -55,7 +54,6 @@ namespace HoverPower.Systems
         public static Color CapturedOuterColor { get; private set; } = new Color(1f, 1f, 1f, VanillaOutlineA);
         public static Color CapturedInnerColor { get; private set; } = new Color(1f, 1f, 1f, VanillaFillA);
         public static float CapturedOutlineA { get; private set; } = VanillaOutlineA;
-        public static float CapturedAreaBorderA { get; private set; } = VanillaOwnerA;
         public static float CapturedFillA { get; private set; } = VanillaFillA;
         public static bool HasCapturedVanillaDefaults { get; private set; }
 
@@ -72,7 +70,7 @@ namespace HoverPower.Systems
         private bool m_CaptureLogged;
 
         // Last-applied EFFECTIVE values (after tool-override decision).
-        private float m_LastR, m_LastG, m_LastB, m_LastOutlineA, m_LastAreaBorderA, m_LastFillA;
+        private float m_LastR, m_LastG, m_LastB, m_LastOutlineA, m_LastFillA;
         private bool m_LastUsedVanillaPalette;
         private bool m_Applied;
 
@@ -100,7 +98,7 @@ namespace HoverPower.Systems
             bool toolOverride = m_ToolSystem != null
                 && m_ToolSystem.activeTool is (BulldozeToolSystem or NetToolSystem);
 
-            float r, g, b, outlineA, areaBorderA, fillA;
+            float r, g, b, outlineA, fillA;
             bool useVanillaPalette;
             if (toolOverride)
             {
@@ -109,7 +107,6 @@ namespace HoverPower.Systems
                 g = hovered.g;
                 b = hovered.b;
                 outlineA = CapturedOutlineA;
-                areaBorderA = CapturedAreaBorderA;
                 fillA = CapturedFillA;
                 useVanillaPalette = true;
             }
@@ -119,9 +116,8 @@ namespace HoverPower.Systems
                 g = settings.OutlineG;
                 b = settings.OutlineB;
                 outlineA = settings.OutlineA;
-                areaBorderA = settings.AreaBorderA;
                 fillA = settings.FillA;
-                useVanillaPalette = MatchesCapturedVanillaProfile(r, g, b, outlineA, areaBorderA, fillA);
+                useVanillaPalette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA);
             }
 
             // Hot-path: neither effective slider value nor the override flag has shifted.
@@ -130,14 +126,13 @@ namespace HoverPower.Systems
                 && g == m_LastG
                 && b == m_LastB
                 && outlineA == m_LastOutlineA
-                && areaBorderA == m_LastAreaBorderA
                 && fillA == m_LastFillA
                 && useVanillaPalette == m_LastUsedVanillaPalette)
             {
                 return;
             }
 
-            bool ecsOk = ApplyRenderingSettingsColors(r, g, b, outlineA, areaBorderA, useVanillaPalette);
+            bool ecsOk = ApplyRenderingSettingsColors(r, g, b, outlineA, useVanillaPalette);
             bool matOk = ApplyOutlineMaterialColors(r, g, b, outlineA, fillA, useVanillaPalette);
 
             // Only cache the snapshot when BOTH writes land — otherwise retry next frame.
@@ -147,7 +142,6 @@ namespace HoverPower.Systems
                 m_LastG = g;
                 m_LastB = b;
                 m_LastOutlineA = outlineA;
-                m_LastAreaBorderA = areaBorderA;
                 m_LastFillA = fillA;
                 m_LastUsedVanillaPalette = useVanillaPalette;
                 m_Applied = true;
@@ -166,7 +160,6 @@ namespace HoverPower.Systems
                 {
                     CapturedHoveredColor = prefabData.m_HoveredColor;
                     CapturedOwnerColor = prefabData.m_OwnerColor;
-                    CapturedAreaBorderA = prefabData.m_OwnerColor.a;
                     m_RenderingDefaultsCaptured = true;
                 }
 
@@ -179,7 +172,6 @@ namespace HoverPower.Systems
                 RenderingSettingsData data = EntityManager.GetComponentData<RenderingSettingsData>(entity);
                 CapturedHoveredColor = data.m_HoveredColor;
                 CapturedOwnerColor = data.m_OwnerColor;
-                CapturedAreaBorderA = data.m_OwnerColor.a;
                 m_RenderingDefaultsCaptured = true;
             }
 
@@ -211,10 +203,10 @@ namespace HoverPower.Systems
         }
 
         // ECS singleton: hovered + owner overlay color used by several vanilla render paths.
-        // Building lots clamp hovered alpha internally, but area/surface borders read owner alpha
-        // directly, so AreaBorderA gives districts / extractors their own visibility control while
-        // the visible halo edge still comes from the HDRP _OuterColor material alpha.
-        private bool ApplyRenderingSettingsColors(float r, float g, float b, float outlineA, float areaBorderA, bool useVanillaPalette)
+        // Building lots clamp this alpha internally, but area/surface borders read it directly,
+        // so we forward OutlineA here to make extractor and painted-area borders respect the
+        // same outline-opacity control as the main hover highlight.
+        private bool ApplyRenderingSettingsColors(float r, float g, float b, float outlineA, bool useVanillaPalette)
         {
             if (m_RenderSettingsQuery.IsEmptyIgnoreFilter)
             {
@@ -231,8 +223,9 @@ namespace HoverPower.Systems
             }
             else
             {
-                data.m_HoveredColor = new Color(r, g, b, outlineA);
-                data.m_OwnerColor = new Color(r, g, b, areaBorderA);
+                Color rgb = new Color(r, g, b, outlineA);
+                data.m_HoveredColor = rgb;
+                data.m_OwnerColor = rgb;
             }
 
             EntityManager.SetComponentData(entity, data);
@@ -268,13 +261,12 @@ namespace HoverPower.Systems
             return true;
         }
 
-        private bool MatchesCapturedVanillaProfile(float r, float g, float b, float outlineA, float areaBorderA, float fillA)
+        private bool MatchesCapturedVanillaProfile(float r, float g, float b, float outlineA, float fillA)
         {
             return ApproximatelyEqual(r, CapturedHoveredColor.r)
                 && ApproximatelyEqual(g, CapturedHoveredColor.g)
                 && ApproximatelyEqual(b, CapturedHoveredColor.b)
                 && ApproximatelyEqual(outlineA, CapturedOutlineA)
-                && ApproximatelyEqual(areaBorderA, CapturedAreaBorderA)
                 && ApproximatelyEqual(fillA, CapturedFillA);
         }
 
