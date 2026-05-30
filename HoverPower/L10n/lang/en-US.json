@@ -3,7 +3,7 @@
   "HoverPower.UI.TopLeft.Tooltip": "Hover Power - highlights + opacity",
   "HoverPower.UI.Aria.ClosePanel": "Close panel",
 
-  "HoverPower.UI.Tooltip.Info": "Toggle tooltips on/off.",
+  "HoverPower.UI.Tooltip.Info": "Toggle tooltips on/off. Default Hotkeys:\n open panel= H, surface toggle = L",
   "HoverPower.UI.Tooltip.Draggable": "Draggable",
   "HoverPower.UI.Tooltip.Close": "Close/Exit. Default hotkey: H or click on the Game top-left icon does the same.",
   "HoverPower.UI.Tooltip.ResetOutline": "Outline: click to reset color and alpha to game defaults.",
@@ -12,7 +12,7 @@
   "HoverPower.UI.Tooltip.FillOpacity": "Opacity of the fill inside the hovered outline. 0% = no inner fill, 100% = full fill.",
   "HoverPower.UI.Tooltip.ResetGuidelines": "Guidelines: click to reset to mod defaults (40%). Synced with Options menu slider.",
   "HoverPower.UI.Tooltip.GuidelinesOpacity": "Guidelines opacity. Below 15% is not advised because the guides may become hard to see.",
-  "HoverPower.UI.Tooltip.SurfaceToggle": "Hide Surface tool boundary preview lines.\nDefault hotkey: L.",
+  "HoverPower.UI.Tooltip.SurfaceToggle": "Hide Surface tool boundary preview fill.\nDefault hotkey: L.",
   "HoverPower.UI.Tooltip.Preset1": "Slot 1 — tap to apply, hold 0.8s to overwrite with your current color.",
   "HoverPower.UI.Tooltip.Preset2": "Slot 2 — tap to apply, hold 0.8s to overwrite with your current color.",
   "HoverPower.UI.Tooltip.ResetPresets": "Reset both preset slots back to the original mod defaults."

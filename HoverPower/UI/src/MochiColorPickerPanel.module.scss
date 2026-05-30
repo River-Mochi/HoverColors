@@ -15,7 +15,8 @@
 .panelContent {
     position: relative;
     overflow: visible;
-    min-width: 214rem;
+    // Narrower panel — brings percent boxes closer to slider ends.
+    min-width: 200rem;
     border: 1rem solid rgba(255, 255, 255, 0.18);
     border-radius: 12rem;
     background-image: linear-gradient(to bottom, rgba(95, 124, 136, 0.32), rgba(58, 78, 88, 0.24));
@@ -23,7 +24,7 @@
     box-shadow: 0 6rem 18rem rgba(0, 0, 0, 0.16);
 }
 
-// ─── Title bar ───────────────────────────────────────────────────────────────
+// ─── Title bar ────────────────────────────────────────────────────────────────
 
 .titleBar {
     min-height: 20rem;
@@ -87,8 +88,7 @@
     pointer-events: none;
 }
 
-// ─── Shared button base (info, left-column icons, drag grip) ─────────────────
-// All three share the same dark teal background so they look identical.
+// ─── Shared button base ───────────────────────────────────────────────────────
 
 .infoButton,
 .controlIconButton,
@@ -112,14 +112,16 @@
     box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.06);
 }
 
-// Info button
+// Info button — slightly smaller than left-column buttons.
 .infoButton {
-    width: 32rem;
-    height: 32rem;
-    flex: 0 0 32rem;
+    width: 28rem;
+    height: 28rem;
+    flex: 0 0 28rem;
     cursor: pointer;
     appearance: none;
     outline: none;
+    // Nudge right so its left edge aligns with the icon buttons in the body below.
+    margin-left: 3rem;
     border-color: transparent;
     background-color: transparent;
 
@@ -130,26 +132,28 @@
     }
 }
 
-// Info button lights up with a subtle blue tint when tooltips are toggled OFF.
+// Solid blue when tooltips are OFF — same #1E83AA as drag grip and Fill SVG.
+// Semi-transparent versions wash out against the panel background, so use solid.
 .infoButtonActive {
-    background-color: rgba(30, 131, 170, 0.22) !important;
-    border-color: rgba(30, 131, 170, 0.55) !important;
+    background-color: #1E83AA !important;
+    border-color: #1E83AA !important;
 }
 
 .infoIcon {
-    width: 28.5rem;
-    height: 28.5rem;
+    width: 22rem;
+    height: 22rem;
     display: block;
     object-fit: contain;
     pointer-events: none;
 }
 
-// ─── Left-column icon buttons (Outline / Fill / Guidelines) ──────────────────
+// ─── Left-column icon buttons ─────────────────────────────────────────────────
 
+// Slightly smaller than before — 32rem instead of 36rem.
 .controlIconButton {
-    width: 36rem;
-    height: 36rem;
-    flex: 0 0 36rem;
+    width: 32rem;
+    height: 32rem;
+    flex: 0 0 32rem;
     padding: 0;
     margin: 0;
     appearance: none;
@@ -157,16 +161,16 @@
     cursor: pointer;
     box-shadow: none;
     background-image: none;
-    position: relative; // needed for ::after indicator bar
+    position: relative;
     z-index: 2;
 }
 
-// Indicator bar appears on the Outline button when vanilla game colors are active.
+// Cyan indicator bar on the Outline button when vanilla game colors are active.
 .vanillaActiveButton::after {
     content: "";
     position: absolute;
-    left: 5rem;
-    right: 5rem;
+    left: 4rem;
+    right: 4rem;
     bottom: 2rem;
     height: 3rem;
     border-radius: 2rem;
@@ -174,16 +178,15 @@
 }
 
 .controlIcon {
-    width: 28rem;
-    height: 28rem;
+    // Scaled down to match smaller button.
+    width: 24rem;
+    height: 24rem;
     display: block;
     object-fit: contain;
     pointer-events: none;
-    // Never use CSS filter here — expensive over a live city view in Cohtml.
 }
 
-// Idle-opacity trick: white SVG appears light-gray at rest, bright white on hover/focus.
-// Applies to all three row icon buttons AND the reset icon in the bottom bar.
+// Idle-opacity trick: 0.82 at rest (light gray), 1.0 on hover (bright white).
 .idleIcon {
     opacity: 0.82;
     transition: opacity 120ms ease-out;
@@ -194,7 +197,6 @@
     opacity: 1;
 }
 
-// Guidelines icon reserved for future per-icon tweaks.
 .guidelinesIcon {
     transform: none;
 }
@@ -204,28 +206,19 @@
 .body {
     display: flex;
     flex-direction: column;
-    gap: 0;
-    padding: 12rem 8rem 7rem 8rem;
+    padding: 10rem 8rem 6rem 8rem;
 }
 
 .controlRow {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 8rem;
-    min-height: 40rem;
+    min-height: 36rem;
     overflow: visible;
 }
 
-.controlRow + .controlRow {
-    margin-top: 2.5rem;
-}
-
-.outlineRow {
-    gap: 8rem;
-    min-height: 42rem;
-}
-
+// Spacing between icon button and control body.
+// Uses adjacent margin on controlBody rather than a combinator to avoid cascade fights.
 .controlBody {
     flex: 1 1 auto;
     min-width: 0;
@@ -233,30 +226,36 @@
     justify-content: flex-end;
     align-items: center;
     overflow: visible;
+    margin-left: 8rem;
+}
+
+.controlRow + .controlRow {
+    margin-top: 2.5rem;
+}
+
+.outlineRow {
+    min-height: 38rem;
 }
 
 .outlineControlBody {
     justify-content: flex-start;
     box-sizing: border-box;
-    padding-left: 10rem;
+    padding-left: 8rem;
     padding-right: 0;
 }
 
 // ─── Color swatch ─────────────────────────────────────────────────────────────
-// Shell is transparent/frameless — no dark border around the swatch.
-// Half the previous width; ColorField fills the available space.
+// Square, same size as the (smaller) left-column icon buttons.
 
 .outlineFieldShell {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    // Half the previous 152rem width.
-    width: 78rem;
-    height: 26rem;
+    width: 32rem;
+    height: 32rem;
     box-sizing: border-box;
     padding: 3rem;
-    border-radius: 7rem;
-    // Transparent background + no border = no visible "black frame".
+    border-radius: 4rem;
     background-color: transparent;
     border: 1rem solid transparent;
     box-shadow: none;
@@ -264,28 +263,29 @@
     transition: border-color 120ms ease-out, box-shadow 120ms ease-out;
 }
 
-.outlineFieldShell:hover,
-.outlineFieldShell:focus-within {
-    border-color: #5ce1f4;
-    box-shadow: 0 0 0 1rem rgba(92, 225, 244, 0.22);
+// White outline via React onMouseEnter/Leave (CSS :hover unreliable on divs with button children in Cohtml).
+.outlineFieldShellHovered {
+    border-color: rgba(255, 255, 255, 0.85) !important;
+    box-shadow: 0 0 0 1rem rgba(255, 255, 255, 0.18) !important;
 }
 
 .outlineField {
-    width: 70rem !important;
-    height: 18rem !important;
+    // 32rem shell - 2×3rem padding = 26rem interior.
+    width: 26rem !important;
+    height: 26rem !important;
     display: block !important;
     overflow: hidden !important;
-    border-radius: 6rem !important;
+    border-radius: 3rem !important;
     box-shadow: none !important;
     outline: none;
 }
 
 .outlineField button {
-    width: 70rem !important;
-    height: 18rem !important;
+    width: 26rem !important;
+    height: 26rem !important;
     padding: 0 !important;
     border: 0 !important;
-    border-radius: 6rem !important;
+    border-radius: 3rem !important;
     opacity: 1 !important;
     box-shadow: none !important;
     background-color: transparent !important;
@@ -299,19 +299,20 @@
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    padding-left: 10rem;
-    gap: 20rem;
+    padding-left: 8rem;
 }
 
 .slider {
     flex: 1 1 auto;
     min-width: 0;
+    // Reduced from 20rem — brings percent box closer to the slider track end.
+    margin-right: 8rem;
 }
 
 .valueField {
-    width: 42rem;
-    height: 30rem;
-    flex: 0 0 42rem;
+    width: 40rem;
+    height: 28rem;
+    flex: 0 0 40rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -320,12 +321,12 @@
     background-color: var(--toolbarFieldColor, var(--commonBlack, #141b22));
     box-shadow: none;
     color: rgba(255, 255, 255, 0.96);
-    font-size: 12.5rem;
+    font-size: 12rem;
     line-height: 1;
 }
 
 .sliderRow .valueField {
-    margin-right: -6rem;
+    margin-right: -4rem;
 }
 
 // ─── Bottom action bar ────────────────────────────────────────────────────────
@@ -334,7 +335,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 0;
     padding: 6rem 8rem 22rem 8rem;
     border-top: 1rem solid rgba(255, 255, 255, 0.12);
 }
@@ -345,27 +345,21 @@
     align-items: center;
 }
 
-.presetActions > * + * {
-    margin-left: 3rem;
-}
-
-// All bottom-row action buttons share the SAME dark background as the left-column icon buttons.
-// appearance: none + explicit background-color + color override removes Cohtml's default button styles.
+// All bottom action buttons — same dark teal as left-column icon buttons.
+// !important on background-color overrides Cohtml native <button> background: ButtonFace.
 .actionButton {
-    min-width: 36rem;
-    height: 36rem;
+    height: 32rem;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0;
+    // margin intentionally NOT set here — explicit gap classes handle spacing.
     border-radius: 4rem;
     border: 1rem solid rgba(255, 255, 255, 0.35);
-    // Same rgba as left-column buttons — intentionally identical.
-    background-color: rgba(36, 54, 66, 0.58);
+    background-color: rgba(36, 54, 66, 0.58) !important;
     background-image: none !important;
     box-shadow: none !important;
-    // Explicit white so Cohtml's default black button text never shows through.
+    // Explicit white — Cohtml maps ButtonText to black for <button> elements.
     color: rgba(255, 255, 255, 0.96) !important;
     font-size: 12.5rem;
     font-weight: 600;
@@ -377,35 +371,38 @@
     -webkit-appearance: none;
     outline: none;
     cursor: pointer;
-    position: relative; // for absolute dot + holdBar
-    overflow: hidden;   // clips the holdBar sweep
+    position: relative;
+    overflow: hidden;
     transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out;
 
     &:hover,
     &:focus,
     &:active {
-        background-color: rgba(108, 136, 150, 0.34);
+        background-color: rgba(108, 136, 150, 0.34) !important;
         border-color: rgba(255, 255, 255, 0.58);
         box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.06) !important;
         color: #ffffff !important;
     }
 }
 
-// Surface and reset buttons stay at 36rem (icon only).
+// Explicit gap class — avoids the cascade fight between sibling combinators and actionButton margin:0.
+// Add styles.buttonGap to any button that needs left spacing from its predecessor.
+.buttonGap {
+    margin-left: 4rem !important;
+}
+
+// Surface button: wider to show LotTool + Districts02 side by side.
 .surfaceButton {
-    width: 36rem;
+    width: 52rem;
+    min-width: 52rem;
+    padding: 0 4rem;
 }
 
-.surfaceButton .actionIcon {
-    width: 28rem;
-    height: 28rem;
+// Explicit margin on the second surface icon — avoids + combinator unreliability in Cohtml.
+.surfaceSecondIcon {
+    margin-left: 5rem !important;
 }
 
-.resetButton {
-    width: 36rem;
-}
-
-// Active state: cyan accent bar at bottom + border glow.
 .surfaceButtonActive {
     border-color: rgba(84, 215, 255, 1);
     box-shadow: inset 0 0 0 1rem rgba(84, 215, 255, 0.35), 0 0 0 1rem rgba(84, 215, 255, 0.7) !important;
@@ -415,56 +412,66 @@
 .presetButtonActive::after {
     content: "";
     position: absolute;
-    left: 6rem;
-    right: 6rem;
+    left: 5rem;
+    right: 5rem;
     bottom: 3rem;
     height: 3rem;
     border-radius: 2rem;
     background-color: rgba(84, 215, 255, 1);
 }
 
-// Preset buttons: 36rem (same as before), number centered, corner dot top-right.
+// Preset buttons: 32rem square, corner dot top-right, number centered.
 .presetButton {
-    width: 36rem;
+    width: 32rem;
+    min-width: 32rem;
 }
 
-// Corner badge dot — absolute top-right, shows the color stored in that slot.
-// background-color is set via React inline style from the stored preset RGBA.
+// Corner badge: stored slot color. background-color set via React inline style.
 .presetDot {
     position: absolute;
-    top: 4rem;
-    right: 4rem;
-    width: 7rem;
-    height: 7rem;
+    top: 3rem;
+    right: 3rem;
+    width: 6rem;
+    height: 6rem;
     border-radius: 50%;
     border: 1rem solid rgba(255, 255, 255, 0.45);
     pointer-events: none;
     z-index: 1;
 }
 
-// Centered number glyph — uses color alpha as the "opacity trick" for text.
-// 0.78 at rest ≈ light gray; 1.0 on hover ≈ white. Avoids Cohtml's black-text default.
+// Centered glyph for 1/2.
+// CSS color is a fallback; inline style in TSX is the authoritative override for Cohtml.
 .presetGlyph {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.78);
-    font-size: 14rem;
+    font-size: 16rem;
     font-weight: 700;
     line-height: 1;
     pointer-events: none;
-    transition: color 120ms ease-out;
-    // z-index above holdBar so number stays readable during sweep
     position: relative;
     z-index: 1;
 }
 
-.presetButton:hover .presetGlyph,
-.presetButton:focus-visible .presetGlyph {
-    color: rgba(255, 255, 255, 1);
+// ↺ reset glyph.
+.resetGlyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18rem;
+    font-weight: 400;
+    line-height: 1;
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
 }
 
-// Hold-progress bar: scaleX driven by React rAF loop; transform-origin left keeps it sweeping right.
+.resetButton {
+    width: 32rem;
+    min-width: 32rem;
+}
+
+// Hold-progress bar: scaleX driven by rAF.
 .holdBar {
     position: absolute;
     left: 0;
@@ -479,17 +486,12 @@
 }
 
 .actionIcon {
-    width: 18rem;
-    height: 18rem;
+    width: 17rem;
+    height: 17rem;
     display: block;
     object-fit: contain;
     pointer-events: none;
-}
-
-// Apply idleIcon opacity to action buttons (reset icon).
-.actionButton:hover .idleIcon,
-.actionButton:focus-visible .idleIcon {
-    opacity: 1;
+    flex-shrink: 0;
 }
 
 // ─── Drag grip ────────────────────────────────────────────────────────────────
@@ -498,13 +500,14 @@
     position: absolute;
     right: 8rem;
     bottom: 0.5rem;
-    width: 28rem;
-    height: 12rem;
+    // Narrower than before.
+    width: 22rem;
+    height: 10rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
-    padding: 0 5rem;
+    // Dots spacing via margin instead of gap (Cohtml gap unreliable).
+    padding: 0 4rem;
     background-color: rgba(132, 148, 158, 0.36);
     border-color: rgba(255, 255, 255, 0.18);
     border-radius: 4rem;
@@ -513,24 +516,29 @@
     transition: background-color 120ms ease-out, border-color 120ms ease-out;
 }
 
-// On hover or while dragging, grip turns the same blue as the slider track.
+// Solid #1E83AA — no alpha blending with the panel's semi-transparent background.
 .dragGrip:hover,
 .dragGripActive {
-    background-color: rgba(30, 131, 170, 0.5);
+    background-color: #1E83AA;
     border-color: #1E83AA;
-    box-shadow: inset 0 0 0 1rem rgba(30, 131, 170, 0.3);
+    box-shadow: none;
 }
 
 .dragGripDot {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.56);
-    flex: 0 0 2.5rem;
+    flex: 0 0 2rem;
     transition: background-color 120ms ease-out;
+}
+
+// Explicit margin between dots — replaces gap: 2rem.
+.dragGripDot + .dragGripDot {
+    margin-left: 2rem;
 }
 
 .dragGrip:hover .dragGripDot,
 .dragGripActive .dragGripDot {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.92);
 }
