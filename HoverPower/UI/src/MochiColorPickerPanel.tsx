@@ -356,69 +356,66 @@ export const MochiColorPickerPanel = () => {
                                 </button>
                             </Tooltip>
                             <div className={`${styles.controlBody} ${styles.outlineControlBody}`}>
-                                <Tooltip tooltip={tt(text.tooltipOutlineSwatch)}>
-                                    <div
-                                        ref={outlineSwatchRef}
-                                        className={`${styles.outlineFieldShell} ${swatchHovered ? styles.outlineFieldShellHovered : ""}`}
-                                        // onMouseOver bubbles up from the ColorField button child — more reliable in Cohtml than onMouseEnter
-                                        onMouseOver={() => { setSwatchHovered(true); updateColorPickerDirection(); }}
-                                        onMouseOut={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setSwatchHovered(false); }}
-                                        onMouseDown={updateColorPickerDirection}
-                                    >
-                                        <ColorField
-                                            focusKey={focusDisabled}
-                                            className={outlineFieldClass}
-                                            value={outline}
-                                            alpha={true}
-                                            popupDirection={colorPickerDirection}
-                                            hideHint={true}
-                                            hexInput={true}
-                                            colorWheel={true}
-                                            // ColorField exposes onMouseEnter/Leave directly (VanillaColorFieldProps).
-                                            // This is the reliable path — parent div hover events fail in Cohtml
-                                            // when a native button child absorbs pointer events.
-                                            onMouseEnter={() => setSwatchHovered(true)}
-                                            onMouseLeave={() => setSwatchHovered(false)}
-                                            onChange={handleOutlineChange}
-                                            onOpenPicker={updateColorPickerDirection}
-                                        />
-                                    </div>
-                                </Tooltip>
+                                {/* Left group: swatch + preset circles — space-between pushes outlineRight to far right */}
+                                <div className={styles.outlineLeft}>
+                                    <Tooltip tooltip={tt(text.tooltipOutlineSwatch)}>
+                                        <div
+                                            ref={outlineSwatchRef}
+                                            className={`${styles.outlineFieldShell} ${swatchHovered ? styles.outlineFieldShellHovered : ""}`}
+                                            onMouseOver={() => { setSwatchHovered(true); updateColorPickerDirection(); }}
+                                            onMouseOut={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setSwatchHovered(false); }}
+                                            onMouseDown={updateColorPickerDirection}
+                                        >
+                                            <ColorField
+                                                focusKey={focusDisabled}
+                                                className={outlineFieldClass}
+                                                value={outline}
+                                                alpha={true}
+                                                popupDirection={colorPickerDirection}
+                                                hideHint={true}
+                                                hexInput={true}
+                                                colorWheel={true}
+                                                onMouseEnter={() => setSwatchHovered(true)}
+                                                onMouseLeave={() => setSwatchHovered(false)}
+                                                onChange={handleOutlineChange}
+                                                onOpenPicker={updateColorPickerDirection}
+                                            />
+                                        </div>
+                                    </Tooltip>
 
-                                {/* Preset circles — inline with swatch. Tap=apply, hold 0.8s=save. */}
-                                {/* Background fills the circle with the stored color; no text needed. */}
-                                <Tooltip tooltip={tt(text.tooltipPreset1)}>
-                                    <button
-                                        type="button"
-                                        className={`${styles.presetColorButton} ${preset1Active ? styles.presetColorButtonActive : ""}`}
-                                        style={{ marginLeft: "6rem", backgroundColor: `rgba(${Math.round(p1.r*255)},${Math.round(p1.g*255)},${Math.round(p1.b*255)},${p1.a.toFixed(2)})` }}
-                                        onMouseDown={handlePresetMouseDown(1)}
-                                        onMouseUp={handlePresetMouseUp(1)}
-                                        onMouseLeave={cancelHold}
-                                    >
-                                        {holdSlot === 1 && <span className={styles.holdBar} style={holdBarStyle(holdProgress)} />}
-                                    </button>
-                                </Tooltip>
-                                <Tooltip tooltip={tt(text.tooltipPreset2)}>
-                                    <button
-                                        type="button"
-                                        className={`${styles.presetColorButton} ${preset2Active ? styles.presetColorButtonActive : ""}`}
-                                        style={{ marginLeft: "8rem", backgroundColor: `rgba(${Math.round(p2.r*255)},${Math.round(p2.g*255)},${Math.round(p2.b*255)},${p2.a.toFixed(2)})` }}
-                                        onMouseDown={handlePresetMouseDown(2)}
-                                        onMouseUp={handlePresetMouseUp(2)}
-                                        onMouseLeave={cancelHold}
-                                    >
-                                        {holdSlot === 2 && <span className={styles.holdBar} style={holdBarStyle(holdProgress)} />}
-                                    </button>
-                                </Tooltip>
-                                {/* ↺ toggle — far right of the outline row.
-                                    div.resetPusher is the actual flex child; margin-left:auto must be on
-                                    a direct flex child, not on the button inside Tooltip's wrapper. */}
-                                <div className={styles.resetPusher}>
+                                    {/* Preset circles. Tap=apply, hold 0.8s=save. */}
+                                    <Tooltip tooltip={tt(text.tooltipPreset1)}>
+                                        <button
+                                            type="button"
+                                            className={`${styles.presetColorButton} ${preset1Active ? styles.presetColorButtonActive : ""}`}
+                                            style={{ marginLeft: "6rem", backgroundColor: `rgba(${Math.round(p1.r*255)},${Math.round(p1.g*255)},${Math.round(p1.b*255)},${p1.a.toFixed(2)})` }}
+                                            onMouseDown={handlePresetMouseDown(1)}
+                                            onMouseUp={handlePresetMouseUp(1)}
+                                            onMouseLeave={cancelHold}
+                                        >
+                                            {holdSlot === 1 && <span className={styles.holdBar} style={holdBarStyle(holdProgress)} />}
+                                        </button>
+                                    </Tooltip>
+                                    <Tooltip tooltip={tt(text.tooltipPreset2)}>
+                                        <button
+                                            type="button"
+                                            className={`${styles.presetColorButton} ${preset2Active ? styles.presetColorButtonActive : ""}`}
+                                            style={{ marginLeft: "8rem", backgroundColor: `rgba(${Math.round(p2.r*255)},${Math.round(p2.g*255)},${Math.round(p2.b*255)},${p2.a.toFixed(2)})` }}
+                                            onMouseDown={handlePresetMouseDown(2)}
+                                            onMouseUp={handlePresetMouseUp(2)}
+                                            onMouseLeave={cancelHold}
+                                        >
+                                            {holdSlot === 2 && <span className={styles.holdBar} style={holdBarStyle(holdProgress)} />}
+                                        </button>
+                                    </Tooltip>
+                                </div>
+
+                                {/* Right group: ↺ — space-between on outlineControlBody forces this to the far right */}
+                                <div className={styles.outlineRight}>
                                     <Tooltip tooltip={tt(text.tooltipResetPresets)}>
                                         <button
                                             type="button"
-                                            className={`${styles.presetResetInline}`}
+                                            className={styles.presetResetInline}
                                             onClick={handleTogglePresetDefaults}
                                         >
                                             <span className={styles.resetGlyph} style={{ color: "rgba(255,255,255,0.82)" }}>↺</span>
@@ -494,7 +491,7 @@ export const MochiColorPickerPanel = () => {
                                     className={`${styles.actionButton} ${styles.surfaceButton} ${surfaceToolAreasSuppressed ? styles.surfaceButtonActive : ""}`}
                                     onClick={handleToggleSurfaceToolAreas}
                                 >
-                                    <img src={lotToolIconSrc} className={styles.controlIcon} alt="" />
+                                    <img src={lotToolIconSrc} className={`${styles.controlIcon} ${styles.idleIcon}`} alt="" />
                                 </button>
                             </Tooltip>
                             {/* Districts: small vanilla slider/hex picker (colorWheel=false). */}
@@ -505,7 +502,7 @@ export const MochiColorPickerPanel = () => {
                                     onMouseOver={updateDistrictPickerDirection}
                                     onMouseDown={updateDistrictPickerDirection}
                                 >
-                                    <img src={surfaceIconSrc} className={`${styles.controlIcon} ${styles.districtPickerIcon}`} alt="" />
+                                    <img src={surfaceIconSrc} className={`${styles.controlIcon} ${styles.idleIcon} ${styles.districtPickerIcon}`} alt="" />
                                     <ColorField
                                         focusKey={focusDisabled}
                                         className={districtFieldClass}

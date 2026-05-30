@@ -191,8 +191,11 @@
     transition: opacity 120ms ease-out;
 }
 
+// Surface action buttons use .actionButton; extend the same hover rule so they behave identically.
 .controlIconButton:hover .idleIcon,
-.controlIconButton:focus-visible .idleIcon {
+.controlIconButton:focus-visible .idleIcon,
+.actionButton:hover .idleIcon,
+.actionButton:focus-visible .idleIcon {
     opacity: 1;
 }
 
@@ -236,11 +239,27 @@
     min-height: 38rem;
 }
 
+// space-between pushes .outlineLeft (swatch+circles) and .outlineRight (↺) to opposite ends.
+// This is the reliable Cohtml alternative to margin-left:auto on a flex child.
 .outlineControlBody {
-    justify-content: flex-start;
+    justify-content: space-between;
     box-sizing: border-box;
     padding-left: 0;
     padding-right: 0;
+}
+
+// Left group in the outline row: swatch + preset circles, packed together.
+.outlineLeft {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+// Right group in the outline row: ↺ reset button, pushed to far right by space-between.
+.outlineRight {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 // ─── Color swatch ─────────────────────────────────────────────────────────────
@@ -255,7 +274,9 @@
     height: 22rem;
     box-sizing: border-box;
     padding: 0;
-    border-radius: 10rem;
+    // To adjust swatch corner roundness: change this value (and the matching values in .outlineField
+    // and .outlineField button below — search for border-radius: 6rem !important in this file).
+    border-radius: 6rem;
     background-color: transparent;
     border: 0;
     box-shadow: none;
@@ -267,7 +288,7 @@
     height: 22rem !important;
     display: block !important;
     overflow: hidden !important;
-    border-radius: 10rem !important;
+    border-radius: 6rem !important;
     box-shadow: none !important;
     // outline-offset: 0 means the 2rem ring draws right at the element edge — visible without clipping.
     // (outline-offset: -1rem with 1rem width netted to zero visible ring — that's why hover was invisible.)
@@ -281,7 +302,7 @@
     height: 22rem !important;
     padding: 0 !important;
     border: 0 !important;
-    border-radius: 10rem !important;
+    border-radius: 6rem !important;
     opacity: 1 !important;
     box-shadow: none !important;
     outline: 2rem solid rgba(255, 255, 255, 0) !important;
