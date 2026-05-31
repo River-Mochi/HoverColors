@@ -44,6 +44,7 @@ namespace HoverPower.Localization
                 // AboutInfo + AboutLinks intentionally have empty group headers.
                 { m_Settings.GetOptionGroupLocaleID(HoverPowerSettings.AboutInfo), string.Empty },
                 { m_Settings.GetOptionGroupLocaleID(HoverPowerSettings.AboutLinks), string.Empty },
+                { m_Settings.GetOptionGroupLocaleID(HoverPowerSettings.AboutDedication), "Dedication" },
 
                 // Tool color behavior
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.ToolColorMode)), "Bulldozer + Roads" },
@@ -93,6 +94,12 @@ namespace HoverPower.Localization
                 // About — Paradox Mods link button (matches CityWatchdog phrasing)
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverPowerSettings.OpenParadox)), "Open the author's Paradox Mods page." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverPowerSettings.MochiDedicationText)),
+                    "In loving memory of Mochi.\n\n" +
+                    "This mod is dedicated to her. Mochi was a beloved dog, adopted at age 7, " +
+                    "and gave 13 years of love. This mod would not be possible without Mochi." },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverPowerSettings.MochiDedicationText)), string.Empty },
             };
         }
 

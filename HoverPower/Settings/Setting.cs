@@ -18,8 +18,8 @@ namespace HoverPower.Settings
 
     [FileLocation("ModsSettings/HoverPower/HoverPower")]
     [SettingsUITabOrder(Actions, About)]
-    [SettingsUIGroupOrder(ToolColors, KeyBindings, Guidelines, AboutInfo, AboutLinks)]
-    [SettingsUIShowGroupName(ToolColors, KeyBindings, Guidelines)]
+    [SettingsUIGroupOrder(ToolColors, KeyBindings, Guidelines, AboutInfo, AboutLinks, AboutDedication)]
+    [SettingsUIShowGroupName(ToolColors, KeyBindings, Guidelines, AboutDedication)]
     public class HoverPowerSettings : ModSetting
     {
         // Tab IDs
@@ -32,6 +32,7 @@ namespace HoverPower.Settings
         internal const string KeyBindings = nameof(KeyBindings);
         internal const string AboutInfo = nameof(AboutInfo);
         internal const string AboutLinks = nameof(AboutLinks);
+        internal const string AboutDedication = nameof(AboutDedication);
 
         public const int ToolColorModeRecommended = 0;
         public const int ToolColorModeVanilla = 1;
@@ -58,18 +59,36 @@ namespace HoverPower.Settings
         // saved values from the .coc file are ignored and replaced by SetDefaults() on next load.
         // -----------------------------------------------------------------------
 
+        [SettingsUIHidden]
         public float OutlineR { get; set; }
+
+        [SettingsUIHidden]
         public float OutlineG { get; set; }
+
+        [SettingsUIHidden]
         public float OutlineB { get; set; }
+
+        [SettingsUIHidden]
         public float OutlineA { get; set; }
+
+        [SettingsUIHidden]
         public float FillA { get; set; }
 
         // District overlay fill color. Disabled by default so we do not touch vanilla/other-mod
         // district prefabs until the player actually picks a color from the in-game panel.
+        [SettingsUIHidden]
         public bool DistrictColorEnabled { get; set; }
+
+        [SettingsUIHidden]
         public float DistrictR { get; set; }
+
+        [SettingsUIHidden]
         public float DistrictG { get; set; }
+
+        [SettingsUIHidden]
         public float DistrictB { get; set; }
+
+        [SettingsUIHidden]
         public float DistrictA { get; set; }
 
         // -----------------------------------------------------------------------
@@ -81,16 +100,34 @@ namespace HoverPower.Settings
         // corrupted .coc can be repaired from the backup on next load.
         // -----------------------------------------------------------------------
 
+        [SettingsUIHidden]
         public float Preset1R { get; set; }
+
+        [SettingsUIHidden]
         public float Preset1G { get; set; }
+
+        [SettingsUIHidden]
         public float Preset1B { get; set; }
+
+        [SettingsUIHidden]
         public float Preset1A { get; set; }
+
+        [SettingsUIHidden]
         public float Preset1FillA { get; set; }
 
+        [SettingsUIHidden]
         public float Preset2R { get; set; }
+
+        [SettingsUIHidden]
         public float Preset2G { get; set; }
+
+        [SettingsUIHidden]
         public float Preset2B { get; set; }
+
+        [SettingsUIHidden]
         public float Preset2A { get; set; }
+
+        [SettingsUIHidden]
         public float Preset2FillA { get; set; }
 
         // -----------------------------------------------------------------------
@@ -150,6 +187,10 @@ namespace HoverPower.Settings
                 }
             }
         }
+
+        [SettingsUIMultilineText]
+        [SettingsUISection(About, AboutDedication)]
+        public string MochiDedicationText => string.Empty;
 
         // -----------------------------------------------------------------------
         // Construction + defaults

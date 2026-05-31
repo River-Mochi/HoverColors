@@ -14,7 +14,7 @@ import { useLocalization } from "cs2/l10n";
 import { VanillaComponentResolver } from "./utils/vanilla/VanillaComponentResolver";
 import infoIconSrc from "../images/AdvisorInfoViewWhite.svg";
 import lotToolIconSrc from "../images/LotTool.svg";
-import surfaceIconSrc from "../images/Districts02.svg";
+import surfaceIconSrc from "../images/Districts03.svg";
 import fillIconSrc from "../images/MainElements-Fill2.svg";
 import outlineIconSrc from "../images/MainElements.svg";
 import guidelinesIconSrc from "../images/GuideLines4.svg";
