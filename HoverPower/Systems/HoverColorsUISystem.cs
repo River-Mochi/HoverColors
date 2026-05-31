@@ -1,8 +1,8 @@
-// File: Systems/HoverPowerUISystem.cs
+// File: Systems/HoverColorsUISystem.cs
 // Bridges Mod.Settings to cs2/api bindings, owns the shared panel-open flag,
 // and checks cached keybind actions for panel/tool toggles.
 
-namespace HoverPower.UI
+namespace HoverColors.UI
 {
     using Colossal.UI.Binding;
     using CS2Shared.RiverMochi;
@@ -10,12 +10,12 @@ namespace HoverPower.UI
     using Game.Input;
     using Game.SceneFlow;
     using Game.UI;
-    using HoverPower.Settings;
-    using HoverPower.Systems;
+    using HoverColors.Settings;
+    using HoverColors.Systems;
     using System;
     using System.Collections.Generic;
 
-    public partial class HoverPowerUISystem : UISystemBase
+    public partial class HoverColorsUISystem : UISystemBase
     {
         private static bool s_PanelOpen;
 
@@ -38,6 +38,7 @@ namespace HoverPower.UI
         private ValueBinding<float> m_DistrictBBinding = null!;
         private ValueBinding<float> m_DistrictABinding = null!;
         private ValueBinding<int> m_GuidelineOpacityBinding = null!;
+        private ValueBinding<int> m_GuidelineDefaultBinding = null!;
         private ValueBinding<bool> m_PanelOpenBinding = null!;
         private ValueBinding<bool> m_SurfaceToolAreasSuppressedBinding = null!;
         private ValueBinding<bool> m_VanillaOutlineActiveBinding = null!;
@@ -56,7 +57,7 @@ namespace HoverPower.UI
         private ValueBinding<bool> m_Preset1ActiveBinding = null!;
         private ValueBinding<bool> m_Preset2ActiveBinding = null!;
 
-        // Factory defaults — keep in sync with HoverPowerSettings.SetDefaults().
+        // Factory defaults — keep in sync with HoverColorsSettings.SetDefaults().
         private const float DefaultPreset1R = 140f / 255f, DefaultPreset1G = 140f / 255f, DefaultPreset1B = 171f / 255f;
         private const float DefaultPreset1A = 0.5f, DefaultPreset1FillA = 0f;
         private const float DefaultPreset2R = 0.25f, DefaultPreset2G = 0.15f, DefaultPreset2B = 0.25f;
@@ -76,7 +77,7 @@ namespace HoverPower.UI
         protected override void OnCreate()
         {
             base.OnCreate();
-            LogUtils.Info(() => $"{Mod.ModTag} HoverPowerUISystem created");
+            LogUtils.Info(() => $"{Mod.ModTag} HoverColorsUISystem created");
 
             InitializeKeybindActions();
 
@@ -87,7 +88,7 @@ namespace HoverPower.UI
                 "SetOutlineColor",
                 (r, g, b, a) =>
                 {
-                    HoverPowerSettings? settings = Mod.Settings;
+                    HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
                     settings.OutlineR = r;
@@ -103,7 +104,7 @@ namespace HoverPower.UI
                 "SetFillAlpha",
                 a =>
                 {
-                    HoverPowerSettings? settings = Mod.Settings;
+                    HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
                     settings.FillA = a;
@@ -116,7 +117,7 @@ namespace HoverPower.UI
                 "SetGuidelineOpacity",
                 percent =>
                 {
-                    HoverPowerSettings? settings = Mod.Settings;
+                    HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
                     if (percent < 0) percent = 0;
@@ -132,7 +133,7 @@ namespace HoverPower.UI
                 "SetDistrictColor",
                 (r, g, b, a) =>
                 {
-                    HoverPowerSettings? settings = Mod.Settings;
+                    HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
                     settings.DistrictColorEnabled = true;
@@ -149,7 +150,7 @@ namespace HoverPower.UI
                 "ResetToVanilla",
                 () =>
                 {
-                    HoverPowerSettings? settings = Mod.Settings;
+                    HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
                     UnityEngine.Color hovered = OutlineColorSystem.CapturedHoveredColor;
@@ -167,7 +168,7 @@ namespace HoverPower.UI
                 "ResetOutlineToVanilla",
                 () =>
                 {
-                    HoverPowerSettings? settings = Mod.Settings;
+                    HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
                     UnityEngine.Color hovered = OutlineColorSystem.CapturedHoveredColor;
@@ -195,7 +196,7 @@ namespace HoverPower.UI
                 "ApplyPreset",
                 slot =>
                 {
-                    HoverPowerSettings? settings = Mod.Settings;
+                    HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
                     if (slot == 1)
@@ -227,7 +228,7 @@ namespace HoverPower.UI
                 "SavePreset",
                 slot =>
                 {
-                    HoverPowerSettings? settings = Mod.Settings;
+                    HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
                     if (slot == 1)
@@ -262,7 +263,7 @@ namespace HoverPower.UI
                 "TogglePresetDefaults",
                 () =>
                 {
-                    HoverPowerSettings? settings = Mod.Settings;
+                    HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
                     if (!PresetsAtDefaults(settings))
@@ -276,10 +277,10 @@ namespace HoverPower.UI
 
                         settings.Preset1R = DefaultPreset1R; settings.Preset1G = DefaultPreset1G; settings.Preset1B = DefaultPreset1B;
                         settings.Preset1A = DefaultPreset1A; settings.Preset1FillA = DefaultPreset1FillA;
-                        settings.Preset1GuidelinePercent = HoverPowerSettings.DefaultGuidelineOpacityPercent;
+                        settings.Preset1GuidelinePercent = HoverColorsSettings.DefaultGuidelineOpacityPercent;
                         settings.Preset2R = DefaultPreset2R; settings.Preset2G = DefaultPreset2G; settings.Preset2B = DefaultPreset2B;
                         settings.Preset2A = DefaultPreset2A; settings.Preset2FillA = DefaultPreset2FillA;
-                        settings.Preset2GuidelinePercent = HoverPowerSettings.DefaultGuidelineOpacityPercent;
+                        settings.Preset2GuidelinePercent = HoverColorsSettings.DefaultGuidelineOpacityPercent;
                     }
                     else if (m_PresetBackupExists)
                     {
@@ -292,6 +293,33 @@ namespace HoverPower.UI
                     }
                     // Already at defaults with no backup → no-op (nothing to restore).
 
+                    settings.ApplyAndSave();
+                    SyncValueBindings();
+                }));
+
+            // Apply the player's saved guideline default (tap on guideline icon button).
+            AddBinding(new TriggerBinding(
+                Mod.ModId,
+                "ApplyGuidelineDefault",
+                () =>
+                {
+                    HoverColorsSettings? settings = Mod.Settings;
+                    if (settings == null) return;
+                    int clamped = Math.Max(0, Math.Min(100, settings.GuidelineDefaultPercent));
+                    settings.GuidelineOpacityPercent = clamped;
+                    settings.ApplyAndSave();
+                    SyncValueBindings();
+                }));
+
+            // Save the current slider value as the player's personal guideline default (hold on guideline icon).
+            AddBinding(new TriggerBinding<int>(
+                Mod.ModId,
+                "SaveGuidelineDefault",
+                percent =>
+                {
+                    HoverColorsSettings? settings = Mod.Settings;
+                    if (settings == null) return;
+                    settings.GuidelineDefaultPercent = Math.Max(0, Math.Min(100, percent));
                     settings.ApplyAndSave();
                     SyncValueBindings();
                 }));
@@ -334,7 +362,7 @@ namespace HoverPower.UI
 
         private void ApplyPresetSlot(int slot)
         {
-            HoverPowerSettings? settings = Mod.Settings;
+            HoverColorsSettings? settings = Mod.Settings;
             if (settings == null) return;
 
             if (slot == 1)
@@ -358,7 +386,7 @@ namespace HoverPower.UI
 
         private void RegisterValueBindings()
         {
-            HoverPowerSettings? settings = Mod.Settings;
+            HoverColorsSettings? settings = Mod.Settings;
             m_OutlineRBinding = AddValueBinding("OutlineR", settings?.OutlineR ?? 0.502f);
             m_OutlineGBinding = AddValueBinding("OutlineG", settings?.OutlineG ?? 0.869f);
             m_OutlineBBinding = AddValueBinding("OutlineB", settings?.OutlineB ?? 1f);
@@ -368,7 +396,8 @@ namespace HoverPower.UI
             m_DistrictGBinding = AddValueBinding("DistrictG", settings?.DistrictG ?? 128f / 255f);
             m_DistrictBBinding = AddValueBinding("DistrictB", settings?.DistrictB ?? 128f / 255f);
             m_DistrictABinding = AddValueBinding("DistrictA", settings?.DistrictA ?? 64f / 255f);
-            m_GuidelineOpacityBinding = AddValueBinding("GuidelineOpacityPercent", settings?.GuidelineOpacityPercent ?? HoverPowerSettings.DefaultGuidelineOpacityPercent);
+            m_GuidelineOpacityBinding = AddValueBinding("GuidelineOpacityPercent", settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
+            m_GuidelineDefaultBinding = AddValueBinding("GuidelineDefaultPercent", settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             m_PanelOpenBinding = AddValueBinding("PanelOpen", s_PanelOpen);
             m_SurfaceToolAreasSuppressedBinding = AddValueBinding("SurfaceToolAreasSuppressed", SurfaceToolOverlaySystem.SuppressSurfaceToolAreas);
             m_VanillaOutlineActiveBinding = AddValueBinding("VanillaOutlineActive", IsVanillaOutlineActive());
@@ -397,7 +426,7 @@ namespace HoverPower.UI
 
         private void SyncValueBindings()
         {
-            HoverPowerSettings? settings = Mod.Settings;
+            HoverColorsSettings? settings = Mod.Settings;
             UpdateIfChanged(m_OutlineRBinding, settings?.OutlineR ?? 0.502f);
             UpdateIfChanged(m_OutlineGBinding, settings?.OutlineG ?? 0.869f);
             UpdateIfChanged(m_OutlineBBinding, settings?.OutlineB ?? 1f);
@@ -407,7 +436,8 @@ namespace HoverPower.UI
             UpdateIfChanged(m_DistrictGBinding, settings?.DistrictG ?? 128f / 255f);
             UpdateIfChanged(m_DistrictBBinding, settings?.DistrictB ?? 128f / 255f);
             UpdateIfChanged(m_DistrictABinding, settings?.DistrictA ?? 64f / 255f);
-            UpdateIfChanged(m_GuidelineOpacityBinding, settings?.GuidelineOpacityPercent ?? HoverPowerSettings.DefaultGuidelineOpacityPercent);
+            UpdateIfChanged(m_GuidelineOpacityBinding, settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
+            UpdateIfChanged(m_GuidelineDefaultBinding, settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             UpdateIfChanged(m_PanelOpenBinding, s_PanelOpen);
             UpdateIfChanged(m_SurfaceToolAreasSuppressedBinding, SurfaceToolOverlaySystem.SuppressSurfaceToolAreas);
             UpdateIfChanged(m_VanillaOutlineActiveBinding, IsVanillaOutlineActive());
@@ -451,7 +481,7 @@ namespace HoverPower.UI
 
         private static bool IsVanillaOutlineActive()
         {
-            HoverPowerSettings? settings = Mod.Settings;
+            HoverColorsSettings? settings = Mod.Settings;
             return settings != null
                 && OutlineColorSystem.MatchesCapturedVanillaProfile(
                     settings.OutlineR,
@@ -464,7 +494,7 @@ namespace HoverPower.UI
         // True when the live swatch exactly matches what's stored in that slot.
         private static bool IsPresetActive(int slot)
         {
-            HoverPowerSettings? s = Mod.Settings;
+            HoverColorsSettings? s = Mod.Settings;
             if (s == null) return false;
 
             if (slot == 1)
@@ -490,16 +520,16 @@ namespace HoverPower.UI
 
         private static bool ApproxEqual(float a, float b) => Math.Abs(a - b) < 0.0005f;
 
-        private static bool PresetsAtDefaults(HoverPowerSettings s)
+        private static bool PresetsAtDefaults(HoverColorsSettings s)
         {
             return ApproxEqual(s.Preset1R, DefaultPreset1R) && ApproxEqual(s.Preset1G, DefaultPreset1G)
                 && ApproxEqual(s.Preset1B, DefaultPreset1B) && ApproxEqual(s.Preset1A, DefaultPreset1A)
                 && ApproxEqual(s.Preset1FillA, DefaultPreset1FillA)
-                && s.Preset1GuidelinePercent == HoverPowerSettings.DefaultGuidelineOpacityPercent
+                && s.Preset1GuidelinePercent == HoverColorsSettings.DefaultGuidelineOpacityPercent
                 && ApproxEqual(s.Preset2R, DefaultPreset2R) && ApproxEqual(s.Preset2G, DefaultPreset2G)
                 && ApproxEqual(s.Preset2B, DefaultPreset2B) && ApproxEqual(s.Preset2A, DefaultPreset2A)
                 && ApproxEqual(s.Preset2FillA, DefaultPreset2FillA)
-                && s.Preset2GuidelinePercent == HoverPowerSettings.DefaultGuidelineOpacityPercent;
+                && s.Preset2GuidelinePercent == HoverColorsSettings.DefaultGuidelineOpacityPercent;
         }
 
         private void InitializeKeybindActions()

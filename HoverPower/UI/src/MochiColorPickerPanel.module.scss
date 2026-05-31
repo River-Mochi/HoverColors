@@ -281,7 +281,8 @@
 
 // ── Color swatch shell ────────────────────────────────────────────────────────
 // position:relative is needed so the ::after border ring positions correctly.
-// To change swatch width: edit width below (currently 62rem ≈ 62px).
+// To change swatch width: edit the three matching values — .outlineFieldShell (no !important),
+// .outlineField (width …rem !important), and .outlineField button (width …rem !important).
 // To change corner roundness: edit border-radius here AND search "border-radius: 6rem !important".
 .outlineFieldShell {
     display: inline-flex;
@@ -289,7 +290,7 @@
     justify-content: center;
     position: relative; // required for ::after ring
     // Width: to adjust swatch width change this AND the matching values in .outlineField + .outlineField button.
-    width: 62rem;
+    width: 50rem;
     // Height: 26rem matches the preset slot buttons for a consistent top-row height.
     height: 26rem;
     box-sizing: border-box;
@@ -301,21 +302,19 @@
     cursor: pointer;
 }
 
-// Hover border ring — ::after pseudo-element on the shell div is the most reliable approach:
-// CSS :hover on a div works. The ::after sits outside the shell via negative inset so it
-// never overlaps the color swatch itself. Only shows when React sets .outlineFieldShellHovered.
-.outlineFieldShellHovered::after {
-    content: "";
-    position: absolute;
-    // Extend 2rem outside the shell on all sides for the ring.
-    top: -2rem;
-    right: -2rem;
-    bottom: -2rem;
-    left: -2rem;
-    border: 2rem solid rgba(255, 255, 255, 0.85);
-    border-radius: 8rem; // slightly larger than shell border-radius to follow the curve
-    pointer-events: none; // never blocks clicks to the ColorField button below
-    z-index: 5;
+// Hover ring via box-shadow on the shell — more reliably supported than outline in Cohtml.
+// The shell has NO overflow:hidden so the shadow renders outside its own bounds and is visible.
+// .outlineFieldShellHovered is set by React when any of these fire:
+//   - onMouseMove on the shell (bubbles from ColorField button child)
+//   - onMouseEnter/Leave directly on the ColorField component props
+// Using both maximises the chance one fires in Cohtml.
+.outlineFieldShell {
+    box-shadow: none; // override the initial 'none' from the first block above
+    transition: box-shadow 120ms ease-out;
+}
+
+.outlineFieldShellHovered {
+    box-shadow: 0 0 0 2rem rgba(255, 255, 255, 0.85) !important;
 }
 
 // ── Swatch color field ────────────────────────────────────────────────────────
@@ -323,7 +322,7 @@
 // The hover ring is now on .outlineFieldShellHovered::after (not box-shadow), which avoids
 // all overflow/pointer-event issues — see the ::after rule near .outlineFieldShell above.
 .outlineField {
-    width: 56rem !important; // match .outlineFieldShell width
+    width: 50rem !important; // match .outlineFieldShell width
     height: 26rem !important;
     display: block !important;
     overflow: hidden !important;
@@ -332,7 +331,7 @@
 }
 
 .outlineField button {
-    width: 56rem !important; // match .outlineFieldShell width
+    width: 50rem !important; // match .outlineFieldShell width
     height: 26rem !important;
     padding: 0 !important;
     border: 0 !important;
@@ -455,47 +454,52 @@
     overflow: visible;
 }
 
+.districtPickerButtonActive {
+    border-color: rgba(84, 215, 255, 0.88);
+}
+
 .districtPickerIcon {
     position: relative;
     z-index: 1;
 }
 
-// Invisible ColorField trigger over the District icon. The popup is still 100% vanilla;
-// only the tiny launcher is transparent so the button can keep the District SVG.
-.districtColorField {
-    position: absolute !important;
-    inset: 0;
-    width: 32rem !important;
-    height: 32rem !important;
-    display: block !important;
-    z-index: 2;
+// District picker popup uses the vanilla ColorPicker component inside our own shell.
+// This avoids broad global CSS and lets the Hex spacing/label stay scoped to this popup only.
+.districtPickerPopup {
+    position: absolute;
+    left: 0;
+    width: 240rem;
+    padding: 16rem;
+    pointer-events: auto;
+    border-radius: var(--panelRadius, 12rem);
+    background-color: var(--panelColorDark, rgba(20, 27, 34, 0.92));
+    box-shadow: 0 8rem 24rem rgba(0, 0, 0, 0.3);
+    z-index: 10020;
 }
 
-.districtColorField button {
-    width: 32rem !important;
-    height: 32rem !important;
-    padding: 0 !important;
-    border: 0 !important;
-    border-radius: 4rem !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    outline: 0 !important;
-    opacity: 1 !important;
-    cursor: pointer !important;
+.districtPickerPopupDown {
+    top: 38rem;
 }
 
-.districtColorField button > div {
-    opacity: 0 !important;
+.districtPickerPopupUp {
+    bottom: 38rem;
 }
 
-// Vanilla ColorField popup spacing.
-// Why this is global: ColorField renders the balloon popup outside our launcher
-// wrapper, so a `.districtColorField .sliders_sCL` descendant selector cannot
-// reach it. This uses the current vanilla color-picker classes and only adds the
-// missing slider-to-Hex breathing room that the compact District picker lacks.
-:global(.color-picker-container_Sj5 .color-picker_aNX .sliders_sCL) {
+// Scoped vanilla class targeting: ColorPicker is rendered inside .districtPickerPopup,
+// so this cannot affect other mods' pickers. Do not move this to a global stylesheet.
+.districtPickerPopup :global(.sliders_sCL) {
     margin-bottom: 8rem !important;
 }
+
+.districtPickerLabel {
+    margin-top: 7rem;
+    color: rgba(240, 251, 255, 0.58);
+    font-size: 11rem;
+    font-weight: 600;
+    letter-spacing: 0.4rem;
+    line-height: 1;
+}
+
 
 // Active: only the bottom indicator bar — same visual as .vanillaActiveButton::after.
 // (Previously had a full ring+glow which made the bar look proportionally smaller than the outline button's.)
@@ -521,8 +525,9 @@
 // Width: adjust .presetSlot width. Height: matches the swatch (26rem).
 .presetSlot {
     // To adjust width: change both values below.
-    width: 42rem;
-    min-width: 42rem;
+    // At 36rem three buttons would fit alongside a 50rem swatch in a 222rem panel.
+    width: 36rem;
+    min-width: 36rem;
     height: 26rem;
     padding: 0;
     display: flex;
@@ -540,17 +545,22 @@
     flex-shrink: 0;
     transition: border-color 120ms ease-out;
 
-    &:hover,
-    &:focus,
-    &:active {
+    &:hover {
+        // Brightens the right (number) half background on hover — same behaviour as other action buttons.
+        background-color: rgba(60, 80, 96, 0.85) !important;
+        border-color: rgba(255, 255, 255, 0.58);
+    }
+    &:focus, &:active {
         border-color: rgba(255, 255, 255, 0.58);
     }
 }
 
 // Left half: stored preset colour. background-color set via React inline style.
 // z-index: 0 so the holdBar (z:1) sweeps over it.
+// Color half width: reduce percentage to make buttons narrower overall.
+// Number half gets the remaining space (flex: 1 1 auto).
 .presetColorHalf {
-    flex: 0 0 50%;
+    flex: 0 0 38%;
     display: block;
     pointer-events: none;
     position: relative;
@@ -574,12 +584,12 @@
     text-shadow: 0 0 4rem rgba(0, 0, 0, 0.9);
 }
 
-// Active: cyan border ring around the whole button.
-// A border ring works better than a bottom bar on the half-colour design because
-// the bar sat over the colour half and looked mismatched.
+// Active: thicker cyan border ring around the whole button.
+// Change border-width here to adjust ring thickness.
 .presetSlotActive {
+    border-width: 2rem !important;
     border-color: rgba(84, 215, 255, 1) !important;
-    box-shadow: 0 0 0 1rem rgba(84, 215, 255, 0.4) !important;
+    box-shadow: 0 0 0 1rem rgba(84, 215, 255, 0.45), 0 0 5rem rgba(84, 215, 255, 0.2) !important;
 }
 
 // ↺ reset button as a bare icon (no dark box) — matches the feel of the info button.
@@ -716,7 +726,22 @@
     transform: scaleX(0);
     transform-origin: left center;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1; // z:1 = above colour half (z:0), below number (z:2)
+}
+
+// Guideline button hold-to-save sweep — same visual as holdBar but inside a square icon button.
+.guidelineHoldBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(84, 215, 255, 0.28);
+    border-radius: 4rem; // match controlIconButton border-radius
+    transform: scaleX(0);
+    transform-origin: left center;
+    pointer-events: none;
+    z-index: 0; // behind the icon (z:2 from controlIconButton)
 }
 
 .actionIcon {

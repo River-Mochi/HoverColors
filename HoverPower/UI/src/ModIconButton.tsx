@@ -1,5 +1,5 @@
 // File: UI/src/ModIconButton.tsx
-// GameTopLeft launcher for the Hover Power in-city panel. Same as CWD + EasyZoning.
+// GameTopLeft launcher for the Hover Colors in-city panel. Same as CWD + EasyZoning.
 
 import React from "react";
 import { Button, Tooltip } from "cs2/ui";
@@ -12,14 +12,14 @@ import styles from "./ModIconButton.module.scss";
 // SVG passed via Button.src so its own fills render (single color today, multi-color later).
 import ModIconPath from "../images/MainElements.svg";
 
-const CHANNEL = "HoverPower";
+const CHANNEL = "HoverColors";
 const panelOpen$ = bindValue<boolean>(CHANNEL, "PanelOpen", false);
 
 export default () => {
     const isOpen = useValue(panelOpen$);
     const { translate } = useLocalization();
-    const tooltip = translate("HoverPower.UI.TopLeft.Tooltip", locale["HoverPower.UI.TopLeft.Tooltip"])
-        ?? locale["HoverPower.UI.TopLeft.Tooltip"];
+    const tooltip = translate("HoverColors.UI.TopLeft.Tooltip", locale["HoverColors.UI.TopLeft.Tooltip"])
+        ?? locale["HoverColors.UI.TopLeft.Tooltip"];
 
     return (
         // .anchor is position:relative only — lets the panel below absolute-position under the button.

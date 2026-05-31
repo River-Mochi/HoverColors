@@ -1,7 +1,7 @@
 // File: Mod.cs
 // Purpose: Mod entrypoint; registers settings, schedules systems, and configures the mod logger.
 
-namespace HoverPower
+namespace HoverColors
 {
     using Colossal;
     using Colossal.IO.AssetDatabase;
@@ -11,19 +11,19 @@ namespace HoverPower
     using Game;
     using Game.Modding;
     using Game.SceneFlow;
-    using HoverPower.Localization;
-    using HoverPower.Settings;
-    using HoverPower.Systems;
-    using HoverPower.UI;
+    using HoverColors.Localization;
+    using HoverColors.Settings;
+    using HoverColors.Systems;
+    using HoverColors.UI;
     using System;
     using System.Reflection;
     using Unity.Entities;
 
     public sealed class Mod : IMod
     {
-        public const string ModName = "Hover Power";
-        public const string ModId = "HoverPower";
-        public const string ModTag = "[HP]";
+        public const string ModName = "Hover Colors";
+        public const string ModId = "HoverColors";
+        public const string ModTag = "[HC]";
         public const string kTogglePanelActionName = "TogglePanel";
         public const string kToggleSurfaceToolAreasActionName = "ToggleSurfaceToolAreas";
         public const string kTogglePresetActionName = "TogglePreset";
@@ -34,7 +34,7 @@ namespace HoverPower
         public static readonly ILog s_Log =
             LogManager.GetLogger(ModId).SetShowsErrorsInUI(false);
 
-        public static HoverPowerSettings? Settings { get; private set; }
+        public static HoverColorsSettings? Settings { get; private set; }
 
         private static bool s_BannerLogged;
 
@@ -61,12 +61,12 @@ namespace HoverPower
                 return;
             }
 
-            HoverPowerSettings setting = new HoverPowerSettings(this);
+            HoverColorsSettings setting = new HoverColorsSettings(this);
             Settings = setting;
 
             try
             {
-                AssetDatabase.global.LoadSettings(ModId, setting, new HoverPowerSettings(this));
+                AssetDatabase.global.LoadSettings(ModId, setting, new HoverColorsSettings(this));
             }
             catch (Exception ex)
             {
@@ -137,7 +137,7 @@ namespace HoverPower
         {
             DebugLog(() => $"{ModTag} Mod Dispose");
 
-            HoverPowerSettings? setting = Settings;
+            HoverColorsSettings? setting = Settings;
             if (setting != null)
             {
                 try
@@ -167,7 +167,7 @@ namespace HoverPower
             World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<DistrictColorSystem>();
             updateSystem.UpdateAt<DistrictColorSystem>(SystemUpdatePhase.Rendering);
 
-            updateSystem.UpdateAt<HoverPowerUISystem>(SystemUpdatePhase.UIUpdate);
+            updateSystem.UpdateAt<HoverColorsUISystem>(SystemUpdatePhase.UIUpdate);
         }
 
         private static void LogStartupBanner()

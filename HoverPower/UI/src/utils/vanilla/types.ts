@@ -32,6 +32,32 @@ export type VanillaColorFieldProps = {
     onClosePicker?: (event?: any) => void;
 };
 
+export type VanillaHsvaColor = {
+    h: number;
+    s: number;
+    v: number;
+    a: number;
+};
+
+export type VanillaColorPickerSliderMode = {
+    Hsv: "Hsv";
+    RgbFloat: "RgbFloat";
+    RgbByte: "RgbByte";
+};
+
+export type VanillaColorPickerProps = {
+    focusKey?: FocusKey | null;
+    color: VanillaHsvaColor;
+    alpha?: boolean;
+    colorWheel?: boolean;
+    sliderTextInput?: boolean;
+    preview?: unknown;
+    mode?: VanillaColorPickerSliderMode[keyof VanillaColorPickerSliderMode];
+    hexInput?: boolean;
+    allowFocusExit?: boolean;
+    onChange?: (value: VanillaHsvaColor) => void;
+};
+
 export type VanillaSliderProps = {
     focusKey?: FocusKey | null;
     value: number;

@@ -5,6 +5,8 @@ export const VANILLA_COMPONENT_MODULES = {
     Checkbox: ["game-ui/common/input/toggle/checkbox/checkbox.tsx", "Checkbox"],
     DescriptionTooltip: ["game-ui/common/tooltip/description-tooltip/description-tooltip.tsx", "DescriptionTooltip"],
     ColorField: ["game-ui/common/input/color-picker/color-field/color-field.tsx", "ColorField"],
+    ColorPicker: ["game-ui/common/input/color-picker/color-picker/color-picker.tsx", "ColorPicker"],
+    ColorPickerSliderMode: ["game-ui/common/input/color-picker/color-picker/color-picker.tsx", "ColorPickerSliderMode"],
     Slider: ["game-ui/common/input/slider/slider.tsx", "Slider"],
     InfoSection: ["game-ui/game/components/selected-info-panel/shared-components/info-section/info-section.tsx", "InfoSection"],
     InfoRow: ["game-ui/game/components/selected-info-panel/shared-components/info-row/info-row.tsx", "InfoRow"],

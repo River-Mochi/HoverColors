@@ -17,12 +17,12 @@
 //   - Compare current slider value against last-applied value at the top of OnUpdate and
 //     early-return when the user isn't moving the slider. Idle cost = one float compare.
 
-namespace HoverPower.Systems
+namespace HoverColors.Systems
 {
     using CS2Shared.RiverMochi;
     using Game;
     using Game.Prefabs;
-    using HoverPower.Settings;
+    using HoverColors.Settings;
     using Unity.Entities;
     using UnityEngine;
 
@@ -51,7 +51,7 @@ namespace HoverPower.Systems
 
         protected override void OnUpdate()
         {
-            HoverPowerSettings? settings = Mod.Settings;
+            HoverColorsSettings? settings = Mod.Settings;
             if (settings == null)
             {
                 return;

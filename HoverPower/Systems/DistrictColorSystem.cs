@@ -6,15 +6,15 @@
 //   AreaBufferSystem reads those prefab fill + edge colors while rebuilding the overlay
 //   buffer, so we write prefab-side colors and then mark live District area entities Updated.
 
-namespace HoverPower.Systems
+namespace HoverColors.Systems
 {
-    using CS2Shared.RiverMochi;
     using Colossal.Serialization.Entities;
+    using CS2Shared.RiverMochi;
     using Game;
     using Game.Common;
     using Game.Prefabs;
     using Game.Serialization;
-    using HoverPower.Settings;
+    using HoverColors.Settings;
     using Unity.Entities;
     using UnityEngine;
     using AreaComponent = Game.Areas.Area;
@@ -70,7 +70,7 @@ namespace HoverPower.Systems
 
         protected override void OnUpdate()
         {
-            HoverPowerSettings? settings = Mod.Settings;
+            HoverColorsSettings? settings = Mod.Settings;
             if (settings == null)
             {
                 return;
@@ -160,7 +160,7 @@ namespace HoverPower.Systems
             }
         }
 
-        private void SeedSettingsFromCapture(HoverPowerSettings settings)
+        private void SeedSettingsFromCapture(HoverColorsSettings settings)
         {
             if (m_SeededSettingsFromCapture || settings.DistrictColorEnabled || !HasCapturedDistrictDefaults)
             {

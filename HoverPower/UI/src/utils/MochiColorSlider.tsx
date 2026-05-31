@@ -52,7 +52,7 @@ export const MochiColorSlider: React.FC<MochiSliderProps> = ({
         e.preventDefault();
         e.stopPropagation();
 
-        trigger("HoverPower", "UiInteracted");
+        trigger("HoverColors", "UiInteracted");
 
         onDragStart?.();
 

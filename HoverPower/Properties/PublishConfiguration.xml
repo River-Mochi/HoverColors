@@ -2,31 +2,34 @@
 	<!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
 	<ModId Value="" />
 	<!--Name of the mod to display to players-->
-	<DisplayName Value="Hover Power" />
+	<DisplayName Value="Hover Colors" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Change Blue Color Highlights over all buildings, cars, cims. Surface tool QoL, turn preview layers off." />
+	<ShortDescription Value="Change Blue Color on everything to Any color / Any opacity. Surface tool QoL, turn preview layers off." />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
 
-- Change the ubiquitous Blue outline color that appears on everything in the game
-- Any object you can hover over can change: all buildings, cars, cims, trees and more!
-- Guidelines - opacity slider
-- Surfaces Tool: are cloudy layer previews from the game preventing you from seeing your real surfaces and interrupting workflow? - Now you can toggle that silly vanilla preview layer OFF.
+        - Change the ubiquitous Blue outline color that appears on everything in the game
+        - Any object you can hover over can change: all buildings, cars, cims, trees and more!
+        - Guidelines - opacity slider
+        - Surfaces: turn off the preview layers while in Surface tool so you can see the actual colors without a cloudy preview layer on top.
+        - District tool: change color of district borders and overlays or turn them off completely.
 
-- If you can hover over it then you can probably change it :)
+        - If you can hover over it then you can probably change it :)
 
-### Feedback  and Support:
+        ### Feedback  and Support:
+        Feedback is welcome through GitHub or Discord links on the right.
+        If you like free mods, give a Like :)
 
+        ### Credits
+        River-Mochi - modder/maintainer
+        Flashbond - collab, tech feedback, testing
+        yenyang - collab, tech feedback, testing
+        StarQ - tech feedback, testing
+        gagaxm - feature idea, testing
+        Dx, Necko1996, Noel, BugsyG - testing
 
-### Credits
-River-Mochi - modder/maintainer
-Flashbond - collab, updates, testing
-yenyang - collab, tech feedback, testing
-StarQ - tech feedback, testing
-Dx, Necko1996, Noel,  BugsyG - testing
-
-</LongDescription>
+    </LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail.png" />
 	<!--Screenshot, can be set multiple times-->
@@ -36,7 +39,7 @@ Dx, Necko1996, Noel,  BugsyG - testing
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="" />
 	<!--Version of the mod-->
-	<ModVersion Value="0.6.0" />
+	<ModVersion Value="0.7.0" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.5.*" />
 	<!--Dependency for the mod, can be set multiple times-->
@@ -49,7 +52,7 @@ Dx, Necko1996, Noel,  BugsyG - testing
 </ChangeLog>-->
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 	<ExternalLink Type="" Url="" />
-    <ExternalLink Type="github" Url="https://github.com/River-Mochi/HoverPower" />
+    <ExternalLink Type="github" Url="https://github.com/River-Mochi/HoverColors" />
     <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 
 	<!--Supported values Public, Private, Unlisted-->

@@ -1,10 +1,10 @@
 // File: Settings/Setting.cs
-// Purpose: Defines Hover Power settings, persistent storage, and the Options UI surface.
+// Purpose: Defines Hover Colors settings, persistent storage, and the Options UI surface.
 // Layout: 2 tabs (Actions, About) following CityWatchdog/EasyZoning convention.
 // Note: the eight outline RGBA floats are NOT decorated for Options UI — they are read by the
-// in-city color-picker panel via cs2/api bindings (see Systems/HoverPowerUISystem.cs).
+// in-city color-picker panel via cs2/api bindings (see Systems/HoverColorsUISystem.cs).
 
-namespace HoverPower.Settings
+namespace HoverColors.Settings
 {
     using Colossal.IO.AssetDatabase;
     using CS2Shared.RiverMochi;
@@ -16,11 +16,11 @@ namespace HoverPower.Settings
     using System;
     using UnityEngine;
 
-    [FileLocation("ModsSettings/HoverPower/HoverPower")]
+    [FileLocation("ModsSettings/HoverColors/HoverColors")]
     [SettingsUITabOrder(Actions, About)]
     [SettingsUIGroupOrder(ToolColors, KeyBindings, Guidelines, AboutInfo, AboutLinks, AboutDedication)]
     [SettingsUIShowGroupName(ToolColors, KeyBindings, Guidelines, AboutDedication)]
-    public class HoverPowerSettings : ModSetting
+    public class HoverColorsSettings : ModSetting
     {
         // Tab IDs
         internal const string Actions = nameof(Actions);
@@ -42,13 +42,17 @@ namespace HoverPower.Settings
         // Vanilla CS2 is 100; lower = more transparent. Change only here — C# UISystem and TSX both read this.
         public const int DefaultGuidelineOpacityPercent = 30;
 
+        // Player's personal guideline default (tap on guideline icon applies this; hold overwrites it).
+        // Starts at DefaultGuidelineOpacityPercent; persists to .coc so it survives game restarts.
+        public int GuidelineDefaultPercent { get; set; }
+
         private const string AboutLinksRow = nameof(AboutLinksRow);
         // Same Paradox URL pattern as CityWatchdog — lands on River-Mochi's author page filtered to CS2.
         private const string UrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
         // -----------------------------------------------------------------------
-        // In-city color-picker bindings (driven by Systems/HoverPowerUISystem)
+        // In-city color-picker bindings (driven by Systems/HoverColorsUISystem)
         // Not decorated for Options UI — these are data fields the cs2/api bindings read/write
         // and the OutlineColorSystem applies. Field layout after the post-alpha redesign:
         //   - OutlineR/G/B  → outline halo edge color + fill overlay color + lot-pattern tint
@@ -141,9 +145,9 @@ namespace HoverPower.Settings
         // Actions tab — Tool color behavior
         // -----------------------------------------------------------------------
         // This controls temporary effective colors only. It never overwrites the
-        // player's saved swatch color in ModsSettings/HoverPower/HoverPower.coc.
+        // player's saved swatch color in ModsSettings/HoverColors/HoverColors.coc.
 
-        [SettingsUIDropdown(typeof(HoverPowerSettings), nameof(GetToolColorModeItems))]
+        [SettingsUIDropdown(typeof(HoverColorsSettings), nameof(GetToolColorModeItems))]
         [SettingsUISection(Actions, ToolColors)]
         public int ToolColorMode { get; set; }
 
@@ -207,7 +211,7 @@ namespace HoverPower.Settings
         // Construction + defaults
         // -----------------------------------------------------------------------
 
-        public HoverPowerSettings(IMod mod) : base(mod)
+        public HoverColorsSettings(IMod mod) : base(mod)
         {
             SetDefaults();
         }
@@ -246,6 +250,7 @@ namespace HoverPower.Settings
             Preset2FillA = 0f;
             Preset1GuidelinePercent = DefaultGuidelineOpacityPercent;
             Preset2GuidelinePercent = DefaultGuidelineOpacityPercent;
+            GuidelineDefaultPercent = DefaultGuidelineOpacityPercent;
 
             // Release default: help players see demolition/road targets even if their custom
             // alpha is very low, without changing their saved custom color.

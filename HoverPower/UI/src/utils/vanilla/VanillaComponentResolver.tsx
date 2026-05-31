@@ -6,6 +6,8 @@ import { VANILLA_FOCUS_MODULES, type VanillaFocusModuleName } from "./focus";
 import { VANILLA_THEME_MODULES, type VanillaThemeModuleName } from "./themes";
 import type {
     VanillaCheckboxProps,
+    VanillaColorPickerProps,
+    VanillaColorPickerSliderMode,
     VanillaColorFieldProps,
     VanillaDescriptionTooltipProps,
     VanillaDropdownItemComponentProps,
@@ -24,7 +26,7 @@ import type {
     VanillaUseUniqueFocusKey,
 } from "./types";
 
-// Shared vanilla-module library for HoverPower and future CS2 mods.
+// Shared vanilla-module library for HoverColors and future CS2 mods.
 //
 // This combines two good patterns from community:
 // - yenyang's "how to in the UI" comments
@@ -118,6 +120,14 @@ export class VanillaComponentResolver {
 
     public get ColorField(): FC<VanillaColorFieldProps> {
         return this.resolveComponent("ColorField");
+    }
+
+    public get ColorPicker(): FC<VanillaColorPickerProps> {
+        return this.resolveComponent("ColorPicker");
+    }
+
+    public get ColorPickerSliderMode(): VanillaColorPickerSliderMode {
+        return this.resolveComponent("ColorPickerSliderMode");
     }
 
     public get Slider(): FC<VanillaSliderProps> {

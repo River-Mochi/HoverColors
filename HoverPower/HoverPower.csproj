@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <!--
-    HoverPower.csproj   CS2 mod: "Hover Power" [HP]
+    HoverColors.csproj   CS2 mod: "Hover Colors" [HC]
     - CS2 toolchain (Mod.props / Mod.targets) supplies TargetFramework, game ref resolution, analyzers.
     - No LangVersion override: CS2 toolchain stays on the supported C# version.
     - Nullable enable to match LogUtils + River-Mochi mod defaults.
@@ -23,15 +23,15 @@
         <Nullable>enable</Nullable>
 
         <!-- Versioning: single source of truth -->
-        <Version>0.6.0</Version>
+        <Version>0.7.0</Version>
         <AssemblyVersion>$(Version).0</AssemblyVersion>
         <FileVersion>$(Version).0</FileVersion>
 
         <!-- Assembly identity -->
-        <RootNamespace>HoverPower</RootNamespace>
-        <AssemblyName>HoverPower</AssemblyName>
-        <AssemblyTitle>Hover Power</AssemblyTitle>
-        <Product>Hover Power</Product>
+        <RootNamespace>HoverColors</RootNamespace>
+        <AssemblyName>HoverColors</AssemblyName>
+        <AssemblyTitle>Hover Colors</AssemblyTitle>
+        <Product>Hover Colors</Product>
         <Copyright>Copyright © 2026 River-Mochi</Copyright>
 
         <!-- Path to the PowerShell that syncs PublishConfiguration.xml + mod.json with $(Version). -->
@@ -134,8 +134,8 @@
     </ItemGroup>
 
     <!-- Repo-root files (LICENSE, README, .editorconfig, .gitignore, .gitattributes) are exposed via
-         a "Solution Items" solution folder in HoverPower.sln — NOT linked under this project.
-         See HoverPower.sln for the SolutionItems entry. -->
+         a "Solution Items" solution folder in HoverColors.sln — NOT linked under this project.
+         See HoverColors.sln for the SolutionItems entry. -->
 
     <!-- AUTO UPDATE PublishConfiguration.xml ModVersion + nested mod.json "version" from $(Version). -->
     <Target Name="UpdatePublishConfigVersion" BeforeTargets="Build" Condition="Exists('$(PublishConfigScript)') AND Exists('$(MSBuildProjectDirectory)\$(PublishConfigurationPath)')">

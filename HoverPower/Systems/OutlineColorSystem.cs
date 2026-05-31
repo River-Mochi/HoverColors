@@ -11,7 +11,7 @@
 //   - Material _InnerColor.RGB                   ← Outline RGB (color of fill overlay inside silhouette)
 //   - Material _InnerColor.a                     ← FillA      (fill overlay opacity)
 //
-// Tool override: controlled by HoverPowerSettings.ToolColorMode.
+// Tool override: controlled by HoverColorsSettings.ToolColorMode.
 //   - Recommended: WarningColor for bulldozer, softer vanilla blue for roads.
 //   - Vanilla: captured vanilla hover profile while those tools are active.
 //   - Custom: player color everywhere.
@@ -24,14 +24,14 @@
 //     neither the sliders nor the active-tool override flag changed.
 //   - Cache invalidates only when the Material reference goes destroyed-null (e.g. scene reload).
 
-namespace HoverPower.Systems
+namespace HoverColors.Systems
 {
     using CS2Shared.RiverMochi;
     using Game;
     using Game.Prefabs;
     using Game.Rendering;
     using Game.Tools;
-    using HoverPower.Settings;
+    using HoverColors.Settings;
     using System;
     using Unity.Entities;
     using UnityEngine;
@@ -40,7 +40,7 @@ namespace HoverPower.Systems
     public partial class OutlineColorSystem : GameSystemBase
     {
         // Vanilla cyan defaults applied during Bulldoze / Net tool override.
-        // Keep in sync with HoverPowerSettings.SetDefaults().
+        // Keep in sync with HoverColorsSettings.SetDefaults().
         private const float VanillaR = 0.502f;
         private const float VanillaG = 0.869f;
         private const float VanillaB = 1f;
@@ -107,7 +107,7 @@ namespace HoverPower.Systems
 
         protected override void OnUpdate()
         {
-            HoverPowerSettings? settings = Mod.Settings;
+            HoverColorsSettings? settings = Mod.Settings;
             if (settings == null)
             {
                 return;
@@ -118,7 +118,7 @@ namespace HoverPower.Systems
             float r, g, b, outlineA, fillA;
             EffectivePalette palette;
             ToolKind activeTool = GetActiveToolKind(m_ToolSystem?.activeTool);
-            if (settings.ToolColorMode == HoverPowerSettings.ToolColorModeRecommended
+            if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeRecommended
                 && activeTool == ToolKind.Bulldoze)
             {
                 r = s_WarningColor.r;
@@ -128,7 +128,7 @@ namespace HoverPower.Systems
                 fillA = CapturedFillA;
                 palette = EffectivePalette.RecommendedBulldoze;
             }
-            else if (settings.ToolColorMode == HoverPowerSettings.ToolColorModeRecommended
+            else if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeRecommended
                 && activeTool == ToolKind.Net)
             {
                 Color hovered = CapturedHoveredColor;
@@ -139,7 +139,7 @@ namespace HoverPower.Systems
                 fillA = CapturedFillA;
                 palette = EffectivePalette.RecommendedNet;
             }
-            else if (settings.ToolColorMode == HoverPowerSettings.ToolColorModeVanilla
+            else if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeVanilla
                 && activeTool != ToolKind.None)
             {
                 Color hovered = CapturedHoveredColor;

@@ -2,7 +2,7 @@
 // Purpose: Optional Surface-tool overlay suppression for creators who want to preview layered surfaces
 // without the active tool's blue boundary preview staying on top of the texture work.
 
-namespace HoverPower.Systems
+namespace HoverColors.Systems
 {
     using CS2Shared.RiverMochi;
     using Game;
