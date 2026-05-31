@@ -37,7 +37,7 @@ const districtR$ = bindValue<number>(CHANNEL, "DistrictR", 128 / 255);
 const districtG$ = bindValue<number>(CHANNEL, "DistrictG", 128 / 255);
 const districtB$ = bindValue<number>(CHANNEL, "DistrictB", 128 / 255);
 const districtA$ = bindValue<number>(CHANNEL, "DistrictA", 64 / 255);
-const guidelineOpacity$ = bindValue<number>(CHANNEL, "GuidelineOpacityPercent", 40);
+const guidelineOpacity$ = bindValue<number>(CHANNEL, "GuidelineOpacityPercent", 30);
 const surfaceToolAreasSuppressed$ = bindValue<boolean>(CHANNEL, "SurfaceToolAreasSuppressed", false);
 const vanillaOutlineActive$ = bindValue<boolean>(CHANNEL, "VanillaOutlineActive", false);
 const AREA_MENU_NAME_TOKENS = ["SERVICES.NAMES[AREAS]", "SERVICES.NAME[AREAS]", "AREAS"];
@@ -59,55 +59,6 @@ const preset2B$ = bindValue<number>(CHANNEL, "Preset2B", 0.25);
 const preset2A$ = bindValue<number>(CHANNEL, "Preset2A", 0.5);
 const preset1Active$ = bindValue<boolean>(CHANNEL, "Preset1Active", false);
 const preset2Active$ = bindValue<boolean>(CHANNEL, "Preset2Active", false);
-
-type HsvaColor = { h: number; s: number; v: number; a: number };
-
-const rgbaToHsva = (color: Color, fallbackHue: number): HsvaColor => {
-    const r = Math.max(0, Math.min(1, color.r));
-    const g = Math.max(0, Math.min(1, color.g));
-    const b = Math.max(0, Math.min(1, color.b));
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    const delta = max - min;
-    let h = fallbackHue;
-
-    if (delta > 0) {
-        if (max === r) {
-            h = ((g - b) / delta + (g < b ? 6 : 0)) / 6;
-        } else if (max === g) {
-            h = ((b - r) / delta + 2) / 6;
-        } else {
-            h = ((r - g) / delta + 4) / 6;
-        }
-    }
-
-    return {
-        h,
-        s: max === 0 ? 0 : delta / max,
-        v: max,
-        a: Math.max(0, Math.min(1, color.a)),
-    };
-};
-
-const hsvaToRgba = (color: HsvaColor): Color => {
-    const h = ((color.h % 1) + 1) % 1;
-    const s = Math.max(0, Math.min(1, color.s));
-    const v = Math.max(0, Math.min(1, color.v));
-    const i = Math.floor(h * 6);
-    const f = h * 6 - i;
-    const p = v * (1 - s);
-    const q = v * (1 - f * s);
-    const t = v * (1 - (1 - f) * s);
-
-    switch (i % 6) {
-        case 0: return { r: v, g: t, b: p, a: color.a };
-        case 1: return { r: q, g: v, b: p, a: color.a };
-        case 2: return { r: p, g: v, b: t, a: color.a };
-        case 3: return { r: p, g: q, b: v, a: color.a };
-        case 4: return { r: t, g: p, b: v, a: color.a };
-        default: return { r: v, g: p, b: q, a: color.a };
-    }
-};
 
 export const MochiColorPickerPanel = () => {
     const boundOutline: Color = {
@@ -208,8 +159,6 @@ export const MochiColorPickerPanel = () => {
 
     const outlineSwatchRef = React.useRef<HTMLDivElement | null>(null);
     const districtPickerRef = React.useRef<HTMLDivElement | null>(null);
-    const districtPickerPopupRef = React.useRef<HTMLDivElement | null>(null);
-    const districtPickerHueRef = React.useRef(0);
     const areaPanelOpenTimerRef = React.useRef<number | null>(null);
     const panelElementRef = React.useRef<HTMLDivElement | null>(null);
     const panelDragFrameRef = React.useRef<number | null>(null);
@@ -227,22 +176,6 @@ export const MochiColorPickerPanel = () => {
     React.useEffect(() => { setDistrictColor(boundDistrict); },
         [boundDistrict.r, boundDistrict.g, boundDistrict.b, boundDistrict.a]);
     React.useEffect(() => { setGuidelineOpacity(boundGuideline); }, [boundGuideline]);
-
-    React.useEffect(() => {
-        if (!districtPickerOpen) return;
-        const onMouseDown = (e: MouseEvent) => {
-            const target = e.target as Node | null;
-            if (target == null) return;
-            if (districtPickerRef.current?.contains(target) || districtPickerPopupRef.current?.contains(target)) {
-                return;
-            }
-
-            setDistrictPickerOpen(false);
-        };
-
-        document.addEventListener("mousedown", onMouseDown);
-        return () => document.removeEventListener("mousedown", onMouseDown);
-    }, [districtPickerOpen]);
 
     React.useEffect(() => () => {
         if (areaPanelOpenTimerRef.current != null) {
@@ -302,10 +235,6 @@ export const MochiColorPickerPanel = () => {
     const handleDistrictColorChange = (value: Color) => {
         setDistrictColor(value);
         trigger(CHANNEL, "SetDistrictColor", value.r, value.g, value.b, value.a);
-    };
-    const handleDistrictPickerColorChange = (value: HsvaColor) => {
-        districtPickerHueRef.current = value.h;
-        handleDistrictColorChange(hsvaToRgba(value));
     };
     const handleGuidelineChange = (v: number) => {
         const value = Math.max(0, Math.min(100, Math.round(v / 5) * 5));
@@ -461,12 +390,6 @@ export const MochiColorPickerPanel = () => {
         }, 80);
     }, [areasMenu, districtCategory]);
 
-    const handleDistrictPickerOpen = React.useCallback(() => {
-        openAreasToolPanel();
-        updateDistrictPickerDirection();
-        setDistrictPickerOpen(prev => !prev);
-    }, [openAreasToolPanel, updateDistrictPickerDirection]);
-
     const handlePanelDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault(); e.stopPropagation();
         const rect = panelElementRef.current?.getBoundingClientRect();
@@ -482,20 +405,17 @@ export const MochiColorPickerPanel = () => {
 
     const resolver = VanillaComponentResolver.instance;
     const ColorField = resolver.ColorField;
-    const ColorPicker = resolver.ColorPicker;
     const Slider = resolver.Slider;
-    const colorPickerSliderMode = resolver.ColorPickerSliderMode;
     const focusDisabled = resolver.FOCUS_DISABLED;
     const numberFieldClass = resolver.mouseToolOptionsTheme["number-field"];
     const roundHighlightButtonTheme = resolver.roundHighlightButtonTheme;
     const outlineFieldClass = styles.outlineField;
     const closeButtonClass = `${roundHighlightButtonTheme["button"] ?? ""} ${styles.closeButton}`;
-    const districtPickerColor = rgbaToHsva(districtColor, districtPickerHueRef.current);
 
-    // Corner dot color: inline style sets the dot background to the stored preset RGBA.
-    // This is just a CSS background-color set via React's style prop — no special React feature.
-    const dotStyle = (c: Color) => ({
-        backgroundColor: `rgba(${Math.round(c.r * 255)},${Math.round(c.g * 255)},${Math.round(c.b * 255)},${c.a.toFixed(2)})`,
+    // Preset preview swatches intentionally ignore alpha so dark/transparent colors remain legible
+    // against the translucent panel. The saved preset still includes alpha and applies it in-game.
+    const presetPreviewStyle = (c: Color) => ({
+        backgroundColor: `rgb(${Math.round(c.r * 255)},${Math.round(c.g * 255)},${Math.round(c.b * 255)})`,
     });
 
     // holdBar uses transform: scaleX so percentage works regardless of button width
@@ -564,9 +484,9 @@ export const MochiColorPickerPanel = () => {
                                         <div
                                             ref={outlineSwatchRef}
                                             className={`${styles.outlineFieldShell} ${swatchHovered ? styles.outlineFieldShellHovered : ""}`}
-                                            // onMouseMove bubbles from the ColorField button child → reliable in Cohtml.
-                                            // onMouseEnter/onMouseOver are swallowed by the interactive child in Cohtml;
-                                            // onMouseMove is not swallowed because it needs to bubble for drag tracking.
+                                            // Cohtml can be picky with hover over vanilla ColorField,
+                                            // so we use CSS :hover plus bubbled over/move events.
+                                            onMouseOver={() => { if (!swatchHovered) { setSwatchHovered(true); updateColorPickerDirection(); }}}
                                             onMouseMove={() => { if (!swatchHovered) { setSwatchHovered(true); updateColorPickerDirection(); }}}
                                             onMouseLeave={() => setSwatchHovered(false)}
                                             onMouseDown={updateColorPickerDirection}
@@ -587,6 +507,7 @@ export const MochiColorPickerPanel = () => {
                                                 onChange={handleOutlineChange}
                                                 onOpenPicker={updateColorPickerDirection}
                                             />
+                                            <span className={styles.outlineFieldHoverRing} aria-hidden="true" />
                                         </div>
                                     </Tooltip>
 
@@ -605,7 +526,7 @@ export const MochiColorPickerPanel = () => {
                                             onMouseUp={handlePresetMouseUp(1)}
                                             onMouseLeave={() => { setP1Hovered(false); cancelHold(); }}
                                         >
-                                            <span className={styles.presetColorHalf} style={dotStyle(p1)} />
+                                            <span className={styles.presetColorHalf} style={presetPreviewStyle(p1)} />
                                             {holdSlot === 1 && holdProgress > 0 && <span className={styles.holdBar} style={holdBarStyle(holdProgress)} />}
                                             <span className={styles.presetNumberHalf} style={{ color: p1Hovered ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.72)" }}>1</span>
                                         </button>
@@ -620,7 +541,7 @@ export const MochiColorPickerPanel = () => {
                                             onMouseUp={handlePresetMouseUp(2)}
                                             onMouseLeave={() => { setP2Hovered(false); cancelHold(); }}
                                         >
-                                            <span className={styles.presetColorHalf} style={dotStyle(p2)} />
+                                            <span className={styles.presetColorHalf} style={presetPreviewStyle(p2)} />
                                             {holdSlot === 2 && holdProgress > 0 && <span className={styles.holdBar} style={holdBarStyle(holdProgress)} />}
                                             <span className={styles.presetNumberHalf} style={{ color: p2Hovered ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.72)" }}>2</span>
                                         </button>
@@ -720,36 +641,36 @@ export const MochiColorPickerPanel = () => {
                                     <img src={lotToolIconSrc} className={`${styles.controlIcon} ${styles.idleIcon}`} alt="" />
                                 </button>
                             </Tooltip>
-                            {/* Districts: small vanilla slider/hex picker (colorWheel=false). */}
+                            {/* Districts: vanilla ColorField popup, but the District SVG remains the visible button.
+                                This keeps the game's own black popup shell/layout instead of a fragile custom wrapper. */}
                             <Tooltip tooltip={tt(text.tooltipDistrictColors)}>
                                 <div
                                     ref={districtPickerRef}
                                     className={`${styles.actionButton} ${styles.surfaceButton} ${styles.buttonGap} ${styles.districtPickerButton} ${districtPickerOpen ? styles.districtPickerButtonActive : ""}`}
                                     onMouseOver={updateDistrictPickerDirection}
-                                    onClick={handleDistrictPickerOpen}
+                                    onMouseDown={() => {
+                                        openAreasToolPanel();
+                                        updateDistrictPickerDirection();
+                                    }}
                                 >
                                     <img src={surfaceIconSrc} className={`${styles.controlIcon} ${styles.idleIcon} ${styles.districtPickerIcon}`} alt="" />
-                                    {districtPickerOpen && (
-                                        <div
-                                            ref={districtPickerPopupRef}
-                                            className={`${styles.districtPickerPopup} ${districtPickerDirection === "up" ? styles.districtPickerPopupUp : styles.districtPickerPopupDown}`}
-                                            onMouseDown={e => e.stopPropagation()}
-                                            onClick={e => e.stopPropagation()}
-                                        >
-                                            <ColorPicker
-                                                focusKey={focusDisabled}
-                                                color={districtPickerColor}
-                                                alpha={true}
-                                                colorWheel={false}
-                                                sliderTextInput={false}
-                                                mode={colorPickerSliderMode.Hsv}
-                                                hexInput={true}
-                                                allowFocusExit={false}
-                                                onChange={handleDistrictPickerColorChange}
-                                            />
-                                            <div className={styles.districtPickerLabel}>Districts</div>
-                                        </div>
-                                    )}
+                                    <ColorField
+                                        focusKey={focusDisabled}
+                                        className={styles.districtColorField}
+                                        value={districtColor}
+                                        alpha={true}
+                                        popupDirection={districtPickerDirection}
+                                        hideHint={true}
+                                        hexInput={true}
+                                        colorWheel={false}
+                                        onChange={handleDistrictColorChange}
+                                        onOpenPicker={() => {
+                                            setDistrictPickerOpen(true);
+                                            openAreasToolPanel();
+                                            updateDistrictPickerDirection();
+                                        }}
+                                        onClosePicker={() => setDistrictPickerOpen(false)}
+                                    />
                                 </div>
                             </Tooltip>
                         </div>

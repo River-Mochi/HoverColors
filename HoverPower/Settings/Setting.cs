@@ -40,7 +40,7 @@ namespace HoverColors.Settings
 
         // Centralised default for the guideline opacity slider.
         // Vanilla CS2 is 100; lower = more transparent. Change only here — C# UISystem and TSX both read this.
-        public const int DefaultGuidelineOpacityPercent = 40;
+        public const int DefaultGuidelineOpacityPercent = 30;
 
         // Player's personal guideline default (tap on guideline icon applies this; hold overwrites it).
         // Starts at DefaultGuidelineOpacityPercent; persists to .coc so it survives game restarts.
