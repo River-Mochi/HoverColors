@@ -624,7 +624,8 @@
     box-shadow: 0 0 0 1rem rgba(84, 215, 255, 0.45), 0 0 5rem rgba(84, 215, 255, 0.2) !important;
 }
 
-// ↺ reset button as a bare icon (no dark box) — matches the feel of the info button.
+// ↺ reset button as a bare icon. Hover uses only color/transform, so it is cheap
+// and makes the reset affordance obvious without adding React hover state.
 .presetResetBare {
     background: none !important;
     border: none !important;
@@ -639,10 +640,13 @@
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 255, 0.72) !important;
-    transition: color 120ms ease-out;
+    transition: background-color 120ms ease-out, color 120ms ease-out, transform 120ms ease-out;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
+        background-color: rgba(84, 215, 255, 0.14) !important;
         color: rgba(255, 255, 255, 1) !important;
+        transform: scale(1.08);
     }
 }
 
@@ -740,6 +744,16 @@
     pointer-events: none;
     position: relative;
     z-index: 1;
+    color: rgba(255, 255, 255, 0.72);
+    text-shadow: 0 0 3rem rgba(0, 0, 0, 0.55);
+    transition: color 120ms ease-out, text-shadow 120ms ease-out, transform 120ms ease-out;
+}
+
+.presetResetBare:hover .resetGlyph,
+.presetResetBare:focus-visible .resetGlyph {
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0 0 5rem rgba(255, 255, 255, 0.32), 0 0 4rem rgba(0, 0, 0, 0.65);
+    transform: scale(1.12);
 }
 
 .resetButton {

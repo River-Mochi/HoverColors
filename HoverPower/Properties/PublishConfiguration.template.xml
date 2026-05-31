@@ -16,7 +16,7 @@
     <!--Tag, can be set multiple times-->
     <Tag Value="Code Mod" />
     <!--Link to the forum post where the mod can be discussed-->
-    <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/platter-a-custom-zoning-mod.1870699" />
+    <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/" />
     <!--Version of the mod-->
     <ModVersion Value="0.1.1" />
     <!--Recommended version of the base game to use the mod-->
