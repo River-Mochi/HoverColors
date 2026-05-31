@@ -202,7 +202,6 @@ namespace HoverColors.Settings
             }
         }
 
-        [SettingsUIMultilineText]
         [SettingsUISection(About, AboutDedication)]
         public string MochiDedicationText => string.Empty;
 

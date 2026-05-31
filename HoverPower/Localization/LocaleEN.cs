@@ -106,7 +106,7 @@ namespace HoverColors.Localization
                     },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.MochiDedicationText)),
                     "This mod is dedicated to Mochi. She was a beloved dog, adopted at age 7,\n" +
-                    "she gave 13 years of love and joy. This mod would not be possible without Mochi."
+                    "and gave 13 years of love and joy. This mod would not be possible without Mochi."
                     },
             };
         }
