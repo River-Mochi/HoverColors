@@ -310,7 +310,7 @@
 .outlineFieldHoverRing {
     position: absolute;
     inset: -2rem;
-    z-index: 5;
+    z-index: 30;
     pointer-events: none;
     border: 2rem solid rgba(255, 255, 255, 0);
     border-radius: 6rem;
@@ -340,9 +340,16 @@
     width: 50rem !important; // match .outlineFieldShell width
     height: 26rem !important;
     display: block !important;
+    position: relative !important;
     overflow: hidden !important;
     border-radius: 4rem !important;
     box-shadow: none !important;
+}
+
+.outlineField:hover,
+.outlineField:focus-within,
+.outlineFieldShellHovered .outlineField {
+    box-shadow: 0 0 0 2rem rgba(255, 255, 255, 1) !important;
 }
 
 .outlineField button {
@@ -355,6 +362,20 @@
     box-shadow: none !important;
     background-color: transparent !important;
     cursor: pointer !important;
+}
+
+// Directly style the vanilla ColorField button class too. This mirrors Recolor's
+// safer pattern of styling the actual ColorField/button instead of only a wrapper.
+.outlineField :global(.color-field_due) {
+    transition: box-shadow 120ms ease-out !important;
+}
+
+.outlineField:hover :global(.color-field_due),
+.outlineField:focus-within :global(.color-field_due),
+.outlineField :global(.color-field_due:hover),
+.outlineField :global(.color-field_due.focused),
+.outlineFieldShellHovered .outlineField :global(.color-field_due) {
+    box-shadow: inset 0 0 0 2rem rgba(255, 255, 255, 1) !important;
 }
 
 // ─── Sliders ──────────────────────────────────────────────────────────────────
@@ -503,9 +524,9 @@
 }
 
 // ColorField with colorWheel=false does not get the same vanilla section gap that the full
-// outline picker gets from its wheel section. Keep this scoped to our District ColorField and
-// target the exact vanilla Hex row class instead of using global wildcards.
-.districtColorField :global(.sliders_sCL + .hex_c98) {
+// outline picker gets from its wheel section. The popup is rendered by vanilla's balloon system,
+// so this is scoped by a temporary body class while only our District picker is open.
+:global(body.mochiDistrictPickerOpen) :global(.color-picker-container_Sj5 .hex_c98) {
     margin-top: 8rem !important;
 }
 

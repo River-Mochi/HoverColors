@@ -50,7 +50,7 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "Bulldozer + Roads" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToolColorMode)),
                     "Controls temporary outline colors while bulldozer, or road tools are active.\n\n" +
-                    "**1. Recommended** uses game's WarningColor for demolition and a softer vanilla blue for roads.\n" +
+                    "**1. Recommended** uses game's Warning Color for demolition and a softer vanilla blue for roads.\n" +
                     "**2. Vanilla tool colors** restores the game's normal vanilla blue while those tools are active.\n" +
                     "**3. Keep my custom color** uses your chosen color everywhere.\n\n" +
                     "This does not overwrite your automatically saved custom color in the color picker.\n"+

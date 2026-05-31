@@ -9,9 +9,9 @@
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
 
-- Change the ubiquitous Blue outline color that appears on everything in the game
+- Change the Blue outline color that has haunted every part of your city.
 - Any object you can hover over can change: all buildings, cars, cims, trees and more!
-- Guidelines - opacity slider
+- Guidelines - opacity slider for any transparency.
 - Surfaces: turn off the preview layers while in Surface tool so you can see the actual ground surface colors without a cloudy preview layer on top.
 - District tool: change color of district borders and overlays or turn them off completely.
 
@@ -35,9 +35,13 @@ Dx, Necko1996, Noel, BugsyG - testing
 
 </LongDescription>
 	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail.png" />
+	<Thumbnail Value="Properties/Thumbnail-HoverColors.jpg" />
 	<!--Screenshot, can be set multiple times-->
-	<Screenshot Value="" />
+	<Screenshot Value="Properties/10-image-MainPanel.jpg" />
+    <Screenshot Value="Properties/20-image-ColorPicker.jpg" />
+    <Screenshot Value="Properties/25-image-DistrictColorPicker.jpg" />
+    <Screenshot Value="Properties/30-image-Guidelines.jpg" />
+    <Screenshot Value="Properties/40-image-Districts.jpg" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="" />
 	<!--Link to the forum post where the mod can be discussed-->

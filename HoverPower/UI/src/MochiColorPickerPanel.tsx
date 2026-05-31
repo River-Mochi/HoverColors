@@ -59,6 +59,7 @@ const preset2B$ = bindValue<number>(CHANNEL, "Preset2B", 0.25);
 const preset2A$ = bindValue<number>(CHANNEL, "Preset2A", 0.5);
 const preset1Active$ = bindValue<boolean>(CHANNEL, "Preset1Active", false);
 const preset2Active$ = bindValue<boolean>(CHANNEL, "Preset2Active", false);
+const DISTRICT_PICKER_BODY_CLASS = "mochiDistrictPickerOpen";
 
 export const MochiColorPickerPanel = () => {
     const boundOutline: Color = {
@@ -176,6 +177,39 @@ export const MochiColorPickerPanel = () => {
     React.useEffect(() => { setDistrictColor(boundDistrict); },
         [boundDistrict.r, boundDistrict.g, boundDistrict.b, boundDistrict.a]);
     React.useEffect(() => { setGuidelineOpacity(boundGuideline); }, [boundGuideline]);
+
+    React.useEffect(() => {
+        if (typeof document === "undefined") {
+            return;
+        }
+
+        document.body.classList.toggle(DISTRICT_PICKER_BODY_CLASS, districtPickerOpen);
+
+        if (!districtPickerOpen) {
+            return () => document.body.classList.remove(DISTRICT_PICKER_BODY_CLASS);
+        }
+
+        const onMouseDown = (event: MouseEvent) => {
+            const target = event.target as Element | null;
+            if (target == null) {
+                return;
+            }
+
+            // Vanilla ColorField closes on outside clicks but does not call onClosePicker there,
+            // so keep our scoped CSS mode in sync without touching the picker internals.
+            if (districtPickerRef.current?.contains(target) || target.closest(".color-picker-container_Sj5")) {
+                return;
+            }
+
+            setDistrictPickerOpen(false);
+        };
+
+        document.addEventListener("mousedown", onMouseDown);
+        return () => {
+            document.removeEventListener("mousedown", onMouseDown);
+            document.body.classList.remove(DISTRICT_PICKER_BODY_CLASS);
+        };
+    }, [districtPickerOpen]);
 
     React.useEffect(() => () => {
         if (areaPanelOpenTimerRef.current != null) {
