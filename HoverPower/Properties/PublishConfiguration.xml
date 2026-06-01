@@ -8,42 +8,48 @@
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
-###  Mochi's Hover Colors
+        ###  Mochi's Hover Colors
 
-- Change the Blue outline color that has haunted every part of your city.
-- Any object you can hover over can change: all buildings, cars, cims, trees and more!
-- Guidelines - opacity slider for any transparency.
-- Surfaces: turn off the preview layers while in Surface tool so you can see the actual ground surface colors without a cloudy preview layer on top.
-- District tool: change color of district borders and overlays or turn them off completely.
+        - Change the Blue outline color that has haunted every part of your city.
+        - Any object you can hover over can change: all buildings, cars, cims, trees and more!
+        - Guidelines - opacity slider for any transparency.
+        - Surfaces: turn off the preview layers while in Surface tool so you can see the actual ground surface colors without a cloudy preview layer on top.
+        - District tool: change color of district borders and overlays or turn them off completely.
 
--  If you can hover over it then you can probably change it :)
-- Save safe, safe to remove anytime
-- No known compatibility issues. No Harmony patches.
+        -  If you can hover over it then you can probably change it :)
+        - Save safe, safe to remove anytime
+        - No known compatibility issues. No Harmony patches.
 
-##  Important
-- Check the OPTIONS MENU For bulldozer settings
-- To turn off ALL Tooltips (click on the Info button top left)
-- only see it when you need it
-- Alpha setting is what makes things Transparent - it's the LAST bar on the color picker.
-- Tap preset 1 or 2 to switch colors
-- Change presets: select a color from main color picker, then HOLD preset button for 1 second (fill-bar will show save progress)
-- yes everything has Hotkeys - check options menu (tool tips on the right side has most of what you need to know)
+        ##  Important
+        - Check the OPTIONS MENU For bulldozer settings
+        - To turn off ALL Tooltips (click on the Info button top left)
+        - only see it when you need it
+        - Alpha setting is what makes things Transparent - it's the LAST bar on the color picker.
+        - Tap preset 1 or 2 to switch colors
+        - Change presets: select a color from main color picker, then HOLD preset button for 1 second (fill-bar will show save progress)
+        - yes everything has Hotkeys - check options menu (tool tips on the right side has most of what you need to know)
 
-###   Feedback and Support
+        ###   Feedback and Support
 
-- Feedback is welcome through GitHub or Discord links on the right.
-- This mod took many months to overcome  many obstacles in game code.
-- If you like the free mods made with love and lots of late night coffee, give a Like :)
+        - Feedback is welcome through GitHub or Discord links on the right.
+        - This mod took many months to overcome  many obstacles in game code.
+        - If you like the free mods made with love and lots of late night coffee, give a Like :)
 
-### Credits
-- River-Mochi - modder/maintainer
-- Flashbond - collab, tech feedback, testing
-- yenyang - collab, tech feedback, testing
-- StarQ - tech feedback, testing
-- gagaxm - feature idea, testing
-- Dx, Necko1996, Noel, BugsyG, ElGendo87 - testing
+        ### Credits
+        - River-Mochi - modder/maintainer
+        - Flashbond - collab, tech feedback, testing
+        - yenyang - collab, tech feedback, testing
+        - StarQ - tech feedback, testing
+        - gagaxm - feature idea, testing
+        - Dx, Necko1996, Noel, BugsyG, ElGendo87 - testing
 
-</LongDescription>
+
+        12d+ Languages
+        English, Français, Deutsch, Español, Italiano, Polski
+        简体中文 , 한국어, Português Brasil, 繁體中文 , 日本語
+        WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turlish Türkçe
+
+    </LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail-HC02.jpg" />
 	<!--Screenshot, can be set multiple times-->
@@ -68,7 +74,8 @@
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog Value="" />
 <ChangeLog>
-- add all translations files
+- add WIP Thai, Vietnamese, and Turkish locales.
+- update all translations files
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 	<ExternalLink Type="" Url="" />
