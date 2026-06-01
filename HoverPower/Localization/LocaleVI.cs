@@ -53,39 +53,41 @@ namespace HoverColors.Localization
                     "**1. Khuyên dùng** dùng màu cảnh báo của game khi phá dỡ và màu xanh vanilla dịu hơn cho đường\n" +
                     "**2. Màu công cụ vanilla** khôi phục màu xanh vanilla bình thường của game khi các công cụ này đang hoạt động\n" +
                     "**3. Giữ màu tùy chỉnh của tôi** dùng màu đã chọn ở mọi nơi\n\n" +
-                    "Tùy chọn này không ghi đè màu tùy chỉnh đã được tự động lưu trong bộ chọn màu\n"+
-                    "Một số người chơi thấy màu tùy chỉnh khó nhìn khi phá dỡ, nên muốn viền nổi bật tự động quay lại khi dùng công cụ"
+
+                    "Mục đích: một số người dùng thấy màu tùy chỉnh khó nhìn khi ủi phá. \\n" +
+                    "Tùy chọn này chuyển sang màu dễ thấy khi đang dùng công cụ.\n" +
+                    "Tùy chọn này không ghi đè màu tùy chỉnh đã tự động lưu trong bộ chọn màu."
                 },
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. Khuyên dùng" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Màu công cụ vanilla" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Giữ màu tùy chỉnh của tôi" },
 
                 // Guidelines opacity slider
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Độ mờ đường dẫn hướng (Alpha)" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Độ mờ đường dẫn hướng (alpha)" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)),
-                    "Điều chỉnh đường dẫn hướng trong game, tức các mũi tên/đường màu hiện khi đặt đường, prop, v.v.\n\n" +
+                    "Điều chỉnh đường dẫn hướng trong game (các mũi tên/đường màu hiện khi đặt đường, prop, v.v.)\n\n" +
                     "**100%** giữ giao diện vanilla mặc định\n" +
                     "**Thấp hơn** làm đường dẫn hướng trong suốt hơn\n" +
                     "**0%** ẩn hoàn toàn - <Không khuyên dùng>\n" +           
                     "Nên để trên 15%, nếu không sẽ khó thấy điều đang xảy ra\n" +
-                    "Thanh trượt tương tự cũng có trong bảng mod ở trong thành phố. Hai bên được đồng bộ\n" +
-                    "nếu đổi ở đây, thanh trượt trong game cũng sẽ đổi theo"
+                    "Thanh trượt tương tự cũng có trong bảng mod trong thành phố. Cả hai được đồng bộ;\n" +
+                    "nếu đổi ở đây, thanh trượt trong thành phố cũng sẽ đổi theo."
                 },
 
                 // Keybinds
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)), "Mở/đóng bảng chính" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)),
-                    "Phím tắt để mở / đóng bảng Hover Colors trong thành phố" },
+                    "Phím tắt để mở / đóng bảng màu Hover objects trong thành phố." },
                 { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePanelActionName), "Bật/tắt bảng Hover Colors" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "Bật/tắt xem trước công cụ Surface" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)),
-                    "Phím tắt để ẩn hoặc khôi phục các đường ranh giới xem trước đang hoạt động của công cụ Surface khi đặt bề mặt" },
+                    "Phím tắt để ẩn hoặc khôi phục các đường ranh giới xem trước đang hoạt động của công cụ Surface khi đặt bề mặt." },
                 { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Bật/tắt đường Surface" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)), "Chuyển preset 1+2" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)),
-                    "Phím tắt để chuyển giữa ô preset 1 và ô 2" },
+                    "Phím tắt để chuyển giữa ô preset 1 và ô 2." },
                 { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePresetActionName),
                     "Chuyển giữa preset 1 và 2" },
 

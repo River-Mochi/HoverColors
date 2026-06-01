@@ -49,33 +49,35 @@ namespace HoverColors.Localization
                 // Tool color behavior
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "บูลโดเซอร์ + ถนน" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToolColorMode)),
-                    "ควบคุมสีเส้นขอบชั่วคราวเมื่อใช้เครื่องมือบูลโดเซอร์หรือเครื่องมือถนน\n\n" +
-                    "**1. แนะนำ** ใช้สีเตือนของเกมสำหรับการรื้อถอน และใช้สีน้ำเงินแบบวานิลลาที่นุ่มลงสำหรับถนน\n" +
+                    "ควบคุมสีเส้นขอบชั่วคราวเมื่อใช้บูลโดเซอร์หรือเครื่องมือถนน\n\n" +
+                    "**1. แนะนำ** ใช้สีเตือนของเกมสำหรับการรื้อถอน และใช้สีน้ำเงินวานิลลาที่นุ่มลงสำหรับถนน\n" +
                     "**2. สีเครื่องมือวานิลลา** คืนค่าสีน้ำเงินวานิลลาปกติของเกมขณะใช้เครื่องมือเหล่านี้\n" +
                     "**3. ใช้สีที่กำหนดเองต่อไป** ใช้สีที่เลือกไว้ทุกที่\n\n" +
-                    "ค่านี้จะไม่เขียนทับสีที่กำหนดเองซึ่งบันทึกอัตโนมัติในตัวเลือกสี\n"+
-                    "ผู้เล่นบางคนมองเห็นสีที่ตั้งเองได้ยากตอนรื้อถอน จึงต้องการให้เส้นขอบที่ชัดเจนกลับมาอัตโนมัติขณะใช้เครื่องมือ"
+
+                    "จุดประสงค์: ผู้ใช้บางคนมองเห็นสีที่กำหนดเองได้ยากขณะใช้บูลโดเซอร์ \\n" +
+                    "ตัวเลือกนี้จะสลับเป็นสีที่มองเห็นชัดระหว่างใช้เครื่องมือ\n" +
+                    "ค่านี้จะไม่เขียนทับสีที่กำหนดเองซึ่งบันทึกอัตโนมัติในตัวเลือกสี"
                 },
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. แนะนำ" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. สีเครื่องมือวานิลลา" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. ใช้สีที่กำหนดเองต่อไป" },
 
                 // Guidelines opacity slider
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "ความทึบของเส้นไกด์ (Alpha)" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "ความทึบของเส้นไกด์ (alpha)" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)),
-                    "ปรับเส้นไกด์ในเกม เช่น ลูกศร/เส้นสีที่แสดงตอนวางถนน พร็อพ และอื่น ๆ\n\n" +
+                    "ปรับขนาดความทึบของเส้นไกด์ในเกม (ลูกศร/เส้นสีที่แสดงขณะวางถนน พร็อพ และอื่น ๆ)\n\n" +
                     "**100%** คงรูปลักษณ์วานิลลาเริ่มต้นไว้\n" +
                     "**ลดลง** ทำให้เส้นไกด์โปร่งใสมากขึ้น\n" +
                     "**0%** ซ่อนทั้งหมด - <ไม่แนะนำ>\n" +           
                     "แนะนำให้ใช้มากกว่า 15% ไม่อย่างนั้นจะดูยากว่าเกิดอะไรขึ้น\n" +
-                    "สไลเดอร์เดียวกันนี้มีในแผงม็อดภายในเมืองด้วย ทั้งสองตำแหน่งซิงก์กัน\n" +
-                    "ถ้าเปลี่ยนค่าที่นี่ ค่าในเมืองก็จะเปลี่ยนตามเช่นกัน"
+                    "สไลเดอร์เดียวกันนี้มีในแผงม็อดภายในเมืองด้วย ทั้งสองตำแหน่งซิงก์กัน;\n" +
+                    "ถ้าเปลี่ยนค่านี้ ค่าในเมืองก็จะเปลี่ยนตามอย่างสะดวก"
                 },
 
                 // Keybinds
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)), "เปิด/ปิดแผงหลัก" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)),
-                    "ปุ่มลัดสำหรับเปิด / ปิดแผง Hover Colors ภายในเมือง" },
+                    "ปุ่มลัดสำหรับเปิด / ปิดแผงสีวัตถุ Hover Colors ภายในเมือง" },
                 { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePanelActionName), "สลับแผง Hover Colors" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "เปิด/ปิดตัวอย่างเครื่องมือ Surface" },
@@ -104,7 +106,7 @@ namespace HoverColors.Localization
                     "เพื่อระลึกถึง Mochi ด้วยความรัก"
                     },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.MochiDedicationText)),
-                    "ม็อดนี้อุทิศให้ Mochi เธอเป็นสุนัขแสนรักที่ถูกรับเลี้ยงตอนอายุ 7 ปี\n" +
+                    "ม็อดนี้อุทิศให้ Mochi เธอเป็นสุนัขแสนรักที่ถูกรับเลี้ยงตอนอายุ 7 ปี,\n" +
                     "และมอบความรักกับความสุขให้ 13 ปี หากไม่มี Mochi ม็อดนี้คงเกิดขึ้นไม่ได้"
                     },
             };

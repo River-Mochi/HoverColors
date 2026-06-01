@@ -50,38 +50,40 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "Buldozer + Yollar" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToolColorMode)),
                     "Buldozer veya yol araçları etkinken geçici dış çizgi renklerini kontrol eder\n\n" +
-                    "**1. Önerilen** yıkım için oyunun uyarı rengini, yollar için daha yumuşak vanilla mavisini kullanır\n" +
+                    "**1. Önerilen** yıkım için oyunun Uyarı Rengini, yollar için daha yumuşak vanilla mavisini kullanır\n" +
                     "**2. Vanilla araç renkleri** bu araçlar etkinken oyunun normal vanilla mavisini geri getirir\n" +
                     "**3. Özel rengimi koru** seçilen rengi her yerde kullanır\n\n" +
-                    "Bu, renk seçicide otomatik kaydedilen özel rengi üzerine yazmaz\n"+
-                    "Bazı oyuncular yıkım sırasında özel rengini görmekte zorlandığı için, araç kullanırken güçlü dış çizgilerin otomatik geri gelmesini istedi"
+
+                    "Amaç: bazı kullanıcılar buldozer kullanırken özel renklerini görmekte zorlanıyor. \\n" +
+                    "Bu seçenekler araç kullanımı sırasında yüksek görünürlüklü renklere geçer.\n" +
+                    "Bu, renk seçicide otomatik kaydedilen özel rengin üzerine yazmaz."
                 },
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. Önerilen" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Vanilla araç renkleri" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Özel rengimi koru" },
 
                 // Guidelines opacity slider
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Kılavuz çizgi opaklığı (Alpha)" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Kılavuz çizgi opaklığı (alpha)" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)),
-                    "Yol, prop vb. yerleştirirken görünen renkli oklar/çizgiler olan oyun içi kılavuz çizgilerini ayarlar\n\n" +
+                    "Oyun içi kılavuz çizgilerini ölçekler (yol, prop vb. yerleştirirken görünen renkli oklar/çizgiler)\n\n" +
                     "**100%** vanilla varsayılan görünümü korur\n" +
                     "**Daha düşük** kılavuz çizgileri daha saydam yapar\n" +
                     "**0%** tamamen gizler - <Önerilmez>\n" +           
                     "15% üzerinde kalması önerilir; yoksa ne olduğunu görmek zorlaşır\n" +
-                    "Aynı kaydırıcı şehir içindeki mod panelinde de bulunur. İkisi senkronizedir;\n" +
-                    "burada değiştirince şehir içindeki kaydırıcı da değişir"
+                    "Aynı kaydırıcı şehir mod panelinde de bulunur. İkisi senkronizedir;\n" +
+                    "bunu değiştirirsen şehir içindeki de rahatça değişir."
                 },
 
                 // Keybinds
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)), "Ana paneli aç/kapat" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)),
-                    "Şehir içindeki Hover Colors panelini açmak / kapatmak için kısayol tuşu." },
+                    "Şehir içindeki Hover nesneleri renk panelini açmak / kapatmak için kısayol tuşu." },
                 { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePanelActionName), "Hover Colors panelini aç/kapat" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "Surface aracı önizlemesini aç/kapat" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "Surface aracı önizlemelerini aç/kapat" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)),
                     "Yüzey yerleştirirken etkin Surface aracı sınır önizleme çizgilerini gizlemek veya geri getirmek için kısayol tuşu." },
-                { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Surface çizgilerini aç/kapat" },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Surface aracı çizgilerini aç/kapat" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)), "Preset 1+2 arasında geçiş" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)),
@@ -104,7 +106,7 @@ namespace HoverColors.Localization
                     "Mochi'nin sevgi dolu anısına."
                     },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.MochiDedicationText)),
-                    "Bu mod Mochi'ye adanmıştır. 7 yaşında sahiplenilmiş, çok sevilen bir köpekti\n" +
+                    "Bu mod Mochi'ye adanmıştır. 7 yaşında sahiplenilmiş, çok sevilen bir köpekti,\n" +
                     "ve 13 yıl boyunca sevgi ve mutluluk verdi. Mochi olmasaydı bu mod mümkün olmazdı."
                     },
             };
