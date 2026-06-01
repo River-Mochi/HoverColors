@@ -4,9 +4,8 @@
 import React from "react";
 import { Button, Tooltip } from "cs2/ui";
 import { bindValue, trigger, useValue } from "cs2/api";
-import { useLocalization } from "cs2/l10n";
+import { usePanelLocalization } from "./localization";
 import { MochiColorPickerPanel } from "./MochiColorPickerPanel";
-import locale from "../../L10n/lang/en-US.json";
 import styles from "./ModIconButton.module.scss";
 
 // SVG passed via Button.src so its own fills render (single color today, multi-color later).
@@ -17,9 +16,8 @@ const panelOpen$ = bindValue<boolean>(CHANNEL, "PanelOpen", false);
 
 export default () => {
     const isOpen = useValue(panelOpen$);
-    const { translate } = useLocalization();
-    const tooltip = translate("HoverColors.UI.TopLeft.Tooltip", locale["HoverColors.UI.TopLeft.Tooltip"])
-        ?? locale["HoverColors.UI.TopLeft.Tooltip"];
+    const translatePanel = usePanelLocalization();
+    const tooltip = translatePanel("HoverColors.UI.TopLeft.Tooltip");
 
     return (
         // .anchor is position:relative only — lets the panel below absolute-position under the button.

@@ -53,8 +53,10 @@ namespace HoverColors.Localization
                     "**1. Recommended** uses game's Warning Color for demolition and a softer vanilla blue for roads.\n" +
                     "**2. Vanilla tool colors** restores the game's normal vanilla blue while those tools are active.\n" +
                     "**3. Keep my custom color** uses your chosen color everywhere.\n\n" +
-                    "This does not overwrite your automatically saved custom color in the color picker.\n"+
-                    "Some users find their custom color hard to see while bulldozing, and wanted strong color outlines back on automatically during tool usage."
+
+                    "Purpose: some users find their custom color hard to see while bulldozing. \n" +
+                    "These  switches to high visibility colors during tool usage.\n" +
+                    "This does not overwrite your automatically saved custom color in the color picker."
                 },
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. Recommended" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Vanilla tool colors" },

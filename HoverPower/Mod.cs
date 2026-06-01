@@ -98,8 +98,8 @@ namespace HoverColors
             try
             {
                 // Registers the ProxyAction defined by Setting.TogglePanelBinding's
-                // [SettingsUIKeyboardBinding] attribute. The UISystem then fetches + enables it
-                // and polls WasReleasedThisFrame() each tick (matches CityWatchdog pattern).
+                // [SettingsUIKeyboardBinding] attribute. UISystem then fetches + enables it
+                // and polls WasReleasedThisFrame() each tick (same as CityWatchdog).
                 setting.RegisterKeyBindings();
             }
             catch (Exception ex)

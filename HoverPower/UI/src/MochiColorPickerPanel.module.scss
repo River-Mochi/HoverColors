@@ -631,7 +631,7 @@
     border: none !important;
     box-shadow: none !important;
     width: 24rem;
-    height: 26rem; // match row height
+    height: 24rem;
     padding: 0;
     cursor: pointer;
     appearance: none;
@@ -639,7 +639,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.72) !important;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.84) !important;
     transition: background-color 120ms ease-out, color 120ms ease-out, transform 120ms ease-out;
 
     &:hover,
@@ -744,8 +745,8 @@
     pointer-events: none;
     position: relative;
     z-index: 1;
-    color: rgba(255, 255, 255, 0.72);
-    text-shadow: 0 0 3rem rgba(0, 0, 0, 0.55);
+    color: rgba(255, 255, 255, 0.84);
+    text-shadow: 0 0 3rem rgba(0, 0, 0, 0.42);
     transition: color 120ms ease-out, text-shadow 120ms ease-out, transform 120ms ease-out;
 }
 

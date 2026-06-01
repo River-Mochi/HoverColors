@@ -10,8 +10,8 @@ import React from "react";
 import { Button, Tooltip } from "cs2/ui";
 import { Color, tool, toolbar } from "cs2/bindings";
 import { bindValue, trigger, useMapValue, useValue } from "cs2/api";
-import { useLocalization } from "cs2/l10n";
 import { VanillaComponentResolver } from "./utils/vanilla/VanillaComponentResolver";
+import { LocaleKey, usePanelLocalization } from "./localization";
 import infoIconSrc from "../images/AdvisorInfoViewWhite.svg";
 import lotToolIconSrc from "../images/LotTool03.svg";
 import surfaceIconSrc from "../images/Districts03.svg";
@@ -19,13 +19,11 @@ import fillIconSrc from "../images/MainElements-Fill2.svg";
 import outlineIconSrc from "../images/MainElements.svg";
 import guidelinesIconSrc from "../images/GuideLines4.svg";
 import closeIconSrc from "../images/Close.svg";
-import locale from "../../L10n/lang/en-US.json";
 import styles from "./MochiColorPickerPanel.module.scss";
 
 const CHANNEL = "HoverColors";
 // How long to hold down a preset button to save (ms). Increase if 0.8s feels fast.
 const PRESET_HOLD_MS = 700;
-type LocaleKey = keyof typeof locale;
 
 // Live color bindings
 const outlineR$ = bindValue<number>(CHANNEL, "OutlineR", 0.502);
@@ -100,7 +98,7 @@ export const MochiColorPickerPanel = () => {
     const p1: Color = { r: useValue(preset1R$), g: useValue(preset1G$), b: useValue(preset1B$), a: useValue(preset1A$) };
     const p2: Color = { r: useValue(preset2R$), g: useValue(preset2G$), b: useValue(preset2B$), a: useValue(preset2A$) };
 
-    const { translate } = useLocalization();
+    const translatePanel = usePanelLocalization();
 
     // Tooltip toggle — persists for this panel session only; resets when panel re-mounts.
     const [tooltipsEnabled, setTooltipsEnabled] = React.useState(true);
@@ -112,7 +110,7 @@ export const MochiColorPickerPanel = () => {
     );
 
     const text = React.useMemo(() => {
-        const l = (key: LocaleKey) => translate(key, locale[key]) ?? locale[key];
+        const l = (key: LocaleKey) => translatePanel(key);
         return {
             ariaClosePanel: l("HoverColors.UI.Aria.ClosePanel"),
             title: l("HoverColors.UI.Title"),
@@ -131,7 +129,7 @@ export const MochiColorPickerPanel = () => {
             tooltipSurfaceToggle: l("HoverColors.UI.Tooltip.SurfaceToggle"),
             tooltipDistrictColors: l("HoverColors.UI.Tooltip.DistrictColors"),
         };
-    }, [translate]);
+    }, [translatePanel]);
 
     const [outline, setOutline] = React.useState<Color>(boundOutline);
     const [fillA, setFillA] = React.useState<number>(boundFillA);
