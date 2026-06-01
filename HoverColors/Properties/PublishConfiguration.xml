@@ -16,7 +16,7 @@
 - Surfaces: turn off the preview layers while in Surface tool so you can see the actual ground surface colors without a cloudy preview layer on top.
 - District tool: change color of district borders and overlays or turn them off completely.
 
--  If you can hover over it then you can probably change it :)
+- If you can hover over it then you can probably change it :)
 - Save safe, safe to remove anytime
 - No known compatibility issues. No Harmony patches.
 
@@ -53,6 +53,11 @@ WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turlish Türkçe
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail-HC02.jpg" />
 	<!--Screenshot, can be set multiple times-->
+    <Screenshot Value="Properties/01-image-castle01.jpg" />
+    <Screenshot Value="Properties/02-image-castle02.jpg" />
+    <Screenshot Value="Properties/03-image-house01.jpg" />
+    <Screenshot Value="Properties/04-image-house02.jpg" />
+
 	<Screenshot Value="Properties/10-image-Options.jpg" />
     <Screenshot Value="Properties/15-image-MainPanel.jpg" />
     <Screenshot Value="Properties/20-image-ColorPicker.jpg" />
@@ -76,6 +81,7 @@ WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turlish Türkçe
 <ChangeLog>
 - add WIP Thai, Vietnamese, and Turkish locales.
 - update all translations files
+- Ui/Ux improvements for District tool and Presets glow
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 	<ExternalLink Type="" Url="" />
