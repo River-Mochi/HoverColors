@@ -40,6 +40,7 @@ namespace HoverColors.UI
         private ValueBinding<int> m_GuidelineOpacityBinding = null!;
         private ValueBinding<int> m_GuidelineDefaultBinding = null!;
         private ValueBinding<bool> m_PanelOpenBinding = null!;
+        private ValueBinding<bool> m_PanelTooltipsEnabledBinding = null!;
         private ValueBinding<bool> m_SurfaceToolAreasSuppressedBinding = null!;
         private ValueBinding<bool> m_VanillaOutlineActiveBinding = null!;
 
@@ -184,6 +185,19 @@ namespace HoverColors.UI
                 Mod.ModId,
                 "SetPanelOpen",
                 SetPanelOpen));
+
+            AddBinding(new TriggerBinding<bool>(
+                Mod.ModId,
+                "SetPanelTooltipsEnabled",
+                enabled =>
+                {
+                    HoverColorsSettings? settings = Mod.Settings;
+                    if (settings == null) return;
+
+                    settings.PanelTooltipsEnabled = enabled;
+                    settings.ApplyAndSave();
+                    SyncValueBindings();
+                }));
 
             AddBinding(new TriggerBinding(
                 Mod.ModId,
@@ -399,6 +413,7 @@ namespace HoverColors.UI
             m_GuidelineOpacityBinding = AddValueBinding("GuidelineOpacityPercent", settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             m_GuidelineDefaultBinding = AddValueBinding("GuidelineDefaultPercent", settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             m_PanelOpenBinding = AddValueBinding("PanelOpen", s_PanelOpen);
+            m_PanelTooltipsEnabledBinding = AddValueBinding("PanelTooltipsEnabled", settings?.PanelTooltipsEnabled ?? true);
             m_SurfaceToolAreasSuppressedBinding = AddValueBinding("SurfaceToolAreasSuppressed", SurfaceToolOverlaySystem.SuppressSurfaceToolAreas);
             m_VanillaOutlineActiveBinding = AddValueBinding("VanillaOutlineActive", IsVanillaOutlineActive());
 
@@ -439,6 +454,7 @@ namespace HoverColors.UI
             UpdateIfChanged(m_GuidelineOpacityBinding, settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             UpdateIfChanged(m_GuidelineDefaultBinding, settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             UpdateIfChanged(m_PanelOpenBinding, s_PanelOpen);
+            UpdateIfChanged(m_PanelTooltipsEnabledBinding, settings?.PanelTooltipsEnabled ?? true);
             UpdateIfChanged(m_SurfaceToolAreasSuppressedBinding, SurfaceToolOverlaySystem.SuppressSurfaceToolAreas);
             UpdateIfChanged(m_VanillaOutlineActiveBinding, IsVanillaOutlineActive());
 

@@ -1,18 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.6.11822.322
+VisualStudioVersion = 18.6.11822.322 stable
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoverColors", "HoverPower\HoverColors.csproj", "{40713286-E1C9-6A92-A4B0-A2FA8FCC17D0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{D2813028-6ED4-4FB3-B6F2-E64DB0895CB2}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoverColors", "HoverColors\HoverColors.csproj", "{40713286-E1C9-6A92-A4B0-A2FA8FCC17D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {77C53D1A-E7E9-45E6-969E-32E0BF550152}
+		SolutionGuid = {9EEE568A-CB92-4811-B515-12D2D9703916}
 	EndGlobalSection
 EndGlobal

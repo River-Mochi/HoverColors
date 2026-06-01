@@ -1,8 +1,8 @@
 // File: Settings/Setting.cs
 // Purpose: Defines Hover Colors settings, persistent storage, and the Options UI surface.
 // Layout: 2 tabs (Actions, About) following CityWatchdog/EasyZoning convention.
-// Note: the eight outline RGBA floats are NOT decorated for Options UI — they are read by the
-// in-city color-picker panel via cs2/api bindings (see Systems/HoverColorsUISystem.cs).
+// Note: the in-city panel settings are intentionally NOT decorated for Options UI — they are
+// persisted here, read by cs2/api bindings, and applied by Systems/HoverColorsUISystem.cs.
 
 namespace HoverColors.Settings
 {
@@ -140,6 +140,11 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public int Preset2GuidelinePercent { get; set; }
 
+        // In-city info button preference. Hidden from Options UI; persisted here so
+        // "tooltips off" survives closing/reopening the panel and game restarts.
+        [SettingsUIHidden]
+        public bool PanelTooltipsEnabled { get; set; }
+
         // -----------------------------------------------------------------------
         // Actions tab — Tool color behavior
         // -----------------------------------------------------------------------
@@ -249,6 +254,7 @@ namespace HoverColors.Settings
             Preset1GuidelinePercent = DefaultGuidelineOpacityPercent;
             Preset2GuidelinePercent = DefaultGuidelineOpacityPercent;
             GuidelineDefaultPercent = DefaultGuidelineOpacityPercent;
+            PanelTooltipsEnabled = true;
 
             // Release default: help players see demolition/road targets even if their custom
             // alpha is very low, without changing their saved custom color.

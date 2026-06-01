@@ -64,7 +64,7 @@ WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turlish Türkçe
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/mochis-hover-colors.1925898/" />
 	<!--Version of the mod-->
-	<ModVersion Value="0.7.2" />
+	<ModVersion Value="0.7.3" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.5.*" />
 	<!--Dependency for the mod, can be set multiple times-->

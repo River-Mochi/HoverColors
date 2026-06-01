@@ -364,17 +364,12 @@
     cursor: pointer !important;
 }
 
-// Directly style the vanilla ColorField button class too. This mirrors Recolor's
-// safer pattern of styling the actual ColorField/button instead of only a wrapper.
-.outlineField :global(.color-field_due) {
-    transition: box-shadow 120ms ease-out !important;
-}
-
-.outlineField:hover :global(.color-field_due),
-.outlineField:focus-within :global(.color-field_due),
-.outlineField :global(.color-field_due:hover),
-.outlineField :global(.color-field_due.focused),
-.outlineFieldShellHovered .outlineField :global(.color-field_due) {
+// Keep this scoped through our local .outlineField wrapper so Visual Studio
+// does not flag CSS Modules global-selector syntax as an invalid pseudo-class.
+.outlineField:hover button,
+.outlineField:focus-within button,
+.outlineField button:hover,
+.outlineFieldShellHovered .outlineField button {
     box-shadow: inset 0 0 0 2rem rgba(255, 255, 255, 1) !important;
 }
 
@@ -459,7 +454,7 @@
     outline: none;
     cursor: pointer;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out;
 
     &:hover,
@@ -523,14 +518,6 @@
     cursor: pointer !important;
 }
 
-// ColorField with colorWheel=false does not get the same vanilla section gap that the full
-// outline picker gets from its wheel section. The popup is rendered by vanilla's balloon system,
-// so this is scoped by a temporary body class while only our District picker is open.
-:global(body.mochiDistrictPickerOpen) :global(.color-picker-container_Sj5 .hex_c98) {
-    margin-top: 8rem !important;
-}
-
-
 // Active: only the bottom indicator bar — same visual as .vanillaActiveButton::after.
 // (Previously had a full ring+glow which made the bar look proportionally smaller than the outline button's.)
 
@@ -547,36 +534,32 @@
     background-color: rgba(84, 215, 255, 1);
 }
 
-// ── Half-colour preset slot buttons ──────────────────────────────────────────
-// Each button is split into two halves side by side:
-//   Left half  = stored colour (background-color via React inline style)
-//   Right half = dark teal with centered number
-// This makes the stored colour immediately visible without a small wedge or dot.
-// Width: adjust .presetSlot width. Height: matches the swatch (26rem).
+// ── Preset slot buttons ──────────────────────────────────────────────────────
+// Number first, full-height saved-color sliver second:
+//   [ 1 |█ ] [ 2 |█ ]
+// Same compact footprint as before: 32rem x 26rem.
 .presetSlot {
-    // To adjust width: change both values below.
-    // Narrower than the first alpha version so the compact panel does not feel crowded.
     width: 32rem;
     min-width: 32rem;
     height: 26rem;
     padding: 0;
     display: flex;
-    align-items: stretch;  // both halves fill full button height
+    align-items: stretch;
+    justify-content: stretch;
     border-radius: 4rem;
     border: 1rem solid rgba(255, 255, 255, 0.35);
-    background-color: rgba(36, 54, 66, 0.58) !important; // right-half colour
+    background-color: rgba(36, 54, 66, 0.58) !important;
     background-image: none !important;
-    overflow: hidden; // clips the holdBar sweep to the button shape
+    overflow: hidden;
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
     outline: none;
     position: relative;
     flex-shrink: 0;
-    transition: border-color 120ms ease-out;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
 
     &:hover {
-        // Brightens the right (number) half background on hover — same behaviour as other action buttons.
         background-color: rgba(60, 80, 96, 0.85) !important;
         border-color: rgba(255, 255, 255, 0.58);
     }
@@ -585,43 +568,47 @@
     }
 }
 
-// Left half: stored preset colour. background-color set via React inline style.
-// z-index: 0 so the holdBar (z:1) sweeps over it.
-// Color half width: reduce percentage to make buttons narrower overall.
-// Number half gets the remaining space (flex: 1 1 auto).
-.presetColorHalf {
-    flex: 0 0 38%;
-    display: block;
-    pointer-events: none;
-    position: relative;
-    z-index: 0;
-    opacity: 1;
-    filter: none;
-}
-
-// Right half: dark teal from parent button background + centered number.
-// z-index: 2 so the number stays readable above the holdBar sweep.
-.presetNumberHalf {
-    flex: 1 1 auto;
+// Left side: clear preset number.
+// Keep this wider than the color sliver so the number is the identity.
+.presetNumber {
+    width: 20rem;
+    min-width: 20rem;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: none;
     position: relative;
-    z-index: 2; // stays above holdBar (z:1) so number reads through the sweep
+    z-index: 2;
     font-size: 13rem;
     font-weight: 900;
     line-height: 1;
-    color: rgba(255, 255, 255, 0.82); // fallback — inline style in TSX overrides Cohtml's ButtonText
+    color: rgba(255, 255, 255, 0.82);
     text-shadow: 0 0 4rem rgba(0, 0, 0, 0.9);
 }
 
-// Active: thicker cyan border ring around the whole button.
-// Change border-width here to adjust ring thickness.
+// Right side: full-height color sliver.
+// This gives more color preview without making the button bigger.
+.presetSwatch {
+    width: 12rem;
+    min-width: 12rem;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+    position: relative;
+    z-index: 2;
+    border-left: 1rem solid rgba(255, 255, 255, 0.16);
+    border-top-right-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    box-shadow: inset 1rem 0 0 rgba(0, 0, 0, 0.18);
+}
+
 .presetSlotActive {
-    border-width: 2rem !important;
-    border-color: rgba(84, 215, 255, 1) !important;
-    box-shadow: 0 0 0 1rem rgba(84, 215, 255, 0.45), 0 0 5rem rgba(84, 215, 255, 0.2) !important;
+    border-color: rgba(84, 215, 255, 0.68) !important;
+    background-color: rgba(36, 54, 66, 0.58) !important;
+    box-shadow:
+        inset 0 0 0 1rem rgba(84, 215, 255, 0.16),
+        0 0 7rem rgba(84, 215, 255, 0.55);
 }
 
 // Reset button as a bare SVG icon. Do not use a text arrow here: some CJK fonts
@@ -738,8 +725,8 @@
 
 // Reset SVG icon. The SVG itself is light gray; hover filters it to white.
 .resetIcon {
-    width: 18rem;
-    height: 18rem;
+    width: 16rem;
+    height: 16rem;
     pointer-events: none;
     position: relative;
     z-index: 1;
@@ -752,7 +739,7 @@
 .presetResetBare:focus-visible .resetIcon {
     opacity: 1;
     filter: brightness(0) invert(1) drop-shadow(0 0 5rem rgba(255, 255, 255, 0.28)) drop-shadow(0 0 4rem rgba(0, 0, 0, 0.65));
-    transform: scale(1.12);
+    transform: scale(1.2);
 }
 
 .resetButton {
@@ -771,7 +758,7 @@
     transform: scaleX(0);
     transform-origin: left center;
     pointer-events: none;
-    z-index: 1; // z:1 = above colour half (z:0), below number (z:2)
+    z-index: 1;
 }
 
 // Guideline button hold-to-save sweep — same visual as holdBar but inside a square icon button.

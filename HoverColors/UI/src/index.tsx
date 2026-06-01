@@ -6,6 +6,7 @@
 
 import { ModRegistrar } from "cs2/modding";
 import { VanillaComponentResolver } from "./utils/vanilla/VanillaComponentResolver";
+import "./MochiColorPickerPanel.global.scss";
 
 import ModIconButton from "./ModIconButton";
 
