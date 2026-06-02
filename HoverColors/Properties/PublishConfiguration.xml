@@ -8,47 +8,47 @@
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
-        ### Mochi's Hover Colors
+### Mochi's Hover Colors
 
-        - Change the blue outline color that has haunted every part of your city.
-        - If you can hover over it then you can probably change it: buildings, cars, trees, cims, etc.!
-        - Guidelines: opacity slider for less cluttered placements.
-        - Surfaces: turn off preview layers while using the Surface tool so you can see the real ground colors without a cloudy layer on top.
-        - District tool: change the color and opacity of district borders and overlays, or turn them off completely.
+- Change the blue outline color that has haunted every part of your city.
+- If you can hover over it then you can probably change it: buildings, cars, trees, cims, etc.!
+- Guidelines: opacity slider for less cluttered placements.
+- Surfaces: turn off preview layers while using the Surface tool so you can see the real ground colors without a cloudy layer on top.
+- District tool: change the color and opacity of district borders and overlays, or turn them off completely.
 
-        - Save safe, safe to remove any time.
-        - No known compatibility issues. No Harmony patches.
+- Save safe, safe to remove any time.
+- No known compatibility issues. No Harmony patches.
 
-        ## Important
-        - Check the Options menu for bulldozer and road-tool color behavior.
-        - To turn off panel tooltips, click the Info button in the top-left of the in-city panel.
-        - **Darker panel* option Options menu. Recommended for LegacyUI users or players who prefer darker high contrast.
-        - Alpha is transparency; last bar on the color picker.
-        - Tap preset 1 or 2 to switch colors.
-        - Change presets: select a color from the main color picker, then hold preset 1 or 2 until the fill bar completes.
-        - Hotkeys are in the Options menu. Tooltip text on the right side has most of what you need to know.
+## Important
+- Check the Options menu for bulldozer and road-tool color behavior.
+- To turn off panel tooltips, click the Info button in the top-left of the in-city panel.
+- **Darker panel* option Options menu. Recommended for LegacyUI users or players who prefer darker high contrast.
+- Alpha is transparency; last bar on the color picker.
+- Tap preset 1 or 2 to switch colors.
+- Change presets: select a color from the main color picker, then hold preset 1 or 2 until the fill bar completes.
+- Hotkeys are in the Options menu. Tooltip text on the right side has most of what you need to know.
 
-        ### Feedback and Support
+### Feedback and Support
 
-        - Feedback is welcome through GitHub or Discord links on the right.
-        - This mod took many months to overcome many obstacles in game code.
-        - If you like free mods made with love and lots of late night coffee, give a Like :)
+- Feedback is welcome through GitHub or Discord links on the right.
+- This mod took many months to overcome many obstacles in game code.
+- If you like free mods made with love and lots of late night coffee, give a Like :)
 
-        ### Credits
-        - River-Mochi - modder/maintainer
-        - Flashbond - collab, tech feedback, testing
-        - yenyang - collab, tech feedback, testing
-        - StarQ - tech feedback, testing
-        - gagaxm - feature idea, testing
-        - Dx, Necko1996, Noel, BugsyG, ElGendo87 - testing
+### Credits
+- River-Mochi - modder/maintainer
+- Flashbond - collab, tech feedback, testing
+- yenyang - collab, tech feedback, testing
+- StarQ - tech feedback, testing
+- gagaxm - feature idea, testing
+- Dx, Necko1996, Noel, BugsyG, ElGendo87 - testing
 
 
-        14 Languages
-        English, Français, Deutsch, Español, Italiano, Polski
-        简体中文 , 한국어, Português Brasil, 繁體中文 , 日本語
-        Thai ภาษาไทย, Vietnamese Tiếng Việt, Turkish Türkçe
+14 Languages
+English, Français, Deutsch, Español, Italiano, Polski
+简体中文 , 한국어, Português Brasil, 繁體中文 , 日本語
+WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turkish Türkçe
 
-    </LongDescription>
+</LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail-HC02.jpg" />
 	<!--Screenshot, can be set multiple times-->
@@ -62,7 +62,7 @@
     <Screenshot Value="Properties/20-image-ColorPicker.jpg" />
     <Screenshot Value="Properties/25-image-DistrictColorPicker.jpg" />
     <Screenshot Value="Properties/30-image-Guidelines.jpg" />
-    <Screenshot Value="Properties/40-image-Districts.jpg" />
+    <Screenshot Value="Properties/50-image-Districts.jpg" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="" />
 	<!--Link to the forum post where the mod can be discussed-->

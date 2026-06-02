@@ -20,10 +20,10 @@
     --hc-panel-width: 238rem;
     --hc-panel-alpha-top: 0.32;
     --hc-panel-alpha-bottom: 0.24;
-    // Title knobs. Keep nowrap on the title; tune these if the title is
+    // Title knobs. Keep nowrap on; tune if the title is
     // too wide after changing --hc-panel-width.
     --hc-title-font-size: 12rem;
-    --hc-title-letter-spacing: 0.75rem;
+    --hc-title-letter-spacing: 0.80rem;
     --hc-title-word-spacing: 1.7rem;
 
     position: relative;
@@ -653,7 +653,7 @@
     // Whole-button selected outline. Increase the first 1.2rem for a thicker
     // outline; increase 0.78 for stronger cyan. The second shadow is soft glow.
     box-shadow:
-        0 0 0 1.2rem rgba(84, 215, 255, 0.15),
+        0 0 0 1.2rem rgba(84, 215, 255, 0.30),
         0 0 4rem rgba(84, 215, 255, 0.34);
 }
 
@@ -766,7 +766,7 @@
     position: absolute;
     right: 8rem;
     bottom: 0.5rem;
-    width: 21rem;
+    width: 20rem;
     height: 10rem;
     display: flex;
     align-items: center;
