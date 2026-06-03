@@ -77,11 +77,17 @@ namespace HoverColors.Localization
                     "둘 다 써 보고 마음에 드는 쪽을 고르세요. 게임 UI가 아니라 이 모드 패널 배경만 바뀝니다."
                 },
                 
-                // Guidelines color preset
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineColorPreset)), "Guidelines color" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineColorPreset)),
-                    "Sets the base color used by vanilla guideline overlays.\n\n" +
-                    "The in-city guideline swatch switches this to <Custom>.\n" +
+                // Guidelines color presets
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineLinesColorPreset)), "Guide/snap line color" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineLinesColorPreset)),
+                    "Sets the color for snap/telegraph guide lines, like helper lines that point toward nearby roads.\n\n" +
+                    "The in-city guide-line swatch switches this to <Custom>.\n" +
+                    "Low-priority guide circles keep vanilla RGB and follow the opacity slider."
+                },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)), "Road/tool preview overlay color" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)),
+                    "Sets the color for the preview overlay body used by roads and some tool previews.\n\n" +
+                    "The in-city preview swatch switches this to <Custom>.\n" +
                     "Positive feedback stays vanilla green so valid placement is still clear."
                 },
                 { m_Settings.GetGuidelineColorPresetLocaleID("Vanilla"), "Vanilla" },

@@ -5,7 +5,7 @@
 //   - Outline row: icon (resets + shows vanilla-active indicator bar) + color swatch
 //     + preset slots 1/2 (tap=apply, hold 0.7s=save) + preset reset icon
 //   - Fill row: icon-led slider
-//   - Guidelines row: reset icon + color swatch + opacity slider
+//   - Guidelines row: reset icon + 2 compact color swatches + opacity slider
 //   - Bottom: surface overlay toggle + District color picker
 
 import React from "react";
@@ -38,9 +38,12 @@ const districtR$ = bindValue<number>(CHANNEL, "DistrictR", 128 / 255);
 const districtG$ = bindValue<number>(CHANNEL, "DistrictG", 128 / 255);
 const districtB$ = bindValue<number>(CHANNEL, "DistrictB", 128 / 255);
 const districtA$ = bindValue<number>(CHANNEL, "DistrictA", 64 / 255);
-const guidelineColorR$ = bindValue<number>(CHANNEL, "GuidelineColorR", 0.7);
-const guidelineColorG$ = bindValue<number>(CHANNEL, "GuidelineColorG", 0.7);
-const guidelineColorB$ = bindValue<number>(CHANNEL, "GuidelineColorB", 1);
+const guidelineLinesColorR$ = bindValue<number>(CHANNEL, "GuidelineLinesColorR", 0.7);
+const guidelineLinesColorG$ = bindValue<number>(CHANNEL, "GuidelineLinesColorG", 0.7);
+const guidelineLinesColorB$ = bindValue<number>(CHANNEL, "GuidelineLinesColorB", 1);
+const guidelinePreviewColorR$ = bindValue<number>(CHANNEL, "GuidelinePreviewColorR", 0.7);
+const guidelinePreviewColorG$ = bindValue<number>(CHANNEL, "GuidelinePreviewColorG", 0.7);
+const guidelinePreviewColorB$ = bindValue<number>(CHANNEL, "GuidelinePreviewColorB", 1);
 const guidelineOpacity$ = bindValue<number>(CHANNEL, "GuidelineOpacityPercent", 30);
 const panelTooltipsEnabled$ = bindValue<boolean>(CHANNEL, "PanelTooltipsEnabled", true);
 const useDarkerPanel$ = bindValue<boolean>(CHANNEL, "UseDarkerPanel", false);
@@ -88,10 +91,16 @@ export const MochiColorPickerPanel = () => {
         a: useValue(districtA$),
     };
     const boundGuideline = useValue(guidelineOpacity$);
-    const boundGuidelineColor: Color = {
-        r: useValue(guidelineColorR$),
-        g: useValue(guidelineColorG$),
-        b: useValue(guidelineColorB$),
+    const boundGuidelineLinesColor: Color = {
+        r: useValue(guidelineLinesColorR$),
+        g: useValue(guidelineLinesColorG$),
+        b: useValue(guidelineLinesColorB$),
+        a: boundGuideline / 100,
+    };
+    const boundGuidelinePreviewColor: Color = {
+        r: useValue(guidelinePreviewColorR$),
+        g: useValue(guidelinePreviewColorG$),
+        b: useValue(guidelinePreviewColorB$),
         a: boundGuideline / 100,
     };
     const useDarkerPanel = useValue(useDarkerPanel$);
@@ -146,6 +155,7 @@ export const MochiColorPickerPanel = () => {
             tooltipDraggable: l("HoverColors.UI.Tooltip.Draggable"),
             tooltipFillOpacity: l("HoverColors.UI.Tooltip.FillOpacity"),
             tooltipGuidelinesColor: l("HoverColors.UI.Tooltip.GuidelinesColor"),
+            tooltipGuidelinesPreviewColor: l("HoverColors.UI.Tooltip.GuidelinesPreviewColor"),
             tooltipGuidelinesOpacity: l("HoverColors.UI.Tooltip.GuidelinesOpacity"),
             tooltipInfo: l("HoverColors.UI.Tooltip.Info"),
             tooltipOutlineSwatch: l("HoverColors.UI.Tooltip.OutlineSwatch"),
@@ -163,14 +173,17 @@ export const MochiColorPickerPanel = () => {
     const [outline, setOutline] = React.useState<Color>(boundOutline);
     const [fillA, setFillA] = React.useState<number>(boundFillA);
     const [districtColor, setDistrictColor] = React.useState<Color>(boundDistrict);
-    const [guidelineColor, setGuidelineColor] = React.useState<Color>(boundGuidelineColor);
+    const [guidelineLinesColor, setGuidelineLinesColor] = React.useState<Color>(boundGuidelineLinesColor);
+    const [guidelinePreviewColor, setGuidelinePreviewColor] = React.useState<Color>(boundGuidelinePreviewColor);
     const [guidelineOpacity, setGuidelineOpacity] = React.useState<number>(boundGuideline);
     const [panelOffset, setPanelOffset] = React.useState({ x: 0, y: 0 });
     const [panelDragging, setPanelDragging] = React.useState(false);
     const [colorPickerDirection, setColorPickerDirection] = React.useState<"up" | "down">("down");
-    const [guidelinePickerDirection, setGuidelinePickerDirection] = React.useState<"up" | "down">("up");
+    const [guidelineLinesPickerDirection, setGuidelineLinesPickerDirection] = React.useState<"up" | "down">("up");
+    const [guidelinePreviewPickerDirection, setGuidelinePreviewPickerDirection] = React.useState<"up" | "down">("up");
     const [districtPickerDirection, setDistrictPickerDirection] = React.useState<"up" | "down">("up");
-    const [guidelinePickerOpen, setGuidelinePickerOpen] = React.useState(false);
+    const [guidelineLinesPickerOpen, setGuidelineLinesPickerOpen] = React.useState(false);
+    const [guidelinePreviewPickerOpen, setGuidelinePreviewPickerOpen] = React.useState(false);
     const [districtPickerOpen, setDistrictPickerOpen] = React.useState(false);
     const [pendingDistrictToolOpen, setPendingDistrictToolOpen] = React.useState(false);
     // ColorField can swallow hover events; React state keeps the swatch ring reliable.
@@ -188,7 +201,8 @@ export const MochiColorPickerPanel = () => {
     const holdRafRef = React.useRef<number | null>(null);
 
     const outlineSwatchRef = React.useRef<HTMLDivElement | null>(null);
-    const guidelinePickerRef = React.useRef<HTMLDivElement | null>(null);
+    const guidelineLinesPickerRef = React.useRef<HTMLDivElement | null>(null);
+    const guidelinePreviewPickerRef = React.useRef<HTMLDivElement | null>(null);
     const districtPickerRef = React.useRef<HTMLDivElement | null>(null);
     const areaPanelOpenTimerRef = React.useRef<number | null>(null);
     const districtToolOpenTimeoutRef = React.useRef<number | null>(null);
@@ -208,8 +222,10 @@ export const MochiColorPickerPanel = () => {
     React.useEffect(() => { setFillA(boundFillA); }, [boundFillA]);
     React.useEffect(() => { setDistrictColor(boundDistrict); },
         [boundDistrict.r, boundDistrict.g, boundDistrict.b, boundDistrict.a]);
-    React.useEffect(() => { setGuidelineColor(boundGuidelineColor); },
-        [boundGuidelineColor.r, boundGuidelineColor.g, boundGuidelineColor.b, boundGuidelineColor.a]);
+    React.useEffect(() => { setGuidelineLinesColor(boundGuidelineLinesColor); },
+        [boundGuidelineLinesColor.r, boundGuidelineLinesColor.g, boundGuidelineLinesColor.b, boundGuidelineLinesColor.a]);
+    React.useEffect(() => { setGuidelinePreviewColor(boundGuidelinePreviewColor); },
+        [boundGuidelinePreviewColor.r, boundGuidelinePreviewColor.g, boundGuidelinePreviewColor.b, boundGuidelinePreviewColor.a]);
     React.useEffect(() => { setGuidelineOpacity(boundGuideline); }, [boundGuideline]);
 
     React.useEffect(() => {
@@ -217,7 +233,7 @@ export const MochiColorPickerPanel = () => {
             return;
         }
 
-        const compactPickerOpen = districtPickerOpen || guidelinePickerOpen;
+        const compactPickerOpen = districtPickerOpen || guidelineLinesPickerOpen || guidelinePreviewPickerOpen;
         document.body.classList.toggle(COMPACT_PICKER_BODY_CLASS, compactPickerOpen);
 
         if (!compactPickerOpen) {
@@ -234,14 +250,16 @@ export const MochiColorPickerPanel = () => {
             // Keep scoped CSS mode in sync without touching picker internals.
             if (
                 districtPickerRef.current?.contains(target)
-                || guidelinePickerRef.current?.contains(target)
+                || guidelineLinesPickerRef.current?.contains(target)
+                || guidelinePreviewPickerRef.current?.contains(target)
                 || target.closest(".color-picker-container_Sj5")
             ) {
                 return;
             }
 
             setDistrictPickerOpen(false);
-            setGuidelinePickerOpen(false);
+            setGuidelineLinesPickerOpen(false);
+            setGuidelinePreviewPickerOpen(false);
         };
 
         document.addEventListener("mousedown", onMouseDown);
@@ -249,7 +267,7 @@ export const MochiColorPickerPanel = () => {
             document.removeEventListener("mousedown", onMouseDown);
             document.body.classList.remove(COMPACT_PICKER_BODY_CLASS);
         };
-    }, [districtPickerOpen, guidelinePickerOpen]);
+    }, [districtPickerOpen, guidelineLinesPickerOpen, guidelinePreviewPickerOpen]);
 
     React.useEffect(() => () => {
         if (areaPanelOpenTimerRef.current != null) {
@@ -382,81 +400,39 @@ export const MochiColorPickerPanel = () => {
         setDistrictColor(value);
         trigger(CHANNEL, "SetDistrictColor", value.r, value.g, value.b, value.a);
     };
-    const handleGuidelineColorChange = (value: Color) => {
+    const normalizeGuidelinePickerValue = (value: Color) => {
         const syncedValue = {
             ...value,
             a: Math.max(0, Math.min(1, value.a)),
         };
         const percent = Math.max(0, Math.min(100, Math.round(syncedValue.a * 100 / 5) * 5));
         syncedValue.a = percent / 100;
-        setGuidelineColor(syncedValue);
         setGuidelineOpacity(percent);
-        trigger(CHANNEL, "SetGuidelineColor", syncedValue.r, syncedValue.g, syncedValue.b, syncedValue.a);
+        return syncedValue;
+    };
+    const handleGuidelineLinesColorChange = (value: Color) => {
+        const syncedValue = normalizeGuidelinePickerValue(value);
+        setGuidelineLinesColor(syncedValue);
+        trigger(CHANNEL, "SetGuidelineLinesColor", syncedValue.r, syncedValue.g, syncedValue.b, syncedValue.a);
+    };
+    const handleGuidelinePreviewColorChange = (value: Color) => {
+        const syncedValue = normalizeGuidelinePickerValue(value);
+        setGuidelinePreviewColor(syncedValue);
+        trigger(CHANNEL, "SetGuidelinePreviewColor", syncedValue.r, syncedValue.g, syncedValue.b, syncedValue.a);
     };
     const handleGuidelineChange = (v: number) => {
         const value = Math.max(0, Math.min(100, Math.round(v / 5) * 5));
         setGuidelineOpacity(value);
-        setGuidelineColor(prev => ({ ...prev, a: value / 100 }));
+        setGuidelineLinesColor(prev => ({ ...prev, a: value / 100 }));
+        setGuidelinePreviewColor(prev => ({ ...prev, a: value / 100 }));
         trigger(CHANNEL, "SetGuidelineOpacity", value);
     };
     const handleClosePanel = () => trigger(CHANNEL, "SetPanelOpen", false);
     const handleResetOutline = () => trigger(CHANNEL, "ResetOutlineToVanilla");
     const handleResetFill = () => handleFillAChange(0);
+    const handleResetGuidelines = () => trigger(CHANNEL, "ResetGuidelines");
     const handleToggleSurfaceToolAreas = () => trigger(CHANNEL, "ToggleSurfaceToolAreas");
     const handleTogglePresetDefaults = () => trigger(CHANNEL, "TogglePresetDefaults");
-
-    // Guidelines: tap applies saved default; hold 0.7s saves current % as default.
-    const [guidelineHoldProgress, setGuidelineHoldProgress] = React.useState(0);
-    const guidelineHoldTimerRef = React.useRef<number | null>(null);
-    const guidelineHoldStartRef = React.useRef<number>(0);
-    const guidelineHoldRafRef = React.useRef<number | null>(null);
-    const [guidelineHolding, setGuidelineHolding] = React.useState(false);
-
-    const cancelGuidelineHold = React.useCallback(() => {
-        if (guidelineHoldTimerRef.current != null) { clearTimeout(guidelineHoldTimerRef.current); guidelineHoldTimerRef.current = null; }
-        if (guidelineHoldRafRef.current != null) { cancelAnimationFrame(guidelineHoldRafRef.current); guidelineHoldRafRef.current = null; }
-        setGuidelineHolding(false);
-        setGuidelineHoldProgress(0);
-    }, []);
-
-    const handleGuidelineMouseDown = (e: React.MouseEvent) => {
-        e.preventDefault();
-        cancelGuidelineHold();
-        guidelineHoldStartRef.current = performance.now();
-        setGuidelineHolding(true);
-        setGuidelineHoldProgress(0);
-        const SWEEP_DELAY = 150;
-        const HOLD_MS = 700;
-        const tick = () => {
-            const elapsed = performance.now() - guidelineHoldStartRef.current;
-            if (elapsed >= SWEEP_DELAY) {
-                const p = Math.min((elapsed - SWEEP_DELAY) / (HOLD_MS - SWEEP_DELAY), 1);
-                setGuidelineHoldProgress(p);
-                if (p < 1) guidelineHoldRafRef.current = requestAnimationFrame(tick);
-            } else {
-                guidelineHoldRafRef.current = requestAnimationFrame(tick);
-            }
-        };
-        guidelineHoldRafRef.current = requestAnimationFrame(tick);
-        guidelineHoldTimerRef.current = window.setTimeout(() => {
-            guidelineHoldTimerRef.current = null;
-            if (guidelineHoldRafRef.current != null) { cancelAnimationFrame(guidelineHoldRafRef.current); guidelineHoldRafRef.current = null; }
-            // Long press saves the current value as the personal default.
-            trigger(CHANNEL, "SaveGuidelineDefault", guidelineOpacity);
-            setGuidelineHolding(false);
-            setGuidelineHoldProgress(0);
-        }, HOLD_MS);
-    };
-
-    const handleGuidelineMouseUp = () => {
-        if (guidelineHoldTimerRef.current != null) {
-            // Short press applies the saved default.
-            clearTimeout(guidelineHoldTimerRef.current);
-            guidelineHoldTimerRef.current = null;
-            trigger(CHANNEL, "ApplyGuidelineDefault");
-        }
-        cancelGuidelineHold();
-    };
 
     // Preset hold-to-save
     const cancelHold = React.useCallback(() => {
@@ -519,11 +495,18 @@ export const MochiColorPickerPanel = () => {
         setDistrictPickerDirection(rect.top + rect.height / 2 < window.innerHeight / 2 ? "down" : "up");
     }, []);
 
-    const updateGuidelinePickerDirection = React.useCallback(() => {
-        const swatch = guidelinePickerRef.current;
+    const updateGuidelineLinesPickerDirection = React.useCallback(() => {
+        const swatch = guidelineLinesPickerRef.current;
         if (swatch == null) return;
         const rect = swatch.getBoundingClientRect();
-        setGuidelinePickerDirection(rect.top + rect.height / 2 < window.innerHeight / 2 ? "down" : "up");
+        setGuidelineLinesPickerDirection(rect.top + rect.height / 2 < window.innerHeight / 2 ? "down" : "up");
+    }, []);
+
+    const updateGuidelinePreviewPickerDirection = React.useCallback(() => {
+        const swatch = guidelinePreviewPickerRef.current;
+        if (swatch == null) return;
+        const rect = swatch.getBoundingClientRect();
+        setGuidelinePreviewPickerDirection(rect.top + rect.height / 2 < window.innerHeight / 2 ? "down" : "up");
     }, []);
 
     const openAreasToolPanel = React.useCallback(() => {
@@ -758,49 +741,72 @@ export const MochiColorPickerPanel = () => {
                             </Tooltip>
                         </div>
 
-                        {/* Guidelines: tap applies saved default; hold saves current %. */}
+                        {/* Guidelines: icon resets both guideline colors + opacity. */}
                         <div className={styles.controlRow}>
                             <Tooltip tooltip={tt(text.tooltipResetGuidelines)}>
                                 <button
                                     type="button"
                                     className={styles.controlIconButton}
-                                    onMouseDown={handleGuidelineMouseDown}
-                                    onMouseUp={handleGuidelineMouseUp}
-                                    onMouseLeave={cancelGuidelineHold}
+                                    onClick={handleResetGuidelines}
                                 >
                                     <img src={guidelinesIconSrc} className={`${styles.controlIcon} ${styles.idleIcon} ${styles.guidelinesIcon}`} alt="" />
-                                    {guidelineHolding && guidelineHoldProgress > 0 && (
-                                        <span className={styles.guidelineHoldBar} style={holdBarStyle(guidelineHoldProgress)} />
-                                    )}
                                 </button>
                             </Tooltip>
                             <div className={`${styles.controlBody} ${styles.guidelineControlBody}`}>
-                                <Tooltip tooltip={tt(text.tooltipGuidelinesColor)}>
-                                    <div
-                                        ref={guidelinePickerRef}
-                                        className={styles.guidelineColorShell}
-                                        onMouseOver={updateGuidelinePickerDirection}
-                                        onMouseDown={updateGuidelinePickerDirection}
-                                    >
-                                        <ColorField
-                                            focusKey={focusDisabled}
-                                            className={styles.guidelineColorField}
-                                            value={guidelineColor}
-                                            alpha={true}
-                                            popupDirection={guidelinePickerDirection}
-                                            hideHint={true}
-                                            hexInput={true}
-                                            colorWheel={false}
-                                            onChange={handleGuidelineColorChange}
-                                            onOpenPicker={() => {
-                                                setGuidelinePickerOpen(true);
-                                                updateGuidelinePickerDirection();
-                                            }}
-                                            onClosePicker={() => setGuidelinePickerOpen(false)}
-                                        />
-                                        <span className={styles.guidelineColorHoverRing} aria-hidden="true" />
-                                    </div>
-                                </Tooltip>
+                                <div className={styles.guidelineSwatches}>
+                                    <Tooltip tooltip={tt(text.tooltipGuidelinesColor)}>
+                                        <div
+                                            ref={guidelineLinesPickerRef}
+                                            className={styles.guidelineColorShell}
+                                            onMouseOver={updateGuidelineLinesPickerDirection}
+                                            onMouseDown={updateGuidelineLinesPickerDirection}
+                                        >
+                                            <ColorField
+                                                focusKey={focusDisabled}
+                                                className={styles.guidelineColorField}
+                                                value={guidelineLinesColor}
+                                                alpha={true}
+                                                popupDirection={guidelineLinesPickerDirection}
+                                                hideHint={true}
+                                                hexInput={true}
+                                                colorWheel={false}
+                                                onChange={handleGuidelineLinesColorChange}
+                                                onOpenPicker={() => {
+                                                    setGuidelineLinesPickerOpen(true);
+                                                    updateGuidelineLinesPickerDirection();
+                                                }}
+                                                onClosePicker={() => setGuidelineLinesPickerOpen(false)}
+                                            />
+                                            <span className={styles.guidelineColorHoverRing} aria-hidden="true" />
+                                        </div>
+                                    </Tooltip>
+                                    <Tooltip tooltip={tt(text.tooltipGuidelinesPreviewColor)}>
+                                        <div
+                                            ref={guidelinePreviewPickerRef}
+                                            className={`${styles.guidelineColorShell} ${styles.guidelinePreviewColorShell}`}
+                                            onMouseOver={updateGuidelinePreviewPickerDirection}
+                                            onMouseDown={updateGuidelinePreviewPickerDirection}
+                                        >
+                                            <ColorField
+                                                focusKey={focusDisabled}
+                                                className={styles.guidelineColorField}
+                                                value={guidelinePreviewColor}
+                                                alpha={true}
+                                                popupDirection={guidelinePreviewPickerDirection}
+                                                hideHint={true}
+                                                hexInput={true}
+                                                colorWheel={false}
+                                                onChange={handleGuidelinePreviewColorChange}
+                                                onOpenPicker={() => {
+                                                    setGuidelinePreviewPickerOpen(true);
+                                                    updateGuidelinePreviewPickerDirection();
+                                                }}
+                                                onClosePicker={() => setGuidelinePreviewPickerOpen(false)}
+                                            />
+                                            <span className={styles.guidelineColorHoverRing} aria-hidden="true" />
+                                        </div>
+                                    </Tooltip>
+                                </div>
                                 <Tooltip tooltip={tt(text.tooltipGuidelinesOpacity)}>
                                     <div className={`${styles.sliderRow} ${styles.guidelineSliderRow}`}>
                                         <Slider

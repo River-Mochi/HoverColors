@@ -37,9 +37,12 @@ namespace HoverColors.UI
         private ValueBinding<float> m_DistrictGBinding = null!;
         private ValueBinding<float> m_DistrictBBinding = null!;
         private ValueBinding<float> m_DistrictABinding = null!;
-        private ValueBinding<float> m_GuidelineColorRBinding = null!;
-        private ValueBinding<float> m_GuidelineColorGBinding = null!;
-        private ValueBinding<float> m_GuidelineColorBBinding = null!;
+        private ValueBinding<float> m_GuidelineLinesColorRBinding = null!;
+        private ValueBinding<float> m_GuidelineLinesColorGBinding = null!;
+        private ValueBinding<float> m_GuidelineLinesColorBBinding = null!;
+        private ValueBinding<float> m_GuidelinePreviewColorRBinding = null!;
+        private ValueBinding<float> m_GuidelinePreviewColorGBinding = null!;
+        private ValueBinding<float> m_GuidelinePreviewColorBBinding = null!;
         private ValueBinding<int> m_GuidelineOpacityBinding = null!;
         private ValueBinding<int> m_GuidelineDefaultBinding = null!;
         private ValueBinding<bool> m_PanelOpenBinding = null!;
@@ -135,16 +138,33 @@ namespace HoverColors.UI
 
             AddBinding(new TriggerBinding<float, float, float, float>(
                 Mod.ModId,
-                "SetGuidelineColor",
+                "SetGuidelineLinesColor",
                 (r, g, b, a) =>
                 {
                     HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
 
-                    settings.GuidelineColorPreset = HoverColorsSettings.GuidelineColorPresetCustom;
-                    settings.GuidelineR = Math.Max(0f, Math.Min(1f, r));
-                    settings.GuidelineG = Math.Max(0f, Math.Min(1f, g));
-                    settings.GuidelineB = Math.Max(0f, Math.Min(1f, b));
+                    settings.GuidelineLinesColorPreset = HoverColorsSettings.GuidelineColorPresetCustom;
+                    settings.GuidelineLinesR = Math.Max(0f, Math.Min(1f, r));
+                    settings.GuidelineLinesG = Math.Max(0f, Math.Min(1f, g));
+                    settings.GuidelineLinesB = Math.Max(0f, Math.Min(1f, b));
+                    settings.GuidelineOpacityPercent = Math.Max(0, Math.Min(100, (int)Math.Round(a * 100f)));
+                    settings.ApplyAndSave();
+                    SyncValueBindings();
+                }));
+
+            AddBinding(new TriggerBinding<float, float, float, float>(
+                Mod.ModId,
+                "SetGuidelinePreviewColor",
+                (r, g, b, a) =>
+                {
+                    HoverColorsSettings? settings = Mod.Settings;
+                    if (settings == null) return;
+
+                    settings.GuidelinePreviewColorPreset = HoverColorsSettings.GuidelineColorPresetCustom;
+                    settings.GuidelinePreviewR = Math.Max(0f, Math.Min(1f, r));
+                    settings.GuidelinePreviewG = Math.Max(0f, Math.Min(1f, g));
+                    settings.GuidelinePreviewB = Math.Max(0f, Math.Min(1f, b));
                     settings.GuidelineOpacityPercent = Math.Max(0, Math.Min(100, (int)Math.Round(a * 100f)));
                     settings.ApplyAndSave();
                     SyncValueBindings();
@@ -332,29 +352,27 @@ namespace HoverColors.UI
                     SyncValueBindings();
                 }));
 
-            // Apply the player's saved guideline default (tap on guideline icon button).
+            // Reset guideline colors + opacity from the city icon button.
             AddBinding(new TriggerBinding(
                 Mod.ModId,
-                "ApplyGuidelineDefault",
+                "ResetGuidelines",
                 () =>
                 {
                     HoverColorsSettings? settings = Mod.Settings;
                     if (settings == null) return;
-                    int clamped = Math.Max(0, Math.Min(100, settings.GuidelineDefaultPercent));
-                    settings.GuidelineOpacityPercent = clamped;
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
 
-            // Save the current slider value as the player's personal guideline default (hold on guideline icon).
-            AddBinding(new TriggerBinding<int>(
-                Mod.ModId,
-                "SaveGuidelineDefault",
-                percent =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-                    settings.GuidelineDefaultPercent = Math.Max(0, Math.Min(100, percent));
+                    UnityEngine.Color lines = GuidelineColorSystem.CapturedVanillaGuidelineLinesColor;
+                    UnityEngine.Color preview = GuidelineColorSystem.CapturedVanillaGuidelinePreviewColor;
+                    settings.GuidelineLinesColorPreset = HoverColorsSettings.GuidelineColorPresetVanilla;
+                    settings.GuidelineLinesR = lines.r;
+                    settings.GuidelineLinesG = lines.g;
+                    settings.GuidelineLinesB = lines.b;
+                    settings.GuidelinePreviewColorPreset = HoverColorsSettings.GuidelineColorPresetVanilla;
+                    settings.GuidelinePreviewR = preview.r;
+                    settings.GuidelinePreviewG = preview.g;
+                    settings.GuidelinePreviewB = preview.b;
+                    settings.GuidelineDefaultPercent = HoverColorsSettings.DefaultGuidelineOpacityPercent;
+                    settings.GuidelineOpacityPercent = HoverColorsSettings.DefaultGuidelineOpacityPercent;
                     settings.ApplyAndSave();
                     SyncValueBindings();
                 }));
@@ -434,10 +452,14 @@ namespace HoverColors.UI
             m_DistrictGBinding = AddValueBinding("DistrictG", settings?.DistrictG ?? 128f / 255f);
             m_DistrictBBinding = AddValueBinding("DistrictB", settings?.DistrictB ?? 128f / 255f);
             m_DistrictABinding = AddValueBinding("DistrictA", settings?.DistrictA ?? 64f / 255f);
-            UnityEngine.Color guidelineColor = GuidelineColorSystem.GetGuidelineColor(settings);
-            m_GuidelineColorRBinding = AddValueBinding("GuidelineColorR", guidelineColor.r);
-            m_GuidelineColorGBinding = AddValueBinding("GuidelineColorG", guidelineColor.g);
-            m_GuidelineColorBBinding = AddValueBinding("GuidelineColorB", guidelineColor.b);
+            UnityEngine.Color guidelineLinesColor = GuidelineColorSystem.GetGuidelineLinesColor(settings);
+            UnityEngine.Color guidelinePreviewColor = GuidelineColorSystem.GetGuidelinePreviewColor(settings);
+            m_GuidelineLinesColorRBinding = AddValueBinding("GuidelineLinesColorR", guidelineLinesColor.r);
+            m_GuidelineLinesColorGBinding = AddValueBinding("GuidelineLinesColorG", guidelineLinesColor.g);
+            m_GuidelineLinesColorBBinding = AddValueBinding("GuidelineLinesColorB", guidelineLinesColor.b);
+            m_GuidelinePreviewColorRBinding = AddValueBinding("GuidelinePreviewColorR", guidelinePreviewColor.r);
+            m_GuidelinePreviewColorGBinding = AddValueBinding("GuidelinePreviewColorG", guidelinePreviewColor.g);
+            m_GuidelinePreviewColorBBinding = AddValueBinding("GuidelinePreviewColorB", guidelinePreviewColor.b);
             m_GuidelineOpacityBinding = AddValueBinding("GuidelineOpacityPercent", settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             m_GuidelineDefaultBinding = AddValueBinding("GuidelineDefaultPercent", settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             m_PanelOpenBinding = AddValueBinding("PanelOpen", s_PanelOpen);
@@ -480,10 +502,14 @@ namespace HoverColors.UI
             UpdateIfChanged(m_DistrictGBinding, settings?.DistrictG ?? 128f / 255f);
             UpdateIfChanged(m_DistrictBBinding, settings?.DistrictB ?? 128f / 255f);
             UpdateIfChanged(m_DistrictABinding, settings?.DistrictA ?? 64f / 255f);
-            UnityEngine.Color guidelineColor = GuidelineColorSystem.GetGuidelineColor(settings);
-            UpdateIfChanged(m_GuidelineColorRBinding, guidelineColor.r);
-            UpdateIfChanged(m_GuidelineColorGBinding, guidelineColor.g);
-            UpdateIfChanged(m_GuidelineColorBBinding, guidelineColor.b);
+            UnityEngine.Color guidelineLinesColor = GuidelineColorSystem.GetGuidelineLinesColor(settings);
+            UnityEngine.Color guidelinePreviewColor = GuidelineColorSystem.GetGuidelinePreviewColor(settings);
+            UpdateIfChanged(m_GuidelineLinesColorRBinding, guidelineLinesColor.r);
+            UpdateIfChanged(m_GuidelineLinesColorGBinding, guidelineLinesColor.g);
+            UpdateIfChanged(m_GuidelineLinesColorBBinding, guidelineLinesColor.b);
+            UpdateIfChanged(m_GuidelinePreviewColorRBinding, guidelinePreviewColor.r);
+            UpdateIfChanged(m_GuidelinePreviewColorGBinding, guidelinePreviewColor.g);
+            UpdateIfChanged(m_GuidelinePreviewColorBBinding, guidelinePreviewColor.b);
             UpdateIfChanged(m_GuidelineOpacityBinding, settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             UpdateIfChanged(m_GuidelineDefaultBinding, settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             UpdateIfChanged(m_PanelOpenBinding, s_PanelOpen);

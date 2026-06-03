@@ -9,12 +9,13 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Dış çizgi: renk + opaklık için tıkla.",
   "HoverColors.UI.Tooltip.ResetFill": "Dolgu: 0%'a sıfırlamak için tıkla (oyun varsayılanı).",
   "HoverColors.UI.Tooltip.FillOpacity": "Dış çizginin içindeki dolgu alanının opaklığı.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Kılavuz çizgi opaklığı. Değişiklikler otomatik kaydedilir. Kayıtlı varsayılana dönmek için simgeye dokun. Mevcut değeri varsayılan yapmak için basılı tut.",
-  "HoverColors.UI.Tooltip.GuidelinesColor": "Guidelines color + opacity. Alpha also syncs with the slider.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline colors and opacity to defaults.",
+  "HoverColors.UI.Tooltip.GuidelinesColor": "Guide/snap line color. Alpha also syncs with the slider.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Kılavuz çizgi opaklığı. 15% altı önerilmez, çünkü kılavuzları görmek zorlaşabilir.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Surface aracı sınır önizleme dolgusunu gizle.\nVarsayılan kısayol: L.",
   "HoverColors.UI.Tooltip.Preset1": "Yuva 1 — uygulamak için dokun, mevcut renginle üzerine yazmak için 0,8 sn basılı tut.\nK kısayolu yuva 1 ile yuva 2 arasında geçiş yapar.",
   "HoverColors.UI.Tooltip.Preset2": "Yuva 2 — uygulamak için dokun, mevcut renginle üzerine yazmak için 0,8 sn basılı tut.\nK kısayolu yuva 1 ile yuva 2 arasında geçiş yapar.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1. tıklama: iki preset yuvasını mod varsayılanlarına sıfırlar.\n↺ 2. tıklama: önceki renklerini geri yükler.\nZaten varsayılandaysa hiçbir şey yapmaz.",
-  "HoverColors.UI.Tooltip.DistrictColors": "District kaplama dolgusu ve sınır çizgisi rengi/opaklığı için tıkla."
+  "HoverColors.UI.Tooltip.DistrictColors": "District kaplama dolgusu ve sınır çizgisi rengi/opaklığı için tıkla.",
+  "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Road/tool preview overlay color. Alpha also syncs with the slider."
 }

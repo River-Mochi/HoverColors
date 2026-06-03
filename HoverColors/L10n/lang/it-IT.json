@@ -9,12 +9,13 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Contorno: clic per colore + opacità.",
   "HoverColors.UI.Tooltip.ResetFill": "Riempimento: clic per ripristinare a 0% (predefinito del gioco).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacità dell’area di riempimento dentro il contorno.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Opacità delle guide. Le modifiche si salvano automaticamente. Tocca l’icona per ripristinare il default salvato. Tieni premuto per salvare il valore attuale come default.",
-  "HoverColors.UI.Tooltip.GuidelinesColor": "Guidelines color + opacity. Alpha also syncs with the slider.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline colors and opacity to defaults.",
+  "HoverColors.UI.Tooltip.GuidelinesColor": "Guide/snap line color. Alpha also syncs with the slider.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Opacità delle linee guida. Sotto il 15% non è consigliato perché le guide possono diventare difficili da vedere.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Nasconde il riempimento dell’anteprima dei confini dello strumento Surface.\nTasto rapido predefinito: L.",
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — tocca per applicare, tieni premuto 0,8 s per sovrascrivere con il colore attuale.\nIl tasto K alterna tra slot 1 e slot 2.",
   "HoverColors.UI.Tooltip.Preset2": "Slot 2 — tocca per applicare, tieni premuto 0,8 s per sovrascrivere con il colore attuale.\nIl tasto K alterna tra slot 1 e slot 2.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1° clic: ripristina entrambi gli slot preset ai default del mod.\n↺ 2° clic: ripristina i colori precedenti.\nSe sono già ai default, non fa nulla.",
-  "HoverColors.UI.Tooltip.DistrictColors": "Clic per riempimento overlay dei distretti e colore/opacità della linea di confine."
+  "HoverColors.UI.Tooltip.DistrictColors": "Clic per riempimento overlay dei distretti e colore/opacità della linea di confine.",
+  "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Road/tool preview overlay color. Alpha also syncs with the slider."
 }

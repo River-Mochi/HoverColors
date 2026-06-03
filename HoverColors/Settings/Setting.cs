@@ -46,11 +46,10 @@ namespace HoverColors.Settings
         public const int GuidelineColorPresetCustom = 4;
 
         // Centralised default for the guideline opacity slider.
-        // Vanilla CS2 is 100; lower = more transparent. Change only here — C# UISystem and TSX both read this.
+        // Vanilla CS2 is 100; lower = more transparent. Keep TSX fallback bindings in sync.
         public const int DefaultGuidelineOpacityPercent = 30;
 
-        // Player's personal guideline default (tap on guideline icon applies this; hold overwrites it).
-        // Starts at DefaultGuidelineOpacityPercent; persists to .coc so it survives game restarts.
+        // Kept for old local test .coc files. The city icon now resets guidelines to mod defaults.
         public int GuidelineDefaultPercent { get; set; }
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
@@ -140,14 +139,17 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public float Preset2FillA { get; set; }
 
-        // Guideline opacity saved per outline preset; guideline RGB stays independent.
+        // Guideline opacity saved per outline preset; guideline colors stay independent.
         [SettingsUIHidden]
         public int Preset1GuidelinePercent { get; set; }
 
         [SettingsUIHidden]
         public int Preset2GuidelinePercent { get; set; }
 
-        // Custom guideline RGB. Only used when GuidelineColorPreset is Custom.
+        // Legacy single guideline color from the first guideline-color test branch.
+        [SettingsUIHidden]
+        public int GuidelineColorPreset { get; set; }
+
         [SettingsUIHidden]
         public float GuidelineR { get; set; }
 
@@ -156,6 +158,26 @@ namespace HoverColors.Settings
 
         [SettingsUIHidden]
         public float GuidelineB { get; set; }
+
+        // Guide/snap telegraph lines (GuideLineSettingsData.m_HighPriorityColor).
+        [SettingsUIHidden]
+        public float GuidelineLinesR { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineLinesG { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineLinesB { get; set; }
+
+        // Road/tool preview overlay body (GuideLineSettingsData.m_MediumPriorityColor).
+        [SettingsUIHidden]
+        public float GuidelinePreviewR { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelinePreviewG { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelinePreviewB { get; set; }
 
         // In-city info button preference. Hidden from Options UI; persisted here so
         // "tooltips off" survives closing/reopening the panel and game restarts.
@@ -199,7 +221,11 @@ namespace HoverColors.Settings
 
         [SettingsUIDropdown(typeof(HoverColorsSettings), nameof(GetGuidelineColorPresetItems))]
         [SettingsUISection(Actions, Guidelines)]
-        public int GuidelineColorPreset { get; set; }
+        public int GuidelineLinesColorPreset { get; set; }
+
+        [SettingsUIDropdown(typeof(HoverColorsSettings), nameof(GetGuidelineColorPresetItems))]
+        [SettingsUISection(Actions, Guidelines)]
+        public int GuidelinePreviewColorPreset { get; set; }
 
         [SettingsUISlider(min = 0, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(Actions, Guidelines)]
@@ -301,6 +327,14 @@ namespace HoverColors.Settings
             GuidelineR = 0.7f;
             GuidelineG = 0.7f;
             GuidelineB = 1f;
+            GuidelineLinesColorPreset = GuidelineColorPresetVanilla;
+            GuidelineLinesR = 0.7f;
+            GuidelineLinesG = 0.7f;
+            GuidelineLinesB = 1f;
+            GuidelinePreviewColorPreset = GuidelineColorPresetVanilla;
+            GuidelinePreviewR = 0.7f;
+            GuidelinePreviewG = 0.7f;
+            GuidelinePreviewB = 1f;
             PanelTooltipsEnabled = true;
             SurfaceToolAreasSuppressed = true;
 

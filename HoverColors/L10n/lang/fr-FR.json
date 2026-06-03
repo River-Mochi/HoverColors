@@ -9,12 +9,13 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Contour : cliquer pour couleur + opacité.",
   "HoverColors.UI.Tooltip.ResetFill": "Remplissage : cliquer pour remettre à 0% (valeur par défaut du jeu).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacité de la zone de remplissage à l’intérieur du contour.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Opacité des repères. Les changements sont enregistrés automatiquement. Appuie sur l’icône pour restaurer ton défaut enregistré. Maintiens pour enregistrer la valeur actuelle comme défaut.",
-  "HoverColors.UI.Tooltip.GuidelinesColor": "Guidelines color + opacity. Alpha also syncs with the slider.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline colors and opacity to defaults.",
+  "HoverColors.UI.Tooltip.GuidelinesColor": "Guide/snap line color. Alpha also syncs with the slider.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Opacité des repères. Sous 15%, ce n’est pas conseillé car les repères peuvent devenir difficiles à voir.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Masque le remplissage de l’aperçu des limites de l’outil Surface.\nRaccourci par défaut : L.",
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — appuyer pour appliquer, maintenir 0,8 s pour écraser avec la couleur actuelle.\nLa touche K alterne entre le slot 1 et le slot 2.",
   "HoverColors.UI.Tooltip.Preset2": "Slot 2 — appuyer pour appliquer, maintenir 0,8 s pour écraser avec la couleur actuelle.\nLa touche K alterne entre le slot 1 et le slot 2.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1er clic : réinitialise les deux slots de préréglage aux valeurs par défaut du mod.\n↺ 2e clic : restaure les couleurs précédentes.\nSi les valeurs par défaut sont déjà actives, ne fait rien.",
-  "HoverColors.UI.Tooltip.DistrictColors": "Cliquer pour régler le remplissage de l’overlay des districts et la couleur/opacité de la ligne de limite."
+  "HoverColors.UI.Tooltip.DistrictColors": "Cliquer pour régler le remplissage de l’overlay des districts et la couleur/opacité de la ligne de limite.",
+  "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Road/tool preview overlay color. Alpha also syncs with the slider."
 }

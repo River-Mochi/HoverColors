@@ -1,7 +1,7 @@
 // File: Systems/GuidelineColorSystem.cs
-// Purpose: Apply the player's guideline color/opacity to vanilla GuideLineSettingsData.
-// The guideline overlay is what the game draws while placing roads/zones/props
-// (high/medium/low/very-low priority arrows + the positive-feedback green).
+// Purpose: Apply player guideline color/opacity to vanilla GuideLineSettingsData.
+// The game splits guideline overlays into priority colors. HC exposes only the
+// two useful player-facing groups and leaves the rest close to vanilla.
 //
 // Background: HighlightsAndGuidelinesTweaks repo pointed at GuideLineSettingsData on
 // the rendering-settings prefab. We instead write to the runtime singleton each time the slider
@@ -32,16 +32,7 @@ namespace HoverColors.Systems
         private static readonly Color SoftBlueGuidelineColor = new(0.502f, 0.869f, 1f, 1f);
         private static readonly Color HighVisibilityGuidelineColor = new(0.85f, 1f, 1f, 1f);
 
-        // TEMP probe for mapping vanilla guideline priority colors in-game.
-        // Set false after testing; normal picker/preset colors then apply to all priorities again.
-        private static readonly bool GuidelinePriorityProbeMode = true;
-        private static readonly Color ProbeVeryLowColor = new(1f, 0f, 1f, 1f);      // magenta
-        private static readonly Color ProbeLowColor = new(1f, 0.9f, 0f, 1f);        // yellow
-        private static readonly Color ProbeMediumColor = new(1f, 0.45f, 0f, 1f);    // orange
-        private static readonly Color ProbeHighColor = new(0f, 1f, 0.15f, 1f);      // bright green
-
-        // Snapshot of the game's default colors. Opacity multiplies the default alphas and
-        // custom RGB replaces only the four priority colors, not positive-feedback green.
+        // Snapshot of the game's default colors. Opacity scales default alphas.
         private Color m_DefVeryLow;
         private Color m_DefLow;
         private Color m_DefMedium;
@@ -50,14 +41,19 @@ namespace HoverColors.Systems
         private bool m_DefaultsCaptured;
         private Entity m_LastEntity = Entity.Null;
 
-        public static Color CapturedVanillaGuidelineColor { get; private set; } = FallbackVanillaGuidelineColor;
+        public static Color CapturedVanillaGuidelineLinesColor { get; private set; } = FallbackVanillaGuidelineColor;
+        public static Color CapturedVanillaGuidelinePreviewColor { get; private set; } = FallbackVanillaGuidelineColor;
 
         // Last applied values. NaN/int sentinels ensure the first apply always runs.
         private float m_LastOpacity = float.NaN;
-        private int m_LastPreset = int.MinValue;
-        private float m_LastR = float.NaN;
-        private float m_LastG = float.NaN;
-        private float m_LastB = float.NaN;
+        private int m_LastLinesPreset = int.MinValue;
+        private float m_LastLinesR = float.NaN;
+        private float m_LastLinesG = float.NaN;
+        private float m_LastLinesB = float.NaN;
+        private int m_LastPreviewPreset = int.MinValue;
+        private float m_LastPreviewR = float.NaN;
+        private float m_LastPreviewG = float.NaN;
+        private float m_LastPreviewB = float.NaN;
 
         protected override void OnCreate()
         {
@@ -75,10 +71,14 @@ namespace HoverColors.Systems
             }
 
             float opacity = Mathf.Clamp01(settings.GuidelineOpacityPercent / 100f);
-            int preset = settings.GuidelineColorPreset;
-            float customR = Mathf.Clamp01(settings.GuidelineR);
-            float customG = Mathf.Clamp01(settings.GuidelineG);
-            float customB = Mathf.Clamp01(settings.GuidelineB);
+            int linesPreset = settings.GuidelineLinesColorPreset;
+            float linesR = Mathf.Clamp01(settings.GuidelineLinesR);
+            float linesG = Mathf.Clamp01(settings.GuidelineLinesG);
+            float linesB = Mathf.Clamp01(settings.GuidelineLinesB);
+            int previewPreset = settings.GuidelinePreviewColorPreset;
+            float previewR = Mathf.Clamp01(settings.GuidelinePreviewR);
+            float previewG = Mathf.Clamp01(settings.GuidelinePreviewG);
+            float previewB = Mathf.Clamp01(settings.GuidelinePreviewB);
 
             if (m_Query.IsEmptyIgnoreFilter)
             {
@@ -92,10 +92,14 @@ namespace HoverColors.Systems
             if (m_DefaultsCaptured
                 && !entityChanged
                 && opacity == m_LastOpacity
-                && preset == m_LastPreset
-                && customR == m_LastR
-                && customG == m_LastG
-                && customB == m_LastB)
+                && linesPreset == m_LastLinesPreset
+                && linesR == m_LastLinesR
+                && linesG == m_LastLinesG
+                && linesB == m_LastLinesB
+                && previewPreset == m_LastPreviewPreset
+                && previewR == m_LastPreviewR
+                && previewG == m_LastPreviewG
+                && previewB == m_LastPreviewB)
             {
                 return;
             }
@@ -109,7 +113,8 @@ namespace HoverColors.Systems
                 m_DefMedium = data.m_MediumPriorityColor;
                 m_DefHigh = data.m_HighPriorityColor;
                 m_DefPositive = data.m_PositiveFeedbackColor;
-                CapturedVanillaGuidelineColor = WithoutAlpha(m_DefHigh);
+                CapturedVanillaGuidelineLinesColor = WithoutAlpha(m_DefHigh);
+                CapturedVanillaGuidelinePreviewColor = WithoutAlpha(m_DefMedium);
                 m_DefaultsCaptured = true;
                 m_LastEntity = entity;
                 LogUtils.Info(() => $"{Mod.ModTag} GuidelineColorSystem captured default colors " +
@@ -118,50 +123,73 @@ namespace HoverColors.Systems
                     $"P={FormatColor(m_DefPositive)}");
             }
 
-            if (GuidelinePriorityProbeMode)
-            {
-                data.m_VeryLowPriorityColor = ApplyGuidelineColor(m_DefVeryLow, ProbeVeryLowColor, opacity);
-                data.m_LowPriorityColor = ApplyGuidelineColor(m_DefLow, ProbeLowColor, opacity);
-                data.m_MediumPriorityColor = ApplyGuidelineColor(m_DefMedium, ProbeMediumColor, opacity);
-                data.m_HighPriorityColor = ApplyGuidelineColor(m_DefHigh, ProbeHighColor, opacity);
-            }
-            else
-            {
-                Color guidelineRgb = GetGuidelineColor(settings);
-                data.m_VeryLowPriorityColor = ApplyGuidelineColor(m_DefVeryLow, guidelineRgb, opacity);
-                data.m_LowPriorityColor = ApplyGuidelineColor(m_DefLow, guidelineRgb, opacity);
-                data.m_MediumPriorityColor = ApplyGuidelineColor(m_DefMedium, guidelineRgb, opacity);
-                data.m_HighPriorityColor = ApplyGuidelineColor(m_DefHigh, guidelineRgb, opacity);
-            }
+            Color linesRgb = GetGuidelineLinesColor(settings);
+            Color previewRgb = GetGuidelinePreviewColor(settings);
 
-            data.m_PositiveFeedbackColor = WithAlpha(m_DefPositive, m_DefPositive.a * opacity);
+            // Low/VeryLow are the big vanilla guide circles/arcs. Keep RGB vanilla for phase 1.
+            data.m_VeryLowPriorityColor = WithAlpha(m_DefVeryLow, m_DefVeryLow.a * opacity);
+            data.m_LowPriorityColor = WithAlpha(m_DefLow, m_DefLow.a * opacity);
+            data.m_MediumPriorityColor = ApplyGuidelineColor(m_DefMedium, previewRgb, opacity);
+            data.m_HighPriorityColor = ApplyGuidelineColor(m_DefHigh, linesRgb, opacity);
+
+            // Leave positive placement feedback fully vanilla so valid-placement green stays familiar.
+            data.m_PositiveFeedbackColor = m_DefPositive;
 
             EntityManager.SetComponentData(entity, data);
             m_LastOpacity = opacity;
-            m_LastPreset = preset;
-            m_LastR = customR;
-            m_LastG = customG;
-            m_LastB = customB;
+            m_LastLinesPreset = linesPreset;
+            m_LastLinesR = linesR;
+            m_LastLinesG = linesG;
+            m_LastLinesB = linesB;
+            m_LastPreviewPreset = previewPreset;
+            m_LastPreviewR = previewR;
+            m_LastPreviewG = previewG;
+            m_LastPreviewB = previewB;
         }
 
-        public static Color GetGuidelineColor(HoverColorsSettings? settings)
+        public static Color GetGuidelineLinesColor(HoverColorsSettings? settings)
         {
             if (settings == null)
             {
-                return CapturedVanillaGuidelineColor;
+                return CapturedVanillaGuidelineLinesColor;
             }
 
-            return settings.GuidelineColorPreset switch
+            return GetPresetColor(
+                settings.GuidelineLinesColorPreset,
+                settings.GuidelineLinesR,
+                settings.GuidelineLinesG,
+                settings.GuidelineLinesB,
+                CapturedVanillaGuidelineLinesColor);
+        }
+
+        public static Color GetGuidelinePreviewColor(HoverColorsSettings? settings)
+        {
+            if (settings == null)
+            {
+                return CapturedVanillaGuidelinePreviewColor;
+            }
+
+            return GetPresetColor(
+                settings.GuidelinePreviewColorPreset,
+                settings.GuidelinePreviewR,
+                settings.GuidelinePreviewG,
+                settings.GuidelinePreviewB,
+                CapturedVanillaGuidelinePreviewColor);
+        }
+
+        private static Color GetPresetColor(int preset, float r, float g, float b, Color vanilla)
+        {
+            return preset switch
             {
                 HoverColorsSettings.GuidelineColorPresetWhite => Color.white,
                 HoverColorsSettings.GuidelineColorPresetSoftBlue => SoftBlueGuidelineColor,
                 HoverColorsSettings.GuidelineColorPresetHighVisibility => HighVisibilityGuidelineColor,
                 HoverColorsSettings.GuidelineColorPresetCustom => new Color(
-                    Mathf.Clamp01(settings.GuidelineR),
-                    Mathf.Clamp01(settings.GuidelineG),
-                    Mathf.Clamp01(settings.GuidelineB),
+                    Mathf.Clamp01(r),
+                    Mathf.Clamp01(g),
+                    Mathf.Clamp01(b),
                     1f),
-                _ => CapturedVanillaGuidelineColor,
+                _ => vanilla,
             };
         }
 
