@@ -338,12 +338,12 @@ namespace HoverColors.Settings
             GuidelineLinesR = 0.7f;
             GuidelineLinesG = 0.7f;
             GuidelineLinesB = 1f;
-            GuidelineLinesA = DefaultGuidelineOpacityPercent / 100f;
+            GuidelineLinesA = 1f;
             GuidelinePreviewColorPreset = GuidelineColorPresetVanilla;
             GuidelinePreviewR = 0.7f;
             GuidelinePreviewG = 0.7f;
             GuidelinePreviewB = 1f;
-            GuidelinePreviewA = DefaultGuidelineOpacityPercent / 100f;
+            GuidelinePreviewA = 1f;
             PanelTooltipsEnabled = true;
             SurfaceToolAreasSuppressed = true;
 

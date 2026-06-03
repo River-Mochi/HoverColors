@@ -354,7 +354,8 @@ namespace HoverColors.UI
                     SyncValueBindings();
                 }));
 
-            // Reset guideline colors + opacity from the city icon button.
+            // Reset guideline swatch colors/alpha from the city icon button.
+            // Dashed/snap opacity stays separate so detailing preferences survive.
             AddBinding(new TriggerBinding(
                 Mod.ModId,
                 "ResetGuidelines",
@@ -369,14 +370,12 @@ namespace HoverColors.UI
                     settings.GuidelineLinesR = lines.r;
                     settings.GuidelineLinesG = lines.g;
                     settings.GuidelineLinesB = lines.b;
-                    settings.GuidelineLinesA = HoverColorsSettings.DefaultGuidelineOpacityPercent / 100f;
+                    settings.GuidelineLinesA = 1f;
                     settings.GuidelinePreviewColorPreset = HoverColorsSettings.GuidelineColorPresetVanilla;
                     settings.GuidelinePreviewR = preview.r;
                     settings.GuidelinePreviewG = preview.g;
                     settings.GuidelinePreviewB = preview.b;
-                    settings.GuidelinePreviewA = HoverColorsSettings.DefaultGuidelineOpacityPercent / 100f;
-                    settings.GuidelineDefaultPercent = HoverColorsSettings.DefaultGuidelineOpacityPercent;
-                    settings.GuidelineOpacityPercent = HoverColorsSettings.DefaultGuidelineOpacityPercent;
+                    settings.GuidelinePreviewA = 1f;
                     settings.ApplyAndSave();
                     SyncValueBindings();
                 }));
@@ -461,11 +460,11 @@ namespace HoverColors.UI
             m_GuidelineLinesColorRBinding = AddValueBinding("GuidelineLinesColorR", guidelineLinesColor.r);
             m_GuidelineLinesColorGBinding = AddValueBinding("GuidelineLinesColorG", guidelineLinesColor.g);
             m_GuidelineLinesColorBBinding = AddValueBinding("GuidelineLinesColorB", guidelineLinesColor.b);
-            m_GuidelineLinesColorABinding = AddValueBinding("GuidelineLinesColorA", settings?.GuidelineLinesA ?? HoverColorsSettings.DefaultGuidelineOpacityPercent / 100f);
+            m_GuidelineLinesColorABinding = AddValueBinding("GuidelineLinesColorA", settings?.GuidelineLinesA ?? 1f);
             m_GuidelinePreviewColorRBinding = AddValueBinding("GuidelinePreviewColorR", guidelinePreviewColor.r);
             m_GuidelinePreviewColorGBinding = AddValueBinding("GuidelinePreviewColorG", guidelinePreviewColor.g);
             m_GuidelinePreviewColorBBinding = AddValueBinding("GuidelinePreviewColorB", guidelinePreviewColor.b);
-            m_GuidelinePreviewColorABinding = AddValueBinding("GuidelinePreviewColorA", settings?.GuidelinePreviewA ?? HoverColorsSettings.DefaultGuidelineOpacityPercent / 100f);
+            m_GuidelinePreviewColorABinding = AddValueBinding("GuidelinePreviewColorA", settings?.GuidelinePreviewA ?? 1f);
             m_GuidelineOpacityBinding = AddValueBinding("GuidelineOpacityPercent", settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             m_GuidelineDefaultBinding = AddValueBinding("GuidelineDefaultPercent", settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             m_PanelOpenBinding = AddValueBinding("PanelOpen", s_PanelOpen);
@@ -513,11 +512,11 @@ namespace HoverColors.UI
             UpdateIfChanged(m_GuidelineLinesColorRBinding, guidelineLinesColor.r);
             UpdateIfChanged(m_GuidelineLinesColorGBinding, guidelineLinesColor.g);
             UpdateIfChanged(m_GuidelineLinesColorBBinding, guidelineLinesColor.b);
-            UpdateIfChanged(m_GuidelineLinesColorABinding, settings?.GuidelineLinesA ?? HoverColorsSettings.DefaultGuidelineOpacityPercent / 100f);
+            UpdateIfChanged(m_GuidelineLinesColorABinding, settings?.GuidelineLinesA ?? 1f);
             UpdateIfChanged(m_GuidelinePreviewColorRBinding, guidelinePreviewColor.r);
             UpdateIfChanged(m_GuidelinePreviewColorGBinding, guidelinePreviewColor.g);
             UpdateIfChanged(m_GuidelinePreviewColorBBinding, guidelinePreviewColor.b);
-            UpdateIfChanged(m_GuidelinePreviewColorABinding, settings?.GuidelinePreviewA ?? HoverColorsSettings.DefaultGuidelineOpacityPercent / 100f);
+            UpdateIfChanged(m_GuidelinePreviewColorABinding, settings?.GuidelinePreviewA ?? 1f);
             UpdateIfChanged(m_GuidelineOpacityBinding, settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             UpdateIfChanged(m_GuidelineDefaultBinding, settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
             UpdateIfChanged(m_PanelOpenBinding, s_PanelOpen);

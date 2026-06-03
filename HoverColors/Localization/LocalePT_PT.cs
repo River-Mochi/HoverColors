@@ -83,7 +83,7 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineLinesColorPreset)),
                     "Sets the color preset for large road-spacing guide circles/arcs.\n\n" +
                     "Use the in-city guide swatch for custom color + alpha.\n" +
-                    "Dashed snap/alignment guide lines stay vanilla-color and use the opacity slider."
+                    "Dashed alignment guide lines stay vanilla-color and use the opacity slider."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)), "Road/tool preview overlay color" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)),

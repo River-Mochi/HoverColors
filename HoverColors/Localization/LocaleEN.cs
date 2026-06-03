@@ -88,7 +88,7 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineLinesColorPreset)),
                     "Sets the color preset for large road-spacing guide circles/arcs.\n\n" +
                     "Use the in-city guide swatch for custom color + alpha.\n" +
-                    "Dashed snap/alignment guide lines stay vanilla-color and use the opacity slider."
+                    "Dashed alignment guide lines stay vanilla-color and use the opacity slider."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)), "Road/tool preview overlay color" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)),
@@ -105,7 +105,7 @@ namespace HoverColors.Localization
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Guidelines opacity (alpha)" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)),
-                    "Controls dashed/snap guide opacity, useful while placing roads, fences, props, etc.\n\n" +
+                    "Controls dashed alignment guide opacity, useful while placing roads, fences, props, etc.\n\n" +
                     "**100%** keeps vanilla default look.\n" +
                     "**Lower** makes guidelines more transparent.\n" +
                     "**0%** hides them entirely - <Not recommended>.\n" +           
