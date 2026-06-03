@@ -12,21 +12,20 @@
 
 - Change the blue outline color that has haunted every part of your city.
 - If you can hover over it then you can probably change it: buildings, cars, trees, cims, etc.!
-- Guidelines: opacity slider for less cluttered placements.
+- Guidelines: change opacity so you can see items being placed and not just a thick white line!
 - Surfaces: turn off preview layers while using the Surface tool so you can see the real ground colors without a cloudy layer on top.
 - District tool: change the color + opacity of district borders and overlays, or turn them off completely.
-
-- Save-game safe and safe to remove any time.
-- No known compatibility issues. No Harmony patches.
 
 ## Important
 - Check the Options menu for bulldozer and road-tool color behavior.
 - To turn off panel tooltips, click the Info button in the top-left of the in-city panel.
-- **Darker panel** option. Recommended for LegacyUI or players who prefer darker high contrast.
+- **Darker panel** option. Recommended for LegacyUI or players who prefer darker high contrast. Try both panels and see what you like!
 - Alpha is transparency; it's the last bar on the color picker.
 - Tap preset 1 or 2 to switch your saved colors.
 - Change presets: select a color from the main color picker, then hold preset 1 or 2 until the fill bar completes.
 - Hotkeys are in the Options menu. Read the tooltips or Options Menu 3rd panel if you get lost.
+- Save-game safe and safe to remove any time.
+- No known compatibility issues. No Harmony patches.
 
 ### Feedback and Support
 
@@ -43,10 +42,12 @@
 - Dx, Necko1996, Noel, BugsyG, ElGendo87 - testing
 
 
-14 Languages
-English, Français, Deutsch, Español, Italiano, Polski
-简体中文 , 한국어, Português Brasil, 繁體中文 , 日本語
-WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turkish Türkçe
+### 14 Languages
+- English, Français, Deutsch, Español, Italiano, Polski, 简体中文 , 한국어
+- Português Brasil, 繁體中文 , 日本語
+WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turkish Türkçe, EU Portuguese Português
+
+tags: Mochi's blue scrubber, Highlight, border color, remove blue
 
 </LongDescription>
 	<!--Thumbnail-->
@@ -66,7 +67,7 @@ WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turkish Türkçe
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/mochis-hover-colors.1925898/" />
 	<!--Version of the mod-->
-	<ModVersion Value="0.8.0" />
+	<ModVersion Value="0.8.2" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.5.*" />
 	<!--Dependency for the mod, can be set multiple times-->
@@ -75,10 +76,10 @@ WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turkish Türkçe
 	<RequiredDLC Value="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- UI/UX improvements for preset buttons, reset button, and panel readability.
-- Darker panel option: better for LegacyUI or anyone who prefers a higher-contrast panel.
-- Options menu: added features
-- Fix: District color changes only the vanilla District Area prefab, not custom assets.
+- UI/UX improvements
+- Options menu: add toggle to apply hover colors to overlapping items just like vanilla. default on.
+- added EU-portuguese translation.
+- updated translations.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 	<ExternalLink Type="" Url="" />

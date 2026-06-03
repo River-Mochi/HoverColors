@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "輪廓：點擊設定顏色 + 不透明度。",
   "HoverColors.UI.Tooltip.ResetFill": "填充：點擊重設為 0%（遊戲預設值）。",
   "HoverColors.UI.Tooltip.FillOpacity": "輪廓內部填充區域的不透明度。",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "輔助線：點擊重設為已儲存的預設值。按住 0.8 秒可將目前百分比儲存為新的個人預設值。",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "輔助線不透明度。變更會自動儲存。點擊圖示可恢復已儲存的預設值。按住可將目前值儲存為預設值。",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "輔助線不透明度。不建議低於 15%，因為輔助線可能會變得難以看清。",
   "HoverColors.UI.Tooltip.SurfaceToggle": "隱藏地表工具邊界預覽填充。\n預設快捷鍵：L。",
   "HoverColors.UI.Tooltip.Preset1": "槽位 1 — 點擊套用，按住 0.8 秒用目前顏色覆蓋。\n快捷鍵 K 在槽位 1 和槽位 2 之間切換。",

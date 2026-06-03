@@ -60,12 +60,21 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. おすすめ" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. バニラのツール色" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. カスタム色を維持" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "重なりアイテムのアウトラインを有効化" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "ほかのアイテムと重なる配置時に、ゲーム標準の挙動を有効にします。\n" +
+                    "重なり配置を試したとき、ゲームのエラー用アウトライン（サーモン色）を使います。\n\n" +
+                    "Bulldozer + Roads の全モードで動作し、保存済みのカスタム色は上書きしません。"
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "暗めのパネル" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
-                    "Makes the in-city Hover Colors panel darker and easier to read.\n\n" +
-                    "Recommended for players using the game's LegacyUI transparency option, and also useful if you prefer a stronger, darker panel in Modern UI."
+                    "<暗めのパネル>: Legacy UI 向けですが、Modern UI でも暗い見た目が好きなら使えます。\n" +
+                    "<標準パネル>: Hover Colors 独自の半透明スタイルです。\n" +
+                    "明るめでモダンな見た目です。\n" +
+                    "新しい Modern UI を使う多くのプレイヤーにおすすめです。\n" +
+                    "両方試して好みで選んでください。変更されるのはこのModパネルの背景だけで、ゲームUI全体ではありません。"
                 },
                 
                 // Guidelines opacity slider

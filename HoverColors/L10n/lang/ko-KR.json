@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "윤곽선: 클릭하여 색상 + 불투명도를 설정합니다.",
   "HoverColors.UI.Tooltip.ResetFill": "채우기: 클릭하면 0%로 초기화합니다(게임 기본값).",
   "HoverColors.UI.Tooltip.FillOpacity": "윤곽선 내부 채우기 영역의 불투명도입니다.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "가이드라인: 탭하면 저장된 기본값으로 초기화합니다. 0.8초 동안 누르면 현재 %를 새 개인 기본값으로 저장합니다.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "가이드라인 불투명도입니다. 변경 사항은 자동 저장됩니다. 아이콘을 탭하면 저장된 기본값으로 되돌립니다. 길게 누르면 현재 값을 기본값으로 저장합니다.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "가이드라인 불투명도입니다. 15% 미만은 가이드가 잘 보이지 않을 수 있어 권장하지 않습니다.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Surface 도구 경계 미리보기 채우기를 숨깁니다.\n기본 단축키: L.",
   "HoverColors.UI.Tooltip.Preset1": "슬롯 1 — 탭하면 적용, 0.8초 동안 누르면 현재 색상으로 덮어씁니다.\n단축키 K는 슬롯 1과 슬롯 2를 전환합니다.",

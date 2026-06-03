@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Umriss: Klicken für Farbe + Deckkraft.",
   "HoverColors.UI.Tooltip.ResetFill": "Füllung: Klicken, um auf 0% zurückzusetzen (Spielstandard).",
   "HoverColors.UI.Tooltip.FillOpacity": "Deckkraft der Füllfläche innerhalb des Umrisses.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Hilfslinien: Antippen, um auf den gespeicherten Standard zurückzusetzen. 0,8 s halten, um den aktuellen %-Wert als neuen persönlichen Standard zu speichern.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Deckkraft der Hilfslinien. Änderungen werden automatisch gespeichert. Symbol antippen, um deinen gespeicherten Standard wiederherzustellen. Halten, um den aktuellen Wert als Standard zu speichern.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Deckkraft der Hilfslinien. Unter 15% wird nicht empfohlen, da die Hilfslinien schwer zu sehen sein können.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Füllung der Surface-Tool-Grenzvorschau ausblenden.\nStandard-Hotkey: L.",
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — antippen zum Anwenden, 0,8 s halten, um ihn mit der aktuellen Farbe zu überschreiben.\nHotkey K wechselt zwischen Slot 1 und Slot 2.",

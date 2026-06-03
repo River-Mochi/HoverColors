@@ -60,12 +60,21 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. Consigliato" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Colori vanilla degli strumenti" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Tieni il colore personalizzato" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Attiva contorno oggetti sovrapposti" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "Attiva il comportamento vanilla normale quando piazzi oggetti che si sovrappongono ad altri.\n" +
+                    "Usa il contorno errore del gioco (color salmone) quando provi a sovrapporre.\n\n" +
+                    "Funziona con tutti i modi Bulldozer + strade e non sovrascrive il colore personalizzato salvato."
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Pannello più scuro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
-                    "Makes the in-city Hover Colors panel darker and easier to read.\n\n" +
-                    "Recommended for players using the game's LegacyUI transparency option, and also useful if you prefer a stronger, darker panel in Modern UI."
+                    "<Pannello scuro>: pensato per chi usa Legacy UI; va bene anche in UI moderna se preferisci un pannello più scuro.\n" +
+                    "<Pannello standard>: stile traslucido personalizzato di Hover Colors.\n" +
+                    "Aspetto più chiaro e moderno.\n" +
+                    "Ideale per la maggior parte dei giocatori con la nuova UI moderna del gioco.\n" +
+                    "Provali entrambi. Cambia solo lo sfondo di questo pannello del mod, non l’UI del gioco."
                 },
                 
                 // Guidelines opacity slider

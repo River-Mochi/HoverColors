@@ -39,7 +39,7 @@ import type {
 // 3. Search for the TSX/SCSS path wanted
 // 4. Add it to one of the maps below and expose a typed getter
 //
-// Remember: `UI/types/bindings.d.ts` is helpful for binding/widget payloads,
+// Note: `UI/types/bindings.d.ts` is helpful for binding/widget payloads,
 // but the vanilla React module props can differ from the binding model.
 
 type VanillaModuleName =

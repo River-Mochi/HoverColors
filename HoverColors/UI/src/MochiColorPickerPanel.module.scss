@@ -14,14 +14,12 @@
 
 .panelContent {
     // Main sizing knobs.
-    // --hc-panel-width is the one to tweak first if the whole in-city panel
-    // should be wider/narrower. 215rem is roughly the safe minimum for the
-    // current top row: icon + swatch + preset 1 + preset 2 + reset.
+    // --hc-panel-width is the first knob for panel width.
+    // 215rem is the safe minimum for icon + swatch + presets + reset.
     --hc-panel-width: 238rem;
     --hc-panel-alpha-top: 0.32;
     --hc-panel-alpha-bottom: 0.24;
-    // Title knobs. Keep nowrap on; tune if the title is
-    // too wide after changing --hc-panel-width.
+    // Title knobs. Keep nowrap on; tune font/spacing if width changes.
     --hc-title-font-size: 12rem;
     --hc-title-letter-spacing: 0.80rem;
     --hc-title-word-spacing: 1.7rem;
@@ -42,15 +40,10 @@
     box-shadow: 0 6rem 18rem rgba(0, 0, 0, 0.16);
 }
 
-// Options > Darker panel.
-// TSX applies resolved vanilla panel/menu theme classes first. This scoped HC
-// mode intentionally does NOT repaint the panel surface. That lets the vanilla
-// panel classes control navy color, LegacyUI shape, and the game's UI
-// transparency slider, like Resource Locator's vanilla-infoview approach.
-// Modern UI players can also use it if they prefer a stronger panel.
+// Options > Darker panel. Vanilla theme classes own the panel surface here:
+// navy color, LegacyUI shape, and game UI transparency all come from vanilla.
 .panelDarker {
-    // This custom property is a harmless marker that keeps the CSS-module class
-    // available while leaving the actual panel surface to vanilla.
+    // Marker only; panel surface stays vanilla.
     --hc-uses-vanilla-panel-surface: 1;
 }
 
@@ -144,7 +137,7 @@
     box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.06);
 }
 
-// Info button — round like the close button, but still aligned with the title row.
+// Info button — circular like the close button, aligned with the icon column.
 .infoButton {
     width: 24rem;
     height: 24rem;
@@ -152,7 +145,7 @@
     cursor: pointer;
     appearance: none;
     outline: none;
-    // Nudge right so its center aligns better with the body icon column below.
+    // Nudge center over the body icon column.
     margin-left: 6rem;
     border-radius: 50%;
     border-color: transparent;
@@ -165,15 +158,14 @@
     }
 }
 
-// Transparent cyan when tooltips are OFF. Strong enough to signal state,
-// but soft enough not to steal attention from the color controls.
+// Transparent cyan when tooltips are OFF.
 .infoButtonActive {
     background-color: rgba(30, 131, 170, 0.55) !important;
     border-color: rgba(84, 215, 255, 0.42) !important;
 }
 
 .infoIcon {
-    // Box is 24rem; icon fills 96% — as large as it can go while leaving a 1px gap each side.
+    // 24rem fills the circular button with a tiny safety gap.
     width: 24rem;
     height: 24rem;
     display: block;
@@ -183,7 +175,7 @@
 
 // ─── Left-column icon buttons ─────────────────────────────────────────────────
 
-// Slightly smaller than before — 32rem instead of 36rem.
+// Main square icon buttons.
 .controlIconButton {
     width: 32rem;
     height: 32rem;
@@ -199,23 +191,22 @@
     z-index: 2;
 }
 
-// Cyan indicator bar on the Outline button when vanilla game colors are active.
-// left/right offset controls bar length: smaller value = longer bar.
-// Both this and .surfaceButtonActive::after use the same values for visual consistency.
+// Cyan indicator bar for active icon buttons.
+// Bar length: lower left/right values make it longer.
 .vanillaActiveButton::after {
     content: "";
     position: absolute;
     left: 5rem;
     right: 5rem;
     bottom: 2rem;
-    // Bar height: increase this to make the indicator thicker on both buttons.
+    // Bar thickness.
     height: 3rem;
     border-radius: 2rem;
     background-color: rgba(84, 215, 255, 1);
 }
 
 .controlIcon {
-    // Scaled down to match smaller button.
+    // Icon size inside 32rem button.
     width: 24rem;
     height: 24rem;
     display: block;
@@ -223,14 +214,13 @@
     pointer-events: none;
 }
 
-// Idle-opacity trick: 0.82 at rest (light gray), 1.0 on hover (bright white).
+// Idle icons look gray; hover/focus raises opacity to white.
 .idleIcon {
     opacity: 0.80;
     transition: opacity 120ms ease-out;
 }
 
-// All icon buttons share the same idle-opacity trick.
-// infoButton is listed separately because it uses a different class from controlIconButton.
+// Includes infoButton because it does not use controlIconButton.
 .controlIconButton:hover .idleIcon,
 .controlIconButton:focus-visible .idleIcon,
 .actionButton:hover .idleIcon,
@@ -260,8 +250,7 @@
     overflow: visible;
 }
 
-// Spacing between icon button and control body.
-// Uses adjacent margin on controlBody rather than a combinator to avoid cascade fights.
+// Gap between icon button and control body.
 .controlBody {
     flex: 1 1 auto;
     min-width: 0;
@@ -280,9 +269,8 @@
     min-height: 38rem;
 }
 
-// space-between pushes .outlineLeft (swatch+presets) and .outlineRight (↺) to opposite ends.
-// padding-right nudges ↺ left so it sits roughly over the percent-number column below.
-// To shift ↺ further left: increase padding-right. Further right: decrease toward 0.
+// space-between pushes swatch/presets left and reset right.
+// Reset position: increase padding-right to shift left.
 .outlineControlBody {
     justify-content: space-between;
     box-sizing: border-box;
@@ -290,9 +278,7 @@
     padding-right: 6rem;
 }
 
-// Left group in the outline row: swatch + preset buttons, packed together.
-// margin-left: 4rem aligns the swatch's left edge with the slider bars below
-// (sliderRow has padding-left: 4rem from the left of controlBody).
+// Swatch + preset slots. margin-left aligns with slider tracks.
 .outlineLeft {
     display: flex;
     align-items: center;
@@ -300,7 +286,7 @@
     margin-left: 4rem;
 }
 
-// Right group in the outline row: ↺ reset button, pushed to far right by space-between.
+// Reset button, pushed right by outlineControlBody.
 .outlineRight {
     display: flex;
     align-items: center;
@@ -308,11 +294,10 @@
 }
 
 // ─── Color swatch ─────────────────────────────────────────────────────────────
-// Compact vanilla ColorField launcher. Keep this simple: no outer frame/padding,
-// because uneven wrapper padding makes the checker strip look sloppy in Cohtml.
+// Compact vanilla ColorField launcher. No wrapper padding; it skews the checker strip.
 
 // ── Color swatch shell ────────────────────────────────────────────────────────
-// position:relative anchors .outlineFieldHoverRing, the visible white hover border.
+// position:relative anchors the visible white hover border.
 // To change swatch width: edit the three matching values — .outlineFieldShell (no !important),
 // .outlineField (width …rem !important), and .outlineField button (width …rem !important).
 // To change corner roundness: edit border-radius here AND search "border-radius: 6rem !important".
@@ -320,25 +305,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    position: relative; // required for .outlineFieldHoverRing
-    // Width: to adjust swatch width change this AND the matching values in .outlineField + .outlineField button.
+    position: relative;
+    // Match this width with .outlineField and .outlineField button.
     width: 50rem;
-    // Height: 26rem matches the preset slot buttons for a consistent top-row height.
+    // Match preset slot height.
     height: 26rem;
     box-sizing: border-box;
     padding: 0;
-    border-radius: 4rem; // outer corners — to adjust also change the matching 4rem !important values below
+    border-radius: 4rem; // also change matching 4rem !important values below
     background-color: transparent;
     box-shadow: none;
     cursor: pointer;
 }
 
-// Hover ring is a real child span, not a pseudo-element, because Cohtml and the
-// embedded vanilla ColorField can be unreliable with pseudo-elements over buttons.
-// .outlineFieldShellHovered is set by React when any of these fire:
-//   - onMouseMove on the shell (bubbles from ColorField button child)
-//   - onMouseEnter/Leave directly on the ColorField component props
-// Using both maximises the chance one fires in Cohtml.
+// Real child span is more reliable than pseudo-elements over vanilla ColorField.
+// React also toggles outlineFieldShellHovered when Cohtml misses CSS hover.
 .outlineFieldHoverRing {
     position: absolute;
     inset: -2rem;
@@ -367,7 +348,7 @@
 }
 
 // ── Swatch color field ────────────────────────────────────────────────────────
-// overflow:hidden clips the color swatch to the rounded corners. Width must match the shell.
+// Clips the vanilla swatch to rounded corners. Width must match the shell.
 .outlineField {
     width: 50rem !important; // match .outlineFieldShell width
     height: 26rem !important;
@@ -396,8 +377,7 @@
     cursor: pointer !important;
 }
 
-// Keep this scoped through our local .outlineField wrapper so Visual Studio
-// does not flag CSS Modules global-selector syntax as an invalid pseudo-class.
+// Scoped through .outlineField to avoid CSS-module global selector warnings.
 .outlineField:hover button,
 .outlineField:focus-within button,
 .outlineField button:hover,
@@ -418,7 +398,7 @@
 .slider {
     flex: 1 1 auto;
     min-width: 0;
-    // Reduced from 20rem — brings percent box closer to the slider track end.
+    // Gap between slider track and percent box.
     margin-right: 8rem;
 }
 
@@ -448,7 +428,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // Bottom padding leaves room for the drag grip without creating a large empty shelf.
+    // Bottom padding leaves room for drag grip.
     padding: 5rem 8rem 7rem 8rem;
     border-top: 1rem solid rgba(255, 255, 255, 0.12);
 }
@@ -459,21 +439,20 @@
     align-items: center;
 }
 
-// All bottom action buttons — same dark teal as left-column icon buttons.
-// !important on background-color overrides Cohtml native <button> background: ButtonFace.
+// Bottom action buttons. !important beats Cohtml ButtonFace background.
 .actionButton {
     height: 32rem;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    // margin intentionally NOT set here — explicit gap classes handle spacing.
+    // Use .buttonGap for spacing.
     border-radius: 4rem;
     border: 1rem solid rgba(255, 255, 255, 0.35);
     background-color: rgba(36, 54, 66, 0.58) !important;
     background-image: none !important;
     box-shadow: none !important;
-    // Explicit white — Cohtml maps ButtonText to black for <button> elements.
+    // Cohtml ButtonText can become black.
     color: rgba(255, 255, 255, 0.96) !important;
     font-size: 12.5rem;
     font-weight: 600;
@@ -499,18 +478,16 @@
     }
 }
 
-// Explicit gap class — avoids the cascade fight between sibling combinators and actionButton margin:0.
-// Add styles.buttonGap to any button that needs left spacing from its predecessor.
+// Explicit gap class for action buttons.
 .buttonGap {
     margin-left: 4rem !important;
 }
 
-// Surface buttons: each shows one icon. They share the 32rem width of preset
-// slots, but use the taller action-button height so the icons read clearly.
+// Surface/District buttons: 32rem wide, 32rem tall.
 .surfaceButton {
     width: 32rem;
     min-width: 32rem;
-    overflow: visible !important; // override actionButton overflow:hidden so ::after indicator always renders
+    overflow: visible !important; // keeps active indicator visible
 }
 
 .districtPickerButton {
@@ -528,8 +505,7 @@
     pointer-events: none;
 }
 
-// Invisible vanilla ColorField click target for the District icon. We use ColorField instead
-// of raw ColorPicker so the game keeps its own popup background, hex spacing, and edge flipping.
+// Hidden ColorField target keeps vanilla popup layout and edge flipping.
 .districtColorField {
     position: absolute;
     inset: 0;
@@ -551,17 +527,15 @@
     cursor: pointer !important;
 }
 
-// Active: only the bottom indicator bar — same visual as .vanillaActiveButton::after.
-// (Previously had a full ring+glow which made the bar look proportionally smaller than the outline button's.)
+// Active bar matches .vanillaActiveButton::after.
 
 .surfaceButtonActive::after {
     content: "";
     position: absolute;
-    // Matches .vanillaActiveButton::after — both bars same length for visual consistency.
     left: 5rem;
     right: 5rem;
     bottom: 2rem;
-    // Bar height: increase this to make the indicator thicker on both buttons.
+    // Bar thickness.
     height: 3rem;
     border-radius: 2rem;
     background-color: rgba(84, 215, 255, 1);
@@ -570,7 +544,7 @@
 // ── Preset slot buttons ──────────────────────────────────────────────────────
 // Number first, full-height saved-color sliver second:
 //   [ 1 |█ ] [ 2 |█ ]
-// Same compact footprint as before: 32rem x 26rem.
+// Size: 32rem x 26rem.
 .presetSlot {
     width: 32rem;
     min-width: 32rem;
@@ -581,15 +555,13 @@
     align-items: stretch;
     justify-content: stretch;
     border-radius: 4rem;
-    // Border is always 2rem so active state never changes layout size.
+    // Fixed border width prevents active-state layout shifts.
     border: 2rem solid rgba(255, 255, 255, 0.24);
-    // Same family as the other panel buttons for a cleaner, more unified look.
-    // Saved-color preview remains solid on .presetSwatch.
-    background-color: rgba(36, 54, 66, 0.58) !important;
+    // Darker than icon buttons so numbers survive high UI transparency.
+    // Saved-color preview stays true-color on .presetSwatch.
+    background-color: rgba(26, 39, 48, 0.78) !important;
     background-image: none !important;
-    // Keep overflow visible so the active preset ring can sit outside the
-    // button instead of covering the number/color halves and making them look
-    // smaller.
+    // Allows active outline to sit outside without shrinking the slot.
     overflow: visible;
     cursor: pointer;
     appearance: none;
@@ -598,18 +570,18 @@
     position: relative;
     flex-shrink: 0;
     transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
-
+    // Hover tuning: raise background RGB or border alpha.
     &:hover {
-        background-color: #314350 !important;
+        background-color: rgba(52, 74, 88, 0.92) !important;
         border-color: rgba(255, 255, 255, 0.58);
     }
+
     &:focus, &:active {
-        border-color: rgba(255, 255, 255, 0.58);
+        border-color: rgba(255, 255, 255, 0.68);
     }
 }
 
-// Left side: clear preset number.
-// Keep this wider than the color sliver so the number is the identity.
+// Number side.
 .presetNumber {
     width: 19rem;
     min-width: 19rem;
@@ -619,18 +591,16 @@
     justify-content: center;
     pointer-events: none;
     position: relative;
-    z-index: 5; // above holdBar so the number stays readable during hold-to-save.
+    z-index: 5; // above holdBar
     font-size: 13rem;
     font-weight: 900;
     line-height: 1;
-    // Fallback only. TSX sets the real active/idle/hover number colors inline
-    // because Cohtml can force ButtonText colors inside native buttons.
+    // TSX sets real active/idle/hover color inline.
     color: rgba(255, 255, 255, 0.82);
     text-shadow: 0 0 4rem rgba(0, 0, 0, 0.9);
 }
 
-// Right side: full-height color sliver.
-// This gives more color preview without making the button bigger.
+// Saved-color preview sliver.
 .presetSwatch {
     width: 13rem;
     min-width: 13rem;
@@ -646,28 +616,24 @@
 }
 
 .presetSlotActive {
-    // Selected outline: this is the actual button border, so it wraps both the
-    // number side and color side. Raise alpha for stronger outline.
+    // Active border wraps number + swatch.
     border-color: rgba(84, 215, 255, 0.95) !important;
-    background-color: rgba(36, 54, 66, 0.72) !important;
-    // Whole-button selected outline. Increase the first 1.2rem for a thicker
-    // outline; increase 0.78 for stronger cyan. The second shadow is soft glow.
+    background-color: rgba(26, 39, 48, 0.86) !important;
+    // First shadow = hard outline. Second shadow = soft glow.
+    // Stronger: raise 1.2rem or alpha 0.65.
     box-shadow:
-        0 0 0 1.2rem rgba(84, 215, 255, 0.30),
+        0 0 0 1.2rem rgba(84, 215, 255, 0.65),
         0 0 4rem rgba(84, 215, 255, 0.34);
 }
 
-// Preset style options for testing, kept as notes instead of dead CSS classes:
-// - Current: actual 2rem button border + soft outside halo only.
-// - Stronger outline: raise the first box-shadow size above 1.1rem or alpha above 0.78.
-// - Quieter outline: lower the first box-shadow size toward 0.8rem or alpha toward 0.60.
-// - Bottom bar / corner wedge were tried and removed because they fought the saved-color sliver.
+// Preset style notes:
+// - Current: fixed border + outside outline/glow.
+// - Stronger: raise first box-shadow size or alpha.
+// - Quieter: lower first box-shadow size or alpha.
 
 
-// Reset button as a bare SVG icon. Do not use a text arrow here: some CJK fonts
-// render that glyph as a missing-character box.
-// Hover uses only opacity/filter/transform, so it is cheap
-// and makes the reset affordance obvious without adding React hover state.
+// SVG reset avoids missing glyph boxes in some CJK fonts.
+// Hover uses opacity/filter/transform only.
 .presetResetBare {
     background: none !important;
     border: none !important;
@@ -693,7 +659,7 @@
     }
 }
 
-// Reset SVG icon. The SVG itself is light gray; hover filters it to white.
+// Light gray at rest; hover filters to white.
 .resetIcon {
     width: 16rem;
     height: 16rem;
@@ -718,10 +684,7 @@
     min-width: 32rem;
 }
 
-// Hold-progress bar: scaleX driven by rAF.
-// This is the "saving preset" sweep. To make the fill-up animation more visible:
-//   - increase background alpha (currently 0.62)
-//   - increase the inset white line alpha (currently 0.20)
+// Preset save sweep. More visible: raise background alpha or inset line alpha.
 .holdBar {
     position: absolute;
     left: 0;
@@ -733,10 +696,10 @@
     transform: scaleX(0);
     transform-origin: left center;
     pointer-events: none;
-    z-index: 3; // above presetSwatch so the save sweep visibly crosses both halves.
+    z-index: 3; // above presetSwatch
 }
 
-// Guideline button hold-to-save sweep — same visual as holdBar but inside a square icon button.
+// Guideline hold-to-save sweep.
 .guidelineHoldBar {
     position: absolute;
     left: 0;
@@ -744,11 +707,11 @@
     width: 100%;
     height: 100%;
     background-color: rgba(84, 215, 255, 0.28);
-    border-radius: 4rem; // match controlIconButton border-radius
+    border-radius: 4rem; // match controlIconButton
     transform: scaleX(0);
     transform-origin: left center;
     pointer-events: none;
-    z-index: 0; // behind the icon (z:2 from controlIconButton)
+    z-index: 0; // behind icon
 }
 
 .actionIcon {
@@ -772,8 +735,7 @@
     align-items: center;
     justify-content: center;
     padding: 0 4rem;
-    // Idle: quiet light-gray pill. Brightens to solid #1E83AA on hover/drag.
-    // To adjust: raise alpha toward 0.50+ for more visible, lower toward 0.25 for subtler.
+    // Idle grip. Raise alpha for more visible, lower for subtler.
     background-color: rgba(130, 155, 168, 0.34);
     border-color: rgba(255, 255, 255, 0.14);
     border-radius: 4rem;
@@ -782,7 +744,7 @@
     transition: background-color 120ms ease-out, border-color 120ms ease-out;
 }
 
-// Solid #1E83AA — no alpha blending with the panel's semi-transparent background.
+// Solid color avoids panel alpha blending.
 .dragGrip:hover,
 .dragGripActive {
     background-color: #1E83AA;
@@ -794,12 +756,12 @@
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.60); // dots bright enough to read at new grip alpha
+    background-color: rgba(255, 255, 255, 0.60);
     flex: 0 0 2rem;
     transition: background-color 120ms ease-out;
 }
 
-// Explicit margin between dots — replaces gap: 2rem.
+// Explicit margin is safer than gap in Cohtml.
 .dragGripDot + .dragGripDot {
     margin-left: 2rem;
 }
@@ -809,8 +771,7 @@
     background-color: rgba(255, 255, 255, 0.92);
 }
 
-// Stronger controls for "Darker panel" mode.
-// Scoped under .panelDarker only, so normal mode and other mods are untouched.
+// Darker panel control overrides only.
 .panelDarker {
     .infoButton,
     .controlIconButton,
@@ -830,7 +791,7 @@
     }
 
     .valueField {
-        // Percent labels are readouts, not buttons; keep them flat in darker mode.
+        // Readout, not a button.
         background-color: transparent;
         border: 0;
     }

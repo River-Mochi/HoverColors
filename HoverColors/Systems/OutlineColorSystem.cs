@@ -12,6 +12,7 @@
 //   - Material _InnerColor.a                     ← FillA      (fill overlay opacity)
 //
 // Tool override: controlled by HoverColorsSettings.ToolColorMode.
+//   - Overlapping / invalid placement errors: optional vanilla ErrorColor wins first.
 //   - Recommended: WarningColor for bulldozer, softer vanilla blue for roads.
 //   - Vanilla: captured vanilla hover profile while those tools are active.
 //   - Custom: player color everywhere.
@@ -34,6 +35,7 @@ namespace HoverColors.Systems
     using Game.Tools;
     using HoverColors.Settings;
     using System;
+    using System.Reflection;
     using Unity.Entities;
     using UnityEngine;
     using UnityEngine.Rendering.HighDefinition;
@@ -58,6 +60,8 @@ namespace HoverColors.Systems
         public static Color CapturedOwnerColor { get; private set; } = new Color(VanillaOwnerR, VanillaOwnerG, VanillaOwnerB, VanillaOwnerA);
         public static Color CapturedOuterColor { get; private set; } = new Color(1f, 1f, 1f, VanillaOutlineA);
         public static Color CapturedInnerColor { get; private set; } = new Color(1f, 1f, 1f, VanillaFillA);
+        public static Color CapturedWarningColor { get; private set; } = new Color(1f, 1f, 0.5f, 0.447058827f);
+        public static Color CapturedErrorColor { get; private set; } = new Color(1f, 0.5f, 0.5f, 0.447058827f);
         public static float CapturedOutlineA { get; private set; } = VanillaOutlineA;
         public static float CapturedFillA { get; private set; } = VanillaFillA;
         public static bool HasCapturedVanillaDefaults { get; private set; }
@@ -79,10 +83,12 @@ namespace HoverColors.Systems
         private float m_LastR, m_LastG, m_LastB, m_LastOutlineA, m_LastFillA;
         private EffectivePalette m_LastPalette;
         private bool m_Applied;
+        private ToolBaseSystem? m_CachedErrorTool;
+        private EntityQuery m_CachedErrorQuery;
+        private bool m_HasCachedErrorQuery;
 
-        // RenderingSettings.WarningColor = 1, 1, 0.5, 0.447058827.
-        // Kept here as a release-safe fallback even if capture order changes on a future patch.
-        private static readonly Color s_WarningColor = new(1f, 1f, 0.5f, 0.447058827f);
+        private static readonly FieldInfo? s_ToolErrorQueryField =
+            typeof(ToolBaseSystem).GetField("m_ErrorQuery", BindingFlags.Instance | BindingFlags.NonPublic);
 
         private enum ToolKind
         {
@@ -95,6 +101,7 @@ namespace HoverColors.Systems
         {
             Custom,
             CapturedVanilla,
+            VanillaToolError,
             RecommendedBulldoze,
             RecommendedNet,
         }
@@ -120,14 +127,26 @@ namespace HoverColors.Systems
 
             float r, g, b, outlineA, fillA;
             EffectivePalette palette;
-            ToolKind activeTool = GetActiveToolKind(m_ToolSystem?.activeTool);
-            if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeRecommended
+            ToolBaseSystem? activeToolSystem = m_ToolSystem?.activeTool;
+            ToolKind activeTool = GetActiveToolKind(activeToolSystem);
+            if (settings.UseOverlapWarningColor && HasBlockingToolError(activeToolSystem))
+            {
+                Color error = CapturedErrorColor;
+                r = error.r;
+                g = error.g;
+                b = error.b;
+                outlineA = error.a;
+                fillA = CapturedFillA;
+                palette = EffectivePalette.VanillaToolError;
+            }
+            else if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeRecommended
                 && activeTool == ToolKind.Bulldoze)
             {
-                r = s_WarningColor.r;
-                g = s_WarningColor.g;
-                b = s_WarningColor.b;
-                outlineA = s_WarningColor.a;
+                Color warning = CapturedWarningColor;
+                r = warning.r;
+                g = warning.g;
+                b = warning.b;
+                outlineA = warning.a;
                 fillA = CapturedFillA;
                 palette = EffectivePalette.RecommendedBulldoze;
             }
@@ -205,6 +224,8 @@ namespace HoverColors.Systems
                 {
                     CapturedHoveredColor = prefabData.m_HoveredColor;
                     CapturedOwnerColor = prefabData.m_OwnerColor;
+                    CapturedWarningColor = prefabData.m_WarningColor;
+                    CapturedErrorColor = prefabData.m_ErrorColor;
                     m_RenderingDefaultsCaptured = true;
                 }
 
@@ -217,6 +238,8 @@ namespace HoverColors.Systems
                 RenderingSettingsData data = EntityManager.GetComponentData<RenderingSettingsData>(entity);
                 CapturedHoveredColor = data.m_HoveredColor;
                 CapturedOwnerColor = data.m_OwnerColor;
+                CapturedWarningColor = data.m_WarningColor;
+                CapturedErrorColor = data.m_ErrorColor;
                 m_RenderingDefaultsCaptured = true;
             }
 
@@ -239,12 +262,20 @@ namespace HoverColors.Systems
             if (!m_CaptureLogged && HasCapturedVanillaDefaults)
             {
                 m_CaptureLogged = true;
-                LogUtils.Info(() => $"{Mod.ModTag} Captured vanilla hover defaults: " +
-                    $"Hovered RGBA=({CapturedHoveredColor.r:F3}, {CapturedHoveredColor.g:F3}, {CapturedHoveredColor.b:F3}, {CapturedHoveredColor.a:F3}) " +
-                    $"Owner RGBA=({CapturedOwnerColor.r:F3}, {CapturedOwnerColor.g:F3}, {CapturedOwnerColor.b:F3}, {CapturedOwnerColor.a:F3}) " +
-                    $"Outer RGBA=({CapturedOuterColor.r:F3}, {CapturedOuterColor.g:F3}, {CapturedOuterColor.b:F3}, {CapturedOuterColor.a:F3}) " +
-                    $"Inner RGBA=({CapturedInnerColor.r:F3}, {CapturedInnerColor.g:F3}, {CapturedInnerColor.b:F3}, {CapturedInnerColor.a:F3})");
+                LogUtils.Info(() =>
+                    $"{Mod.ModTag} Captured vanilla render colors:\n" +
+                    $"  Hovered RGBA = {FormatColor(CapturedHoveredColor)}\n" +
+                    $"  Owner   RGBA = {FormatColor(CapturedOwnerColor)}\n" +
+                    $"  Warning RGBA = {FormatColor(CapturedWarningColor)}\n" +
+                    $"  Error   RGBA = {FormatColor(CapturedErrorColor)}\n" +
+                    $"  Outer   RGBA = {FormatColor(CapturedOuterColor)}\n" +
+                    $"  Inner   RGBA = {FormatColor(CapturedInnerColor)}");
             }
+        }
+
+        private static string FormatColor(Color color)
+        {
+            return $"({color.r:F3}, {color.g:F3}, {color.b:F3}, {color.a:F3})";
         }
 
         // ECS singleton: hovered + owner overlay color used by several vanilla render paths.
@@ -266,10 +297,23 @@ namespace HoverColors.Systems
                 case EffectivePalette.CapturedVanilla:
                     data.m_HoveredColor = CapturedHoveredColor;
                     data.m_OwnerColor = CapturedOwnerColor;
+                    data.m_WarningColor = CapturedWarningColor;
+                    data.m_ErrorColor = CapturedErrorColor;
+                    break;
+                case EffectivePalette.VanillaToolError:
+                    // Blocking placement errors already carry Game.Tools.Error; vanilla render
+                    // paths color those objects from m_ErrorColor. Keep the rest of the hover
+                    // profile vanilla so the final salmon matches the game's own composition.
+                    data.m_HoveredColor = CapturedHoveredColor;
+                    data.m_OwnerColor = CapturedOwnerColor;
+                    data.m_WarningColor = CapturedWarningColor;
+                    data.m_ErrorColor = CapturedErrorColor;
                     break;
                 case EffectivePalette.RecommendedBulldoze:
-                    data.m_HoveredColor = s_WarningColor;
-                    data.m_OwnerColor = s_WarningColor;
+                    data.m_HoveredColor = CapturedWarningColor;
+                    data.m_OwnerColor = CapturedWarningColor;
+                    data.m_WarningColor = CapturedWarningColor;
+                    data.m_ErrorColor = CapturedErrorColor;
                     break;
                 case EffectivePalette.RecommendedNet:
                     Color hovered = CapturedHoveredColor;
@@ -309,9 +353,15 @@ namespace HoverColors.Systems
                     outer = CapturedOuterColor;
                     inner = CapturedInnerColor;
                     break;
+                case EffectivePalette.VanillaToolError:
+                    // Do not paint the material red here. Vanilla salmon comes from
+                    // RenderingSettingsData.m_ErrorColor plus the normal outline material.
+                    outer = CapturedOuterColor;
+                    inner = CapturedInnerColor;
+                    break;
                 case EffectivePalette.RecommendedBulldoze:
-                    outer = s_WarningColor;
-                    inner = new Color(s_WarningColor.r, s_WarningColor.g, s_WarningColor.b, CapturedFillA);
+                    outer = CapturedWarningColor;
+                    inner = new Color(CapturedWarningColor.r, CapturedWarningColor.g, CapturedWarningColor.b, CapturedFillA);
                     break;
                 case EffectivePalette.RecommendedNet:
                     outer = CapturedOuterColor;
@@ -358,6 +408,48 @@ namespace HoverColors.Systems
             }
 
             return ToolKind.None;
+        }
+
+        private bool HasBlockingToolError(ToolBaseSystem? tool)
+        {
+            if (tool == null)
+            {
+                return false;
+            }
+
+            if (s_ToolErrorQueryField == null)
+            {
+                LogUtils.WarnOnce(
+                    "tool-error-query-field-missing",
+                    () => $"{Mod.ModTag} Cannot preserve placement error color: ToolBaseSystem.m_ErrorQuery not found.");
+                return false;
+            }
+
+            try
+            {
+                // Vanilla ToolBaseSystem.GetAllowApply() checks this same query. It only becomes
+                // non-empty for real blocking tool errors, including Overlapping items.
+                if (!ReferenceEquals(m_CachedErrorTool, tool))
+                {
+                    object? value = s_ToolErrorQueryField.GetValue(tool);
+                    m_CachedErrorTool = tool;
+                    m_HasCachedErrorQuery = value is EntityQuery;
+                    if (m_HasCachedErrorQuery)
+                    {
+                        m_CachedErrorQuery = (EntityQuery)value!;
+                    }
+                }
+
+                return m_HasCachedErrorQuery && !m_CachedErrorQuery.IsEmptyIgnoreFilter;
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "tool-error-query-read-failed",
+                    () => $"{Mod.ModTag} Cannot preserve placement error color: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+                return false;
+            }
         }
 
         private static string SafeToolId(ToolBaseSystem tool)

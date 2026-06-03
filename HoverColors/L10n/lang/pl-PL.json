@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Obrys: kliknij, aby ustawić kolor + krycie.",
   "HoverColors.UI.Tooltip.ResetFill": "Wypełnienie: kliknij, aby zresetować do 0% (domyślnie w grze).",
   "HoverColors.UI.Tooltip.FillOpacity": "Krycie obszaru wypełnienia wewnątrz obrysu.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Linie pomocnicze: stuknij, aby wrócić do zapisanego domyślnego ustawienia. Przytrzymaj 0,8 s, aby zapisać bieżący % jako nowy osobisty domyślny.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Krycie linii pomocniczych. Zmiany zapisują się automatycznie. Stuknij ikonę, aby wrócić do zapisanego domyślnego ustawienia. Przytrzymaj, aby zapisać bieżącą wartość jako domyślną.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Krycie linii pomocniczych. Poniżej 15% nie jest zalecane, bo linie mogą być trudne do zauważenia.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Ukryj wypełnienie podglądu granic narzędzia Surface.\nDomyślny skrót: L.",
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — stuknij, aby zastosować, przytrzymaj 0,8 s, aby nadpisać bieżącym kolorem.\nSkrót K przełącza między slotem 1 i slotem 2.",

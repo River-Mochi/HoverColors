@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Contorno: clic para color + opacidad.",
   "HoverColors.UI.Tooltip.ResetFill": "Relleno: clic para restaurar a 0% (valor predeterminado del juego).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacidad del área de relleno dentro del contorno.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Guías: toca para restaurar el valor predeterminado guardado. Mantén 0,8 s para guardar el % actual como tu nuevo valor personal.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Opacidad de guías. Los cambios se guardan automáticamente. Toca el icono para restaurar tu valor guardado. Mantén pulsado para guardar el valor actual como predeterminado.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Opacidad de las guías. No se recomienda bajar de 15%, porque las guías pueden ser difíciles de ver.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Oculta el relleno de vista previa de límites de la herramienta Surface.\nAtajo predeterminado: L.",
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — toca para aplicar, mantén 0,8 s para sobrescribir con tu color actual.\nLa tecla K alterna entre el slot 1 y el slot 2.",

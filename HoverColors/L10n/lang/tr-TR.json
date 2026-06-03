@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Dış çizgi: renk + opaklık için tıkla.",
   "HoverColors.UI.Tooltip.ResetFill": "Dolgu: 0%'a sıfırlamak için tıkla (oyun varsayılanı).",
   "HoverColors.UI.Tooltip.FillOpacity": "Dış çizginin içindeki dolgu alanının opaklığı.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Kılavuz çizgiler: kayıtlı varsayılana dönmek için dokun. Mevcut % değerini yeni kişisel varsayılanın yapmak için 0,8 sn basılı tut.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Kılavuz çizgi opaklığı. Değişiklikler otomatik kaydedilir. Kayıtlı varsayılana dönmek için simgeye dokun. Mevcut değeri varsayılan yapmak için basılı tut.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Kılavuz çizgi opaklığı. 15% altı önerilmez, çünkü kılavuzları görmek zorlaşabilir.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Surface aracı sınır önizleme dolgusunu gizle.\nVarsayılan kısayol: L.",
   "HoverColors.UI.Tooltip.Preset1": "Yuva 1 — uygulamak için dokun, mevcut renginle üzerine yazmak için 0,8 sn basılı tut.\nK kısayolu yuva 1 ile yuva 2 arasında geçiş yapar.",

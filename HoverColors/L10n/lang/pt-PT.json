@@ -1,0 +1,19 @@
+{
+  "HoverColors.UI.Title": "Mochi's Hover Colors",
+  "HoverColors.UI.TopLeft.Tooltip": "Hover Colors - destaques + opacidade",
+  "HoverColors.UI.Aria.ClosePanel": "Fechar painel",
+  "HoverColors.UI.Tooltip.Info": "Clica aqui para ligar/desligar as dicas.",
+  "HoverColors.UI.Tooltip.Draggable": "Arrastável",
+  "HoverColors.UI.Tooltip.Close": "Fechar/Sair. Atalho padrão: H, ou clicar no ícone do jogo no canto superior esquerdo faz o mesmo.",
+  "HoverColors.UI.Tooltip.ResetOutline": "Contorno: clica para repor cor e alpha para os padrões do jogo.",
+  "HoverColors.UI.Tooltip.OutlineSwatch": "Contorno: clica para cor + opacidade.",
+  "HoverColors.UI.Tooltip.ResetFill": "Preenchimento: clica para repor para 0% (padrão do jogo).",
+  "HoverColors.UI.Tooltip.FillOpacity": "Opacidade da área de preenchimento dentro do contorno.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Opacidade das guias. As alterações são guardadas automaticamente. Toca no ícone para repor a tua predefinição guardada. Mantém premido para guardar o valor atual como predefinição.",
+  "HoverColors.UI.Tooltip.GuidelinesOpacity": "Opacidade das guias. Abaixo de 15% não é recomendado, porque as guias podem ficar difíceis de ver.",
+  "HoverColors.UI.Tooltip.SurfaceToggle": "Esconde o preenchimento da pré-visualização de limite da ferramenta Surface.\nAtalho padrão: L.",
+  "HoverColors.UI.Tooltip.Preset1": "Slot 1 — toca para aplicar, mantém 0.8s premido para substituir pela cor atual.\nA tecla K alterna entre o slot 1 e o slot 2.",
+  "HoverColors.UI.Tooltip.Preset2": "Slot 2 — toca para aplicar, mantém 0.8s premido para substituir pela cor atual.\nA tecla K alterna entre o slot 1 e o slot 2.",
+  "HoverColors.UI.Tooltip.ResetPresets": "↺ 1.º clique: repõe os dois slots de predefinição para os padrões do mod.\n↺ 2.º clique: restaura as cores anteriores.\nSe já estiverem nos padrões, não faz nada.",
+  "HoverColors.UI.Tooltip.DistrictColors": "Clica para ajustar a cor/opacidade do preenchimento e da linha de limite dos distritos."
+}

@@ -1,7 +1,7 @@
 // File: Systems/DistrictColorSystem.cs
 // Purpose: Applies player's District overlay color/opacity to the vanilla District area prefab.
 //
-// Why prefab data here:
+// Prefab data here:
 //   Districts are rendered through Game.Prefabs.AreaColorData on the default District prefab entity.
 //   AreaBufferSystem reads those prefab fill + edge colors while rebuilding the overlay
 //   buffer, so we write prefab-side colors and then mark live District area entities Updated.

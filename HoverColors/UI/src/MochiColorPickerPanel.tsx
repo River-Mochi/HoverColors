@@ -3,8 +3,9 @@
 // Layout:
 //   - Title bar: info toggle (tooltips on/off), draggable title, close button
 //   - Outline row: icon (resets + shows vanilla-active indicator bar) + color swatch
+//     + preset slots 1/2 (tap=apply, hold 0.7s=save) + preset reset icon
 //   - Fill / Guidelines rows: icon-led sliders
-//   - Bottom: surface toggle | preset slots 1/2 (tap=apply, hold 0.7s=save) + reset-presets
+//   - Bottom: surface overlay toggle + District color picker
 
 import React from "react";
 import { Button, Tooltip } from "cs2/ui";
@@ -16,14 +17,14 @@ import infoIconSrc from "../images/AdvisorInfoViewWhite.svg";
 import lotToolIconSrc from "../images/LotTool03.svg";
 import surfaceIconSrc from "../images/Districts03.svg";
 import fillIconSrc from "../images/MainElements-Fill2.svg";
-import outlineIconSrc from "../images/MainElements.svg";
+import outlineIconSrc from "../images/MainElements2.svg";
 import guidelinesIconSrc from "../images/GuideLines4.svg";
 import closeIconSrc from "../images/Close.svg";
 import resetIconSrc from "../images/Reset_Button2.svg";
 import styles from "./MochiColorPickerPanel.module.scss";
 
 const CHANNEL = "HoverColors";
-// How long to hold down a preset button to save (ms). Increase if 0.8s feels fast.
+// Hold time for saving preset slots. Increase if quick taps save too often.
 const PRESET_HOLD_MS = 700;
 
 // Live color bindings
@@ -39,7 +40,7 @@ const districtA$ = bindValue<number>(CHANNEL, "DistrictA", 64 / 255);
 const guidelineOpacity$ = bindValue<number>(CHANNEL, "GuidelineOpacityPercent", 30);
 const panelTooltipsEnabled$ = bindValue<boolean>(CHANNEL, "PanelTooltipsEnabled", true);
 const useDarkerPanel$ = bindValue<boolean>(CHANNEL, "UseDarkerPanel", false);
-const surfaceToolAreasSuppressed$ = bindValue<boolean>(CHANNEL, "SurfaceToolAreasSuppressed", false);
+const surfaceToolAreasSuppressed$ = bindValue<boolean>(CHANNEL, "SurfaceToolAreasSuppressed", true);
 const vanillaOutlineActive$ = bindValue<boolean>(CHANNEL, "VanillaOutlineActive", false);
 const AREA_MENU_NAME_TOKENS = ["SERVICES.NAMES[AREAS]", "SERVICES.NAME[AREAS]", "AREAS"];
 const DISTRICT_AREA_NAME_TOKENS = [
@@ -112,8 +113,7 @@ export const MochiColorPickerPanel = () => {
         ?? districtAssets?.[0]
     ), [districtAssets, normalizeToolbarName]);
 
-    // Stored slot colors — used for the corner dot badge on each preset button.
-    // Just plain CSS inline style; not a special React feature.
+    // Stored slot colors. Swatch preview ignores alpha below for readability.
     const p1: Color = { r: useValue(preset1R$), g: useValue(preset1G$), b: useValue(preset1B$), a: useValue(preset1A$) };
     const p2: Color = { r: useValue(preset2R$), g: useValue(preset2G$), b: useValue(preset2B$), a: useValue(preset2A$) };
 
@@ -121,8 +121,7 @@ export const MochiColorPickerPanel = () => {
 
     // Tooltip toggle is persisted in ModsSettings/HoverColors/HoverColors.coc via HoverColorsUISystem.
     const tooltipsEnabled = useValue(panelTooltipsEnabled$);
-    // tt() wraps every tooltip string; returns undefined when tooltips are off (no tooltip shown).
-    // The info button always gets its tooltip so players can re-enable.
+    // Tooltips return undefined when disabled. Info tooltip stays visible for re-enable.
     const tt = React.useCallback(
         (s: string): string | undefined => (tooltipsEnabled ? s : undefined),
         [tooltipsEnabled],
@@ -160,12 +159,10 @@ export const MochiColorPickerPanel = () => {
     const [districtPickerDirection, setDistrictPickerDirection] = React.useState<"up" | "down">("up");
     const [districtPickerOpen, setDistrictPickerOpen] = React.useState(false);
     const [pendingDistrictToolOpen, setPendingDistrictToolOpen] = React.useState(false);
-    // React-driven hover for the swatch shell — Cohtml doesn't reliably fire CSS :hover on a div
-    // that contains an interactive button child (the ColorField button captures the pointer).
+    // ColorField can swallow hover events; React state keeps the swatch ring reliable.
     const [swatchHovered, setSwatchHovered] = React.useState(false);
 
-    // Hover state for preset buttons — CSS :hover cannot change inline styles (inline wins cascade),
-    // so React state is the only way to brighten the number glyph on hover.
+    // Preset numbers use inline color, so hover color also needs React state.
     const [p1Hovered, setP1Hovered] = React.useState(false);
     const [p2Hovered, setP2Hovered] = React.useState(false);
 
@@ -216,7 +213,7 @@ export const MochiColorPickerPanel = () => {
             }
 
             // Vanilla ColorField closes on outside clicks but does not call onClosePicker there,
-            // so keep our scoped CSS mode in sync without touching the picker internals.
+            // Keep scoped CSS mode in sync without touching picker internals.
             if (districtPickerRef.current?.contains(target) || target.closest(".color-picker-container_Sj5")) {
                 return;
             }
@@ -274,10 +271,8 @@ export const MochiColorPickerPanel = () => {
             return;
         }
 
-        // The category only opens the Areas panel. Selecting the District Area
-        // asset is the step that puts vanilla into the actual District tool.
-        // Vanilla can briefly restore the previous Areas subtool after opening
-        // the panel, so we make one delayed retry with the same toolbar API.
+        // Category opens the Areas panel; asset selection enters the District tool.
+        // Vanilla can restore the previous subtool, so retry once after opening.
         toolbar.clearAssetSelection();
         toolbar.selectAssetMenu(areasMenu.entity);
         toolbar.selectAssetCategory(districtCategory.entity);
@@ -375,7 +370,7 @@ export const MochiColorPickerPanel = () => {
     const handleToggleSurfaceToolAreas = () => trigger(CHANNEL, "ToggleSurfaceToolAreas");
     const handleTogglePresetDefaults = () => trigger(CHANNEL, "TogglePresetDefaults");
 
-    // Guideline button: tap = apply player's saved default, hold 0.8s = save current % as new default.
+    // Guidelines: tap applies saved default; hold 0.7s saves current % as default.
     const [guidelineHoldProgress, setGuidelineHoldProgress] = React.useState(0);
     const guidelineHoldTimerRef = React.useRef<number | null>(null);
     const guidelineHoldStartRef = React.useRef<number>(0);
@@ -411,7 +406,7 @@ export const MochiColorPickerPanel = () => {
         guidelineHoldTimerRef.current = window.setTimeout(() => {
             guidelineHoldTimerRef.current = null;
             if (guidelineHoldRafRef.current != null) { cancelAnimationFrame(guidelineHoldRafRef.current); guidelineHoldRafRef.current = null; }
-            // Save current slider value as the player's new personal default.
+            // Long press saves the current value as the personal default.
             trigger(CHANNEL, "SaveGuidelineDefault", guidelineOpacity);
             setGuidelineHolding(false);
             setGuidelineHoldProgress(0);
@@ -420,7 +415,7 @@ export const MochiColorPickerPanel = () => {
 
     const handleGuidelineMouseUp = () => {
         if (guidelineHoldTimerRef.current != null) {
-            // Released before save threshold → tap: apply saved default.
+            // Short press applies the saved default.
             clearTimeout(guidelineHoldTimerRef.current);
             guidelineHoldTimerRef.current = null;
             trigger(CHANNEL, "ApplyGuidelineDefault");
@@ -442,16 +437,16 @@ export const MochiColorPickerPanel = () => {
         holdStartRef.current = performance.now();
         setHoldSlot(slot);
         setHoldProgress(0);
-        const SWEEP_DELAY = 150; // ms before the fill sweep becomes visible — prevents flash on quick tap
+        const SWEEP_DELAY = 150; // avoids a save-sweep flash on quick tap
         const tick = () => {
             const elapsed = performance.now() - holdStartRef.current;
             if (elapsed >= SWEEP_DELAY) {
-                // Remap progress so sweep goes 0→1 over the remaining hold window after the delay.
+                // Sweep uses only the visible portion of the hold window.
                 const p = Math.min((elapsed - SWEEP_DELAY) / (PRESET_HOLD_MS - SWEEP_DELAY), 1);
                 setHoldProgress(p);
                 if (p < 1) holdRafRef.current = requestAnimationFrame(tick);
             } else {
-                holdRafRef.current = requestAnimationFrame(tick); // tick but keep progress at 0
+                holdRafRef.current = requestAnimationFrame(tick);
             }
         };
         holdRafRef.current = requestAnimationFrame(tick);
@@ -468,7 +463,7 @@ export const MochiColorPickerPanel = () => {
         if (holdTimerRef.current != null) {
             clearTimeout(holdTimerRef.current);
             holdTimerRef.current = null;
-            trigger(CHANNEL, "ApplyPreset", slot); // tap = apply
+            trigger(CHANNEL, "ApplyPreset", slot);
         }
         if (holdRafRef.current != null) { cancelAnimationFrame(holdRafRef.current); holdRafRef.current = null; }
         setHoldSlot(0);
@@ -501,9 +496,7 @@ export const MochiColorPickerPanel = () => {
             districtToolSelectRetryRef.current = null;
         }
 
-        // Defer until after the picker click finishes. Vanilla exposes the Areas
-        // category/assets over multiple binding updates, so an effect completes the
-        // District selection as soon as each piece is available.
+        // Defer until after picker click finishes; toolbar bindings arrive in steps.
         areaPanelOpenTimerRef.current = window.setTimeout(() => {
             toolbar.clearAssetSelection();
             setPendingDistrictToolOpen(true);
@@ -544,8 +537,7 @@ export const MochiColorPickerPanel = () => {
     const panelSurfaceClass = useDarkerPanel ? styles.panelDarker : styles.panelStandard;
     const panelContentClass = `${panelTheme.content ?? "content_XD5 content_AD7 child-opacity-transition_nkS"} ${infoviewMenuTheme.content ?? "content_Hzl"} ${styles.panelContent} ${panelSurfaceClass}`;
 
-    // Preset preview swatches intentionally ignore alpha so dark/transparent colors remain legible
-    // against the translucent panel. The saved preset still includes alpha and applies it in-game.
+    // Preview ignores alpha for legibility; saved preset still applies alpha in-game.
     const presetPreviewStyle = (c: Color) => ({
         backgroundColor: `rgb(${Math.round(c.r * 255)},${Math.round(c.g * 255)},${Math.round(c.b * 255)})`,
     });
@@ -554,12 +546,11 @@ export const MochiColorPickerPanel = () => {
         if (hovered) {
             return "rgba(255, 255, 255, 1)";
         }
-        // Active number: keep alpha high for readability; reduce cyan intensity
-        // by moving RGB toward white instead of making the glyph transparent.
+        // Active number stays opaque; softer cyan comes from RGB, not alpha.
         return active ? "rgba(150, 235, 255, 0.96)" : "rgba(255, 255, 255, 0.78)";
     };
 
-    // holdBar uses transform: scaleX so percentage works regardless of button width
+    // scaleX keeps hold progress independent of button width.
     const holdBarStyle = (progress: number) => ({ transform: `scaleX(${progress})` });
 
     return (
@@ -572,7 +563,7 @@ export const MochiColorPickerPanel = () => {
 
                     {/* Title bar */}
                     <div className={styles.titleBar}>
-                        {/* Info button toggles panel tooltips. Always shows its own tooltip so player can re-enable. */}
+                        {/* Info toggles panel tooltips. Its own tooltip always stays visible. */}
                         <Tooltip tooltip={text.tooltipInfo}>
                             <button
                                 type="button"
@@ -619,14 +610,13 @@ export const MochiColorPickerPanel = () => {
                                 </button>
                             </Tooltip>
                             <div className={`${styles.controlBody} ${styles.outlineControlBody}`}>
-                                {/* Left group: swatch + preset circles — space-between pushes outlineRight to far right */}
+                                {/* Left group: swatch + preset slots. */}
                                 <div className={styles.outlineLeft}>
                                     <Tooltip tooltip={tt(text.tooltipOutlineSwatch)}>
                                         <div
                                             ref={outlineSwatchRef}
                                             className={`${styles.outlineFieldShell} ${swatchHovered ? styles.outlineFieldShellHovered : ""}`}
-                                            // Cohtml can be picky with hover over vanilla ColorField,
-                                            // so we use CSS :hover plus bubbled over/move events.
+                                            // CSS :hover plus bubbled events keeps Cohtml hover reliable.
                                             onMouseOver={() => { if (!swatchHovered) { setSwatchHovered(true); updateColorPickerDirection(); }}}
                                             onMouseMove={() => { if (!swatchHovered) { setSwatchHovered(true); updateColorPickerDirection(); }}}
                                             onMouseLeave={() => setSwatchHovered(false)}
@@ -641,8 +631,7 @@ export const MochiColorPickerPanel = () => {
                                                 hideHint={true}
                                                 hexInput={true}
                                                 colorWheel={true}
-                                                // belt-and-suspenders: ColorField forwards onMouseEnter/Leave
-                                                // to its root element; combined with onMouseMove on the shell.
+                                                // Extra hover events from ColorField root.
                                                 onMouseEnter={() => setSwatchHovered(true)}
                                                 onMouseLeave={() => setSwatchHovered(false)}
                                                 onChange={handleOutlineChange}
@@ -652,11 +641,7 @@ export const MochiColorPickerPanel = () => {
                                         </div>
                                     </Tooltip>
 
-                                    {/* Preset slots: number first, small stored-colour swatch second.
-                                        Tap = apply. Hold 0.8s = save current live color to this slot.
-                                        holdBar sweeps left-to-right under the number and swatch. */}
-                                    {/* onMouseEnter/Leave on the button for number brightness — buttons reliably
-                                        receive hover events in Cohtml. CSS :hover cannot override inline styles. */}
+                                    {/* Presets: tap applies; hold saves current color/alpha. */}
                                     <Tooltip tooltip={tt(text.tooltipPreset1)}>
                                         <button
                                             type="button"
@@ -689,7 +674,7 @@ export const MochiColorPickerPanel = () => {
                                     </Tooltip>
                                 </div>
 
-                                {/* Right group: SVG reset icon (no dark box) — avoids missing glyph boxes in CJK fonts. */}
+                                {/* SVG reset avoids missing glyph boxes in CJK fonts. */}
                                 <div className={styles.outlineRight}>
                                     <Tooltip tooltip={tt(text.tooltipResetPresets)}>
                                         <button
@@ -731,7 +716,7 @@ export const MochiColorPickerPanel = () => {
                             </Tooltip>
                         </div>
 
-                        {/* Guidelines row — tap to apply saved default, hold 0.8s to save current % as new default */}
+                        {/* Guidelines: tap applies saved default; hold saves current %. */}
                         <div className={styles.controlRow}>
                             <Tooltip tooltip={tt(text.tooltipResetGuidelines)}>
                                 <button
@@ -770,9 +755,9 @@ export const MochiColorPickerPanel = () => {
 
                     {/* Bottom action bar */}
                     <div className={styles.actions}>
-                        {/* Left: two separate surface-area buttons, each with its own indicator */}
+                        {/* Surface tools: each button has its own active indicator. */}
                         <div className={styles.surfaceActions}>
-                            {/* LotTool: toggles surface tool area suppression, owns the active indicator */}
+                            {/* LotTool toggles surface preview suppression. */}
                             <Tooltip tooltip={tt(text.tooltipSurfaceToggle)}>
                                 <button
                                     type="button"
@@ -782,8 +767,7 @@ export const MochiColorPickerPanel = () => {
                                     <img src={lotToolIconSrc} className={`${styles.controlIcon} ${styles.idleIcon}`} alt="" />
                                 </button>
                             </Tooltip>
-                            {/* Districts: vanilla ColorField popup, but the District SVG remains the visible button.
-                                This keeps the game's own black popup shell/layout instead of a fragile custom wrapper. */}
+                            {/* Districts uses hidden ColorField so vanilla owns the popup. */}
                             <Tooltip tooltip={tt(text.tooltipDistrictColors)}>
                                 <div
                                     ref={districtPickerRef}
@@ -816,7 +800,7 @@ export const MochiColorPickerPanel = () => {
                             </Tooltip>
                         </div>
 
-                        {/* ↺ is now in the outline row — nothing here */}
+                        {/* Reset moved to the outline row. */}
                     </div>
 
                     <Tooltip tooltip={tt(text.tooltipDraggable)}>

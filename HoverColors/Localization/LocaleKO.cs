@@ -60,12 +60,21 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. 추천" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. 바닐라 도구 색상" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. 내 사용자 색상 유지" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "겹치는 아이템 윤곽선 켜기" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "다른 아이템과 겹쳐 배치할 때 게임의 기본 동작을 다시 켭니다.\n" +
+                    "겹침 배치 시 게임의 오류 윤곽선(연어색)을 사용합니다.\n\n" +
+                    "Bulldozer + Roads 모든 모드에서 작동하며 저장된 사용자 색상은 덮어쓰지 않습니다."
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "더 어두운 패널" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
-                    "Makes the in-city Hover Colors panel darker and easier to read.\n\n" +
-                    "Recommended for players using the game's LegacyUI transparency option, and also useful if you prefer a stronger, darker panel in Modern UI."
+                    "<어두운 패널>: Legacy UI 플레이어용입니다. Modern UI에서도 더 어두운 패널을 원하면 사용할 수 있습니다.\n" +
+                    "<표준 패널>: Hover Colors의 커스텀 반투명 스타일입니다.\n" +
+                    "더 밝고 현대적인 느낌입니다.\n" +
+                    "새 Modern 게임 UI를 쓰는 대부분의 플레이어에게 좋습니다.\n" +
+                    "둘 다 써 보고 마음에 드는 쪽을 고르세요. 게임 UI가 아니라 이 모드 패널 배경만 바뀝니다."
                 },
                 
                 // Guidelines opacity slider

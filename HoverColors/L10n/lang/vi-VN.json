@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Viền: nhấp để chọn màu + độ mờ.",
   "HoverColors.UI.Tooltip.ResetFill": "Tô nền: nhấp để đặt lại về 0% (mặc định của game).",
   "HoverColors.UI.Tooltip.FillOpacity": "Độ mờ của vùng tô bên trong viền.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Đường dẫn hướng: chạm để đặt lại về mặc định đã lưu. Giữ 0,8 giây để lưu % hiện tại làm mặc định cá nhân mới.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Độ mờ đường dẫn hướng. Thay đổi sẽ tự lưu. Chạm biểu tượng để khôi phục mặc định đã lưu. Giữ để lưu giá trị hiện tại làm mặc định.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Độ mờ đường dẫn hướng. Không nên để dưới 15% vì các đường dẫn có thể khó nhìn.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Ẩn phần tô xem trước ranh giới của công cụ Surface.\nPhím tắt mặc định: L.",
   "HoverColors.UI.Tooltip.Preset1": "Ô 1 — chạm để áp dụng, giữ 0,8 giây để ghi đè bằng màu hiện tại.\nPhím K chuyển giữa ô 1 và ô 2.",

@@ -9,7 +9,7 @@ import { MochiColorPickerPanel } from "./MochiColorPickerPanel";
 import styles from "./ModIconButton.module.scss";
 
 // SVG passed via Button.src so its own fills render (single color today, multi-color later).
-import ModIconPath from "../images/MainElements.svg";
+import ModIconPath from "../images/MainElements2.svg";
 
 const CHANNEL = "HoverColors";
 const panelOpen$ = bindValue<boolean>(CHANNEL, "PanelOpen", false);

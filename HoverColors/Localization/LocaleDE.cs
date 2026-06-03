@@ -60,12 +60,21 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. Empfohlen" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Vanilla-Toolfarben" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Eigene Farbe behalten" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Umriss bei überlappenden Objekten aktivieren" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "Aktiviert das normale Vanilla-Verhalten, wenn Objekte mit anderen Objekten überlappen.\n" +
+                    "Nutzt den Fehler-Umriss des Spiels in Lachsrot beim Platzieren mit Überlappung.\n\n" +
+                    "Funktioniert mit allen Bulldozer- und Straßenmodi und überschreibt deine gespeicherte eigene Farbe nicht."
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Dunkleres Panel" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
-                    "Makes the in-city Hover Colors panel darker and easier to read.\n\n" +
-                    "Recommended for players using the game's LegacyUI transparency option, and also useful if you prefer a stronger, darker panel in Modern UI."
+                    "<Dunkles Panel>: für Legacy-UI-Spieler gedacht; geht auch in der modernen UI, wenn du es dunkler magst.\n" +
+                    "<Standard-Panel>: eigener transparenter Hover-Colors-Stil.\n" +
+                    "Heller, moderner Look.\n" +
+                    "Am besten für die meisten Spieler mit der neuen modernen Spiel-UI.\n" +
+                    "Probier beide aus. Es ändert nur den Hintergrund dieses Mod-Panels, nicht die Spiel-UI."
                 },
                 
                 // Guidelines opacity slider

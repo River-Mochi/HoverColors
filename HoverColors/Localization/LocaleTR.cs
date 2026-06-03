@@ -62,12 +62,21 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. Önerilen" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Vanilla araç renkleri" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Özel rengimi koru" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Çakışan öğe dış çizgisini aç" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "Başka öğelerle çakışan öğeler yerleştirirken oyunun normal vanilla davranışını açar.\n" +
+                    "Çakışma denemesinde oyunun hata dış çizgisini (somon rengi) kullanır.\n\n" +
+                    "Tüm Bulldozer + Roads modlarıyla çalışır ve kayıtlı özel renginin üzerine yazmaz."
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Daha koyu panel" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
-                    "Makes the in-city Hover Colors panel darker and easier to read.\n\n" +
-                    "Recommended for players using the game's LegacyUI transparency option, and also useful if you prefer a stronger, darker panel in Modern UI."
+                    "<Koyu panel>: Legacy UI kullananlar için yapıldı; Modern UI içinde daha koyu panel seviyorsan da kullanılabilir.\n" +
+                    "<Standart panel>: Hover Colors'ın özel yarı saydam stili.\n" +
+                    "Daha açık, daha modern görünüm.\n" +
+                    "Yeni Modern oyun UI'sini kullanan çoğu oyuncu için en iyi seçenek.\n" +
+                    "İkisini de dene. Bu yalnızca bu mod panelinin arka planını değiştirir, oyunun UI'sini değil."
                 },
                 
                 // Guidelines opacity slider

@@ -60,12 +60,21 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. Recomendado" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Colores vanilla de herramienta" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Mantener mi color personalizado" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Activar contorno de objetos superpuestos" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "Activa el comportamiento vanilla normal al colocar objetos que se superponen con otros.\n" +
+                    "Usa el contorno de error del juego (color salmón) cuando intentas superponer.\n\n" +
+                    "Funciona con todos los modos de Bulldozer + carreteras y no sobrescribe tu color personalizado guardado."
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Panel más oscuro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
-                    "Makes the in-city Hover Colors panel darker and easier to read.\n\n" +
-                    "Recommended for players using the game's LegacyUI transparency option, and also useful if you prefer a stronger, darker panel in Modern UI."
+                    "<Panel oscuro>: pensado para jugadores con Legacy UI; también sirve en la UI moderna si prefieres algo más oscuro.\n" +
+                    "<Panel estándar>: estilo translúcido propio de Hover Colors.\n" +
+                    "Aspecto más claro y moderno.\n" +
+                    "Recomendado para la mayoría de jugadores con la nueva UI moderna del juego.\n" +
+                    "Prueba ambos y quédate con el que prefieras. Solo cambia el fondo de este panel del mod, no la UI del juego."
                 },
                 
                 // Guidelines opacity slider

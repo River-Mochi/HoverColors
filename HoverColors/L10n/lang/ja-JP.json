@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "アウトライン: クリックで色 + 不透明度を変更します。",
   "HoverColors.UI.Tooltip.ResetFill": "塗りつぶし: クリックで0%に戻します（ゲーム既定値）。",
   "HoverColors.UI.Tooltip.FillOpacity": "アウトライン内側の塗りつぶし領域の不透明度です。",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "ガイドライン: タップで保存済みの既定値に戻します。0.8秒長押しで現在の%を新しい個人既定値として保存します。",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "ガイドラインの不透明度。変更は自動保存されます。アイコンをタップすると保存済みの既定値に戻します。長押しすると現在の値を既定値として保存します。",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "ガイドラインの不透明度。15%未満は、ガイドが見づらくなる可能性があるためおすすめしません。",
   "HoverColors.UI.Tooltip.SurfaceToggle": "地表ツールの境界プレビュー塗りつぶしを非表示にします。\nデフォルトホットキー: L。",
   "HoverColors.UI.Tooltip.Preset1": "スロット1 — タップで適用、0.8秒長押しで現在の色で上書きします。\nホットキーKでスロット1とスロット2を切り替えます。",

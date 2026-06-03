@@ -60,12 +60,21 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. 推荐" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. 原版工具颜色" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. 保持我的自定义颜色" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "启用重叠物品轮廓" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "放置物品与其他物品重叠时，启用游戏原版的正常提示行为。\n" +
+                    "尝试重叠放置时使用游戏的错误轮廓（鲑鱼色）。\n\n" +
+                    "适用于所有 Bulldozer + Roads 模式，并且不会覆盖已保存的自定义颜色。"
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "更深色面板" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
-                    "Makes the in-city Hover Colors panel darker and easier to read.\n\n" +
-                    "Recommended for players using the game's LegacyUI transparency option, and also useful if you prefer a stronger, darker panel in Modern UI."
+                    "<深色面板>：为 Legacy UI 玩家准备；如果你在 Modern UI 中喜欢更深的面板，也可以使用。\n" +
+                    "<标准面板>：Hover Colors 自定义半透明风格。\n" +
+                    "更明亮、更现代。\n" +
+                    "适合大多数使用新版 Modern 游戏 UI 的玩家。\n" +
+                    "两个都试试，看你喜欢哪一个。此选项只改变本模组面板背景，不改变游戏 UI。"
                 },
                 
                 // Guidelines opacity slider

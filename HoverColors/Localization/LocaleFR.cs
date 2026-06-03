@@ -60,12 +60,21 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. Recommandé" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Couleurs vanilla des outils" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Garder ma couleur perso" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Activer le contour des objets superposés" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "Active le comportement vanilla normal quand un objet chevauche un autre objet.\n" +
+                    "Utilise le contour d’erreur du jeu (couleur saumon) quand le placement chevauche.\n\n" +
+                    "Fonctionne avec tous les modes Bulldozer + routes et n’écrase pas ta couleur personnalisée enregistrée."
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Panneau plus sombre" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
-                    "Makes the in-city Hover Colors panel darker and easier to read.\n\n" +
-                    "Recommended for players using the game's LegacyUI transparency option, and also useful if you prefer a stronger, darker panel in Modern UI."
+                    "<Panneau sombre> : pensé pour les joueurs en Legacy UI ; utilisable aussi en UI moderne si tu préfères un panneau plus sombre.\n" +
+                    "<Panneau standard> : style translucide personnalisé de Hover Colors.\n" +
+                    "Look plus clair et plus moderne.\n" +
+                    "Idéal pour la plupart des joueurs avec la nouvelle UI moderne du jeu.\n" +
+                    "Essaie les deux. Cela change seulement le fond de ce panneau du mod, pas l’UI du jeu."
                 },
                 
                 // Guidelines opacity slider

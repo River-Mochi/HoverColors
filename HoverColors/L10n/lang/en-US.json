@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Outline: click for color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "Fill: click to reset to 0% (game default).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacity of the fill area inside the outline.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Guidelines: tap to reset to saved default. Hold 0.8s to save the current % as your new personal default.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Guidelines opacity. Changes save automatically. Tap icon to restore your saved guideline default. Hold icon to save the current value as that default.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Guidelines opacity. Below 15% is not advised because the guides may become hard to see.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Hide Surface tool boundary preview fill.\nDefault hotkey: L.",
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — tap to apply, hold 0.8s to overwrite with your current color.\nHotkey K toggles between slot 1 and slot 2.",

@@ -15,6 +15,7 @@ import jaJP from "../../L10n/lang/ja-JP.json";
 import koKR from "../../L10n/lang/ko-KR.json";
 import plPL from "../../L10n/lang/pl-PL.json";
 import ptBR from "../../L10n/lang/pt-BR.json";
+import ptPT from "../../L10n/lang/pt-PT.json";
 import thTH from "../../L10n/lang/th-TH.json";
 import trTR from "../../L10n/lang/tr-TR.json";
 import viVN from "../../L10n/lang/vi-VN.json";
@@ -36,6 +37,7 @@ const dictionaries: Record<string, LocaleDictionary> = {
     "ko-kr": koKR,
     "pl-pl": plPL,
     "pt-br": ptBR,
+    "pt-pt": ptPT,
     "th": thTH,
     "th-th": thTH,
     "tr": trTR,

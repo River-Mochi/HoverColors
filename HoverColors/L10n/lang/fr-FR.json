@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "Contour : cliquer pour couleur + opacité.",
   "HoverColors.UI.Tooltip.ResetFill": "Remplissage : cliquer pour remettre à 0% (valeur par défaut du jeu).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacité de la zone de remplissage à l’intérieur du contour.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Repères : appuyer pour revenir au défaut enregistré. Maintenir 0,8 s pour enregistrer le % actuel comme nouveau défaut personnel.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Opacité des repères. Les changements sont enregistrés automatiquement. Appuie sur l’icône pour restaurer ton défaut enregistré. Maintiens pour enregistrer la valeur actuelle comme défaut.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Opacité des repères. Sous 15%, ce n’est pas conseillé car les repères peuvent devenir difficiles à voir.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Masque le remplissage de l’aperçu des limites de l’outil Surface.\nRaccourci par défaut : L.",
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — appuyer pour appliquer, maintenir 0,8 s pour écraser avec la couleur actuelle.\nLa touche K alterne entre le slot 1 et le slot 2.",

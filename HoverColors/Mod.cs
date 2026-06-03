@@ -31,6 +31,13 @@ namespace HoverColors
         public static readonly string ModVersion =
             Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.5.0";
 
+        public static string BuildFlavor =>
+#if DEBUG
+            "DEBUG";
+#else
+            "RELEASE";
+#endif
+
         public static readonly ILog s_Log =
             LogManager.GetLogger(ModId).SetShowsErrorsInUI(false);
 
@@ -79,6 +86,7 @@ namespace HoverColors
             AddLocaleSource("th-TH", new LocaleTH(setting));    // Thai
             AddLocaleSource("vi-VN", new LocaleVI(setting));    // Vietnamese
             AddLocaleSource("tr-TR", new LocaleTR(setting));    // Turkish
+            AddLocaleSource("pt-PT", new LocalePT_PT(setting)); // European Portuguese
 
             try
             {
@@ -191,7 +199,7 @@ namespace HoverColors
             }
 
             s_BannerLogged = true;
-            LogUtils.Info(() => $"{ModName} v{ModVersion} {ModTag} loaded");
+            LogUtils.Info(() => $"{ModName} v{ModVersion} {BuildFlavor} loaded");
         }
     }
 }

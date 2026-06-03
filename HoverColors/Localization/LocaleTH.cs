@@ -62,12 +62,21 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. แนะนำ" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. สีเครื่องมือวานิลลา" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. ใช้สีที่กำหนดเองต่อไป" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "เปิดเส้นขอบเมื่อวางทับกัน" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "เปิดพฤติกรรมปกติของเกมเมื่อวางไอเท็มทับกับไอเท็มอื่น\n" +
+                    "ใช้เส้นขอบแจ้งข้อผิดพลาดสีแซลมอนของเกมเมื่อพยายามวางทับกัน\n\n" +
+                    "ใช้ได้กับทุกโหมด Bulldozer + Roads และไม่เขียนทับสีที่คุณบันทึกไว้"
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "แผงสีเข้มขึ้น" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
-                    "Makes the in-city Hover Colors panel darker and easier to read.\n\n" +
-                    "Recommended for players using the game's LegacyUI transparency option, and also useful if you prefer a stronger, darker panel in Modern UI."
+                    "<แผงเข้ม>: ทำมาสำหรับผู้เล่นที่ใช้ Legacy UI และใช้ใน Modern UI ได้ถ้าชอบแผงเข้มกว่า\n" +
+                    "<แผงมาตรฐาน>: สไตล์โปร่งแสงเฉพาะของ Hover Colors\n" +
+                    "ดูสว่างและทันสมัยกว่า\n" +
+                    "เหมาะกับผู้เล่นส่วนใหญ่ที่ใช้ Modern UI ใหม่ของเกม\n" +
+                    "ลองทั้งสองแบบแล้วเลือกที่ชอบ สิ่งนี้เปลี่ยนแค่พื้นหลังแผงของม็อดนี้ ไม่ได้เปลี่ยน UI เกม"
                 },
                 
                 // Guidelines opacity slider

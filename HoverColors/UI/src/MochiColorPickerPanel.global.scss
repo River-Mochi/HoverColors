@@ -1,10 +1,10 @@
 // File: UI/src/MochiColorPickerPanel.global.scss
-// Purpose: tightly scoped global fixes for vanilla popups rendered outside our CSS-module tree.
+// Purpose: tightly scoped global fixes for vanilla popups rendered outside CSS modules.
 //
 // District ColorField uses colorWheel=false, so the vanilla picker lacks the extra wheel section
 // spacing that the full outline picker gets naturally. The popup is rendered by the game's
-// balloon system outside our panel DOM, so a local CSS-module selector cannot reach it.
-// This rule is still scoped: the body class exists only while our District picker is open.
+// balloon system outside the panel DOM, so a local CSS-module selector cannot reach it.
+// Scoped by body class; active only while the District picker is open.
 body.mochiDistrictPickerOpen .color-picker-container_Sj5 .hex_c98 {
     margin-top: 8rem !important;
 }
