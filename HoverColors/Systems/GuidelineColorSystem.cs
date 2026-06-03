@@ -32,6 +32,14 @@ namespace HoverColors.Systems
         private static readonly Color SoftBlueGuidelineColor = new(0.502f, 0.869f, 1f, 1f);
         private static readonly Color HighVisibilityGuidelineColor = new(0.85f, 1f, 1f, 1f);
 
+        // TEMP probe for mapping vanilla guideline priority colors in-game.
+        // Set false after testing; normal picker/preset colors then apply to all priorities again.
+        private static readonly bool GuidelinePriorityProbeMode = true;
+        private static readonly Color ProbeVeryLowColor = new(1f, 0f, 1f, 1f);      // magenta
+        private static readonly Color ProbeLowColor = new(1f, 0.9f, 0f, 1f);        // yellow
+        private static readonly Color ProbeMediumColor = new(1f, 0.45f, 0f, 1f);    // orange
+        private static readonly Color ProbeHighColor = new(0f, 1f, 0.15f, 1f);      // bright green
+
         // Snapshot of the game's default colors. Opacity multiplies the default alphas and
         // custom RGB replaces only the four priority colors, not positive-feedback green.
         private Color m_DefVeryLow;
@@ -110,11 +118,22 @@ namespace HoverColors.Systems
                     $"P={FormatColor(m_DefPositive)}");
             }
 
-            Color guidelineRgb = GetGuidelineColor(settings);
-            data.m_VeryLowPriorityColor = ApplyGuidelineColor(m_DefVeryLow, guidelineRgb, opacity);
-            data.m_LowPriorityColor = ApplyGuidelineColor(m_DefLow, guidelineRgb, opacity);
-            data.m_MediumPriorityColor = ApplyGuidelineColor(m_DefMedium, guidelineRgb, opacity);
-            data.m_HighPriorityColor = ApplyGuidelineColor(m_DefHigh, guidelineRgb, opacity);
+            if (GuidelinePriorityProbeMode)
+            {
+                data.m_VeryLowPriorityColor = ApplyGuidelineColor(m_DefVeryLow, ProbeVeryLowColor, opacity);
+                data.m_LowPriorityColor = ApplyGuidelineColor(m_DefLow, ProbeLowColor, opacity);
+                data.m_MediumPriorityColor = ApplyGuidelineColor(m_DefMedium, ProbeMediumColor, opacity);
+                data.m_HighPriorityColor = ApplyGuidelineColor(m_DefHigh, ProbeHighColor, opacity);
+            }
+            else
+            {
+                Color guidelineRgb = GetGuidelineColor(settings);
+                data.m_VeryLowPriorityColor = ApplyGuidelineColor(m_DefVeryLow, guidelineRgb, opacity);
+                data.m_LowPriorityColor = ApplyGuidelineColor(m_DefLow, guidelineRgb, opacity);
+                data.m_MediumPriorityColor = ApplyGuidelineColor(m_DefMedium, guidelineRgb, opacity);
+                data.m_HighPriorityColor = ApplyGuidelineColor(m_DefHigh, guidelineRgb, opacity);
+            }
+
             data.m_PositiveFeedbackColor = WithAlpha(m_DefPositive, m_DefPositive.a * opacity);
 
             EntityManager.SetComponentData(entity, data);

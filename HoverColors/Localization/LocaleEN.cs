@@ -65,10 +65,11 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Vanilla tool colors" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Keep my custom color" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Enable Overlapping items outline" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Enable Overlapping error color" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
-                    "This enables normal vanilla behavior when placing items that overlap with other items.\n" +
-                    "Uses the game's error outline (salmon color) if overlapping error detected.\n\n" +
+                    "<Enabled is recommended>\n" +
+                    "Enables normal vanilla behavior when placing items that <overlap> with other items.\n" +
+                    "Uses the game's error outline color (salmon) if error detected.\n\n" +
                     "Works with all Bulldozer + Roads modes and does not overwrite your saved custom color."
                 },
 
@@ -86,6 +87,7 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineColorPreset)), "Guidelines color" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineColorPreset)),
                     "Sets the base color used by vanilla guideline overlays.\n\n" +
+                    "Use <Vanilla> to reset the guideline color.\n" +
                     "The in-city guideline swatch switches this to <Custom>.\n" +
                     "Positive feedback stays vanilla green so valid placement is still clear."
                 },
