@@ -12,6 +12,7 @@
 //   - Material _InnerColor.a                     ← FillA      (fill overlay opacity)
 //
 // Tool override: controlled by HoverColorsSettings.ToolColorMode.
+//   - Overlapping / invalid placement errors: optional vanilla ErrorColor wins first.
 //   - Recommended: WarningColor for bulldozer, softer vanilla blue for roads.
 //   - Vanilla: captured vanilla hover profile while those tools are active.
 //   - Custom: player color everywhere.
@@ -34,6 +35,7 @@ namespace HoverColors.Systems
     using Game.Tools;
     using HoverColors.Settings;
     using System;
+    using System.Reflection;
     using Unity.Entities;
     using UnityEngine;
     using UnityEngine.Rendering.HighDefinition;
@@ -80,9 +82,16 @@ namespace HoverColors.Systems
         private EffectivePalette m_LastPalette;
         private bool m_Applied;
 
+        private static readonly FieldInfo? s_ToolErrorQueryField =
+            typeof(ToolBaseSystem).GetField("m_ErrorQuery", BindingFlags.Instance | BindingFlags.NonPublic);
+
         // RenderingSettings.WarningColor = 1, 1, 0.5, 0.447058827.
         // Kept here as a release-safe fallback even if capture order changes on a future patch.
         private static readonly Color s_WarningColor = new(1f, 1f, 0.5f, 0.447058827f);
+
+        // RenderingSettings.ErrorColor = 1, 0.5, 0.5, 0.447058827.
+        // Vanilla uses this salmon tone for blocking placement errors such as Overlapping items.
+        private static readonly Color s_ErrorColor = new(1f, 0.5f, 0.5f, 0.447058827f);
 
         private enum ToolKind
         {
@@ -95,6 +104,7 @@ namespace HoverColors.Systems
         {
             Custom,
             CapturedVanilla,
+            VanillaToolError,
             RecommendedBulldoze,
             RecommendedNet,
         }
@@ -120,8 +130,18 @@ namespace HoverColors.Systems
 
             float r, g, b, outlineA, fillA;
             EffectivePalette palette;
-            ToolKind activeTool = GetActiveToolKind(m_ToolSystem?.activeTool);
-            if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeRecommended
+            ToolBaseSystem? activeToolSystem = m_ToolSystem?.activeTool;
+            ToolKind activeTool = GetActiveToolKind(activeToolSystem);
+            if (settings.UseOverlapWarningColor && HasBlockingToolError(activeToolSystem))
+            {
+                r = s_ErrorColor.r;
+                g = s_ErrorColor.g;
+                b = s_ErrorColor.b;
+                outlineA = s_ErrorColor.a;
+                fillA = CapturedFillA;
+                palette = EffectivePalette.VanillaToolError;
+            }
+            else if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeRecommended
                 && activeTool == ToolKind.Bulldoze)
             {
                 r = s_WarningColor.r;
@@ -267,6 +287,10 @@ namespace HoverColors.Systems
                     data.m_HoveredColor = CapturedHoveredColor;
                     data.m_OwnerColor = CapturedOwnerColor;
                     break;
+                case EffectivePalette.VanillaToolError:
+                    data.m_HoveredColor = s_ErrorColor;
+                    data.m_OwnerColor = s_ErrorColor;
+                    break;
                 case EffectivePalette.RecommendedBulldoze:
                     data.m_HoveredColor = s_WarningColor;
                     data.m_OwnerColor = s_WarningColor;
@@ -308,6 +332,10 @@ namespace HoverColors.Systems
                 case EffectivePalette.CapturedVanilla:
                     outer = CapturedOuterColor;
                     inner = CapturedInnerColor;
+                    break;
+                case EffectivePalette.VanillaToolError:
+                    outer = s_ErrorColor;
+                    inner = new Color(s_ErrorColor.r, s_ErrorColor.g, s_ErrorColor.b, CapturedFillA);
                     break;
                 case EffectivePalette.RecommendedBulldoze:
                     outer = s_WarningColor;
@@ -358,6 +386,38 @@ namespace HoverColors.Systems
             }
 
             return ToolKind.None;
+        }
+
+        private static bool HasBlockingToolError(ToolBaseSystem? tool)
+        {
+            if (tool == null)
+            {
+                return false;
+            }
+
+            if (s_ToolErrorQueryField == null)
+            {
+                LogUtils.WarnOnce(
+                    "tool-error-query-field-missing",
+                    () => $"{Mod.ModTag} Cannot preserve placement error color: ToolBaseSystem.m_ErrorQuery not found.");
+                return false;
+            }
+
+            try
+            {
+                // Vanilla ToolBaseSystem.GetAllowApply() checks this same query. It only becomes
+                // non-empty for real blocking tool errors, including Overlapping items.
+                object? value = s_ToolErrorQueryField.GetValue(tool);
+                return value is EntityQuery errorQuery && !errorQuery.IsEmptyIgnoreFilter;
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "tool-error-query-read-failed",
+                    () => $"{Mod.ModTag} Cannot preserve placement error color: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+                return false;
+            }
         }
 
         private static string SafeToolId(ToolBaseSystem tool)

@@ -402,6 +402,9 @@ namespace HoverColors.UI
         private void RegisterValueBindings()
         {
             HoverColorsSettings? settings = Mod.Settings;
+            bool suppressSurfaceToolAreas = settings?.SurfaceToolAreasSuppressed ?? true;
+            SurfaceToolOverlaySystem.SetSuppression(suppressSurfaceToolAreas);
+
             m_OutlineRBinding = AddValueBinding("OutlineR", settings?.OutlineR ?? 0.502f);
             m_OutlineGBinding = AddValueBinding("OutlineG", settings?.OutlineG ?? 0.869f);
             m_OutlineBBinding = AddValueBinding("OutlineB", settings?.OutlineB ?? 1f);
@@ -416,7 +419,7 @@ namespace HoverColors.UI
             m_PanelOpenBinding = AddValueBinding("PanelOpen", s_PanelOpen);
             m_PanelTooltipsEnabledBinding = AddValueBinding("PanelTooltipsEnabled", settings?.PanelTooltipsEnabled ?? true);
             m_UseDarkerPanelBinding = AddValueBinding("UseDarkerPanel", settings?.UseDarkerPanel ?? false);
-            m_SurfaceToolAreasSuppressedBinding = AddValueBinding("SurfaceToolAreasSuppressed", SurfaceToolOverlaySystem.SuppressSurfaceToolAreas);
+            m_SurfaceToolAreasSuppressedBinding = AddValueBinding("SurfaceToolAreasSuppressed", suppressSurfaceToolAreas);
             m_VanillaOutlineActiveBinding = AddValueBinding("VanillaOutlineActive", IsVanillaOutlineActive());
 
             // Preset slot stored-color bindings (swatch previews + active-state).
@@ -494,7 +497,16 @@ namespace HoverColors.UI
 
         private void ToggleSurfaceToolAreas()
         {
-            SurfaceToolOverlaySystem.ToggleSuppression();
+            bool enabled = !SurfaceToolOverlaySystem.SuppressSurfaceToolAreas;
+            SurfaceToolOverlaySystem.SetSuppression(enabled);
+
+            HoverColorsSettings? settings = Mod.Settings;
+            if (settings != null)
+            {
+                settings.SurfaceToolAreasSuppressed = enabled;
+                settings.ApplyAndSave();
+            }
+
             UpdateIfChanged(m_SurfaceToolAreasSuppressedBinding, SurfaceToolOverlaySystem.SuppressSurfaceToolAreas);
         }
 

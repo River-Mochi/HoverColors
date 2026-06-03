@@ -62,6 +62,11 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. Önerilen" },
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Vanilla araç renkleri" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Özel rengimi koru" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Overlapping items warning color" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "When vanilla placement validation blocks an action, such as Overlapping items, use the game's salmon error outline.\n\n" +
+                    "This works with all Bulldozer + Roads modes and does not overwrite your saved custom color."
+                },
 
                 // Darker panel
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "Darker panel" },

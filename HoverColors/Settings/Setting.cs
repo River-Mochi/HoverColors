@@ -146,6 +146,11 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public bool PanelTooltipsEnabled { get; set; }
 
+        // Hidden in-city preference for the Surface tool button/hotkey.
+        // Default ON because creators mainly use this mod to see layered surfaces clearly.
+        [SettingsUIHidden]
+        public bool SurfaceToolAreasSuppressed { get; set; }
+
         // -----------------------------------------------------------------------
         // Actions tab — Tool color behavior
         // -----------------------------------------------------------------------
@@ -155,6 +160,9 @@ namespace HoverColors.Settings
         [SettingsUIDropdown(typeof(HoverColorsSettings), nameof(GetToolColorModeItems))]
         [SettingsUISection(Actions, ToolColors)]
         public int ToolColorMode { get; set; }
+
+        [SettingsUISection(Actions, ToolColors)]
+        public bool UseOverlapWarningColor { get; set; }
 
         // -----------------------------------------------------------------------
         // Actions tab — Panel readability
@@ -270,10 +278,12 @@ namespace HoverColors.Settings
             Preset2GuidelinePercent = DefaultGuidelineOpacityPercent;
             GuidelineDefaultPercent = DefaultGuidelineOpacityPercent;
             PanelTooltipsEnabled = true;
+            SurfaceToolAreasSuppressed = true;
 
             // Release default: help players see demolition/road targets even if their custom
             // alpha is very low, without changing their saved custom color.
             ToolColorMode = ToolColorModeRecommended;
+            UseOverlapWarningColor = true;
             UseDarkerPanel = false;
 
             // 100 = vanilla default. Lower = more transparent guidelines.
