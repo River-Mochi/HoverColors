@@ -77,9 +77,10 @@ tags: Mochi's blue scrubber, Highlight, border color, remove blue
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - UI/UX improvements
-- Options menu: add toggle to apply hover colors to overlapping items just like vanilla. default on.
+- Options menu: add toggle to apply hover colors to Overlapping items just like vanilla. default On.
 - added EU-portuguese translation.
 - updated translations.
+- Surface tool default on.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 	<ExternalLink Type="" Url="" />
