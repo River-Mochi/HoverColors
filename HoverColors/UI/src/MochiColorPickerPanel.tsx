@@ -782,7 +782,7 @@ export const MochiColorPickerPanel = () => {
                                             onMouseLeave={() => setGuidelineLinesHovered(false)}
                                             onMouseDown={updateGuidelineLinesPickerDirection}
                                         >
-                                            {/* Hover only shows the ring; vanilla ColorField opens only on click/select. */}
+                                            {/* Hidden ColorField opens picker only; shell/preview own color + hover. */}
                                             <ColorField
                                                 focusKey={focusDisabled}
                                                 className={styles.guidelineColorField}
@@ -816,7 +816,7 @@ export const MochiColorPickerPanel = () => {
                                             onMouseLeave={() => setGuidelinePreviewHovered(false)}
                                             onMouseDown={updateGuidelinePreviewPickerDirection}
                                         >
-                                            {/* Hover only shows the ring; vanilla ColorField opens only on click/select. */}
+                                            {/* Hidden ColorField opens picker only; shell/preview own color + hover. */}
                                             <ColorField
                                                 focusKey={focusDisabled}
                                                 className={styles.guidelineColorField}
