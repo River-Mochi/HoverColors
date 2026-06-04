@@ -190,6 +190,8 @@ export const MochiColorPickerPanel = () => {
     const [pendingDistrictToolOpen, setPendingDistrictToolOpen] = React.useState(false);
     // ColorField can swallow hover events; React state keeps the swatch ring reliable.
     const [swatchHovered, setSwatchHovered] = React.useState(false);
+    const [guidelineLinesHovered, setGuidelineLinesHovered] = React.useState(false);
+    const [guidelinePreviewHovered, setGuidelinePreviewHovered] = React.useState(false);
 
     // Preset numbers use inline color, so hover color also needs React state.
     const [p1Hovered, setP1Hovered] = React.useState(false);
@@ -402,10 +404,13 @@ export const MochiColorPickerPanel = () => {
         setDistrictColor(value);
         trigger(CHANNEL, "SetDistrictColor", value.r, value.g, value.b, value.a);
     };
-    const normalizeColorFieldValue = (value: Color) => ({
-        ...value,
-        a: Math.max(0, Math.min(1, value.a)),
-    });
+    const normalizeColorFieldValue = (value: Color) => {
+        const alpha = typeof value.a === "number" && Number.isFinite(value.a) ? value.a : 1;
+        return {
+            ...value,
+            a: Math.max(0, Math.min(1, alpha)),
+        };
+    };
     const handleGuidelineLinesColorChange = (value: Color) => {
         const syncedValue = normalizeColorFieldValue(value);
         setGuidelineLinesColor(syncedValue);
@@ -751,8 +756,10 @@ export const MochiColorPickerPanel = () => {
                                     <Tooltip tooltip={tt(text.tooltipGuidelinesColor)}>
                                         <div
                                             ref={guidelineLinesPickerRef}
-                                            className={styles.guidelineColorShell}
-                                            onMouseOver={updateGuidelineLinesPickerDirection}
+                                            className={`${styles.guidelineColorShell} ${guidelineLinesHovered ? styles.guidelineColorShellHovered : ""}`}
+                                            onMouseOver={() => { if (!guidelineLinesHovered) { setGuidelineLinesHovered(true); } updateGuidelineLinesPickerDirection(); }}
+                                            onMouseMove={() => { if (!guidelineLinesHovered) { setGuidelineLinesHovered(true); } }}
+                                            onMouseLeave={() => setGuidelineLinesHovered(false)}
                                             onMouseDown={updateGuidelineLinesPickerDirection}
                                         >
                                             <ColorField
@@ -764,6 +771,8 @@ export const MochiColorPickerPanel = () => {
                                                 hideHint={true}
                                                 hexInput={true}
                                                 colorWheel={false}
+                                                onMouseEnter={() => setGuidelineLinesHovered(true)}
+                                                onMouseLeave={() => setGuidelineLinesHovered(false)}
                                                 onChange={handleGuidelineLinesColorChange}
                                                 onOpenPicker={() => {
                                                     setGuidelineLinesPickerOpen(true);
@@ -777,8 +786,10 @@ export const MochiColorPickerPanel = () => {
                                     <Tooltip tooltip={tt(text.tooltipGuidelinesPreviewColor)}>
                                         <div
                                             ref={guidelinePreviewPickerRef}
-                                            className={`${styles.guidelineColorShell} ${styles.guidelinePreviewColorShell}`}
-                                            onMouseOver={updateGuidelinePreviewPickerDirection}
+                                            className={`${styles.guidelineColorShell} ${styles.guidelinePreviewColorShell} ${guidelinePreviewHovered ? styles.guidelineColorShellHovered : ""}`}
+                                            onMouseOver={() => { if (!guidelinePreviewHovered) { setGuidelinePreviewHovered(true); } updateGuidelinePreviewPickerDirection(); }}
+                                            onMouseMove={() => { if (!guidelinePreviewHovered) { setGuidelinePreviewHovered(true); } }}
+                                            onMouseLeave={() => setGuidelinePreviewHovered(false)}
                                             onMouseDown={updateGuidelinePreviewPickerDirection}
                                         >
                                             <ColorField
@@ -790,6 +801,8 @@ export const MochiColorPickerPanel = () => {
                                                 hideHint={true}
                                                 hexInput={true}
                                                 colorWheel={false}
+                                                onMouseEnter={() => setGuidelinePreviewHovered(true)}
+                                                onMouseLeave={() => setGuidelinePreviewHovered(false)}
                                                 onChange={handleGuidelinePreviewColorChange}
                                                 onOpenPicker={() => {
                                                     setGuidelinePreviewPickerOpen(true);
@@ -853,7 +866,7 @@ export const MochiColorPickerPanel = () => {
                                         value={districtColor}
                                         alpha={true}
                                         popupDirection={districtPickerDirection}
-                                        hideHint={true}
+                                        hideHint={false}
                                         hexInput={true}
                                         colorWheel={false}
                                         onChange={handleDistrictColorChange}

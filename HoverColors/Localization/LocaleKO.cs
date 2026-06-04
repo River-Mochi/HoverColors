@@ -77,34 +77,16 @@ namespace HoverColors.Localization
                     "둘 다 써 보고 마음에 드는 쪽을 고르세요. 게임 UI가 아니라 이 모드 패널 배경만 바뀝니다."
                 },
                 
-                // Guidelines color presets
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineLinesColorPreset)), "Guide circles / spacing color" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineLinesColorPreset)),
-                    "Sets the color preset for large road-spacing guide circles/arcs.\n\n" +
-                    "Use the in-city guide swatch for custom color + alpha.\n" +
-                    "Dashed alignment guide lines stay vanilla-color and use the opacity slider."
-                },
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)), "Road/tool preview overlay color" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)),
-                    "Sets the color preset for the road/tool preview overlay body.\n\n" +
-                    "Use the in-city preview swatch for custom color + alpha.\n" +
-                    "Positive feedback stays vanilla green so valid placement is still clear."
-                },
-                { m_Settings.GetGuidelineColorPresetLocaleID("Vanilla"), "Vanilla" },
-                { m_Settings.GetGuidelineColorPresetLocaleID("White"), "White" },
-                { m_Settings.GetGuidelineColorPresetLocaleID("SoftBlue"), "Soft blue" },
-                { m_Settings.GetGuidelineColorPresetLocaleID("HighVisibility"), "High visibility" },
-                { m_Settings.GetGuidelineColorPresetLocaleID("Custom"), "Custom" },
-
                 // Dashed alignment guide color
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Dashed alignment guide color" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)),
                     "Sets the dashed alignment guide color used for road angles, 90-degree helpers, and connection hints.\n\n" +
-                    "The city slider still controls dashed guide opacity."
+                    "Both opacity sliders are synced: this Options slider and the in-city panel slider control the same dashed guide opacity."
                 },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Vanilla white" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "High visibility yellow" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "Construction green" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "High visibility green" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "가이드라인 불투명도 (알파)" },

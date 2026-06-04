@@ -40,14 +40,12 @@ namespace HoverColors.Settings
         public const int ToolColorModeCustom = 2;
 
         public const int GuidelineColorPresetVanilla = 0;
-        public const int GuidelineColorPresetWhite = 1;
-        public const int GuidelineColorPresetSoftBlue = 2;
-        public const int GuidelineColorPresetHighVisibility = 3;
         public const int GuidelineColorPresetCustom = 4;
 
         public const int GuidelineDashedColorPresetVanilla = 0;
         public const int GuidelineDashedColorPresetYellow = 1;
         public const int GuidelineDashedColorPresetGreen = 2;
+        public const int GuidelineDashedColorPresetPink = 3;
 
         // Centralised default for the guideline opacity slider.
         // Vanilla CS2 is 100; lower = more transparent. Keep TSX fallback bindings in sync.
@@ -150,19 +148,6 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public int Preset2GuidelinePercent { get; set; }
 
-        // Legacy single guideline color from the first guideline-color test branch.
-        [SettingsUIHidden]
-        public int GuidelineColorPreset { get; set; }
-
-        [SettingsUIHidden]
-        public float GuidelineR { get; set; }
-
-        [SettingsUIHidden]
-        public float GuidelineG { get; set; }
-
-        [SettingsUIHidden]
-        public float GuidelineB { get; set; }
-
         // Large guide circles/spacing lines (GuideLineSettingsData Low + VeryLow).
         // Alpha is independent from the dashed alignment guideline opacity slider.
         [SettingsUIHidden]
@@ -249,7 +234,7 @@ namespace HoverColors.Settings
         // -----------------------------------------------------------------------
 
         [SettingsUISection(Actions, KeyBindings)]
-        [SettingsUIKeyboardBinding(BindingKeyboard.H, Mod.kTogglePanelActionName)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.J, Mod.kTogglePanelActionName)]
         public ProxyBinding TogglePanelBinding { get; set; }
 
         [SettingsUISection(Actions, KeyBindings)]
@@ -336,10 +321,6 @@ namespace HoverColors.Settings
             Preset1GuidelinePercent = DefaultGuidelineOpacityPercent;
             Preset2GuidelinePercent = DefaultGuidelineOpacityPercent;
             GuidelineDefaultPercent = DefaultGuidelineOpacityPercent;
-            GuidelineColorPreset = GuidelineColorPresetVanilla;
-            GuidelineR = 0.7f;
-            GuidelineG = 0.7f;
-            GuidelineB = 1f;
             GuidelineLinesColorPreset = GuidelineColorPresetVanilla;
             GuidelineLinesR = 0.7f;
             GuidelineLinesG = 0.7f;
@@ -395,43 +376,6 @@ namespace HoverColors.Settings
             return "Options[" + id + ".ToolColorMode." + valueName + "]";
         }
 
-        public DropdownItem<int>[] GetGuidelineColorPresetItems()
-        {
-            return new[]
-            {
-                new DropdownItem<int>
-                {
-                    value = GuidelineColorPresetVanilla,
-                    displayName = GetGuidelineColorPresetLocaleID("Vanilla"),
-                },
-                new DropdownItem<int>
-                {
-                    value = GuidelineColorPresetWhite,
-                    displayName = GetGuidelineColorPresetLocaleID("White"),
-                },
-                new DropdownItem<int>
-                {
-                    value = GuidelineColorPresetSoftBlue,
-                    displayName = GetGuidelineColorPresetLocaleID("SoftBlue"),
-                },
-                new DropdownItem<int>
-                {
-                    value = GuidelineColorPresetHighVisibility,
-                    displayName = GetGuidelineColorPresetLocaleID("HighVisibility"),
-                },
-                new DropdownItem<int>
-                {
-                    value = GuidelineColorPresetCustom,
-                    displayName = GetGuidelineColorPresetLocaleID("Custom"),
-                },
-            };
-        }
-
-        public string GetGuidelineColorPresetLocaleID(string valueName)
-        {
-            return "Options[" + id + ".GuidelineColorPreset." + valueName + "]";
-        }
-
         public DropdownItem<int>[] GetGuidelineDashedColorPresetItems()
         {
             return new[]
@@ -445,6 +389,11 @@ namespace HoverColors.Settings
                 {
                     value = GuidelineDashedColorPresetYellow,
                     displayName = GetGuidelineDashedColorPresetLocaleID("Yellow"),
+                },
+                new DropdownItem<int>
+                {
+                    value = GuidelineDashedColorPresetPink,
+                    displayName = GetGuidelineDashedColorPresetLocaleID("Pink"),
                 },
                 new DropdownItem<int>
                 {

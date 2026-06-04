@@ -53,11 +53,11 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "Bulldozer + Roads" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToolColorMode)),
                     "Controls temporary outline colors while bulldozer or road tools are active.\n\n" +
-                    "**1. Recommended** uses the game's Warning color for demolition and a softer vanilla blue for roads.\n" +
+                    "**1. Recommended** uses the game's Warning color (yellow) for demolition and a softer vanilla blue for roads.\n" +
                     "**2. Vanilla tool colors** restores the game's normal vanilla blue while bulldoze or road tools are active.\n" +
                     "**3. Keep my custom color** uses your chosen color everywhere.\n\n" +
 
-                    "Purpose: some users find their custom color hard to see while bulldozing. \n" +
+                    "Purpose: some users/testers find their custom color hard to see while bulldozing. \n" +
                     "This offers options for high visibility colors during tool usage.\n" +
                     "This does not overwrite your automatically saved custom color in the color picker."
                 },
@@ -83,34 +83,16 @@ namespace HoverColors.Localization
                     "Try both and see which you prefer! This only changes the background of this mod panel and not the game's UI."
                 },
                 
-                // Guidelines color presets
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineLinesColorPreset)), "Guide circles / spacing lines" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineLinesColorPreset)),
-                    "Sets the color preset for large circles and road-spacing guides.\n\n" +
-                    "Use the mod in-city panel guide swatch if you want custom color + alpha.\n" +
-                    "Separate: dashed alignment guide lines stay vanilla-color and use the opacity slider."
-                },
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)), "Road/tool preview overlay color" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelinePreviewColorPreset)),
-                    "Sets the color preset for the road/tool preview overlay body.\n\n" +
-                    "Use the in-city preview swatch for custom color + alpha.\n" +
-                    "Vanilla Positive feedback setting stays vanilla green so valid placement is still clear."
-                },
-                { m_Settings.GetGuidelineColorPresetLocaleID("Vanilla"), "Vanilla" },
-                { m_Settings.GetGuidelineColorPresetLocaleID("White"), "White" },
-                { m_Settings.GetGuidelineColorPresetLocaleID("SoftBlue"), "Soft blue" },
-                { m_Settings.GetGuidelineColorPresetLocaleID("HighVisibility"), "High visibility" },
-                { m_Settings.GetGuidelineColorPresetLocaleID("Custom"), "Custom" },
-
                 // Dashed alignment guide color
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Dashed alignment guide color" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Dashed guide lines color" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)),
                     "Sets the dashed alignment guide color used for road angles, 90-degree helpers, and connection hints.\n\n" +
-                    "The city slider still controls dashed guide opacity."
+                    "Both opacity sliders are synced: this Options slider and the in-city panel slider control the same dashed guide opacity."
                 },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Vanilla white" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "High visibility yellow" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "Construction green" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "High visibility green" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Guidelines opacity (alpha)" },
@@ -119,8 +101,8 @@ namespace HoverColors.Localization
                     "**100%** keeps vanilla default look.\n" +
                     "**Lower** makes guidelines more transparent.\n" +
                     "**0%** hides them entirely - <Not recommended>.\n" +           
-                    "Recommended: stay above 15%, or it is hard to see what is happening.\n" +
-                    "The same slider lives on the city mod panel. They are both synced;\n" +
+                    "Recommended to stay above 15% or it's hard to see what's happening.\n" +
+                    "Same slider lives on the city mod panel. They are both synced;\n" +
                     "if you change this one, the one in-city conveniently changes."
                 },
 
@@ -133,7 +115,7 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "Toggle Surface tool previews on/off" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)),
                     "Hotkey shortcut to hide or restore active Surface tool boundary preview lines while placing surfaces." },
-                { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Toggle Surface tool lines on/off" },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Surface tool preview layer On/Off" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)), "Toggle presets 1+2" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)),

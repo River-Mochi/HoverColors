@@ -9,7 +9,7 @@
   "HoverColors.UI.Tooltip.OutlineSwatch": "윤곽선: 클릭하여 색상 + 불투명도를 설정합니다.",
   "HoverColors.UI.Tooltip.ResetFill": "채우기: 클릭하면 0%로 초기화합니다(게임 기본값).",
   "HoverColors.UI.Tooltip.FillOpacity": "윤곽선 내부 채우기 영역의 불투명도입니다.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed/snap opacity slider stays unchanged.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "Large guide circles/spacing lines color + opacity.",
   "HoverColors.UI.Tooltip.GuidelinesOpacity": "Dashed alignment guide opacity. Use higher for roads and lower for fences/detailing.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Surface 도구 경계 미리보기 채우기를 숨깁니다.\n기본 단축키: L.",

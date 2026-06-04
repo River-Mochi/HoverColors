@@ -16,7 +16,7 @@
     // Main sizing knobs.
     // --hc-panel-width is the first knob for panel width.
     // 215rem is the safe minimum for icon + swatch + presets + reset.
-    --hc-panel-width: 238rem;
+    --hc-panel-width: 246rem;
     --hc-panel-alpha-top: 0.32;
     --hc-panel-alpha-bottom: 0.24;
     // Title knobs. Keep nowrap on; tune font/spacing if width changes.
@@ -252,6 +252,9 @@
 }
 
 .guidelineColorShell {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 24rem;
     height: 24rem;
     flex: 0 0 24rem;
@@ -259,6 +262,7 @@
     overflow: visible;
     border-radius: 4rem;
     cursor: pointer;
+    background-color: transparent;
 }
 
 .guidelinePreviewColorShell {
@@ -275,6 +279,7 @@
     box-shadow: none !important;
 }
 
+.guidelineColorField > button,
 .guidelineColorField button {
     width: 24rem !important;
     height: 24rem !important;
@@ -283,8 +288,13 @@
     border-radius: 4rem !important;
     opacity: 1 !important;
     box-shadow: none !important;
+    outline: 0 !important;
     background-color: transparent !important;
     cursor: pointer !important;
+}
+
+.guidelineColorField button > div {
+    opacity: 1 !important;
 }
 
 .guidelineColorHoverRing {
@@ -293,21 +303,21 @@
     z-index: 30;
     pointer-events: none;
     border: 2rem solid rgba(255, 255, 255, 0);
-    border-radius: 6rem;
+    border-radius: 5rem;
     transition: border-color 120ms ease-out, box-shadow 120ms ease-out;
 }
 
 .guidelineColorShell:hover .guidelineColorHoverRing,
-.guidelineColorShell:focus-within .guidelineColorHoverRing {
-    border-color: rgba(255, 255, 255, 1);
-    box-shadow: 0 0 0 1rem rgba(8, 15, 20, 0.45), 0 0 6rem rgba(255, 255, 255, 0.22);
+.guidelineColorShell:focus-within .guidelineColorHoverRing,
+.guidelineColorShellHovered .guidelineColorHoverRing {
+    border-color: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 0 0 1rem rgba(8, 15, 20, 0.34), 0 0 5rem rgba(255, 255, 255, 0.18);
 }
 
 .guidelineColorShell:hover .guidelineColorField,
 .guidelineColorShell:focus-within .guidelineColorField,
-.guidelineColorShell:hover .guidelineColorField button,
-.guidelineColorShell:focus-within .guidelineColorField button {
-    box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.74) !important;
+.guidelineColorShellHovered .guidelineColorField {
+    box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.58) !important;
 }
 
 .guidelineSliderRow {
@@ -494,7 +504,8 @@
     justify-content: center;
     border-radius: 6rem;
     border: 0;
-    background-color: var(--toolbarFieldColor, var(--commonBlack, #141b22));
+    // Cohtml can warn on nested var() fallbacks, so keep this fallback flat.
+    background-color: var(--toolbarFieldColor, #141b22);
     box-shadow: none;
     color: rgba(255, 255, 255, 0.96);
     font-size: 12rem;

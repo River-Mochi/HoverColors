@@ -34,10 +34,9 @@ namespace HoverColors.Systems
         private static readonly Color FallbackMediumGuidelineColor = new(0.7f, 0.7f, 1f, 0.1f);
         private static readonly Color FallbackHighGuidelineColor = new(0.7f, 0.7f, 1f, 0.2f);
         private static readonly Color FallbackPositiveGuidelineColor = new(0.5f, 1f, 0.5f, 0.1f);
-        private static readonly Color SoftBlueGuidelineColor = new(0.502f, 0.869f, 1f, 1f);
-        private static readonly Color HighVisibilityGuidelineColor = new(0.85f, 1f, 1f, 1f);
         private static readonly Color HighVisibilityYellowGuidelineColor = new(1f, 0.92f, 0.2f, 1f);
-        private static readonly Color ConstructionGreenGuidelineColor = new(0.28f, 1f, 0.35f, 1f);
+        private static readonly Color HighVisibilityGreenGuidelineColor = new(0.28f, 1f, 0.35f, 1f);
+        private static readonly Color MochiPinkGuidelineColor = new(1f, 0.714f, 0.757f, 1f);
 
         // Snapshot of the game's default colors. Opacity scales default alphas.
         private Color m_DefVeryLow = FallbackVeryLowGuidelineColor;
@@ -211,7 +210,8 @@ namespace HoverColors.Systems
             return settings.GuidelineDashedColorPreset switch
             {
                 HoverColorsSettings.GuidelineDashedColorPresetYellow => HighVisibilityYellowGuidelineColor,
-                HoverColorsSettings.GuidelineDashedColorPresetGreen => ConstructionGreenGuidelineColor,
+                HoverColorsSettings.GuidelineDashedColorPresetPink => MochiPinkGuidelineColor,
+                HoverColorsSettings.GuidelineDashedColorPresetGreen => HighVisibilityGreenGuidelineColor,
                 _ => CapturedVanillaGuidelineDashedColor,
             };
         }
@@ -220,9 +220,6 @@ namespace HoverColors.Systems
         {
             return preset switch
             {
-                HoverColorsSettings.GuidelineColorPresetWhite => Color.white,
-                HoverColorsSettings.GuidelineColorPresetSoftBlue => SoftBlueGuidelineColor,
-                HoverColorsSettings.GuidelineColorPresetHighVisibility => HighVisibilityGuidelineColor,
                 HoverColorsSettings.GuidelineColorPresetCustom => new Color(
                     Mathf.Clamp01(r),
                     Mathf.Clamp01(g),

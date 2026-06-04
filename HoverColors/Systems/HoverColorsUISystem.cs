@@ -354,8 +354,7 @@ namespace HoverColors.UI
                     SyncValueBindings();
                 }));
 
-            // Reset guideline swatch colors/alpha from the city icon button.
-            // Dashed alignment opacity stays separate so detailing preferences survive.
+            // Reset only the two city swatches. Dashed guide color/opacity are Options preferences.
             AddBinding(new TriggerBinding(
                 Mod.ModId,
                 "ResetGuidelines",
@@ -376,7 +375,6 @@ namespace HoverColors.UI
                     settings.GuidelinePreviewG = preview.g;
                     settings.GuidelinePreviewB = preview.b;
                     settings.GuidelinePreviewA = 1f;
-                    settings.GuidelineDashedColorPreset = HoverColorsSettings.GuidelineDashedColorPresetVanilla;
                     settings.ApplyAndSave();
                     SyncValueBindings();
                 }));
