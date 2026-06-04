@@ -4,16 +4,18 @@
   "HoverColors.UI.Aria.ClosePanel": "パネルを閉じる",
   "HoverColors.UI.Tooltip.Info": "クリックしてツールチップのオン/オフを切り替えます。",
   "HoverColors.UI.Tooltip.Draggable": "ドラッグ可能",
-  "HoverColors.UI.Tooltip.Close": "閉じる/終了。デフォルトホットキー: H。ゲーム左上のアイコンをクリックしても同じです。",
+  "HoverColors.UI.Tooltip.Close": "閉じる/終了。デフォルトホットキー: J。ゲーム左上のアイコンをクリックしても同じです。",
   "HoverColors.UI.Tooltip.ResetOutline": "アウトライン: クリックで色とアルファをゲーム既定値に戻します。",
   "HoverColors.UI.Tooltip.OutlineSwatch": "アウトライン: クリックで色 + 不透明度を変更します。",
   "HoverColors.UI.Tooltip.ResetFill": "塗りつぶし: クリックで0%に戻します（ゲーム既定値）。",
   "HoverColors.UI.Tooltip.FillOpacity": "アウトライン内側の塗りつぶし領域の不透明度です。",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "ガイドラインの不透明度。変更は自動保存されます。アイコンをタップすると保存済みの既定値に戻します。長押しすると現在の値を既定値として保存します。",
-  "HoverColors.UI.Tooltip.GuidelinesOpacity": "ガイドラインの不透明度。15%未満は、ガイドが見づらくなる可能性があるためおすすめしません。",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",
+  "HoverColors.UI.Tooltip.GuidelinesColor": "Large guide circles/spacing lines color + opacity.",
+  "HoverColors.UI.Tooltip.GuidelinesOpacity": "Dashed alignment guide opacity. Use higher for roads and lower for fences/detailing.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "地表ツールの境界プレビュー塗りつぶしを非表示にします。\nデフォルトホットキー: L。",
   "HoverColors.UI.Tooltip.Preset1": "スロット1 — タップで適用、0.8秒長押しで現在の色で上書きします。\nホットキーKでスロット1とスロット2を切り替えます。",
   "HoverColors.UI.Tooltip.Preset2": "スロット2 — タップで適用、0.8秒長押しで現在の色で上書きします。\nホットキーKでスロット1とスロット2を切り替えます。",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1回目のクリック: 両方のプリセットスロットをMOD既定値に戻します。\n↺ 2回目のクリック: 以前の色を復元します。\nすでに既定値の場合は何もしません。",
-  "HoverColors.UI.Tooltip.DistrictColors": "クリックで地区オーバーレイの塗りつぶしと境界線の色/不透明度を設定します。"
+  "HoverColors.UI.Tooltip.DistrictColors": "クリックで地区オーバーレイの塗りつぶしと境界線の色/不透明度を設定します。",
+  "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Road/tool preview overlay color + opacity."
 }

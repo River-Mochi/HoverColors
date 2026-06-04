@@ -4,16 +4,18 @@
   "HoverColors.UI.Aria.ClosePanel": "关闭面板",
   "HoverColors.UI.Tooltip.Info": "点击这里开启/关闭提示。",
   "HoverColors.UI.Tooltip.Draggable": "可拖动",
-  "HoverColors.UI.Tooltip.Close": "关闭/退出。默认快捷键：H；点击游戏左上角图标也一样。",
+  "HoverColors.UI.Tooltip.Close": "关闭/退出。默认快捷键：J；点击游戏左上角图标也一样。",
   "HoverColors.UI.Tooltip.ResetOutline": "轮廓：点击将颜色和 Alpha 重置为游戏默认值。",
   "HoverColors.UI.Tooltip.OutlineSwatch": "轮廓：点击设置颜色 + 不透明度。",
   "HoverColors.UI.Tooltip.ResetFill": "填充：点击重置为 0%（游戏默认值）。",
   "HoverColors.UI.Tooltip.FillOpacity": "轮廓内部填充区域的不透明度。",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "辅助线不透明度。更改会自动保存。点击图标可恢复已保存的默认值。按住可将当前值保存为默认值。",
-  "HoverColors.UI.Tooltip.GuidelinesOpacity": "辅助线不透明度。不建议低于 15%，因为辅助线可能会变得难以看清。",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",
+  "HoverColors.UI.Tooltip.GuidelinesColor": "Large guide circles/spacing lines color + opacity.",
+  "HoverColors.UI.Tooltip.GuidelinesOpacity": "Dashed alignment guide opacity. Use higher for roads and lower for fences/detailing.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "隐藏地表工具边界预览填充。\n默认快捷键：L。",
   "HoverColors.UI.Tooltip.Preset1": "槽位 1 — 点击应用，按住 0.8 秒用当前颜色覆盖。\n快捷键 K 在槽位 1 和槽位 2 之间切换。",
   "HoverColors.UI.Tooltip.Preset2": "槽位 2 — 点击应用，按住 0.8 秒用当前颜色覆盖。\n快捷键 K 在槽位 1 和槽位 2 之间切换。",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 第 1 次点击：将两个预设槽位重置为模组默认值。\n↺ 第 2 次点击：恢复之前的颜色。\n如果已经是默认值，则不会执行任何操作。",
-  "HoverColors.UI.Tooltip.DistrictColors": "点击设置区域覆盖层填充以及边界线颜色/不透明度。"
+  "HoverColors.UI.Tooltip.DistrictColors": "点击设置区域覆盖层填充以及边界线颜色/不透明度。",
+  "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Road/tool preview overlay color + opacity."
 }

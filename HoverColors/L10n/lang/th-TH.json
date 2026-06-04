@@ -4,16 +4,18 @@
   "HoverColors.UI.Aria.ClosePanel": "ปิดแผง",
   "HoverColors.UI.Tooltip.Info": "คลิกเพื่อเปิด/ปิดทูลทิป",
   "HoverColors.UI.Tooltip.Draggable": "ลากได้",
-  "HoverColors.UI.Tooltip.Close": "ปิด/ออก ปุ่มลัดเริ่มต้น: H หรือคลิกไอคอนมุมซ้ายบนของเกมก็ทำเหมือนกัน",
+  "HoverColors.UI.Tooltip.Close": "ปิด/ออก ปุ่มลัดเริ่มต้น: J หรือคลิกไอคอนมุมซ้ายบนของเกมก็ทำเหมือนกัน",
   "HoverColors.UI.Tooltip.ResetOutline": "เส้นขอบ: คลิกเพื่อรีเซ็ตสีและอัลฟากลับเป็นค่าเริ่มต้นของเกม",
   "HoverColors.UI.Tooltip.OutlineSwatch": "เส้นขอบ: คลิกเพื่อเลือกสี + ความทึบ",
   "HoverColors.UI.Tooltip.ResetFill": "สีเติม: คลิกเพื่อรีเซ็ตเป็น 0% (ค่าเริ่มต้นของเกม)",
   "HoverColors.UI.Tooltip.FillOpacity": "ความทึบของพื้นที่เติมภายในเส้นขอบ",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "ความทึบของเส้นไกด์ การเปลี่ยนแปลงจะบันทึกอัตโนมัติ แตะไอคอนเพื่อคืนค่าที่บันทึกไว้ กดค้างเพื่อบันทึกค่าปัจจุบันเป็นค่าเริ่มต้น",
-  "HoverColors.UI.Tooltip.GuidelinesOpacity": "ความทึบของเส้นไกด์ ไม่แนะนำให้ต่ำกว่า 15% เพราะเส้นไกด์อาจมองเห็นยาก",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",
+  "HoverColors.UI.Tooltip.GuidelinesColor": "Large guide circles/spacing lines color + opacity.",
+  "HoverColors.UI.Tooltip.GuidelinesOpacity": "Dashed alignment guide opacity. Use higher for roads and lower for fences/detailing.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "ซ่อนสีเติมตัวอย่างขอบเขตของเครื่องมือ Surface\nปุ่มลัดเริ่มต้น: L",
   "HoverColors.UI.Tooltip.Preset1": "ช่อง 1 — แตะเพื่อใช้ กดค้าง 0.8 วินาทีเพื่อเขียนทับด้วยสีปัจจุบัน\nปุ่มลัด K สลับระหว่างช่อง 1 และช่อง 2",
   "HoverColors.UI.Tooltip.Preset2": "ช่อง 2 — แตะเพื่อใช้ กดค้าง 0.8 วินาทีเพื่อเขียนทับด้วยสีปัจจุบัน\nปุ่มลัด K สลับระหว่างช่อง 1 และช่อง 2",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ คลิกครั้งที่ 1: รีเซ็ตช่องพรีเซ็ตทั้งสองเป็นค่าเริ่มต้นของม็อด\n↺ คลิกครั้งที่ 2: คืนค่าสีก่อนหน้า\nถ้าเป็นค่าเริ่มต้นอยู่แล้ว จะไม่ทำอะไร",
-  "HoverColors.UI.Tooltip.DistrictColors": "คลิกเพื่อปรับสีเติมโอเวอร์เลย์เขตและสี/ความทึบของเส้นขอบเขต"
+  "HoverColors.UI.Tooltip.DistrictColors": "คลิกเพื่อปรับสีเติมโอเวอร์เลย์เขตและสี/ความทึบของเส้นขอบเขต",
+  "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Road/tool preview overlay color + opacity."
 }

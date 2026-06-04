@@ -39,7 +39,8 @@
 - yenyang - collab, tech feedback, testing
 - StarQ - tech feedback, testing
 - gagaxm - feature idea, testing
-- Dx, Necko1996, Noel, BugsyG, ElGendo87 - testing
+- Dx, Necko1996, BugsyG, ElGendo87 - testing
+- =Noel= Thumbnail, testing
 
 
 ### 14 Languages
@@ -51,7 +52,7 @@ tags: Mochi's blue scrubber, Highlight, border color, remove blue
 
 </LongDescription>
 	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail-HC02.jpg" />
+	<Thumbnail Value="Properties/Thumbnail-building_cyan.jpg" />
 	<!--Screenshot, can be set multiple times-->
     <Screenshot Value="Properties/10-image-before-after.jpg" />
     <Screenshot Value="Properties/11-image-before-after.jpg" />

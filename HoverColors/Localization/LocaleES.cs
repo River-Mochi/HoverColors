@@ -77,6 +77,17 @@ namespace HoverColors.Localization
                     "Prueba ambos y quédate con el que prefieras. Solo cambia el fondo de este panel del mod, no la UI del juego."
                 },
                 
+                // Dashed alignment guide color
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Dashed alignment guide color" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)),
+                    "Sets the dashed alignment guide color used for road angles, 90-degree helpers, and connection hints.\n\n" +
+                    "Both opacity sliders are synced: this Options slider and the in-city panel slider control the same dashed guide opacity."
+                },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Vanilla white" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "High visibility yellow" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "High visibility green" },
+
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Opacidad de guías (alfa)" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)),

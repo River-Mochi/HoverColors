@@ -77,6 +77,17 @@ namespace HoverColors.Localization
                     "둘 다 써 보고 마음에 드는 쪽을 고르세요. 게임 UI가 아니라 이 모드 패널 배경만 바뀝니다."
                 },
                 
+                // Dashed alignment guide color
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Dashed alignment guide color" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)),
+                    "Sets the dashed alignment guide color used for road angles, 90-degree helpers, and connection hints.\n\n" +
+                    "Both opacity sliders are synced: this Options slider and the in-city panel slider control the same dashed guide opacity."
+                },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Vanilla white" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "High visibility yellow" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "High visibility green" },
+
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "가이드라인 불투명도 (알파)" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)),

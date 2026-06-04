@@ -10,9 +10,8 @@ import type {
 import type { CSSProperties, HTMLAttributes, PropsWithChildren, ReactNode } from "react";
 
 // Note: UI/types/bindings.d.ts exposes the widget-binding model for ColorField
-// (`value`, `hdr`, `showAlpha`). The React module we resolve from the vanilla
-// `color-field.tsx` file has a different prop surface, so we keep a separate
-// component prop type here.
+// (`value`, `hdr`, `showAlpha`). The vanilla React `color-field.tsx` module has
+// a different prop surface, so this file keeps a separate component prop type.
 export type VanillaColorFieldProps = {
     focusKey?: FocusKey | null;
     disabled?: boolean;

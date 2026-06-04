@@ -27,7 +27,7 @@ export default () => {
                     variant="floating"
                     src={ModIconPath}                                            // SVG colors render as-is, no tinting
                     selected={isOpen}                                            // vanilla light-blue overlay when active
-                    onSelect={() => trigger(CHANNEL, "SetPanelOpen", !isOpen)}   // C# owns the toggle so H hotkey shares state
+                    onSelect={() => trigger(CHANNEL, "SetPanelOpen", !isOpen)}   // C# owns the toggle so J hotkey shares state
                 />
             </Tooltip>
 

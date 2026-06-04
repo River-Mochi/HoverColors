@@ -39,12 +39,19 @@ namespace HoverColors.Settings
         public const int ToolColorModeVanilla = 1;
         public const int ToolColorModeCustom = 2;
 
+        public const int GuidelineColorPresetVanilla = 0;
+        public const int GuidelineColorPresetCustom = 4;
+
+        public const int GuidelineDashedColorPresetVanilla = 0;
+        public const int GuidelineDashedColorPresetYellow = 1;
+        public const int GuidelineDashedColorPresetGreen = 2;
+        public const int GuidelineDashedColorPresetPink = 3;
+
         // Centralised default for the guideline opacity slider.
-        // Vanilla CS2 is 100; lower = more transparent. Change only here — C# UISystem and TSX both read this.
+        // Vanilla CS2 is 100; lower = more transparent. Keep TSX fallback bindings in sync.
         public const int DefaultGuidelineOpacityPercent = 30;
 
-        // Player's personal guideline default (tap on guideline icon applies this; hold overwrites it).
-        // Starts at DefaultGuidelineOpacityPercent; persists to .coc so it survives game restarts.
+        // Kept for old local test .coc files. The city icon now resets guidelines to mod defaults.
         public int GuidelineDefaultPercent { get; set; }
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
@@ -134,12 +141,39 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public float Preset2FillA { get; set; }
 
-        // Guideline opacity saved per-slot so the preset fully restores the panel state.
+        // Guideline opacity saved per outline preset; guideline colors stay independent.
         [SettingsUIHidden]
         public int Preset1GuidelinePercent { get; set; }
 
         [SettingsUIHidden]
         public int Preset2GuidelinePercent { get; set; }
+
+        // Large guide circles/spacing lines (GuideLineSettingsData Low + VeryLow).
+        // Alpha is independent from the dashed alignment guideline opacity slider.
+        [SettingsUIHidden]
+        public float GuidelineLinesR { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineLinesG { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineLinesB { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineLinesA { get; set; }
+
+        // Road/tool preview overlay body (GuideLineSettingsData Medium).
+        [SettingsUIHidden]
+        public float GuidelinePreviewR { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelinePreviewG { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelinePreviewB { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelinePreviewA { get; set; }
 
         // In-city info button preference. Hidden from Options UI; persisted here so
         // "tooltips off" survives closing/reopening the panel and game restarts.
@@ -181,6 +215,16 @@ namespace HoverColors.Settings
         // GuidelineColorSystem divides by 100 and multiplies the game's default per-priority
         // alphas, so 100 = no change, 50 = half as visible, 0 = fully invisible guidelines.
 
+        [SettingsUIHidden]
+        public int GuidelineLinesColorPreset { get; set; }
+
+        [SettingsUIHidden]
+        public int GuidelinePreviewColorPreset { get; set; }
+
+        [SettingsUIDropdown(typeof(HoverColorsSettings), nameof(GetGuidelineDashedColorPresetItems))]
+        [SettingsUISection(Actions, Guidelines)]
+        public int GuidelineDashedColorPreset { get; set; }
+
         [SettingsUISlider(min = 0, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(Actions, Guidelines)]
         public int GuidelineOpacityPercent { get; set; }
@@ -190,7 +234,7 @@ namespace HoverColors.Settings
         // -----------------------------------------------------------------------
 
         [SettingsUISection(Actions, KeyBindings)]
-        [SettingsUIKeyboardBinding(BindingKeyboard.H, Mod.kTogglePanelActionName)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.J, Mod.kTogglePanelActionName)]
         public ProxyBinding TogglePanelBinding { get; set; }
 
         [SettingsUISection(Actions, KeyBindings)]
@@ -277,6 +321,17 @@ namespace HoverColors.Settings
             Preset1GuidelinePercent = DefaultGuidelineOpacityPercent;
             Preset2GuidelinePercent = DefaultGuidelineOpacityPercent;
             GuidelineDefaultPercent = DefaultGuidelineOpacityPercent;
+            GuidelineLinesColorPreset = GuidelineColorPresetVanilla;
+            GuidelineLinesR = 0.7f;
+            GuidelineLinesG = 0.7f;
+            GuidelineLinesB = 1f;
+            GuidelineLinesA = 1f;
+            GuidelinePreviewColorPreset = GuidelineColorPresetVanilla;
+            GuidelinePreviewR = 0.7f;
+            GuidelinePreviewG = 0.7f;
+            GuidelinePreviewB = 1f;
+            GuidelinePreviewA = 1f;
+            GuidelineDashedColorPreset = GuidelineDashedColorPresetVanilla;
             PanelTooltipsEnabled = true;
             SurfaceToolAreasSuppressed = true;
 
@@ -319,6 +374,38 @@ namespace HoverColors.Settings
         public string GetToolColorModeLocaleID(string valueName)
         {
             return "Options[" + id + ".ToolColorMode." + valueName + "]";
+        }
+
+        public DropdownItem<int>[] GetGuidelineDashedColorPresetItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = GuidelineDashedColorPresetVanilla,
+                    displayName = GetGuidelineDashedColorPresetLocaleID("Vanilla"),
+                },
+                new DropdownItem<int>
+                {
+                    value = GuidelineDashedColorPresetYellow,
+                    displayName = GetGuidelineDashedColorPresetLocaleID("Yellow"),
+                },
+                new DropdownItem<int>
+                {
+                    value = GuidelineDashedColorPresetPink,
+                    displayName = GetGuidelineDashedColorPresetLocaleID("Pink"),
+                },
+                new DropdownItem<int>
+                {
+                    value = GuidelineDashedColorPresetGreen,
+                    displayName = GetGuidelineDashedColorPresetLocaleID("Green"),
+                },
+            };
+        }
+
+        public string GetGuidelineDashedColorPresetLocaleID(string valueName)
+        {
+            return "Options[" + id + ".GuidelineDashedColorPreset." + valueName + "]";
         }
 
         private static void TryOpenUrl(string url)

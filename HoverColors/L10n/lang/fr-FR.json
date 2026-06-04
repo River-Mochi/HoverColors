@@ -4,16 +4,18 @@
   "HoverColors.UI.Aria.ClosePanel": "Fermer le panneau",
   "HoverColors.UI.Tooltip.Info": "Cliquez ici pour activer/désactiver les infobulles.",
   "HoverColors.UI.Tooltip.Draggable": "Déplaçable",
-  "HoverColors.UI.Tooltip.Close": "Fermer/Quitter. Raccourci par défaut : H, ou cliquer sur l’icône du jeu en haut à gauche fait pareil.",
+  "HoverColors.UI.Tooltip.Close": "Fermer/Quitter. Raccourci par défaut : J, ou cliquer sur l’icône du jeu en haut à gauche fait pareil.",
   "HoverColors.UI.Tooltip.ResetOutline": "Contour : cliquer pour réinitialiser la couleur et l’alpha aux valeurs par défaut du jeu.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "Contour : cliquer pour couleur + opacité.",
   "HoverColors.UI.Tooltip.ResetFill": "Remplissage : cliquer pour remettre à 0% (valeur par défaut du jeu).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacité de la zone de remplissage à l’intérieur du contour.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Opacité des repères. Les changements sont enregistrés automatiquement. Appuie sur l’icône pour restaurer ton défaut enregistré. Maintiens pour enregistrer la valeur actuelle comme défaut.",
-  "HoverColors.UI.Tooltip.GuidelinesOpacity": "Opacité des repères. Sous 15%, ce n’est pas conseillé car les repères peuvent devenir difficiles à voir.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",
+  "HoverColors.UI.Tooltip.GuidelinesColor": "Large guide circles/spacing lines color + opacity.",
+  "HoverColors.UI.Tooltip.GuidelinesOpacity": "Dashed alignment guide opacity. Use higher for roads and lower for fences/detailing.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Masque le remplissage de l’aperçu des limites de l’outil Surface.\nRaccourci par défaut : L.",
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — appuyer pour appliquer, maintenir 0,8 s pour écraser avec la couleur actuelle.\nLa touche K alterne entre le slot 1 et le slot 2.",
   "HoverColors.UI.Tooltip.Preset2": "Slot 2 — appuyer pour appliquer, maintenir 0,8 s pour écraser avec la couleur actuelle.\nLa touche K alterne entre le slot 1 et le slot 2.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1er clic : réinitialise les deux slots de préréglage aux valeurs par défaut du mod.\n↺ 2e clic : restaure les couleurs précédentes.\nSi les valeurs par défaut sont déjà actives, ne fait rien.",
-  "HoverColors.UI.Tooltip.DistrictColors": "Cliquer pour régler le remplissage de l’overlay des districts et la couleur/opacité de la ligne de limite."
+  "HoverColors.UI.Tooltip.DistrictColors": "Cliquer pour régler le remplissage de l’overlay des districts et la couleur/opacité de la ligne de limite.",
+  "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Road/tool preview overlay color + opacity."
 }

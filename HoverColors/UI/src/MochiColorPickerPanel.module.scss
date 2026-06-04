@@ -16,7 +16,7 @@
     // Main sizing knobs.
     // --hc-panel-width is the first knob for panel width.
     // 215rem is the safe minimum for icon + swatch + presets + reset.
-    --hc-panel-width: 238rem;
+    --hc-panel-width: 246rem;
     --hc-panel-alpha-top: 0.32;
     --hc-panel-alpha-bottom: 0.24;
     // Title knobs. Keep nowrap on; tune font/spacing if width changes.
@@ -171,6 +171,12 @@
     display: block;
     object-fit: contain;
     pointer-events: none;
+    transition: opacity 120ms ease-out, transform 120ms ease-out;
+}
+
+.infoButton:hover .infoIcon,
+.infoButton:focus-visible .infoIcon {
+    transform: scale(1.08);
 }
 
 // ─── Left-column icon buttons ─────────────────────────────────────────────────
@@ -217,7 +223,7 @@
 // Idle icons look gray; hover/focus raises opacity to white.
 .idleIcon {
     opacity: 0.80;
-    transition: opacity 120ms ease-out;
+    transition: opacity 120ms ease-out, transform 120ms ease-out;
 }
 
 // Includes infoButton because it does not use controlIconButton.
@@ -232,6 +238,88 @@
 
 .guidelinesIcon {
     transform: none;
+}
+
+// Guideline swatches sit beside the quick opacity slider.
+.guidelineControlBody {
+    justify-content: flex-start;
+}
+
+.guidelineSwatches {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+}
+
+.guidelineColorShell {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24rem;
+    height: 24rem;
+    flex: 0 0 24rem;
+    position: relative;
+    overflow: visible;
+    border-radius: 4rem;
+    cursor: pointer;
+    background-color: rgb(179, 179, 255);
+    box-shadow: inset 0 0 0 1rem rgba(7, 13, 18, 0.32);
+    transition: box-shadow 120ms ease-out;
+}
+
+.guidelinePreviewColorShell {
+    margin-left: 4rem;
+}
+
+.guidelineColorField {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 2;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    overflow: visible !important;
+    border-radius: 4rem !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+
+.guidelineColorField > button,
+.guidelineColorField button {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 4rem !important;
+    opacity: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    background-color: transparent !important;
+    cursor: pointer !important;
+}
+
+.guidelineColorField button > div {
+    opacity: 0 !important;
+}
+
+// Visible GL swatch. Keep hover on the shell; extra ring layers render as dots in Cohtml.
+.guidelineColorPreview {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    border-radius: 4rem;
+    box-shadow: inset 0 0 0 1rem rgba(7, 13, 18, 0.32);
+    transition: box-shadow 120ms ease-out;
+}
+
+.guidelineSliderRow {
+    width: auto;
+    flex: 1 1 auto;
+    padding-left: 0;
+    margin-left: 7rem;
 }
 
 // ─── Control rows ─────────────────────────────────────────────────────────────
@@ -411,7 +499,8 @@
     justify-content: center;
     border-radius: 6rem;
     border: 0;
-    background-color: var(--toolbarFieldColor, var(--commonBlack, #141b22));
+    // Cohtml warns on var() fallbacks here, so use the same fallback color directly.
+    background-color: #141b22;
     box-shadow: none;
     color: rgba(255, 255, 255, 0.96);
     font-size: 12rem;
@@ -697,21 +786,6 @@
     transform-origin: left center;
     pointer-events: none;
     z-index: 3; // above presetSwatch
-}
-
-// Guideline hold-to-save sweep.
-.guidelineHoldBar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(84, 215, 255, 0.28);
-    border-radius: 4rem; // match controlIconButton
-    transform: scaleX(0);
-    transform-origin: left center;
-    pointer-events: none;
-    z-index: 0; // behind icon
 }
 
 .actionIcon {

@@ -4,16 +4,18 @@
   "HoverColors.UI.Aria.ClosePanel": "Fechar painel",
   "HoverColors.UI.Tooltip.Info": "Clique aqui para ligar/desligar as dicas.",
   "HoverColors.UI.Tooltip.Draggable": "Arrastável",
-  "HoverColors.UI.Tooltip.Close": "Fechar/Sair. Atalho padrão: H, ou clicar no ícone do jogo no canto superior esquerdo faz o mesmo.",
+  "HoverColors.UI.Tooltip.Close": "Fechar/Sair. Atalho padrão: J, ou clicar no ícone do jogo no canto superior esquerdo faz o mesmo.",
   "HoverColors.UI.Tooltip.ResetOutline": "Contorno: clique para redefinir cor e alfa para os padrões do jogo.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "Contorno: clique para cor + opacidade.",
   "HoverColors.UI.Tooltip.ResetFill": "Preenchimento: clique para redefinir para 0% (padrão do jogo).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacidade da área de preenchimento dentro do contorno.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "Opacidade das guias. As mudanças salvam automaticamente. Toque no ícone para restaurar seu padrão salvo. Segure para salvar o valor atual como padrão.",
-  "HoverColors.UI.Tooltip.GuidelinesOpacity": "Opacidade das guias. Abaixo de 15% não é recomendado, porque as guias podem ficar difíceis de ver.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",
+  "HoverColors.UI.Tooltip.GuidelinesColor": "Large guide circles/spacing lines color + opacity.",
+  "HoverColors.UI.Tooltip.GuidelinesOpacity": "Dashed alignment guide opacity. Use higher for roads and lower for fences/detailing.",
   "HoverColors.UI.Tooltip.SurfaceToggle": "Oculta o preenchimento da prévia de limite da ferramenta Surface.\nAtalho padrão: L.",
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — toque para aplicar, segure por 0,8 s para substituir pela cor atual.\nA tecla K alterna entre o slot 1 e o slot 2.",
   "HoverColors.UI.Tooltip.Preset2": "Slot 2 — toque para aplicar, segure por 0,8 s para substituir pela cor atual.\nA tecla K alterna entre o slot 1 e o slot 2.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1º clique: redefine os dois slots de predefinição para os padrões do mod.\n↺ 2º clique: restaura suas cores anteriores.\nSe já estiver nos padrões, não faz nada.",
-  "HoverColors.UI.Tooltip.DistrictColors": "Clique para preencher a sobreposição dos distritos e ajustar cor/opacidade da linha de limite."
+  "HoverColors.UI.Tooltip.DistrictColors": "Clique para preencher a sobreposição dos distritos e ajustar cor/opacidade da linha de limite.",
+  "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Road/tool preview overlay color + opacity."
 }
