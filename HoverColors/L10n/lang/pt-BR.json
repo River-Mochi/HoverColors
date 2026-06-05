@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "Fechar/Sair. Atalho padrão: J, ou clicar no ícone do jogo no canto superior esquerdo faz o mesmo.",
   "HoverColors.UI.Tooltip.ResetOutline": "Contorno: clique para redefinir cor e alfa para os padrões do jogo.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "Contorno: clique para cor + opacidade.",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "Preenchimento: clique para redefinir para 0% (padrão do jogo).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacidade da área de preenchimento dentro do contorno.",
   "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",

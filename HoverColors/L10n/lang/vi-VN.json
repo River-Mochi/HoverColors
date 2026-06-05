@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "Đóng/Thoát. Phím tắt mặc định: J, hoặc nhấp biểu tượng góc trên bên trái của game cũng làm tương tự.",
   "HoverColors.UI.Tooltip.ResetOutline": "Viền: nhấp để đặt lại màu và alpha về mặc định của game.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "Viền: nhấp để chọn màu + độ mờ.",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "Tô nền: nhấp để đặt lại về 0% (mặc định của game).",
   "HoverColors.UI.Tooltip.FillOpacity": "Độ mờ của vùng tô bên trong viền.",
   "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",

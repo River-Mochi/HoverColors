@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "Zamknij/Wyjdź. Domyślny skrót: J; kliknięcie ikony gry w lewym górnym rogu robi to samo.",
   "HoverColors.UI.Tooltip.ResetOutline": "Obrys: kliknij, aby zresetować kolor i alfę do domyślnych wartości gry.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "Obrys: kliknij, aby ustawić kolor + krycie.",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "Wypełnienie: kliknij, aby zresetować do 0% (domyślnie w grze).",
   "HoverColors.UI.Tooltip.FillOpacity": "Krycie obszaru wypełnienia wewnątrz obrysu.",
   "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",

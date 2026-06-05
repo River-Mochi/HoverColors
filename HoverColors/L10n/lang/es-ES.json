@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "Cerrar/Salir. Atajo predeterminado: J, o hacer clic en el icono superior izquierdo del juego hace lo mismo.",
   "HoverColors.UI.Tooltip.ResetOutline": "Contorno: clic para restaurar color y alfa a los valores predeterminados del juego.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "Contorno: clic para color + opacidad.",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "Relleno: clic para restaurar a 0% (valor predeterminado del juego).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacidad del área de relleno dentro del contorno.",
   "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",

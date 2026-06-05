@@ -32,6 +32,10 @@ namespace HoverColors.UI
         private ValueBinding<float> m_OutlineGBinding = null!;
         private ValueBinding<float> m_OutlineBBinding = null!;
         private ValueBinding<float> m_OutlineABinding = null!;
+        private ValueBinding<float> m_OwnerRBinding = null!;
+        private ValueBinding<float> m_OwnerGBinding = null!;
+        private ValueBinding<float> m_OwnerBBinding = null!;
+        private ValueBinding<float> m_OwnerABinding = null!;
         private ValueBinding<float> m_FillABinding = null!;
         private ValueBinding<float> m_DistrictRBinding = null!;
         private ValueBinding<float> m_DistrictGBinding = null!;
@@ -105,6 +109,22 @@ namespace HoverColors.UI
                     settings.OutlineG = g;
                     settings.OutlineB = b;
                     settings.OutlineA = a;
+                    settings.ApplyAndSave();
+                    SyncValueBindings();
+                }));
+
+            AddBinding(new TriggerBinding<float, float, float, float>(
+                Mod.ModId,
+                "SetOwnerColor",
+                (r, g, b, a) =>
+                {
+                    HoverColorsSettings? settings = Mod.Settings;
+                    if (settings == null) return;
+
+                    settings.OwnerR = r;
+                    settings.OwnerG = g;
+                    settings.OwnerB = b;
+                    settings.OwnerA = a;
                     settings.ApplyAndSave();
                     SyncValueBindings();
                 }));
@@ -202,6 +222,11 @@ namespace HoverColors.UI
                     settings.OutlineG = hovered.g;
                     settings.OutlineB = hovered.b;
                     settings.OutlineA = OutlineColorSystem.CapturedOutlineA;
+                    UnityEngine.Color owner = OutlineColorSystem.CapturedOwnerColor;
+                    settings.OwnerR = owner.r;
+                    settings.OwnerG = owner.g;
+                    settings.OwnerB = owner.b;
+                    settings.OwnerA = owner.a;
                     settings.FillA = OutlineColorSystem.CapturedFillA;
                     settings.ApplyAndSave();
                     SyncValueBindings();
@@ -220,6 +245,11 @@ namespace HoverColors.UI
                     settings.OutlineG = hovered.g;
                     settings.OutlineB = hovered.b;
                     settings.OutlineA = OutlineColorSystem.CapturedOutlineA;
+                    UnityEngine.Color owner = OutlineColorSystem.CapturedOwnerColor;
+                    settings.OwnerR = owner.r;
+                    settings.OwnerG = owner.g;
+                    settings.OwnerB = owner.b;
+                    settings.OwnerA = owner.a;
                     settings.ApplyAndSave();
                     SyncValueBindings();
                 }));
@@ -449,6 +479,10 @@ namespace HoverColors.UI
             m_OutlineGBinding = AddValueBinding("OutlineG", settings?.OutlineG ?? 0.869f);
             m_OutlineBBinding = AddValueBinding("OutlineB", settings?.OutlineB ?? 1f);
             m_OutlineABinding = AddValueBinding("OutlineA", settings?.OutlineA ?? 0.855f);
+            m_OwnerRBinding = AddValueBinding("OwnerR", settings?.OwnerR ?? 0.247f);
+            m_OwnerGBinding = AddValueBinding("OwnerG", settings?.OwnerG ?? 0.981f);
+            m_OwnerBBinding = AddValueBinding("OwnerB", settings?.OwnerB ?? 0.247f);
+            m_OwnerABinding = AddValueBinding("OwnerA", settings?.OwnerA ?? 0.702f);
             m_FillABinding = AddValueBinding("FillA", settings?.FillA ?? 0f);
             m_DistrictRBinding = AddValueBinding("DistrictR", settings?.DistrictR ?? 128f / 255f);
             m_DistrictGBinding = AddValueBinding("DistrictG", settings?.DistrictG ?? 128f / 255f);
@@ -501,6 +535,10 @@ namespace HoverColors.UI
             UpdateIfChanged(m_OutlineGBinding, settings?.OutlineG ?? 0.869f);
             UpdateIfChanged(m_OutlineBBinding, settings?.OutlineB ?? 1f);
             UpdateIfChanged(m_OutlineABinding, settings?.OutlineA ?? 0.855f);
+            UpdateIfChanged(m_OwnerRBinding, settings?.OwnerR ?? 0.247f);
+            UpdateIfChanged(m_OwnerGBinding, settings?.OwnerG ?? 0.981f);
+            UpdateIfChanged(m_OwnerBBinding, settings?.OwnerB ?? 0.247f);
+            UpdateIfChanged(m_OwnerABinding, settings?.OwnerA ?? 0.702f);
             UpdateIfChanged(m_FillABinding, settings?.FillA ?? 0f);
             UpdateIfChanged(m_DistrictRBinding, settings?.DistrictR ?? 128f / 255f);
             UpdateIfChanged(m_DistrictGBinding, settings?.DistrictG ?? 128f / 255f);
@@ -579,7 +617,11 @@ namespace HoverColors.UI
                     settings.OutlineG,
                     settings.OutlineB,
                     settings.OutlineA,
-                    settings.FillA);
+                    settings.FillA,
+                    settings.OwnerR,
+                    settings.OwnerG,
+                    settings.OwnerB,
+                    settings.OwnerA);
         }
 
         // True when the live swatch exactly matches what's stored in that slot.

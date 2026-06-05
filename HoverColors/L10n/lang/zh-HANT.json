@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "關閉/退出。預設快捷鍵：J；點擊遊戲左上角圖示也一樣。",
   "HoverColors.UI.Tooltip.ResetOutline": "輪廓：點擊將顏色與 Alpha 重設為遊戲預設值。",
   "HoverColors.UI.Tooltip.OutlineSwatch": "輪廓：點擊設定顏色 + 不透明度。",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "填充：點擊重設為 0%（遊戲預設值）。",
   "HoverColors.UI.Tooltip.FillOpacity": "輪廓內部填充區域的不透明度。",
   "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",

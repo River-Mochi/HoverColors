@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "Close/Exit. default hotkey: J or click on the Game top-left icon does the same.",
   "HoverColors.UI.Tooltip.ResetOutline": "OUTLINE: click to reset color and alpha to game defaults.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "OUTLINE: click for color + opacity.",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "FILL: click to reset to 0% (game default).",
   "HoverColors.UI.Tooltip.FillOpacity": "Fill area opacity inside the outline.",
   "HoverColors.UI.Tooltip.ResetGuidelines": "GUIDELINE: reset both color swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",

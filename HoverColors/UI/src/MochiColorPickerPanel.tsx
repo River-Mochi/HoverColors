@@ -33,6 +33,10 @@ const outlineR$ = bindValue<number>(CHANNEL, "OutlineR", 0.502);
 const outlineG$ = bindValue<number>(CHANNEL, "OutlineG", 0.869);
 const outlineB$ = bindValue<number>(CHANNEL, "OutlineB", 1);
 const outlineA$ = bindValue<number>(CHANNEL, "OutlineA", 0.855);
+const ownerR$ = bindValue<number>(CHANNEL, "OwnerR", 0.247);
+const ownerG$ = bindValue<number>(CHANNEL, "OwnerG", 0.981);
+const ownerB$ = bindValue<number>(CHANNEL, "OwnerB", 0.247);
+const ownerA$ = bindValue<number>(CHANNEL, "OwnerA", 0.702);
 const fillA$ = bindValue<number>(CHANNEL, "FillA", 0);
 const districtR$ = bindValue<number>(CHANNEL, "DistrictR", 128 / 255);
 const districtG$ = bindValue<number>(CHANNEL, "DistrictG", 128 / 255);
@@ -86,6 +90,12 @@ export const MochiColorPickerPanel = () => {
         a: useValue(outlineA$),
     };
     const boundFillA = useValue(fillA$);
+    const boundOwner: Color = {
+        r: useValue(ownerR$),
+        g: useValue(ownerG$),
+        b: useValue(ownerB$),
+        a: useValue(ownerA$),
+    };
     const boundDistrict: Color = {
         r: useValue(districtR$),
         g: useValue(districtG$),
@@ -161,6 +171,7 @@ export const MochiColorPickerPanel = () => {
             tooltipGuidelinesOpacity: l("HoverColors.UI.Tooltip.GuidelinesOpacity"),
             tooltipInfo: l("HoverColors.UI.Tooltip.Info"),
             tooltipOutlineSwatch: l("HoverColors.UI.Tooltip.OutlineSwatch"),
+            tooltipOwnerSwatch: l("HoverColors.UI.Tooltip.OwnerSwatch"),
             tooltipPreset1: l("HoverColors.UI.Tooltip.Preset1"),
             tooltipPreset2: l("HoverColors.UI.Tooltip.Preset2"),
             tooltipResetFill: l("HoverColors.UI.Tooltip.ResetFill"),
@@ -173,6 +184,7 @@ export const MochiColorPickerPanel = () => {
     }, [translatePanel]);
 
     const [outline, setOutline] = React.useState<Color>(boundOutline);
+    const [ownerColor, setOwnerColor] = React.useState<Color>(boundOwner);
     const [fillA, setFillA] = React.useState<number>(boundFillA);
     const [districtColor, setDistrictColor] = React.useState<Color>(boundDistrict);
     const [guidelineLinesColor, setGuidelineLinesColor] = React.useState<Color>(boundGuidelineLinesColor);
@@ -181,15 +193,18 @@ export const MochiColorPickerPanel = () => {
     const [panelOffset, setPanelOffset] = React.useState({ x: 0, y: 0 });
     const [panelDragging, setPanelDragging] = React.useState(false);
     const [colorPickerDirection, setColorPickerDirection] = React.useState<"up" | "down">("down");
+    const [ownerPickerDirection, setOwnerPickerDirection] = React.useState<"up" | "down">("down");
     const [guidelineLinesPickerDirection, setGuidelineLinesPickerDirection] = React.useState<"up" | "down">("up");
     const [guidelinePreviewPickerDirection, setGuidelinePreviewPickerDirection] = React.useState<"up" | "down">("up");
     const [districtPickerDirection, setDistrictPickerDirection] = React.useState<"up" | "down">("up");
     const [guidelineLinesPickerOpen, setGuidelineLinesPickerOpen] = React.useState(false);
     const [guidelinePreviewPickerOpen, setGuidelinePreviewPickerOpen] = React.useState(false);
+    const [ownerPickerOpen, setOwnerPickerOpen] = React.useState(false);
     const [districtPickerOpen, setDistrictPickerOpen] = React.useState(false);
     const [pendingDistrictToolOpen, setPendingDistrictToolOpen] = React.useState(false);
     // ColorField can swallow hover events; React state keeps the swatch ring reliable.
     const [swatchHovered, setSwatchHovered] = React.useState(false);
+    const [ownerSwatchHovered, setOwnerSwatchHovered] = React.useState(false);
     const [guidelineLinesHovered, setGuidelineLinesHovered] = React.useState(false);
     const [guidelinePreviewHovered, setGuidelinePreviewHovered] = React.useState(false);
 
@@ -205,6 +220,7 @@ export const MochiColorPickerPanel = () => {
     const holdRafRef = React.useRef<number | null>(null);
 
     const outlineSwatchRef = React.useRef<HTMLDivElement | null>(null);
+    const ownerSwatchRef = React.useRef<HTMLDivElement | null>(null);
     const guidelineLinesPickerRef = React.useRef<HTMLDivElement | null>(null);
     const guidelinePreviewPickerRef = React.useRef<HTMLDivElement | null>(null);
     const districtPickerRef = React.useRef<HTMLDivElement | null>(null);
@@ -223,6 +239,8 @@ export const MochiColorPickerPanel = () => {
 
     React.useEffect(() => { setOutline(boundOutline); },
         [boundOutline.r, boundOutline.g, boundOutline.b, boundOutline.a]);
+    React.useEffect(() => { setOwnerColor(boundOwner); },
+        [boundOwner.r, boundOwner.g, boundOwner.b, boundOwner.a]);
     React.useEffect(() => { setFillA(boundFillA); }, [boundFillA]);
     React.useEffect(() => { setDistrictColor(boundDistrict); },
         [boundDistrict.r, boundDistrict.g, boundDistrict.b, boundDistrict.a]);
@@ -237,7 +255,7 @@ export const MochiColorPickerPanel = () => {
             return;
         }
 
-        const compactPickerOpen = districtPickerOpen || guidelineLinesPickerOpen || guidelinePreviewPickerOpen;
+        const compactPickerOpen = ownerPickerOpen || districtPickerOpen || guidelineLinesPickerOpen || guidelinePreviewPickerOpen;
         document.body.classList.toggle(COMPACT_PICKER_BODY_CLASS, compactPickerOpen);
 
         if (!compactPickerOpen) {
@@ -254,6 +272,7 @@ export const MochiColorPickerPanel = () => {
             // Keep scoped CSS mode in sync without touching picker internals.
             if (
                 districtPickerRef.current?.contains(target)
+                || ownerSwatchRef.current?.contains(target)
                 || guidelineLinesPickerRef.current?.contains(target)
                 || guidelinePreviewPickerRef.current?.contains(target)
                 || target.closest(".color-picker-container_Sj5")
@@ -262,6 +281,7 @@ export const MochiColorPickerPanel = () => {
             }
 
             setDistrictPickerOpen(false);
+            setOwnerPickerOpen(false);
             setGuidelineLinesPickerOpen(false);
             setGuidelinePreviewPickerOpen(false);
         };
@@ -271,7 +291,7 @@ export const MochiColorPickerPanel = () => {
             document.removeEventListener("mousedown", onMouseDown);
             document.body.classList.remove(COMPACT_PICKER_BODY_CLASS);
         };
-    }, [districtPickerOpen, guidelineLinesPickerOpen, guidelinePreviewPickerOpen]);
+    }, [districtPickerOpen, guidelineLinesPickerOpen, guidelinePreviewPickerOpen, ownerPickerOpen]);
 
     React.useEffect(() => () => {
         if (areaPanelOpenTimerRef.current != null) {
@@ -390,10 +410,23 @@ export const MochiColorPickerPanel = () => {
         return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
     }, [panelDragging]);
 
+    const normalizeColorFieldValue = (value: Color) => {
+        const alpha = typeof value.a === "number" && Number.isFinite(value.a) ? value.a : 1;
+        return {
+            ...value,
+            a: Math.max(0, Math.min(1, alpha)),
+        };
+    };
+
     // Live color handlers
     const handleOutlineChange = (value: Color) => {
         setOutline(value);
         trigger(CHANNEL, "SetOutlineColor", value.r, value.g, value.b, value.a);
+    };
+    const handleOwnerColorChange = (value: Color) => {
+        const syncedValue = normalizeColorFieldValue(value);
+        setOwnerColor(syncedValue);
+        trigger(CHANNEL, "SetOwnerColor", syncedValue.r, syncedValue.g, syncedValue.b, syncedValue.a);
     };
     const handleFillAChange = (v: number) => {
         const value = Math.max(0, Math.min(1, v));
@@ -403,13 +436,6 @@ export const MochiColorPickerPanel = () => {
     const handleDistrictColorChange = (value: Color) => {
         setDistrictColor(value);
         trigger(CHANNEL, "SetDistrictColor", value.r, value.g, value.b, value.a);
-    };
-    const normalizeColorFieldValue = (value: Color) => {
-        const alpha = typeof value.a === "number" && Number.isFinite(value.a) ? value.a : 1;
-        return {
-            ...value,
-            a: Math.max(0, Math.min(1, alpha)),
-        };
     };
     const handleGuidelineLinesColorChange = (value: Color) => {
         const syncedValue = normalizeColorFieldValue(value);
@@ -487,6 +513,13 @@ export const MochiColorPickerPanel = () => {
         setColorPickerDirection(rect.top + rect.height / 2 < window.innerHeight / 2 ? "down" : "up");
     }, []);
 
+    const updateOwnerPickerDirection = React.useCallback(() => {
+        const swatch = ownerSwatchRef.current;
+        if (swatch == null) return;
+        const rect = swatch.getBoundingClientRect();
+        setOwnerPickerDirection(rect.top + rect.height / 2 < window.innerHeight / 2 ? "down" : "up");
+    }, []);
+
     const updateDistrictPickerDirection = React.useCallback(() => {
         const swatch = districtPickerRef.current;
         if (swatch == null) return;
@@ -556,6 +589,7 @@ export const MochiColorPickerPanel = () => {
     const panelTheme = resolver.panelTheme;
     const infoviewMenuTheme = resolver.infoviewMenuTheme;
     const outlineFieldClass = styles.outlineField;
+    const ownerFieldClass = styles.ownerField;
     const closeButtonClass = `${roundHighlightButtonTheme["button"] ?? ""} ${styles.closeButton}`;
     const panelFrameClass = `${panelBaseTheme.panel ?? "panel_YqS"} ${infoviewMenuTheme.menu ?? "menu_O_M"} ${styles.panelFrame}`;
     const panelSurfaceClass = useDarkerPanel ? styles.panelDarker : styles.panelStandard;
@@ -580,6 +614,12 @@ export const MochiColorPickerPanel = () => {
 
     const guidelineShellStyle = (c: Color, hovered: boolean) => ({
         ...guidelinePreviewStyle(c),
+        boxShadow: hovered
+            ? "inset 0 0 0 1rem rgba(7, 13, 18, 0.32), 0 0 0 1.5rem rgba(255, 255, 255, 0.72)"
+            : "inset 0 0 0 1rem rgba(7, 13, 18, 0.32)",
+    });
+
+    const ownerShellStyle = (hovered: boolean) => ({
         boxShadow: hovered
             ? "inset 0 0 0 1rem rgba(7, 13, 18, 0.32), 0 0 0 1.5rem rgba(255, 255, 255, 0.72)"
             : "inset 0 0 0 1rem rgba(7, 13, 18, 0.32)",
@@ -681,6 +721,37 @@ export const MochiColorPickerPanel = () => {
                                                 onOpenPicker={updateColorPickerDirection}
                                             />
                                             <span className={styles.outlineFieldHoverRing} aria-hidden="true" />
+                                        </div>
+                                    </Tooltip>
+                                    <Tooltip tooltip={tt(text.tooltipOwnerSwatch)}>
+                                        <div
+                                            ref={ownerSwatchRef}
+                                            className={`${styles.ownerFieldShell} ${ownerSwatchHovered ? styles.ownerFieldShellHovered : ""}`}
+                                            style={ownerShellStyle(ownerSwatchHovered)}
+                                            onMouseOver={() => { if (!ownerSwatchHovered) { setOwnerSwatchHovered(true); updateOwnerPickerDirection(); }}}
+                                            onMouseMove={() => { if (!ownerSwatchHovered) { setOwnerSwatchHovered(true); updateOwnerPickerDirection(); }}}
+                                            onMouseLeave={() => setOwnerSwatchHovered(false)}
+                                            onMouseDown={updateOwnerPickerDirection}
+                                        >
+                                            <ColorField
+                                                focusKey={focusDisabled}
+                                                className={ownerFieldClass}
+                                                value={ownerColor}
+                                                alpha={true}
+                                                popupDirection={ownerPickerDirection}
+                                                hideHint={true}
+                                                hexInput={true}
+                                                colorWheel={false}
+                                                onMouseEnter={() => setOwnerSwatchHovered(true)}
+                                                onMouseLeave={() => setOwnerSwatchHovered(false)}
+                                                onChange={handleOwnerColorChange}
+                                                onOpenPicker={() => {
+                                                    setOwnerPickerOpen(true);
+                                                    updateOwnerPickerDirection();
+                                                }}
+                                                onClosePicker={() => setOwnerPickerOpen(false)}
+                                            />
+                                            <span className={styles.ownerFieldHoverRing} aria-hidden="true" />
                                         </div>
                                     </Tooltip>
 

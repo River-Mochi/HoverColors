@@ -5,7 +5,7 @@
 //
 // Surfaces written (one color choice covers all of them, two alpha sliders control opacity):
 //   - RenderingSettingsData.m_HoveredColor.RGB   ← Outline RGB (lot-pattern tint on hovered building)
-//   - RenderingSettingsData.m_OwnerColor.RGB     ← Outline RGB (parent/owner objects of placed building)
+//   - RenderingSettingsData.m_OwnerColor.RGBA    ← Owner color (parent/owned objects while placing)
 //   - Material _OuterColor.RGB                   ← Outline RGB (the visible halo edge color)
 //   - Material _OuterColor.a                     ← OutlineA   (halo edge opacity)
 //   - Material _InnerColor.RGB                   ← Outline RGB (color of fill overlay inside silhouette)
@@ -23,7 +23,7 @@
 //   - The HDRP CustomPassVolume / OutlinesWorldUIPass / Material refs are found ONCE and cached.
 //     The fallback scene scan is throttled while loading so we never call
 //     Object.FindObjectsOfType<CustomPassVolume>() every frame.
-//   - Last-applied 5-float snapshot is kept, so OnUpdate early-returns (5 compares + return) when
+//   - Last-applied effective color snapshot is kept, so OnUpdate early-returns when
 //     neither the sliders nor the active-tool override flag changed.
 //   - Cache invalidates only when the Material reference goes destroyed-null (e.g. scene reload).
 
@@ -82,6 +82,7 @@ namespace HoverColors.Systems
 
         // Last-applied EFFECTIVE values (after tool-override decision).
         private float m_LastR, m_LastG, m_LastB, m_LastOutlineA, m_LastFillA;
+        private float m_LastOwnerR, m_LastOwnerG, m_LastOwnerB, m_LastOwnerA;
         private EffectivePalette m_LastPalette;
         private bool m_Applied;
         private ToolBaseSystem? m_CachedErrorTool;
@@ -127,7 +128,7 @@ namespace HoverColors.Systems
 
             TryCaptureVanillaDefaults();
 
-            float r, g, b, outlineA, fillA;
+            float r, g, b, outlineA, fillA, ownerR, ownerG, ownerB, ownerA;
             EffectivePalette palette;
             ToolBaseSystem? activeToolSystem = m_ToolSystem?.activeTool;
             ToolKind activeTool = GetActiveToolKind(activeToolSystem);
@@ -139,6 +140,10 @@ namespace HoverColors.Systems
                 b = error.b;
                 outlineA = error.a;
                 fillA = CapturedFillA;
+                ownerR = CapturedOwnerColor.r;
+                ownerG = CapturedOwnerColor.g;
+                ownerB = CapturedOwnerColor.b;
+                ownerA = CapturedOwnerColor.a;
                 palette = EffectivePalette.VanillaToolError;
             }
             else if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeRecommended
@@ -150,18 +155,26 @@ namespace HoverColors.Systems
                 b = warning.b;
                 outlineA = warning.a;
                 fillA = CapturedFillA;
+                ownerR = warning.r;
+                ownerG = warning.g;
+                ownerB = warning.b;
+                ownerA = warning.a;
                 palette = EffectivePalette.RecommendedBulldoze;
             }
             else if (activeTool == ToolKind.NetDetailing)
             {
-                if (settings.UseCustomColorsInDetailingTools)
+                if (settings.UseCustomColorsForNetLanes)
                 {
                     r = settings.OutlineR;
                     g = settings.OutlineG;
                     b = settings.OutlineB;
                     outlineA = settings.OutlineA;
                     fillA = settings.FillA;
-                    palette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA)
+                    ownerR = settings.OwnerR;
+                    ownerG = settings.OwnerG;
+                    ownerB = settings.OwnerB;
+                    ownerA = settings.OwnerA;
+                    palette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA, ownerR, ownerG, ownerB, ownerA)
                         ? EffectivePalette.CapturedVanilla
                         : EffectivePalette.Custom;
                 }
@@ -173,6 +186,10 @@ namespace HoverColors.Systems
                     b = hovered.b;
                     outlineA = CapturedOutlineA;
                     fillA = CapturedFillA;
+                    ownerR = CapturedOwnerColor.r;
+                    ownerG = CapturedOwnerColor.g;
+                    ownerB = CapturedOwnerColor.b;
+                    ownerA = CapturedOwnerColor.a;
                     palette = EffectivePalette.CapturedVanilla;
                 }
             }
@@ -185,6 +202,10 @@ namespace HoverColors.Systems
                 b = hovered.b;
                 outlineA = Mathf.Min(CapturedOutlineA, RoadRecommendedOutlineA);
                 fillA = CapturedFillA;
+                ownerR = CapturedOwnerColor.r;
+                ownerG = CapturedOwnerColor.g;
+                ownerB = CapturedOwnerColor.b;
+                ownerA = Mathf.Min(CapturedOwnerColor.a, outlineA);
                 palette = EffectivePalette.RecommendedNet;
             }
             else if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeVanilla
@@ -196,6 +217,10 @@ namespace HoverColors.Systems
                 b = hovered.b;
                 outlineA = CapturedOutlineA;
                 fillA = CapturedFillA;
+                ownerR = CapturedOwnerColor.r;
+                ownerG = CapturedOwnerColor.g;
+                ownerB = CapturedOwnerColor.b;
+                ownerA = CapturedOwnerColor.a;
                 palette = EffectivePalette.CapturedVanilla;
             }
             else
@@ -205,7 +230,11 @@ namespace HoverColors.Systems
                 b = settings.OutlineB;
                 outlineA = settings.OutlineA;
                 fillA = settings.FillA;
-                palette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA)
+                ownerR = settings.OwnerR;
+                ownerG = settings.OwnerG;
+                ownerB = settings.OwnerB;
+                ownerA = settings.OwnerA;
+                palette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA, ownerR, ownerG, ownerB, ownerA)
                     ? EffectivePalette.CapturedVanilla
                     : EffectivePalette.Custom;
             }
@@ -217,12 +246,16 @@ namespace HoverColors.Systems
                 && b == m_LastB
                 && outlineA == m_LastOutlineA
                 && fillA == m_LastFillA
+                && ownerR == m_LastOwnerR
+                && ownerG == m_LastOwnerG
+                && ownerB == m_LastOwnerB
+                && ownerA == m_LastOwnerA
                 && palette == m_LastPalette)
             {
                 return;
             }
 
-            bool ecsOk = ApplyRenderingSettingsColors(r, g, b, outlineA, palette);
+            bool ecsOk = ApplyRenderingSettingsColors(r, g, b, outlineA, ownerR, ownerG, ownerB, ownerA, palette);
             bool matOk = ApplyOutlineMaterialColors(r, g, b, outlineA, fillA, palette);
 
             // Only cache the snapshot when BOTH writes land — otherwise retry next frame.
@@ -233,6 +266,10 @@ namespace HoverColors.Systems
                 m_LastB = b;
                 m_LastOutlineA = outlineA;
                 m_LastFillA = fillA;
+                m_LastOwnerR = ownerR;
+                m_LastOwnerG = ownerG;
+                m_LastOwnerB = ownerB;
+                m_LastOwnerA = ownerA;
                 m_LastPalette = palette;
                 m_Applied = true;
             }
@@ -308,7 +345,16 @@ namespace HoverColors.Systems
         // Building lots clamp this alpha internally, but area/surface borders read it directly,
         // so we forward OutlineA here to make extractor and painted-area borders respect the
         // same outline-opacity control as the main hover highlight.
-        private bool ApplyRenderingSettingsColors(float r, float g, float b, float outlineA, EffectivePalette palette)
+        private bool ApplyRenderingSettingsColors(
+            float r,
+            float g,
+            float b,
+            float outlineA,
+            float ownerR,
+            float ownerG,
+            float ownerB,
+            float ownerA,
+            EffectivePalette palette)
         {
             if (m_RenderSettingsQuery.IsEmptyIgnoreFilter)
             {
@@ -350,9 +396,8 @@ namespace HoverColors.Systems
                     data.m_OwnerColor = owner;
                     break;
                 default:
-                    Color rgb = new Color(r, g, b, outlineA);
-                    data.m_HoveredColor = rgb;
-                    data.m_OwnerColor = rgb;
+                    data.m_HoveredColor = new Color(r, g, b, outlineA);
+                    data.m_OwnerColor = new Color(ownerR, ownerG, ownerB, ownerA);
                     break;
             }
 
@@ -529,11 +574,38 @@ namespace HoverColors.Systems
 
         public static bool MatchesCapturedVanillaProfile(float r, float g, float b, float outlineA, float fillA)
         {
+            return MatchesCapturedVanillaProfile(
+                r,
+                g,
+                b,
+                outlineA,
+                fillA,
+                CapturedOwnerColor.r,
+                CapturedOwnerColor.g,
+                CapturedOwnerColor.b,
+                CapturedOwnerColor.a);
+        }
+
+        public static bool MatchesCapturedVanillaProfile(
+            float r,
+            float g,
+            float b,
+            float outlineA,
+            float fillA,
+            float ownerR,
+            float ownerG,
+            float ownerB,
+            float ownerA)
+        {
             return ApproximatelyEqual(r, CapturedHoveredColor.r)
                 && ApproximatelyEqual(g, CapturedHoveredColor.g)
                 && ApproximatelyEqual(b, CapturedHoveredColor.b)
                 && ApproximatelyEqual(outlineA, CapturedOutlineA)
-                && ApproximatelyEqual(fillA, CapturedFillA);
+                && ApproximatelyEqual(fillA, CapturedFillA)
+                && ApproximatelyEqual(ownerR, CapturedOwnerColor.r)
+                && ApproximatelyEqual(ownerG, CapturedOwnerColor.g)
+                && ApproximatelyEqual(ownerB, CapturedOwnerColor.b)
+                && ApproximatelyEqual(ownerA, CapturedOwnerColor.a);
         }
 
         private static bool ApproximatelyEqual(float a, float b)

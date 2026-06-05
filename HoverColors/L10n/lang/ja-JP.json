@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "閉じる/終了。デフォルトホットキー: J。ゲーム左上のアイコンをクリックしても同じです。",
   "HoverColors.UI.Tooltip.ResetOutline": "アウトライン: クリックで色とアルファをゲーム既定値に戻します。",
   "HoverColors.UI.Tooltip.OutlineSwatch": "アウトライン: クリックで色 + 不透明度を変更します。",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "塗りつぶし: クリックで0%に戻します（ゲーム既定値）。",
   "HoverColors.UI.Tooltip.FillOpacity": "アウトライン内側の塗りつぶし領域の不透明度です。",
   "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",

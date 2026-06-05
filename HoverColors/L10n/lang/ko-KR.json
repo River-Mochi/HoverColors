@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "닫기/나가기. 기본 단축키: J. 게임 왼쪽 위 아이콘을 클릭해도 동일합니다.",
   "HoverColors.UI.Tooltip.ResetOutline": "윤곽선: 클릭하면 색상과 알파를 게임 기본값으로 초기화합니다.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "윤곽선: 클릭하여 색상 + 불투명도를 설정합니다.",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "채우기: 클릭하면 0%로 초기화합니다(게임 기본값).",
   "HoverColors.UI.Tooltip.FillOpacity": "윤곽선 내부 채우기 영역의 불투명도입니다.",
   "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",

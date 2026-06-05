@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "Schließen/Beenden. Standard-Hotkey: J; ein Klick auf das Spielsymbol oben links macht dasselbe.",
   "HoverColors.UI.Tooltip.ResetOutline": "Umriss: Klicken, um Farbe und Alpha auf die Spielstandards zurückzusetzen.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "Umriss: Klicken für Farbe + Deckkraft.",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "Füllung: Klicken, um auf 0% zurückzusetzen (Spielstandard).",
   "HoverColors.UI.Tooltip.FillOpacity": "Deckkraft der Füllfläche innerhalb des Umrisses.",
   "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",

@@ -63,8 +63,8 @@ namespace HoverColors.Settings
         // In-city color-picker bindings (driven by Systems/HoverColorsUISystem)
         // Not decorated for Options UI — these are data fields the cs2/api bindings read/write
         // and the OutlineColorSystem applies. Field layout after the post-alpha redesign:
-        //   - OutlineR/G/B  → outline halo edge color + fill overlay color + lot-pattern tint
-        //     (one color choice drives every visible surface so the panel only needs one swatch)
+        //   - OutlineR/G/B → regular hover outline/fill color
+        //   - OwnerR/G/B   → parent/owner highlight color, e.g. main building while placing sub-buildings
         //   - OutlineA     → outline halo edge opacity  (material _OuterColor.a)
         //   - FillA        → fill overlay opacity inside the silhouette (material _InnerColor.a)
         // The dropped OutlineInner*/OutlineOuter* fields from the early alpha are gone — their
@@ -82,6 +82,18 @@ namespace HoverColors.Settings
 
         [SettingsUIHidden]
         public float OutlineA { get; set; }
+
+        [SettingsUIHidden]
+        public float OwnerR { get; set; }
+
+        [SettingsUIHidden]
+        public float OwnerG { get; set; }
+
+        [SettingsUIHidden]
+        public float OwnerB { get; set; }
+
+        [SettingsUIHidden]
+        public float OwnerA { get; set; }
 
         [SettingsUIHidden]
         public float FillA { get; set; }
@@ -198,8 +210,10 @@ namespace HoverColors.Settings
         [SettingsUISection(Actions, ToolColors)]
         public bool UseOverlapWarningColor { get; set; }
 
+        // NetLanes cover EDT-style fences/hedges/markings through NetTool.
+        // ON lets those detail tools use custom HC colors while normal roads keep road overrides.
         [SettingsUISection(Actions, ToolColors)]
-        public bool UseCustomColorsInDetailingTools { get; set; }
+        public bool UseCustomColorsForNetLanes { get; set; }
 
         // -----------------------------------------------------------------------
         // Actions tab — Panel readability
@@ -297,6 +311,12 @@ namespace HoverColors.Settings
             OutlineB = 1f;
             OutlineA = 0.855f;
 
+            // Vanilla parent/owner green used for sub-building placement and owned objects.
+            OwnerR = 0.247f;
+            OwnerG = 0.981f;
+            OwnerB = 0.247f;
+            OwnerA = 0.702f;
+
             // FillA=0 matches vanilla CS2: no extra silhouette overlay until the player turns it up.
             FillA = 0f;
 
@@ -342,7 +362,7 @@ namespace HoverColors.Settings
             // alpha is very low, without changing their saved custom color.
             ToolColorMode = ToolColorModeRecommended;
             UseOverlapWarningColor = true;
-            UseCustomColorsInDetailingTools = true;
+            UseCustomColorsForNetLanes = true;
             UseDarkerPanel = false;
 
             // 100 = vanilla default. Lower = more transparent guidelines.

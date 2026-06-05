@@ -7,6 +7,7 @@
   "HoverColors.UI.Tooltip.Close": "Kapat/Çık. Varsayılan kısayol: J; oyunun sol üst simgesine tıklamak da aynı işi yapar.",
   "HoverColors.UI.Tooltip.ResetOutline": "Dış çizgi: renk ve alphayı oyun varsayılanlarına sıfırlamak için tıkla.",
   "HoverColors.UI.Tooltip.OutlineSwatch": "Dış çizgi: renk + opaklık için tıkla.",
+  "HoverColors.UI.Tooltip.OwnerSwatch": "OWNER: parent/sub-building highlight color + opacity.",
   "HoverColors.UI.Tooltip.ResetFill": "Dolgu: 0%'a sıfırlamak için tıkla (oyun varsayılanı).",
   "HoverColors.UI.Tooltip.FillOpacity": "Dış çizginin içindeki dolgu alanının opaklığı.",
   "HoverColors.UI.Tooltip.ResetGuidelines": "Reset guideline swatches to vanilla. Dashed color dropdown and opacity slider stay unchanged.",
