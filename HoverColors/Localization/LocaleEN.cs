@@ -65,11 +65,11 @@ namespace HoverColors.Localization
                 { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. Vanilla tool colors" },
                 { m_Settings.GetToolColorModeLocaleID("Custom"), "3. Keep my custom color" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Enable Overlapping error color" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Enable Overlapping items outline" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
                     "<Enabled is recommended>\n" +
-                    "Enables normal vanilla behavior when placing items that <overlap> with other items.\n" +
-                    "Uses the game's error outline color (salmon) if error detected.\n\n" +
+                    "Keeps the game's vanilla salmon outline visible when object or network placement is blocked by overlapping items.\n" +
+                    "Area limits, like Specialized Industry farm radius guides, are left alone.\n\n" +
                     "Works with all Bulldozer + Roads modes and does not overwrite your saved custom color."
                 },
 

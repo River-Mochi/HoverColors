@@ -12,7 +12,7 @@
 //   - Material _InnerColor.a                     ← FillA      (fill overlay opacity)
 //
 // Tool override: controlled by HoverColorsSettings.ToolColorMode.
-//   - Overlapping / invalid placement errors: optional vanilla ErrorColor wins first.
+//   - Object/network placement errors: optional vanilla ErrorColor wins first.
 //   - Recommended: WarningColor for bulldozer, softer vanilla blue for roads.
 //   - Detail NetTools: optional custom color for fences/hedges/lanes from detailing mods.
 //   - Vanilla: captured vanilla hover profile while those tools are active.
@@ -131,7 +131,7 @@ namespace HoverColors.Systems
             EffectivePalette palette;
             ToolBaseSystem? activeToolSystem = m_ToolSystem?.activeTool;
             ToolKind activeTool = GetActiveToolKind(activeToolSystem);
-            if (settings.UseOverlapWarningColor && HasBlockingToolError(activeToolSystem))
+            if (settings.UseOverlapWarningColor && HasSupportedPlacementError(activeToolSystem))
             {
                 Color error = CapturedErrorColor;
                 r = error.r;
@@ -466,9 +466,16 @@ namespace HoverColors.Systems
             return ToolKind.NetRoad;
         }
 
-        private bool HasBlockingToolError(ToolBaseSystem? tool)
+        private bool HasSupportedPlacementError(ToolBaseSystem? tool)
         {
             if (tool == null)
+            {
+                return false;
+            }
+
+            // Keep this option scoped to item/network placement. AreaTool uses Error for
+            // extractor/district/surface limits too, and those should not become salmon.
+            if (tool is not ObjectToolSystem && tool is not NetToolSystem)
             {
                 return false;
             }
@@ -483,8 +490,8 @@ namespace HoverColors.Systems
 
             try
             {
-                // Vanilla ToolBaseSystem.GetAllowApply() checks this same query. It only becomes
-                // non-empty for real blocking tool errors, including Overlapping items.
+                // Vanilla ToolBaseSystem.GetAllowApply() checks this same query. In these
+                // tools it covers blocking placement errors, including Overlapping items.
                 if (!ReferenceEquals(m_CachedErrorTool, tool))
                 {
                     object? value = s_ToolErrorQueryField.GetValue(tool);
