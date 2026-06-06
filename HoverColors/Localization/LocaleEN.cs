@@ -1,5 +1,5 @@
 // File: Localization/LocaleEN.cs
-// Purpose: English (en-US) strings for the Options UI (ESC -> Options -> Hover Colors).
+// Purpose: English (en-US) strings for the Options Menu.
 // Strings for the in-city cohtml panel live separately in L10n/lang/en-US.json.
 
 namespace HoverColors.Localization

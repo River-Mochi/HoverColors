@@ -1,5 +1,5 @@
 // File: Localization/LocalePT_BR.cs
-// Purpose: Brazilian Portuguese (pt-BR) strings for the Options UI (ESC -> Options -> Hover Colors).
+// Purpose: Brazilian Portuguese (pt-BR) strings for the Options Menu.
 // Strings for the in-city cohtml panel live separately in L10n/lang/pt-BR.json.
 
 namespace HoverColors.Localization

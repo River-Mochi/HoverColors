@@ -1,5 +1,5 @@
 // File: Localization/LocaleKO.cs
-// Purpose: Korean (ko-KR) strings for the Options UI (ESC -> Options -> Hover Colors).
+// Purpose: Korean (ko-KR) strings for the Options Menu.
 // Strings for the in-city cohtml panel live separately in L10n/lang/ko-KR.json.
 
 namespace HoverColors.Localization

@@ -1,5 +1,5 @@
 // File: Localization/LocaleDE.cs
-// Purpose: German (de-DE) strings for the Options UI (ESC -> Options -> Hover Colors).
+// Purpose: German (de-DE) strings for the Options Menu.
 // Strings for the in-city cohtml panel live separately in L10n/lang/de-DE.json.
 
 namespace HoverColors.Localization

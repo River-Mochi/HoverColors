@@ -1,5 +1,5 @@
 // File: Localization/LocaleVI.cs
-// Purpose: Vietnamese (vi-VN) strings for the Options UI (ESC -> Options -> Hover Colors).
+// Purpose: Vietnamese (vi-VN) strings for the Options Menu.
 // Strings for the in-city cohtml panel live separately in L10n/lang/vi-VN.json.
 
 namespace HoverColors.Localization
