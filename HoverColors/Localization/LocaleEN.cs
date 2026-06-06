@@ -68,7 +68,7 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "Enable Overlapping items outline" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
                     "<Enabled is recommended>\n" +
-                    "Keeps the game's vanilla salmon outline visible when object or network placement is blocked by overlapping items.\n" +
+                    "Keeps the game's vanilla salmon red outline visible when object or network placement is blocked by overlapping items.\n" +
                     "Area limits, like Specialized Industry farm radius guides, are left alone.\n\n" +
                     "Works with all Bulldozer + Roads modes and does not overwrite your saved custom color."
                 },
@@ -77,10 +77,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseCustomColorsForNetLanes)),
                     "<Enabled is recommended>\n" +
                     "Use your saved HC color/transparency while placing NetLane detail items such as fences, hedges, markings, and similar lane-based tools.\n\n" +
-                    "- Normal roads still follow the Bulldozer + Roads setting you picked from the drop-down list.\n" +
-                    "- Disable this if you want those tools to use the game's vanilla blue hover color instead.\n" +
-                    "- Roads still follow the Bulldozer + Roads setting you choose in drop-down list.\n" +
-                    "- Overlapping error still wins when enabled (vanilla error = salmon red)."
+                    "• Normal roads still follow the Bulldozer + Roads setting you picked from the drop-down list.\n" +
+                    "• Disable this if you want those tools to use the game's vanilla blue outline color instead.\n" +
+                    "• Roads still follow the Bulldozer + Roads setting you choose in drop-down list.\n" +
+                    "• Overlapping error color still wins when enabled (vanilla error =1 salmon red)."
                 },
 
                 // Darker panel

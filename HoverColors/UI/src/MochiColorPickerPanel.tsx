@@ -18,7 +18,7 @@ import infoIconSrc from "../images/AdvisorInfoViewWhite.svg";
 import lotToolIconSrc from "../images/LotTool03.svg";
 import surfaceIconSrc from "../images/Districts03.svg";
 import fillIconSrc from "../images/MainElements-Fill2.svg";
-import outlineIconSrc from "../images/MainElements2.svg";
+import outlineIconSrc from "../images/MainElements2_even.svg";
 import guidelinesIconSrc from "../images/GuideLines4.svg";
 import closeIconSrc from "../images/Close.svg";
 import resetIconSrc from "../images/Reset_Button2.svg";
@@ -600,8 +600,8 @@ export const MochiColorPickerPanel = () => {
         backgroundColor: `rgb(${Math.round(c.r * 255)},${Math.round(c.g * 255)},${Math.round(c.b * 255)})`,
     });
 
-    // Small guideline swatches show RGB clearly; alpha still applies in-game.
-    const guidelinePreviewStyle = (c: Color) => {
+    // Small swatches show RGB clearly; alpha still applies in-game.
+    const compactSwatchStyle = (c: Color, hovered = false) => {
         const channel = (value: unknown, fallback: number) => {
             const n = Number(value);
             return Math.round(Math.max(0, Math.min(1, Number.isFinite(n) ? n : fallback)) * 255);
@@ -609,21 +609,24 @@ export const MochiColorPickerPanel = () => {
         const r = channel(c.r, 0.7);
         const g = channel(c.g, 0.7);
         const b = channel(c.b, 1);
-        return { backgroundColor: `rgb(${r},${g},${b})` };
+        return {
+            backgroundColor: `rgb(${r},${g},${b})`,
+            // Inner hover edge keeps all sides visible on tiny Cohtml swatches.
+            boxShadow: hovered
+                ? "inset 0 0 0 1.75rem rgba(255, 255, 255, 0.82), inset 0 0 0 3rem rgba(7, 13, 18, 0.30)"
+                : "inset 0 0 0 1rem rgba(7, 13, 18, 0.32)",
+        };
     };
 
     const guidelineShellStyle = (c: Color, hovered: boolean) => ({
-        ...guidelinePreviewStyle(c),
+        ...compactSwatchStyle(c),
         boxShadow: hovered
-            ? "inset 0 0 0 1rem rgba(7, 13, 18, 0.32), 0 0 0 1.5rem rgba(255, 255, 255, 0.72)"
+            ? "inset 0 0 0 1rem rgba(7, 13, 18, 0.32), 0 0 0 2rem rgba(255, 255, 255, 0.76)"
             : "inset 0 0 0 1rem rgba(7, 13, 18, 0.32)",
     });
 
-    const ownerShellStyle = (hovered: boolean) => ({
-        boxShadow: hovered
-            ? "inset 0 0 0 1rem rgba(7, 13, 18, 0.32), 0 0 0 1.5rem rgba(255, 255, 255, 0.72)"
-            : "inset 0 0 0 1rem rgba(7, 13, 18, 0.32)",
-    });
+    // Compact swatches: hidden vanilla ColorField owns picker; shell/preview own hover.
+    const ownerShellStyle = (c: Color, hovered: boolean) => guidelineShellStyle(c, hovered);
 
     const presetNumberColor = (active: boolean, hovered: boolean) => {
         if (hovered) {
@@ -727,7 +730,7 @@ export const MochiColorPickerPanel = () => {
                                         <div
                                             ref={ownerSwatchRef}
                                             className={`${styles.ownerFieldShell} ${ownerSwatchHovered ? styles.ownerFieldShellHovered : ""}`}
-                                            style={ownerShellStyle(ownerSwatchHovered)}
+                                            style={ownerShellStyle(ownerColor, ownerSwatchHovered)}
                                             onMouseOver={() => { if (!ownerSwatchHovered) { setOwnerSwatchHovered(true); updateOwnerPickerDirection(); }}}
                                             onMouseMove={() => { if (!ownerSwatchHovered) { setOwnerSwatchHovered(true); updateOwnerPickerDirection(); }}}
                                             onMouseLeave={() => setOwnerSwatchHovered(false)}
@@ -742,8 +745,6 @@ export const MochiColorPickerPanel = () => {
                                                 hideHint={true}
                                                 hexInput={true}
                                                 colorWheel={false}
-                                                onMouseEnter={() => setOwnerSwatchHovered(true)}
-                                                onMouseLeave={() => setOwnerSwatchHovered(false)}
                                                 onChange={handleOwnerColorChange}
                                                 onOpenPicker={() => {
                                                     setOwnerPickerOpen(true);
@@ -751,7 +752,11 @@ export const MochiColorPickerPanel = () => {
                                                 }}
                                                 onClosePicker={() => setOwnerPickerOpen(false)}
                                             />
-                                            <span className={styles.ownerFieldHoverRing} aria-hidden="true" />
+                                            <span
+                                                className={styles.ownerColorPreview}
+                                                style={compactSwatchStyle(ownerColor, ownerSwatchHovered)}
+                                                aria-hidden="true"
+                                            />
                                         </div>
                                     </Tooltip>
 
@@ -872,7 +877,7 @@ export const MochiColorPickerPanel = () => {
                                             />
                                             <span
                                                 className={styles.guidelineColorPreview}
-                                                style={guidelinePreviewStyle(guidelineLinesColor)}
+                                                style={compactSwatchStyle(guidelineLinesColor, guidelineLinesHovered)}
                                                 aria-hidden="true"
                                             />
                                         </div>
@@ -906,7 +911,7 @@ export const MochiColorPickerPanel = () => {
                                             />
                                             <span
                                                 className={styles.guidelineColorPreview}
-                                                style={guidelinePreviewStyle(guidelinePreviewColor)}
+                                                style={compactSwatchStyle(guidelinePreviewColor, guidelinePreviewHovered)}
                                                 aria-hidden="true"
                                             />
                                         </div>
