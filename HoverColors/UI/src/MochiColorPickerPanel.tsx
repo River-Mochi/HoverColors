@@ -873,36 +873,40 @@ export const MochiColorPickerPanel = () => {
                                     </Tooltip>
 
                                     {/* Presets: tap applies; hold saves current color/alpha. */}
-                                    <Tooltip tooltip={tt(text.tooltipPreset1)}>
-                                        <button
-                                            type="button"
-                                            className={`${styles.presetSlot} ${preset1Active ? styles.presetSlotActive : ""}`}
-                                            style={{ marginLeft: "10rem" }}
-                                            onMouseEnter={() => setP1Hovered(true)}
-                                            onMouseDown={handlePresetMouseDown(1)}
-                                            onMouseUp={handlePresetMouseUp(1)}
-                                            onMouseLeave={() => { setP1Hovered(false); cancelHold(); }}
-                                        >
-                                            {holdSlot === 1 && holdProgress > 0 && <span className={styles.holdBar} style={holdBarStyle(holdProgress)} />}
-                                            <span className={styles.presetNumber} style={{ color: presetNumberColor(preset1Active, p1Hovered) }}>1</span>
-                                            <span className={styles.presetSwatch} style={presetPreviewStyle(p1)} />
-                                        </button>
-                                    </Tooltip>
-                                    <Tooltip tooltip={tt(text.tooltipPreset2)}>
-                                        <button
-                                            type="button"
-                                            className={`${styles.presetSlot} ${preset2Active ? styles.presetSlotActive : ""}`}
-                                            style={{ marginLeft: "5rem" }}
-                                            onMouseEnter={() => setP2Hovered(true)}
-                                            onMouseDown={handlePresetMouseDown(2)}
-                                            onMouseUp={handlePresetMouseUp(2)}
-                                            onMouseLeave={() => { setP2Hovered(false); cancelHold(); }}
-                                        >
-                                            {holdSlot === 2 && holdProgress > 0 && <span className={styles.holdBar} style={holdBarStyle(holdProgress)} />}
-                                            <span className={styles.presetNumber} style={{ color: presetNumberColor(preset2Active, p2Hovered) }}>2</span>
-                                            <span className={styles.presetSwatch} style={presetPreviewStyle(p2)} />
-                                        </button>
-                                    </Tooltip>
+                                    <PresetSlotButton
+                                        slot={1}
+                                        color={p1}
+                                        active={preset1Active}
+                                        holdActive={holdSlot === 1}
+                                        holdProgress={holdProgress}
+                                        tooltip={tt(text.tooltipPreset1)}
+                                        marginLeft="10rem"
+                                        numberColor={presetNumberColor(preset1Active, p1Hovered)}
+                                        presetPreviewStyle={presetPreviewStyle}
+                                        holdBarStyle={holdBarStyle}
+                                        onMouseEnter={() => setP1Hovered(true)}
+                                        onMouseDown={handlePresetMouseDown(1)}
+                                        onMouseUp={handlePresetMouseUp(1)}
+                                        onMouseLeave={() => { setP1Hovered(false); cancelHold(); }}
+                                    />
+
+                                    <PresetSlotButton
+                                        slot={2}
+                                        color={p2}
+                                        active={preset2Active}
+                                        holdActive={holdSlot === 2}
+                                        holdProgress={holdProgress}
+                                        tooltip={tt(text.tooltipPreset2)}
+                                        marginLeft="5rem"
+                                        numberColor={presetNumberColor(preset2Active, p2Hovered)}
+                                        presetPreviewStyle={presetPreviewStyle}
+                                        holdBarStyle={holdBarStyle}
+                                        onMouseEnter={() => setP2Hovered(true)}
+                                        onMouseDown={handlePresetMouseDown(2)}
+                                        onMouseUp={handlePresetMouseUp(2)}
+                                        onMouseLeave={() => { setP2Hovered(false); cancelHold(); }}
+                                    />
+
                                 </div>
 
                                 {/* SVG reset avoids missing glyph boxes in CJK fonts. */}
