@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Màu đường dẫn hướng nét đứt" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Đặt màu cho đường dẫn hướng căn chỉnh nét đứt dùng cho góc đường, trợ giúp 90 độ và gợi ý kết nối.\n\nHai thanh trượt độ mờ được đồng bộ: thanh trong Options và thanh trong bảng trong thành phố điều khiển cùng độ mờ của đường dẫn hướng nét đứt." },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Trắng vanilla" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Vàng dễ nhìn" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "Xanh lá dễ nhìn" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "Xanh cyan" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Vàng dễ nhìn" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Độ mờ đường dẫn hướng (alpha)" },

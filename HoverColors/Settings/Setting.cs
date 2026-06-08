@@ -45,7 +45,9 @@ namespace HoverColors.Settings
         public const int GuidelineDashedColorPresetVanilla = 0;
         public const int GuidelineDashedColorPresetYellow = 1;
         public const int GuidelineDashedColorPresetGreen = 2;
-        public const int GuidelineDashedColorPresetPink = 3;
+        // Value 3 used to be an old test color; now it is Mochi Blue.
+        public const int GuidelineDashedColorPresetMochiBlue = 3;
+        public const int GuidelineDashedColorPresetCyanBlue = 4;
 
         // Centralised default for the guideline opacity slider.
         // Vanilla CS2 is 100; lower = more transparent. Keep TSX fallback bindings in sync.
@@ -486,8 +488,13 @@ namespace HoverColors.Settings
                 },
                 new DropdownItem<int>
                 {
-                    value = GuidelineDashedColorPresetPink,
-                    displayName = GetGuidelineDashedColorPresetLocaleID("Pink"),
+                    value = GuidelineDashedColorPresetMochiBlue,
+                    displayName = GetGuidelineDashedColorPresetLocaleID("MochiBlue"),
+                },
+                new DropdownItem<int>
+                {
+                    value = GuidelineDashedColorPresetCyanBlue,
+                    displayName = GetGuidelineDashedColorPresetLocaleID("CyanBlue"),
                 },
                 new DropdownItem<int>
                 {

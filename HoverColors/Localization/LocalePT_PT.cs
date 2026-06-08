@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Cor das linhas-guia tracejadas" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Define a cor das guias de alinhamento tracejadas usadas para ângulos de estrada, auxílios de 90 graus e dicas de conexão.\n\nOs dois controles de opacidade são sincronizados: este controle nas Opções e o controle do painel na cidade ajustam a mesma opacidade das guias tracejadas." },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Branco vanilla" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Amarelo de alta visibilidade" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "Verde de alta visibilidade" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "Azul ciano" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Amarelo de alta visibilidade" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Opacidade das guias (alfa)" },

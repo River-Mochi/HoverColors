@@ -98,9 +98,10 @@ namespace HoverColors.Localization
                     "Both opacity sliders are synced: this Options slider and the in-city panel slider control the same dashed guide opacity."
                 },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Vanilla white" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "High visibility yellow" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "High visibility green" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "Cyan blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "High visibility yellow" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Guidelines opacity (alpha)" },

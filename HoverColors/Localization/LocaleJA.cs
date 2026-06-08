@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "破線ガイドの色" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "道路角度、90度補助、接続ヒントに使われる破線の位置合わせガイド色を設定します。\n\n2つの不透明度スライダーは同期されています: この Options スライダーと街中パネルのスライダーは、同じ破線ガイド不透明度を制御します。" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "バニラ白" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "高視認性の黄色" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi ピンク" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "高視認性の緑" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "シアンブルー" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "高視認性の黄色" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "ガイドライン不透明度（アルファ）" },

@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Farbe gestrichelter Hilfslinien" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Legt die Farbe der gestrichelten Ausrichtungshilfen für Straßenwinkel, 90-Grad-Hilfen und Verbindungshinweise fest.\n\nBeide Deckkraft-Schieberegler sind synchronisiert: Dieser Options-Regler und der Regler im Stadt-Panel steuern dieselbe Deckkraft der gestrichelten Hilfslinien." },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Vanilla-Weiß" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Gut sichtbares Gelb" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "Gut sichtbares Grün" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "Cyan Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Gut sichtbares Gelb" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Deckkraft der Hilfslinien (Alpha)" },

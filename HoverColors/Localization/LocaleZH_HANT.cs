@@ -96,9 +96,10 @@ namespace HoverColors.Localization
                     "兩個透明度滑桿會同步：Options 裡的滑桿和城市面板滑桿控制同一個虛線輔助線透明度。"
                 },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "原版白色" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "高可見度黃色" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "高可見度綠色" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "青藍色" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "高可見度黃色" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "輔助線透明度（Alpha）" },

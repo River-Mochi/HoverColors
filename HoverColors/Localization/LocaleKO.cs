@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "점선 가이드 라인 색상" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "도로 각도, 90도 보조선, 연결 힌트에 사용되는 점선 정렬 가이드 색상을 설정합니다.\n\n두 불투명도 슬라이더는 동기화됩니다. 이 옵션 슬라이더와 도시 패널 슬라이더는 같은 점선 가이드 불투명도를 제어합니다." },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "바닐라 흰색" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "고시인성 노란색" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi 핑크" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "고시인성 초록색" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "시안 블루" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "고시인성 노란색" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "가이드라인 불투명도(알파)" },

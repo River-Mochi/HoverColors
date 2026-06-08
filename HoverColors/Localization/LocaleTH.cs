@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "สีเส้นไกด์แบบประ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "ตั้งค่าสีไกด์จัดแนวแบบประที่ใช้สำหรับมุมถนน ตัวช่วย 90 องศา และคำใบ้การเชื่อมต่อ\n\nแถบเลื่อนความทึบทั้งสองซิงค์กัน: แถบเลื่อนใน Options นี้และแถบเลื่อนในแผงเมืองควบคุมความทึบของไกด์แบบประเดียวกัน" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "ขาว vanilla" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "เหลืองมองเห็นชัด" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "เขียวมองเห็นชัด" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "ฟ้าไซแอน" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "เหลืองมองเห็นชัด" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "ความทึบของเส้นไกด์ (alpha)" },

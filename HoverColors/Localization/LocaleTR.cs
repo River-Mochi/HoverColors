@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Kesikli kılavuz çizgi rengi" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Yol açıları, 90 derece yardımcıları ve bağlantı ipuçları için kullanılan kesikli hizalama kılavuzu rengini ayarlar.\n\nİki opaklık kaydırıcısı eşitlenir: Bu Options kaydırıcısı ve şehir içi panel kaydırıcısı aynı kesikli kılavuz opaklığını kontrol eder." },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Vanilla beyaz" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Yüksek görünürlüklü sarı" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "Yüksek görünürlüklü yeşil" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "Camgöbeği mavi" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Yüksek görünürlüklü sarı" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Kılavuz opaklığı (alfa)" },

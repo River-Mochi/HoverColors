@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "虚线辅助线颜色" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "设置道路角度、90 度辅助和连接提示所使用的虚线对齐辅助线颜色。\n\n两个不透明度滑块会同步：此选项滑块和城市内面板滑块控制同一个虚线辅助线不透明度。" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "原版白色" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "高可见度黄色" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi 粉色" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "高可见度绿色" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "青蓝色" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "高可见度黄色" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "辅助线不透明度（Alpha）" },

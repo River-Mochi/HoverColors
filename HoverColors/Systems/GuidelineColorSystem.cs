@@ -36,7 +36,8 @@ namespace HoverColors.Systems
         private static readonly Color FallbackPositiveGuidelineColor = new(0.5f, 1f, 0.5f, 0.1f);
         private static readonly Color HighVisibilityYellowGuidelineColor = new(1f, 0.92f, 0.2f, 1f);
         private static readonly Color HighVisibilityGreenGuidelineColor = new(0.28f, 1f, 0.35f, 1f);
-        private static readonly Color MochiPinkGuidelineColor = new(1f, 0.714f, 0.757f, 1f);
+        private static readonly Color MochiBlueGuidelineColor = new(0.137f, 1f, 0.973f, 1f); // #23FFF8
+        private static readonly Color CyanBlueGuidelineColor = new(0.329f, 0.843f, 1f, 1f); // #54D7FF
 
         // Snapshot of the game's default colors. Opacity scales default alphas.
         private Color m_DefVeryLow = FallbackVeryLowGuidelineColor;
@@ -210,7 +211,8 @@ namespace HoverColors.Systems
             return settings.GuidelineDashedColorPreset switch
             {
                 HoverColorsSettings.GuidelineDashedColorPresetYellow => HighVisibilityYellowGuidelineColor,
-                HoverColorsSettings.GuidelineDashedColorPresetPink => MochiPinkGuidelineColor,
+                HoverColorsSettings.GuidelineDashedColorPresetMochiBlue => MochiBlueGuidelineColor,
+                HoverColorsSettings.GuidelineDashedColorPresetCyanBlue => CyanBlueGuidelineColor,
                 HoverColorsSettings.GuidelineDashedColorPresetGreen => HighVisibilityGreenGuidelineColor,
                 _ => CapturedVanillaGuidelineDashedColor,
             };

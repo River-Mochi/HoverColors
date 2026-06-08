@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Color de líneas guía discontinuas" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Define el color de las guías de alineación discontinuas usadas para ángulos de carretera, ayudas de 90 grados e indicaciones de conexión.\n\nLos dos controles de opacidad están sincronizados: este control de Opciones y el control del panel en ciudad ajustan la misma opacidad de las guías discontinuas." },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Blanco vanilla" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Amarillo de alta visibilidad" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "Verde de alta visibilidad" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "Azul cian" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Amarillo de alta visibilidad" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Opacidad de guías (alfa)" },

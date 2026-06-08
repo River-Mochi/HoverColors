@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Kolor przerywanych linii pomocniczych" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Ustawia kolor przerywanych linii wyrównania używanych dla kątów dróg, pomocy 90 stopni i wskazówek połączeń.\n\nOba suwaki krycia są zsynchronizowane: ten suwak Opcji i suwak w panelu w mieście kontrolują to samo krycie przerywanych linii." },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Vanilla biały" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Żółty wysokiej widoczności" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "Zielony wysokiej widoczności" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "Cyjanowy niebieski" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Żółty wysokiej widoczności" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Krycie linii pomocniczych (alpha)" },

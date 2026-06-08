@@ -67,9 +67,10 @@ namespace HoverColors.Localization
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Couleur des lignes guides en pointillés" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineDashedColorPreset)), "Définit la couleur des guides d’alignement en pointillés utilisés pour les angles de route, les aides à 90 degrés et les indications de connexion.\n\nLes deux curseurs d’opacité sont synchronisés : ce curseur des Options et celui du panneau en ville contrôlent la même opacité des guides en pointillés." },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Vanilla"), "Blanc vanilla" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Jaune très visible" },
-                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Pink"), "Mochi Pink" },
                 { m_Settings.GetGuidelineDashedColorPresetLocaleID("Green"), "Vert très visible" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("MochiBlue"), "Mochi Blue" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("CyanBlue"), "Bleu cyan" },
+                { m_Settings.GetGuidelineDashedColorPresetLocaleID("Yellow"), "Jaune très visible" },
 
                 // Guidelines opacity slider
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "Opacité des repères (alpha)" },
