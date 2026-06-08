@@ -11,9 +11,57 @@
 import React from "react";
 import { Button, Tooltip } from "cs2/ui";
 import { Color, toolbar } from "cs2/bindings";
-import { bindValue, trigger, useMapValue, useValue } from "cs2/api";
+import { trigger, useMapValue, useValue } from "cs2/api";
 import { VanillaComponentResolver } from "./utils/vanilla/VanillaComponentResolver";
 import { LocaleKey, usePanelLocalization } from "./localization";
+import {
+    AREA_MENU_NAME_TOKENS,
+    CHANNEL,
+    COMPACT_PICKER_BODY_CLASS,
+    DISTRICT_AREA_NAME_TOKENS,
+    DISTRICT_RESET_HOLD_MS,
+    PRESET_HOLD_MS,
+    districtA$,
+    districtB$,
+    districtG$,
+    districtR$,
+    fillA$,
+    guidelineLinesColorA$,
+    guidelineLinesColorB$,
+    guidelineLinesColorG$,
+    guidelineLinesColorR$,
+    guidelineOpacity$,
+    guidelinePreviewColorA$,
+    guidelinePreviewColorB$,
+    guidelinePreviewColorG$,
+    guidelinePreviewColorR$,
+    outlineA$,
+    outlineB$,
+    outlineG$,
+    outlineR$,
+    ownerA$,
+    ownerB$,
+    ownerG$,
+    ownerR$,
+    panelTooltipsEnabled$,
+    preset1A$,
+    preset1Active$,
+    preset1B$,
+    preset1G$,
+    preset1R$,
+    preset2A$,
+    preset2Active$,
+    preset2B$,
+    preset2G$,
+    preset2R$,
+    sameEntity,
+    specializedIndustryAreasSuppressed$,
+    surfaceToolAreasSuppressed$,
+    useDarkerPanel$,
+    vanillaOutlineActive$,
+} from "./panel/MochiPanelBindings";
+
+import { DragGrip, PresetSlotButton } from "./panel/MochiPanelPieces";
 import infoIconSrc from "../images/AdvisorInfoViewWhite.svg";
 import lotToolIconSrc from "../images/LotTool03.svg";
 import specializedIndustryIconSrc from "../images/LotToolSpecializedIndustry.svg";
@@ -25,66 +73,6 @@ import closeIconSrc from "../images/Close.svg";
 import resetIconSrc from "../images/Reset_Button2.svg";
 import styles from "./MochiColorPickerPanel.module.scss";
 
-const CHANNEL = "HoverColors";
-// Hold time for saving preset slots. Increase if quick taps save too often.
-const PRESET_HOLD_MS = 700;
-// Hold time for District reset. Normal click still opens the picker.
-const DISTRICT_RESET_HOLD_MS = 800;
-
-// Live color bindings
-const outlineR$ = bindValue<number>(CHANNEL, "OutlineR", 0.502);
-const outlineG$ = bindValue<number>(CHANNEL, "OutlineG", 0.869);
-const outlineB$ = bindValue<number>(CHANNEL, "OutlineB", 1);
-const outlineA$ = bindValue<number>(CHANNEL, "OutlineA", 0.855);
-const ownerR$ = bindValue<number>(CHANNEL, "OwnerR", 0.247);
-const ownerG$ = bindValue<number>(CHANNEL, "OwnerG", 0.981);
-const ownerB$ = bindValue<number>(CHANNEL, "OwnerB", 0.247);
-const ownerA$ = bindValue<number>(CHANNEL, "OwnerA", 0.702);
-const fillA$ = bindValue<number>(CHANNEL, "FillA", 0);
-const districtR$ = bindValue<number>(CHANNEL, "DistrictR", 128 / 255);
-const districtG$ = bindValue<number>(CHANNEL, "DistrictG", 128 / 255);
-const districtB$ = bindValue<number>(CHANNEL, "DistrictB", 128 / 255);
-const districtA$ = bindValue<number>(CHANNEL, "DistrictA", 64 / 255);
-const guidelineLinesColorR$ = bindValue<number>(CHANNEL, "GuidelineLinesColorR", 0.7);
-const guidelineLinesColorG$ = bindValue<number>(CHANNEL, "GuidelineLinesColorG", 0.7);
-const guidelineLinesColorB$ = bindValue<number>(CHANNEL, "GuidelineLinesColorB", 1);
-const guidelineLinesColorA$ = bindValue<number>(CHANNEL, "GuidelineLinesColorA", 1);
-const guidelinePreviewColorR$ = bindValue<number>(CHANNEL, "GuidelinePreviewColorR", 0.7);
-const guidelinePreviewColorG$ = bindValue<number>(CHANNEL, "GuidelinePreviewColorG", 0.7);
-const guidelinePreviewColorB$ = bindValue<number>(CHANNEL, "GuidelinePreviewColorB", 1);
-const guidelinePreviewColorA$ = bindValue<number>(CHANNEL, "GuidelinePreviewColorA", 1);
-const guidelineOpacity$ = bindValue<number>(CHANNEL, "GuidelineOpacityPercent", 30);
-const panelTooltipsEnabled$ = bindValue<boolean>(CHANNEL, "PanelTooltipsEnabled", true);
-const useDarkerPanel$ = bindValue<boolean>(CHANNEL, "UseDarkerPanel", false);
-const surfaceToolAreasSuppressed$ = bindValue<boolean>(CHANNEL, "SurfaceToolAreasSuppressed", true);
-const specializedIndustryAreasSuppressed$ = bindValue<boolean>(CHANNEL, "SpecializedIndustryAreasSuppressed", true);
-const vanillaOutlineActive$ = bindValue<boolean>(CHANNEL, "VanillaOutlineActive", false);
-const AREA_MENU_NAME_TOKENS = ["SERVICES.NAMES[AREAS]", "SERVICES.NAME[AREAS]", "AREAS"];
-const DISTRICT_AREA_NAME_TOKENS = [
-    "ASSETS.NAME[DISTRICT AREA]",
-    "ASSETS.DESCRIPTION[DISTRICT AREA]",
-    "DISTRICT AREA",
-    "DISTRICT",
-];
-type ToolbarEntity = { index: number; version: number };
-
-const sameEntity = (
-    a: ToolbarEntity | null | undefined,
-    b: ToolbarEntity | null | undefined,
-) => a != null && b != null && a.index === b.index && a.version === b.version;
-
-// Preset stored-color bindings
-const preset1R$ = bindValue<number>(CHANNEL, "Preset1R", 140 / 255);
-const preset1G$ = bindValue<number>(CHANNEL, "Preset1G", 140 / 255);
-const preset1B$ = bindValue<number>(CHANNEL, "Preset1B", 171 / 255);
-const preset1A$ = bindValue<number>(CHANNEL, "Preset1A", 0.5);
-const preset2R$ = bindValue<number>(CHANNEL, "Preset2R", 0.25);
-const preset2G$ = bindValue<number>(CHANNEL, "Preset2G", 0.15);
-const preset2B$ = bindValue<number>(CHANNEL, "Preset2B", 0.25);
-const preset2A$ = bindValue<number>(CHANNEL, "Preset2A", 0.5);
-const preset1Active$ = bindValue<boolean>(CHANNEL, "Preset1Active", false);
-const preset2Active$ = bindValue<boolean>(CHANNEL, "Preset2Active", false);
-const COMPACT_PICKER_BODY_CLASS = "mochiCompactColorPickerOpen";
 
 export const MochiColorPickerPanel = () => {
     const boundOutline: Color = {
@@ -1155,12 +1143,12 @@ export const MochiColorPickerPanel = () => {
                         {/* Reset moved to the outline row. */}
                     </div>
 
-                    <Tooltip tooltip={tt(text.tooltipDraggable)}>
-                        <div
-                            className={`${styles.dragGrip} ${panelDragging ? styles.dragGripActive : ""}`}
-                            onMouseDown={handlePanelDragStart}
-                        />
-                    </Tooltip>
+                    <DragGrip
+                        active={panelDragging}
+                        tooltip={tt(text.tooltipDraggable)}
+                        onMouseDown={handlePanelDragStart}
+                    />
+
                 </div>
             </div>
         </div>
