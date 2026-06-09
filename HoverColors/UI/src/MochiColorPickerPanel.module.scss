@@ -1425,7 +1425,7 @@
 
     /* Total width = 4*2rem + 3*3.2rem = 17.6rem, leaving 1.2rem each side inside 20rem. */
     .dragGripDot + .dragGripDot {
-        margin-left: 3.2rem !important;
+        margin-left: 3rem !important;
     }
 
     .dragGripDot:nth-child(2) {
@@ -1514,4 +1514,128 @@
 
 .presetActiveRing {
     z-index: 41;
+}
+
+
+/* Final drag-dot placement: compact 20rem pill, 4 dots with fixed positions. */
+.dragGrip {
+    width: 20rem !important;
+    min-width: 20rem !important;
+    height: 11rem !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    position: absolute;
+}
+
+.dragGripDot {
+    position: absolute !important;
+    top: 50%;
+    width: 2rem !important;
+    height: 2rem !important;
+    margin-top: -1rem !important;
+    margin-left: 0 !important;
+    flex: none !important;
+    opacity: 0;
+    border-radius: 50%;
+    background-color: rgba(254, 255, 255, 0.88);
+    pointer-events: none;
+    transition: opacity 120ms ease-out;
+}
+
+    /* Four dots inside 20rem. Leaves visible margin on both sides. */
+    .dragGripDot:nth-child(1) {
+        left: 2.5rem;
+    }
+
+    .dragGripDot:nth-child(2) {
+        left: 6.8rem;
+        background-color: rgba(254, 255, 255, 0.82);
+    }
+
+    .dragGripDot:nth-child(3) {
+        left: 11.2rem;
+        background-color: rgba(254, 255, 255, 0.76);
+    }
+
+    .dragGripDot:nth-child(4) {
+        left: 15.5rem;
+        background-color: rgba(254, 255, 255, 0.70);
+    }
+
+.dragGrip:hover .dragGripDot,
+.dragGripActive .dragGripDot {
+    opacity: 1;
+}
+
+/* Selected preset dot: bottom-left instead of top-left, so it does not crowd the number. */
+.presetActiveRing {
+    top: auto !important;
+    right: auto !important;
+    bottom: 2rem !important;
+    left: 2rem !important;
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    background-color: rgba(84, 215, 255, 0);
+    opacity: 0;
+    box-shadow: none;
+}
+
+.presetSlotActive .presetActiveRing,
+.panelDarker .presetSlotActive .presetActiveRing {
+    opacity: 1;
+    background-color: rgba(84, 215, 255, 0.86);
+    box-shadow: 0 0 3rem rgba(30, 131, 170, 0.34);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Final bottom spacing + drag-dot correction
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Reduce the empty bottom padding inside the main panel. */
+.body {
+    padding-bottom: 1rem !important; // was visually too roomy at bottom
+}
+
+/* Bring the drag foot up a little without making it larger. */
+.dragGrip {
+    bottom: 9rem !important; // increase = moves up, decrease = moves down
+    width: 20rem !important;
+    min-width: 20rem !important;
+    height: 11rem !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    position: absolute;
+}
+
+    /* IMPORTANT: cancel older margin-left dot spacing rule. */
+    .dragGrip .dragGripDot + .dragGripDot {
+        margin-left: 0 !important;
+    }
+
+/* Absolute dot placement inside 20rem pill.
+   Dot width is 2rem. Last dot ends at 17.8rem, leaving 2.2rem right margin. */
+.dragGripDot:nth-child(1) {
+    left: 2.6rem !important;
+}
+
+.dragGripDot:nth-child(2) {
+    left: 7.0rem !important;
+    background-color: rgba(254, 255, 255, 0.82);
+}
+
+.dragGripDot:nth-child(3) {
+    left: 11.4rem !important;
+    background-color: rgba(254, 255, 255, 0.76);
+}
+
+.dragGripDot:nth-child(4) {
+    left: 15.8rem !important;
+    background-color: rgba(254, 255, 255, 0.70);
+}
+
+/* Selected preset: keep the number-half tint, but make it calmer. */
+.presetSlotActive .presetNumber {
+    background-color: rgba(30, 131, 170, 0.12) !important;
 }
