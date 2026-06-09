@@ -18,7 +18,6 @@ import {
     CHANNEL,
     COMPACT_PICKER_BODY_CLASS,
     DISTRICT_AREA_NAME_TOKENS,
-    DISTRICT_RESET_HOLD_MS,
     districtA$,
     districtB$,
     districtG$,
@@ -70,6 +69,7 @@ import {
 import { useMochiPanelText } from "./panel/useMochiPanelText";
 import { usePanelDrag } from "./panel/usePanelDrag";
 import { usePresetHold } from "./panel/usePresetHold";
+import { useDistrictHold } from "./panel/useDistrictHold";
 import infoIconSrc from "../images/AdvisorInfoViewWhite.svg";
 import lotToolIconSrc from "../images/LotTool03.svg";
 import specializedIndustryIconSrc from "../images/LotToolSpecializedIndustry.svg";
@@ -196,12 +196,6 @@ export const MochiColorPickerPanel = () => {
         handlePresetMouseDown,
         handlePresetMouseUp,
     } = usePresetHold();
-    const [districtHoldProgress, setDistrictHoldProgress] = React.useState(0);
-    const districtHoldTimerRef = React.useRef<number | null>(null);
-    const districtHoldStartRef = React.useRef<number>(0);
-    const districtHoldRafRef = React.useRef<number | null>(null);
-    const districtHoldCompletedRef = React.useRef(false);
-
     const outlineSwatchRef = React.useRef<HTMLDivElement | null>(null);
     const ownerSwatchRef = React.useRef<HTMLDivElement | null>(null);
     const guidelineLinesPickerRef = React.useRef<HTMLDivElement | null>(null);
@@ -313,14 +307,6 @@ export const MochiColorPickerPanel = () => {
             clearTimeout(districtToolSelectRetryRef.current);
             districtToolSelectRetryRef.current = null;
         }
-        if (districtHoldTimerRef.current != null) {
-            clearTimeout(districtHoldTimerRef.current);
-            districtHoldTimerRef.current = null;
-        }
-        if (districtHoldRafRef.current != null) {
-            cancelAnimationFrame(districtHoldRafRef.current);
-            districtHoldRafRef.current = null;
-        }
     }, []);
 
     React.useEffect(() => {
@@ -387,6 +373,53 @@ export const MochiColorPickerPanel = () => {
         selectedAssetMenu,
     ]);
 
+    const handleResetDistrict = React.useCallback(() => {
+        trigger(CHANNEL, "ResetDistrictToVanilla");
+        setDistrictPickerOpen(false);
+    }, []);
+
+    const openAreasToolPanel = React.useCallback(() => {
+        if (areaPanelOpenTimerRef.current != null) {
+            clearTimeout(areaPanelOpenTimerRef.current);
+        }
+        if (districtToolOpenTimeoutRef.current != null) {
+            clearTimeout(districtToolOpenTimeoutRef.current);
+        }
+        if (districtToolSelectRetryRef.current != null) {
+            clearTimeout(districtToolSelectRetryRef.current);
+            districtToolSelectRetryRef.current = null;
+        }
+
+        // Defer until after picker click finishes; toolbar bindings arrive in steps.
+        areaPanelOpenTimerRef.current = window.setTimeout(() => {
+            toolbar.clearAssetSelection();
+            setPendingDistrictToolOpen(true);
+            areaPanelOpenTimerRef.current = null;
+        }, 80);
+
+        districtToolOpenTimeoutRef.current = window.setTimeout(() => {
+            setPendingDistrictToolOpen(false);
+            districtToolOpenTimeoutRef.current = null;
+        }, 1500);
+    }, []);
+
+    const handleOpenDistrictMenu = React.useCallback(() => {
+        setDistrictMenuOpen(open => !open);
+        openAreasToolPanel();
+    }, [openAreasToolPanel]);
+
+    // District hold-to-reset: quick click opens the mini menu; hold resets District colors.
+    const {
+        districtHoldProgress,
+        cancelDistrictHold,
+        handleDistrictMouseDownCapture,
+        handleDistrictMouseUpCapture,
+        handleDistrictClickCapture,
+    } = useDistrictHold({
+        onReset: handleResetDistrict,
+        onQuickClick: handleOpenDistrictMenu,
+    });
+
     // Live color handlers
     const handleOutlineChange = (value: Color) => {
         setOutline(value);
@@ -429,81 +462,6 @@ export const MochiColorPickerPanel = () => {
     const handleToggleSurfaceToolAreas = () => trigger(CHANNEL, "ToggleSurfaceToolAreas");
     const handleToggleSpecializedIndustryAreas = () => trigger(CHANNEL, "ToggleSpecializedIndustryAreas");
     const handleTogglePresetDefaults = () => trigger(CHANNEL, "TogglePresetDefaults");
-    const handleResetDistrict = () => {
-        trigger(CHANNEL, "ResetDistrictToVanilla");
-        setDistrictPickerOpen(false);
-    };
-
-    const cancelDistrictHold = React.useCallback(() => {
-        if (districtHoldTimerRef.current != null) {
-            clearTimeout(districtHoldTimerRef.current);
-            districtHoldTimerRef.current = null;
-        }
-        if (districtHoldRafRef.current != null) {
-            cancelAnimationFrame(districtHoldRafRef.current);
-            districtHoldRafRef.current = null;
-        }
-        districtHoldCompletedRef.current = false;
-        setDistrictHoldProgress(0);
-    }, []);
-
-    const handleDistrictMouseDownCapture = (event: React.MouseEvent<HTMLDivElement>) => {
-        if (event.button !== 0) {
-            return;
-        }
-
-        cancelDistrictHold();
-        districtHoldCompletedRef.current = false;
-        districtHoldStartRef.current = performance.now();
-        setDistrictHoldProgress(0);
-
-        const SWEEP_DELAY = 150;
-        const tick = () => {
-            const elapsed = performance.now() - districtHoldStartRef.current;
-            if (elapsed >= SWEEP_DELAY) {
-                const p = Math.min((elapsed - SWEEP_DELAY) / (DISTRICT_RESET_HOLD_MS - SWEEP_DELAY), 1);
-                setDistrictHoldProgress(p);
-                if (p < 1) {
-                    districtHoldRafRef.current = requestAnimationFrame(tick);
-                }
-            } else {
-                districtHoldRafRef.current = requestAnimationFrame(tick);
-            }
-        };
-
-        districtHoldRafRef.current = requestAnimationFrame(tick);
-        districtHoldTimerRef.current = window.setTimeout(() => {
-            districtHoldTimerRef.current = null;
-            if (districtHoldRafRef.current != null) {
-                cancelAnimationFrame(districtHoldRafRef.current);
-                districtHoldRafRef.current = null;
-            }
-            districtHoldCompletedRef.current = true;
-            handleResetDistrict();
-            setDistrictHoldProgress(0);
-        }, DISTRICT_RESET_HOLD_MS);
-    };
-
-    const handleDistrictMouseUpCapture = () => {
-        if (!districtHoldCompletedRef.current) {
-            cancelDistrictHold();
-        }
-    };
-
-    const handleDistrictClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
-        if (!districtHoldCompletedRef.current) {
-            event.preventDefault();
-            event.stopPropagation();
-            setDistrictMenuOpen(open => !open);
-            openAreasToolPanel();
-            return;
-        }
-
-        event.preventDefault();
-        event.stopPropagation();
-        districtHoldCompletedRef.current = false;
-    };
-
     const updateColorPickerDirection = React.useCallback(() => {
         const swatch = outlineSwatchRef.current;
         if (swatch == null) return;
@@ -537,31 +495,6 @@ export const MochiColorPickerPanel = () => {
         if (swatch == null) return;
         const rect = swatch.getBoundingClientRect();
         setGuidelinePreviewPickerDirection(rect.top + rect.height / 2 < window.innerHeight / 2 ? "down" : "up");
-    }, []);
-
-    const openAreasToolPanel = React.useCallback(() => {
-        if (areaPanelOpenTimerRef.current != null) {
-            clearTimeout(areaPanelOpenTimerRef.current);
-        }
-        if (districtToolOpenTimeoutRef.current != null) {
-            clearTimeout(districtToolOpenTimeoutRef.current);
-        }
-        if (districtToolSelectRetryRef.current != null) {
-            clearTimeout(districtToolSelectRetryRef.current);
-            districtToolSelectRetryRef.current = null;
-        }
-
-        // Defer until after picker click finishes; toolbar bindings arrive in steps.
-        areaPanelOpenTimerRef.current = window.setTimeout(() => {
-            toolbar.clearAssetSelection();
-            setPendingDistrictToolOpen(true);
-            areaPanelOpenTimerRef.current = null;
-        }, 80);
-
-        districtToolOpenTimeoutRef.current = window.setTimeout(() => {
-            setPendingDistrictToolOpen(false);
-            districtToolOpenTimeoutRef.current = null;
-        }, 1500);
     }, []);
 
     const resolver = VanillaComponentResolver.instance;
