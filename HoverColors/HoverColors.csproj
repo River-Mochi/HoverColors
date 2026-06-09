@@ -132,9 +132,6 @@
         <None Include="$(ModPropsFile)" Link="Properties\Mod.props" />
         <None Include="$(ModTargetsFile)" Link="Properties\Mod.targets" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="UI\src\panel\" />
-    </ItemGroup>
 
     <!-- Repo-root files (LICENSE, README, .editorconfig, .gitignore, .gitattributes) are exposed via
          a "Solution Items" solution folder in HoverColors.sln — NOT linked under this project.
