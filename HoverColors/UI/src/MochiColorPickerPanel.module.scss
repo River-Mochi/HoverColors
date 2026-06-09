@@ -1,3 +1,5 @@
+// File: MochiColorPickerPanel.module.scss
+
 .panelAnchor {
     position: absolute;
     top: 100%;
@@ -1104,4 +1106,127 @@
             background-color: #1E83AA;
             border-color: rgba(254, 255, 255, 0.34);
         }
+}
+
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Preset + drag-grip hotfix
+   Paste this at the very bottom of MochiColorPickerPanel.module.scss.
+   It intentionally overrides the earlier preset/drag rules without requiring
+   risky large deletions from the 1000+ line stylesheet.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* The old pseudo-element preset rings can shift in Cohtml. Use real child spans. */
+.presetSlot::before,
+.presetSlot::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Keep the ring inside the exact preset button bounds so it cannot float right. */
+.presetSlot {
+    overflow: hidden !important;
+    position: relative;
+    box-shadow: none !important;
+}
+
+/* Slightly stronger selected background so active preset is visible even before hover. */
+.presetSlotActive {
+    background-color: rgba(20, 54, 70, 0.94) !important;
+}
+
+/* Real child hover ring. This only appears while hovering/focusing. */
+.presetHoverRing {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    border-radius: 4rem;
+    box-sizing: border-box;
+    border: 2rem solid rgba(254, 255, 255, 0);
+    box-shadow: none;
+    opacity: 0;
+    transition: opacity 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+/* Real child selected ring. Uses visible but not neon blue. */
+.presetActiveRing {
+    position: absolute;
+    inset: 0;
+    z-index: 31;
+    pointer-events: none;
+    border-radius: 4rem;
+    box-sizing: border-box;
+    border: 2rem solid rgba(84, 215, 255, 0);
+    box-shadow: none;
+    opacity: 0;
+    transition: opacity 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+.presetSlot:hover .presetHoverRing,
+.presetSlot:focus-visible .presetHoverRing {
+    opacity: 1;
+    border-color: rgba(254, 255, 255, 0.82);
+    box-shadow: inset 0 0 0 1rem rgba(8, 15, 20, 0.35);
+}
+
+.presetSlotActive .presetActiveRing {
+    opacity: 1;
+    border-color: rgba(84, 215, 255, 0.72);
+    box-shadow: inset 0 0 0 1rem rgba(30, 131, 170, 0.54), 0 0 4rem rgba(30, 131, 170, 0.22);
+}
+
+/* Hover over selected preset: keep the nice white border, but active blue remains visible. */
+.presetSlotActive:hover .presetHoverRing,
+.presetSlotActive:focus-visible .presetHoverRing {
+    opacity: 1;
+    border-color: rgba(254, 255, 255, 0.92);
+    box-shadow: inset 0 0 0 1rem rgba(8, 15, 20, 0.40), 0 0 4rem rgba(254, 255, 255, 0.14);
+}
+
+/* Dark panel uses the same real selected ring; override old dark pseudo-ring rules. */
+.panelDarker .presetSlotActive {
+    background-color: rgba(20, 54, 70, 0.94) !important;
+    border-color: rgba(254, 255, 255, 0.26);
+}
+
+    .panelDarker .presetSlotActive .presetActiveRing {
+        border-color: rgba(84, 215, 255, 0.74);
+        box-shadow: inset 0 0 0 1rem rgba(30, 131, 170, 0.58), 0 0 4rem rgba(30, 131, 170, 0.24);
+    }
+
+/* Four-dot drag foot. Wider pill and bigger gap so it reads as drag, not settings. */
+.dragGrip {
+    width: 28rem !important;
+    gap: 3rem !important;
+}
+
+.dragGripDot {
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 2rem;
+    opacity: 0;
+    border-radius: 50%;
+    background-color: rgba(254, 255, 255, 0.88);
+    pointer-events: none;
+    transition: opacity 120ms ease-out;
+}
+
+    /* Tiny brightness ramp, still visible on blue hover. */
+    .dragGripDot:nth-child(2) {
+        background-color: rgba(254, 255, 255, 0.82);
+    }
+
+    .dragGripDot:nth-child(3) {
+        background-color: rgba(254, 255, 255, 0.76);
+    }
+
+    .dragGripDot:nth-child(4) {
+        background-color: rgba(254, 255, 255, 0.70);
+    }
+
+.dragGrip:hover .dragGripDot,
+.dragGripActive .dragGripDot {
+    opacity: 1;
 }

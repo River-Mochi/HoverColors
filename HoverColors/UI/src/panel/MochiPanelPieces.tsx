@@ -56,6 +56,10 @@ export const PresetSlotButton = ({
                 {slot}
             </span>
             <span className={styles.presetSwatch} style={presetPreviewStyle(color)} />
+
+            {/* Real child rings are more reliable than pseudo-elements in Cohtml. */}
+            <span className={styles.presetHoverRing} aria-hidden="true" />
+            <span className={styles.presetActiveRing} aria-hidden="true" />
         </button>
     </Tooltip>
 );
@@ -72,6 +76,7 @@ export const DragGrip = ({ active, tooltip, onMouseDown }: DragGripProps) => (
             className={`${styles.dragGrip} ${active ? styles.dragGripActive : ""}`}
             onMouseDown={onMouseDown}
         >
+            <span className={styles.dragGripDot} />
             <span className={styles.dragGripDot} />
             <span className={styles.dragGripDot} />
             <span className={styles.dragGripDot} />
