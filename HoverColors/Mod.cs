@@ -5,14 +5,11 @@ namespace HoverColors
 {
     using Colossal;
     using Colossal.IO.AssetDatabase;
-    using Colossal.Localization;
     using Colossal.Logging;
     using CS2Shared.RiverMochi;
     using Game;
     using Game.Modding;
     using Game.SceneFlow;
-    using HoverColors.Localization;
-    using HoverColors.Settings;
     using HoverColors.Systems;
     using HoverColors.UI;
     using System;

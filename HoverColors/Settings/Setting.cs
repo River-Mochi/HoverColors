@@ -4,7 +4,7 @@
 // Note: the in-city panel settings are intentionally NOT decorated for Options UI — they are
 // persisted here, read by cs2/api bindings, and applied by Systems/HoverColorsUISystem.cs.
 
-namespace HoverColors.Settings
+namespace HoverColors
 {
     using Colossal.IO.AssetDatabase;
     using CS2Shared.RiverMochi;

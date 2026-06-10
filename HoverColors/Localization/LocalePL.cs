@@ -2,10 +2,9 @@
 // Purpose: Polish (pl-PL) strings for the Options Menu.
 // Strings for the in-city cohtml panel live separately in L10n/lang/pl-PL.json.
 
-namespace HoverColors.Localization
+namespace HoverColors
 {
     using Colossal;
-    using HoverColors.Settings;
     using System.Collections.Generic;
 
     public sealed class LocalePL : IDictionarySource
