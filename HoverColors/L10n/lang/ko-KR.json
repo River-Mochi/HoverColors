@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "소유자: 부모/하위 건물 강조 색상 + 불투명도.",
   "HoverColors.UI.Tooltip.ResetFill": "채우기: 클릭하면 0%로 되돌립니다(게임 기본값).",
   "HoverColors.UI.Tooltip.FillOpacity": "외곽선 안쪽 채우기 영역의 불투명도.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "가이드라인: 탭하면 S1/S2가 바닐라와 마지막 사용자 지정 색상 사이에서 전환됩니다. 점선 색상과 불투명도는 그대로 유지됩니다.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "가이드라인 - 탭하면 S1/S2/S3을 바닐라 색상과 마지막 사용자 지정 색상 사이에서 전환합니다.\n 불투명도는 변경되지 않고 독립적으로 유지됩니다.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "큰 가이드 원 / 간격선 색상 + 불투명도.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "도로/도구 미리보기 오버레이 색상 + 불투명도.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "도로/정렬 점선 가이드 색상. 불투명도는 가이드라인 불투명도 슬라이더로 조절합니다.",

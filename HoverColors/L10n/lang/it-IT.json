@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "PROPRIETARIO: colore + opacità evidenziazione edificio principale/sotto-edificio.",
   "HoverColors.UI.Tooltip.ResetFill": "RIEMPIMENTO: clicca per tornare a 0% (valore del gioco).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacità dell’area di riempimento dentro il contorno.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "GUIDE: tocca per alternare S1/S2 tra vanilla e gli ultimi colori personalizzati. Colore tratteggiato e opacità restano invariati.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "GUIDE - tocca per alternare S1/S2/S3 tra vanilla e i tuoi ultimi colori personalizzati.\n L’opacità resta invariata e indipendente.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "Colore + opacità di grandi cerchi guida / linee di spaziatura.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Colore + opacità dell’overlay di anteprima strada/strumento.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "Colore della linea guida tratteggiata strada/allineamento. L’opacità è controllata dallo slider opacità guide.",

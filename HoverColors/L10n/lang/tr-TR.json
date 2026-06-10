@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "SAHİP: ana/alt bina vurgusu rengi + opaklığı.",
   "HoverColors.UI.Tooltip.ResetFill": "DOLGU: %0’a döndürmek için tıkla (oyun varsayılanı).",
   "HoverColors.UI.Tooltip.FillOpacity": "Dış çizginin içindeki dolgu alanı opaklığı.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "KILAVUZLAR: S1/S2’yi vanilla ve son özel renklerin arasında değiştirmek için dokun. Kesikli renk ve opaklık değişmez.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "KILAVUZLAR - S1/S2/S3’ü vanilla ile son özel renkleriniz arasında değiştirmek için dokunun.\n Opaklık değişmeden ve bağımsız kalır.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "Büyük kılavuz daireleri / aralık çizgileri rengi + opaklığı.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Yol/araç önizleme katmanı rengi + opaklığı.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "Kesikli yol/hizalama kılavuz çizgisi rengi. Opaklık, kılavuz opaklığı kaydırıcısıyla kontrol edilir.",

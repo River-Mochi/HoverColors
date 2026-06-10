@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "เจ้าของ: สี + ความทึบของไฮไลต์อาคารหลัก/อาคารย่อย.",
   "HoverColors.UI.Tooltip.ResetFill": "พื้นที่เติม: คลิกเพื่อรีเซ็ตเป็น 0% (ค่าเริ่มต้นของเกม).",
   "HoverColors.UI.Tooltip.FillOpacity": "ความทึบของพื้นที่เติมภายในเส้นขอบ.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "เส้นไกด์: แตะเพื่อสลับ S1/S2 ระหว่างสีวานิลลาและสีที่คุณปรับไว้ล่าสุด สีเส้นประและความทึบจะไม่เปลี่ยน.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "เส้นไกด์ - แตะเพื่อสลับ S1/S2/S3 ระหว่างสี vanilla กับสีปรับแต่งล่าสุดของคุณ\n ความทึบยังคงไม่เปลี่ยนแปลงและเป็นอิสระ",
   "HoverColors.UI.Tooltip.GuidelinesColor": "สี + ความทึบของวงกลมไกด์ใหญ่ / เส้นระยะห่าง.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "สี + ความทึบของโอเวอร์เลย์ตัวอย่างถนน/เครื่องมือ.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "สีของเส้นไกด์ถนน/แนวจัดวางแบบเส้นประ ความทึบปรับด้วยแถบความทึบของเส้นไกด์.",

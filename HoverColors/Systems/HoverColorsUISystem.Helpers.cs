@@ -134,6 +134,10 @@ namespace HoverColors.UI
             settings.GuidelineBackupPreviewG = settings.GuidelinePreviewG;
             settings.GuidelineBackupPreviewB = settings.GuidelinePreviewB;
             settings.GuidelineBackupPreviewA = settings.GuidelinePreviewA;
+            settings.GuidelineBackupDashedColorPreset = settings.GuidelineDashedColorPreset;
+            settings.GuidelineBackupDashedR = settings.GuidelineDashedR;
+            settings.GuidelineBackupDashedG = settings.GuidelineDashedG;
+            settings.GuidelineBackupDashedB = settings.GuidelineDashedB;
             settings.GuidelineVanillaToggleHasBackup = true;
         }
 
@@ -146,15 +150,20 @@ namespace HoverColors.UI
             settings.GuidelineLinesA = settings.GuidelineBackupLinesA;
             settings.GuidelinePreviewColorPreset = settings.GuidelineBackupPreviewColorPreset;
             settings.GuidelinePreviewR = settings.GuidelineBackupPreviewR;
-            settings.GuidelinePreviewG = settings.GuidelinePreviewG;
-            settings.GuidelinePreviewB = settings.GuidelinePreviewB;
+            settings.GuidelinePreviewG = settings.GuidelineBackupPreviewG;
+            settings.GuidelinePreviewB = settings.GuidelineBackupPreviewB;
             settings.GuidelinePreviewA = settings.GuidelineBackupPreviewA;
+            settings.GuidelineDashedColorPreset = settings.GuidelineBackupDashedColorPreset;
+            settings.GuidelineDashedR = settings.GuidelineBackupDashedR;
+            settings.GuidelineDashedG = settings.GuidelineBackupDashedG;
+            settings.GuidelineDashedB = settings.GuidelineBackupDashedB;
         }
 
         private static void ApplyVanillaGuidelineSwatches(HoverColorsSettings settings)
         {
             UnityEngine.Color lines = GuidelineColorSystem.CapturedVanillaGuidelineLinesColor;
             UnityEngine.Color preview = GuidelineColorSystem.CapturedVanillaGuidelinePreviewColor;
+            UnityEngine.Color dashed = GuidelineColorSystem.CapturedVanillaGuidelineDashedColor;
             settings.GuidelineLinesColorPreset = HoverColorsSettings.kGuidelineColorPresetVanilla;
             settings.GuidelineLinesR = lines.r;
             settings.GuidelineLinesG = lines.g;
@@ -165,6 +174,10 @@ namespace HoverColors.UI
             settings.GuidelinePreviewG = preview.g;
             settings.GuidelinePreviewB = preview.b;
             settings.GuidelinePreviewA = 1f;
+            settings.GuidelineDashedColorPreset = HoverColorsSettings.kGuidelineDashedColorPresetVanilla;
+            settings.GuidelineDashedR = dashed.r;
+            settings.GuidelineDashedG = dashed.g;
+            settings.GuidelineDashedB = dashed.b;
         }
     }
 }

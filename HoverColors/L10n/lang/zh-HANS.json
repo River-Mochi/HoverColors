@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "所属对象：父建筑/子建筑高亮颜色 + 透明度。",
   "HoverColors.UI.Tooltip.ResetFill": "填充：点击重置为 0%（游戏默认）。",
   "HoverColors.UI.Tooltip.FillOpacity": "轮廓内部填充区域的透明度。",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "辅助线：点击在原版颜色和你上次自定义颜色之间切换 S1/S2。虚线颜色和透明度保持不变。",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "参考线 - 点击可在原版颜色和你上次的自定义颜色之间切换 S1/S2/S3。\n 不透明度保持不变，并且独立控制。",
   "HoverColors.UI.Tooltip.GuidelinesColor": "大型辅助圆 / 间距线的颜色 + 透明度。",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "道路/工具预览叠加层的颜色 + 透明度。",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "道路/对齐虚线辅助线颜色。透明度由辅助线透明度滑块控制。",

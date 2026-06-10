@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "BESITZER: Farbe + Deckkraft für Haupt-/Untergebäude-Hervorhebung.",
   "HoverColors.UI.Tooltip.ResetFill": "FÜLLUNG: klicken, um auf 0 % zurückzusetzen (Spiel-Standard).",
   "HoverColors.UI.Tooltip.FillOpacity": "Deckkraft der Füllfläche innerhalb des Umrisses.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "HILFSLINIEN: tippen, um S1/S2 zwischen Vanilla und deinen letzten eigenen Farben umzuschalten. Gestrichelte Farbe und Deckkraft bleiben unverändert.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "HILFSLINIEN - tippen, um S1/S2/S3 zwischen Vanilla und deinen letzten eigenen Farben umzuschalten.\n Die Deckkraft bleibt unverändert und unabhängig.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "Farbe + Deckkraft für große Führungskreise / Abstandslinien.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Farbe + Deckkraft der Straßen-/Werkzeug-Vorschauüberlagerung.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "Farbe der gestrichelten Straßen-/Ausrichtungshilfslinie. Die Deckkraft steuert der Hilfslinien-Deckkraftregler.",

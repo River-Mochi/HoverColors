@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "所有者: 親/サブ建物ハイライトの色 + 不透明度。",
   "HoverColors.UI.Tooltip.ResetFill": "塗りつぶし: クリックで 0% に戻します（ゲーム既定）。",
   "HoverColors.UI.Tooltip.FillOpacity": "アウトライン内側の塗りつぶし不透明度。",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "ガイドライン: クリックで S1/S2 をバニラ色と最後のカスタム色で切り替えます。破線の色と不透明度は変わりません。",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "ガイドライン - タップすると、S1/S2/S3 をバニラ色と最後に使ったカスタム色の間で切り替えます。\n 不透明度は変更されず、独立したままです。",
   "HoverColors.UI.Tooltip.GuidelinesColor": "大きなガイド円 / 間隔ラインの色 + 不透明度。",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "道路/ツールのプレビュー表示の色 + 不透明度。",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "道路/整列用の破線ガイド色。不透明度はガイドライン不透明度スライダーで調整します。",

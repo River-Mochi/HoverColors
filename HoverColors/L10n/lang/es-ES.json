@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "PROPIETARIO: color + opacidad del resaltado de edificio principal/subedificio.",
   "HoverColors.UI.Tooltip.ResetFill": "RELLENO: clic para restablecer a 0 % (valor del juego).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacidad del área de relleno dentro del contorno.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "GUÍAS: toca para alternar S1/S2 entre vainilla y tus últimos colores personalizados. El color discontinuo y la opacidad no cambian.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "GUÍAS - toca para alternar S1/S2/S3 entre vanilla y tus últimos colores personalizados.\n La opacidad permanece sin cambios e independiente.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "Color + opacidad de círculos guía grandes / líneas de espaciado.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Color + opacidad de la superposición de vista previa de carretera/herramienta.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "Color de la línea guía discontinua de carretera/alineación. La opacidad se controla con el deslizador de opacidad de guías.",

@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "PROPRIÉTAIRE : couleur + opacité de la surbrillance parent/sous-bâtiment.",
   "HoverColors.UI.Tooltip.ResetFill": "REMPLISSAGE : cliquez pour remettre à 0 % (valeur du jeu).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacité de la zone de remplissage à l’intérieur du contour.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "GUIDES : cliquez pour basculer S1/S2 entre vanilla et vos dernières couleurs personnalisées. La couleur pointillée et l’opacité restent inchangées.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "REPÈRES - touchez pour alterner S1/S2/S3 entre les couleurs vanilla et vos dernières couleurs personnalisées.\n L’opacité reste inchangée et indépendante.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "Couleur + opacité des grands cercles guides / lignes d’espacement.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Couleur + opacité de l’aperçu route/outil.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "Couleur de la ligne guide pointillée route/alignement. L’opacité est contrôlée par le curseur d’opacité des guides.",

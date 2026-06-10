@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "CHỦ SỞ HỮU: màu + độ mờ tô sáng công trình cha/công trình phụ.",
   "HoverColors.UI.Tooltip.ResetFill": "TÔ BÊN TRONG: bấm để đặt lại về 0% (mặc định game).",
   "HoverColors.UI.Tooltip.FillOpacity": "Độ mờ vùng tô bên trong đường viền.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "ĐƯỜNG DẪN: bấm để đổi S1/S2 giữa màu vanilla và màu tùy chỉnh gần nhất. Màu nét đứt và độ mờ không đổi.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "ĐƯỜNG DẪN - chạm để chuyển S1/S2/S3 giữa màu vanilla và màu tùy chỉnh gần nhất của bạn.\n Độ mờ giữ nguyên và độc lập.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "Màu + độ mờ của vòng tròn dẫn lớn / đường căn khoảng cách.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Màu + độ mờ lớp xem trước đường/công cụ.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "Màu đường dẫn nét đứt cho đường/căn chỉnh. Độ mờ được điều khiển bằng thanh độ mờ đường dẫn.",

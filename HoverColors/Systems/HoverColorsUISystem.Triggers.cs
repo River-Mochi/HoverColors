@@ -164,6 +164,7 @@ namespace HoverColors.UI
             b = Clamp01(b);
 
             bool changed = settings.GuidelineDashedColorPreset != HoverColorsSettings.kGuidelineDashedColorPresetCustom
+                || settings.GuidelineVanillaToggleActive
                 || !ApproxEqual(settings.GuidelineDashedR, r)
                 || !ApproxEqual(settings.GuidelineDashedG, g)
                 || !ApproxEqual(settings.GuidelineDashedB, b);
@@ -178,6 +179,7 @@ namespace HoverColors.UI
             settings.GuidelineDashedR = r;
             settings.GuidelineDashedG = g;
             settings.GuidelineDashedB = b;
+            settings.GuidelineVanillaToggleActive = false;
             ApplySaveAndSync(settings);
         }
 

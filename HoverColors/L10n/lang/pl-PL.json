@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "WŁAŚCICIEL: kolor + przezroczystość podświetlenia budynku nadrzędnego/podbudynku.",
   "HoverColors.UI.Tooltip.ResetFill": "WYPEŁNIENIE: kliknij, aby wrócić do 0% (domyślnie w grze).",
   "HoverColors.UI.Tooltip.FillOpacity": "Przezroczystość wypełnienia wewnątrz obrysu.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "LINIE POMOCNICZE: kliknij, aby przełączyć S1/S2 między vanilla a ostatnimi kolorami własnymi. Kolor przerywany i przezroczystość się nie zmieniają.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "LINIE POMOCNICZE - dotknij, aby przełączyć S1/S2/S3 między kolorami vanilla a ostatnimi kolorami niestandardowymi.\n Przezroczystość pozostaje bez zmian i niezależna.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "Kolor + przezroczystość dużych kół pomocniczych / linii odstępu.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Kolor + przezroczystość nakładki podglądu drogi/narzędzia.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "Kolor przerywanej linii drogi/wyrównania. Przezroczystość kontroluje suwak przezroczystości linii pomocniczych.",

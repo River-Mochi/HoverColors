@@ -10,7 +10,7 @@
   "HoverColors.UI.Tooltip.OwnerSwatch": "DONO: cor + opacidade do realce de edifício principal/subedifício.",
   "HoverColors.UI.Tooltip.ResetFill": "PREENCHIMENTO: clica para voltar a 0% (padrão do jogo).",
   "HoverColors.UI.Tooltip.FillOpacity": "Opacidade da área preenchida dentro do contorno.",
-  "HoverColors.UI.Tooltip.ResetGuidelines": "GUIAS: toca para alternar S1/S2 entre vanilla e as tuas últimas cores personalizadas. A cor tracejada e a opacidade não mudam.",
+  "HoverColors.UI.Tooltip.ResetGuidelines": "GUIAS - toque para alternar S1/S2/S3 entre vanilla e as suas últimas cores personalizadas.\n A opacidade permanece inalterada e independente.",
   "HoverColors.UI.Tooltip.GuidelinesColor": "Cor + opacidade dos grandes círculos-guia / linhas de espaçamento.",
   "HoverColors.UI.Tooltip.GuidelinesPreviewColor": "Cor + opacidade da sobreposição de pré-visualização de estrada/ferramenta.",
   "HoverColors.UI.Tooltip.GuidelinesDashedColor": "Cor da linha guia tracejada de estrada/alinhamento. A opacidade é controlada pelo seletor de opacidade das guias.",
