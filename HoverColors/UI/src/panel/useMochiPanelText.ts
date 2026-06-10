@@ -33,7 +33,6 @@ export const useMochiPanelText = () => {
             tooltipResetDistrictColors: l("HoverColors.UI.Tooltip.ResetDistrictColors"),
             districtMenuAllDistricts: l("HoverColors.UI.DistrictMenu.AllDistricts"),
             districtMenuResetAll: l("HoverColors.UI.DistrictMenu.ResetAll"),
-
         };
     }, [translatePanel]);
 };

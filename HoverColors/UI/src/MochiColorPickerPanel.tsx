@@ -863,44 +863,58 @@ export const MochiColorPickerPanel = () => {
                             </Tooltip>
                         </div>
 
-                        {districtMenuOpen && (
-                            <div ref={districtMenuRef} className={styles.districtMenu}>
-                                <div className={styles.districtMenuRow}>
-                                    <div
-                                        ref={districtColorSwatchRef}
-                                        className={styles.districtMenuSwatch}
-                                        style={guidelineShellStyle(districtColor, districtSwatchHovered)}
-                                        onMouseOver={() => { if (!districtSwatchHovered) { setDistrictSwatchHovered(true); } updateDistrictPickerDirection(); }}
-                                        onMouseMove={() => { if (!districtSwatchHovered) { setDistrictSwatchHovered(true); } }}
-                                        onMouseLeave={() => setDistrictSwatchHovered(false)}
-                                        onMouseDown={updateDistrictPickerDirection}
-                                    >
-                                        {/* Future per-district rows can reuse this swatch + reset pattern. */}
-                                        <span
-                                            className={styles.districtMenuSwatchPreview}
-                                            style={compactSwatchStyle(districtColor, false)}
-                                            aria-hidden="true"
-                                        />
-                                    <ColorField
-                                        focusKey={focusDisabled}
-                                            className={styles.districtColorField}
-                                        value={districtColor}
-                                        alpha={true}
-                                        popupDirection={districtPickerDirection}
-                                        hideHint={true}
-                                        hexInput={true}
-                                        colorWheel={false}
-                                        onChange={handleDistrictColorChange}
-                                        onOpenPicker={() => {
-                                            cancelDistrictHold();
-                                            setDistrictPickerOpen(true);
-                                            openAreasToolPanel();
-                                            updateDistrictPickerDirection();
-                                        }}
-                                        onClosePicker={() => setDistrictPickerOpen(false)}
-                                    />
-                                    </div>
-                    <span className={styles.districtMenuName}>{text.districtMenuAllDistricts}</span>
+              {districtMenuOpen && (
+                <div ref={districtMenuRef} className={styles.districtMenu}>
+                  <div className={styles.districtMenuRow}>
+                    <div
+                      ref={districtColorSwatchRef}
+                      className={styles.districtMenuSwatch}
+                      style={guidelineShellStyle(districtColor, districtSwatchHovered)}
+                      onMouseOver={() => {
+                        if (!districtSwatchHovered) {
+                          setDistrictSwatchHovered(true);
+                        }
+
+                        updateDistrictPickerDirection();
+                      }}
+                      onMouseMove={() => {
+                        if (!districtSwatchHovered) {
+                          setDistrictSwatchHovered(true);
+                        }
+                      }}
+                      onMouseLeave={() => setDistrictSwatchHovered(false)}
+                      onMouseDown={updateDistrictPickerDirection}
+                    >
+                      {/* Future per-district rows can reuse this swatch + reset pattern. */}
+                      <span
+                        className={styles.districtMenuSwatchPreview}
+                        style={compactSwatchStyle(districtColor, false)}
+                        aria-hidden="true"
+                      />
+
+                      <ColorField
+                        focusKey={focusDisabled}
+                        className={styles.districtColorField}
+                        value={districtColor}
+                        alpha={true}
+                        popupDirection={districtPickerDirection}
+                        hideHint={true}
+                        hexInput={true}
+                        colorWheel={false}
+                        onChange={handleDistrictColorChange}
+                        onOpenPicker={() => {
+                          cancelDistrictHold();
+                          setDistrictPickerOpen(true);
+                          openAreasToolPanel();
+                          updateDistrictPickerDirection();
+                        }}
+                        onClosePicker={() => setDistrictPickerOpen(false)}
+                      />
+                    </div>
+
+                    <span className={styles.districtMenuName}>
+                      {text.districtMenuAllDistricts}
+                    </span>
 
                     <Tooltip tooltip={tt(text.tooltipResetDistrictColors)}>
                       <button
@@ -911,12 +925,11 @@ export const MochiColorPickerPanel = () => {
                         {text.districtMenuResetAll}
                       </button>
                     </Tooltip>
-   
-                                </div>
-                            </div>
-                        )}
+                  </div>
+                </div>
+              )}
 
-                        {/* Reset moved to the outline row. */}
+                    {/* Reset moved to the outline row. */}
                     </div>
 
                     <DragGrip

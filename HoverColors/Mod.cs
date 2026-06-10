@@ -46,12 +46,12 @@ namespace HoverColors
         public void OnLoad(UpdateSystem updateSystem)
         {
             LogUtils.Configure(ModId, s_Log);
-            LogUtils.Info(() => $"{ModName} v{ModVersion} {BuildFlavor} loaded");
+            LogUtils.Info($"{ModName} v{ModVersion} {BuildFlavor} loaded");
 
             GameManager? gameManager = GameManager.instance;
             if (gameManager == null)
             {
-                LogUtils.Warn(() => $"{ModTag} GameManager.instance is null; {ModName} cannot initialize.");
+                LogUtils.Warn($"{ModTag} GameManager.instance is null; {ModName} cannot initialize.");
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace HoverColors
                 LocalizationManager? localizationManager = gameManager.localizationManager;
                 if (localizationManager == null)
                 {
-                    LogUtils.Warn(() => $"{ModTag} LocalizationManager is null; locale sources were not registered.");
+                    LogUtils.Warn($"{ModTag} LocalizationManager is null; locale sources were not registered.");
                 }
                 else
                 {
@@ -87,7 +87,7 @@ namespace HoverColors
             }
             catch (Exception ex)
             {
-                LogUtils.Error(() => $"{ModTag} Localization registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error($"{ModTag} Localization registration failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
             try
@@ -97,7 +97,7 @@ namespace HoverColors
             }
             catch (Exception ex)
             {
-                LogUtils.Error(() => $"{ModTag} Settings load failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error($"{ModTag} Settings load failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
             try
@@ -106,7 +106,7 @@ namespace HoverColors
             }
             catch (Exception ex)
             {
-                LogUtils.Error(() => $"{ModTag} Options UI registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error($"{ModTag} Options UI registration failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
             try
@@ -117,7 +117,7 @@ namespace HoverColors
             }
             catch (Exception ex)
             {
-                LogUtils.Error(() => $"{ModTag} Keybinding registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error($"{ModTag} Keybinding registration failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
             try
@@ -138,7 +138,7 @@ namespace HoverColors
             }
             catch (Exception ex)
             {
-                LogUtils.Error(() => $"{ModTag} System scheduling failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error($"{ModTag} System scheduling failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
         }
 
