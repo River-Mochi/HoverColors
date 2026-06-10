@@ -9,6 +9,7 @@
 @use "./panel/sliders";
 @use "./panel/actionBar";
 @use "./panel/districtMenu";
+@use "./panel/panelDarker"; // Dark mode keeps its own button borders; do not merge with Standard.
 
 // ─── Panel shell ──────────────────────────────────────────────────────────────
 
@@ -58,8 +59,9 @@
 
 // Options > Darker panel. Vanilla theme classes own the panel surface here:
 // navy color, LegacyUI shape, and game UI transparency all come from vanilla.
+// IMPORTANT: Dark panel button borders are intentionally different from Standard;
+// keep those unique overrides in panel/_panelDarker.scss.
 .panelDarker {
-    // Marker only; darker-panel control overrides live in panel/_panelDarker.scss.
     --hc-uses-vanilla-panel-surface: 1;
 }
 
