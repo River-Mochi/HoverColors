@@ -1,8 +1,16 @@
 // File: MochiColorPickerPanel.module.scss
+// Purpose: Main shell/layout styles for the compact Hover Colors panel.
+// Most detailed control styles live in panel/*.scss partials so this file stays readable.
 
 @use "./panel/presetButtons";
 @use "./panel/dragGrip";
 @use "./panel/activeIndicators";
+@use "./panel/swatches";
+@use "./panel/sliders";
+@use "./panel/actionsDistrictMenu";
+@use "./panel/panelDarker";
+
+// ─── Panel shell ──────────────────────────────────────────────────────────────
 
 .panelAnchor {
     position: absolute;
@@ -19,13 +27,16 @@
 }
 
 .panelContent {
-    // Main sizing knobs.
-    // --hc-panel-width is the first knob for panel width.
-    // 215rem is the safe minimum for icon + swatch + presets + reset.
+    // Width knob for the whole panel.
+    // 246rem fits icon + swatch + owner swatch + preset slots + reset.
     --hc-panel-width: 246rem;
+
+    // Standard panel transparency knobs.
+    // Lower numbers = clearer/more transparent panel. Higher = more gray/opaque.
     --hc-panel-alpha-top: 0.32;
     --hc-panel-alpha-bottom: 0.24;
-    // Title knobs. Keep nowrap on; tune font/spacing if width changes.
+
+    // Title text knobs. Keep nowrap on; tune these if the panel width changes.
     --hc-title-font-size: 12rem;
     --hc-title-letter-spacing: 0.80rem;
 
@@ -46,9 +57,9 @@
 }
 
 // Options > Darker panel. Vanilla theme classes own the panel surface here:
-// navy color, LegacyUI shape, game UI transparency all come from vanilla.
+// navy color, LegacyUI shape, and game UI transparency all come from vanilla.
 .panelDarker {
-    // Marker only; panel surface stays vanilla.
+    // Marker only; darker-panel control overrides live in panel/_panelDarker.scss.
     --hc-uses-vanilla-panel-surface: 1;
 }
 
@@ -78,11 +89,11 @@
     align-items: center;
     justify-content: center;
     padding: 0 10rem;
-    cursor: move;
-    user-select: none;
+    margin-left: 6rem;
     border-radius: 7rem;
     overflow: hidden;
-    margin-left: 6rem;
+    cursor: move;
+    user-select: none;
 }
 
 .titleText {
@@ -117,7 +128,7 @@
     pointer-events: none;
 }
 
-// ─── Shared button base ───────────────────────────────────────────────────────
+// ─── Shared button + icon base ────────────────────────────────────────────────
 
 .infoButton,
 .controlIconButton {
@@ -127,8 +138,8 @@
     border-radius: 4rem;
     border: 1rem solid transparent;
     background-color: rgba(36, 54, 66, 0.58);
-    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
     box-shadow: none;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
 }
 
 .infoButton:hover,
@@ -138,17 +149,16 @@
     box-shadow: none;
 }
 
-// Info button — circular like the close button, aligned with the icon column.
+// Info button: circular and aligned over the left icon column.
 .infoButton {
     width: 24rem;
     height: 24rem;
     flex: 0 0 24rem;
-    cursor: pointer;
-    // Nudge center over the body icon column.
-    margin-left: 6rem;
+    margin-left: 6rem; // nudge center over the body icon column
     border-radius: 50%;
     border-color: transparent;
     background-color: transparent;
+    cursor: pointer;
 
     &:hover {
         background-color: rgba(84, 215, 255, 0.14);
@@ -162,14 +172,13 @@
     margin-top: -2rem;
 }
 
-// Transparent cyan when tooltips are OFF.
+// Transparent cyan means tooltips are OFF.
 .infoButtonActive {
     background-color: rgba(30, 131, 170, 0.55) !important;
     border-color: rgba(84, 215, 255, 0.42) !important;
 }
 
 .infoIcon {
-    // 24rem fills the circular button with a tiny safety gap.
     width: 24rem;
     height: 24rem;
     display: block;
@@ -181,29 +190,21 @@
     transform: scale(1.08);
 }
 
-// ─── Left-column icon buttons ─────────────────────────────────────────────────
-
-// 32rem square button shell for the row icons: Outline, Fill, Guidelines.
+// 32rem square button shell for row icons: Outline, Fill, Guidelines.
 .controlIconButton {
     width: 32rem;
     height: 32rem;
     flex: 0 0 32rem;
     padding: 0;
     margin: 0;
-    cursor: pointer;
-    box-shadow: none;
-    background-image: none;
     position: relative;
     z-index: 2;
+    background-image: none;
+    box-shadow: none;
+    cursor: pointer;
 }
 
-// Cyan indicator bar for active icon buttons.
-// Bar length: lower left/right values make it longer.
-// Active bar styles live in panel/_activeIndicators.scss.
-
-
 .controlIcon {
-    // SVG/image inside each 32rem square icon button.
     width: 24rem;
     height: 24rem;
     display: block;
@@ -216,7 +217,6 @@
     transition: opacity 120ms ease-out, transform 120ms ease-out;
 }
 
-// Includes infoButton because it does not use controlIconButton.
 .controlIconButton:hover .idleIcon,
 .actionButton:hover .idleIcon,
 .infoButton:hover .idleIcon {
@@ -227,97 +227,7 @@
     transform: none;
 }
 
-// Guideline swatches sit beside the quick opacity slider.
-.guidelineControlBody {
-    justify-content: flex-start;
-}
-
-.guidelineSwatches {
-    display: flex;
-    align-items: center;
-    flex: 0 0 auto;
-}
-
-.guidelineColorShell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24rem;
-    height: 24rem;
-    flex: 0 0 24rem;
-    position: relative;
-    overflow: visible;
-    border-radius: 4rem;
-    cursor: pointer;
-    background-color: rgb(179, 179, 255);
-    box-shadow: none;
-    transition: box-shadow 120ms ease-out;
-}
-
-.guidelinePreviewColorShell {
-    margin-left: 4rem;
-}
-
-.guidelineColorField {
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    z-index: 2;
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
-    overflow: visible !important;
-    border-radius: 4rem !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
-}
-
-.guidelineColorField > button,
-.guidelineColorField button {
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    padding: 0 !important;
-    border: 0 !important;
-    border-radius: 4rem !important;
-    opacity: 0 !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
-    cursor: pointer !important;
-}
-
-.guidelineColorField button > div {
-    opacity: 0 !important;
-}
-
-// Visible GL swatch. Keep hover on the shell; extra ring layers render as dots in Cohtml.
-.guidelineColorPreview {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 3;
-    pointer-events: none;
-    border-radius: 4rem;
-    box-shadow: none;
-    transition: box-shadow 120ms ease-out;
-}
-
-.guidelineSliderRow {
-    width: auto;
-    flex: 1 1 auto;
-    padding-left: 0;
-    margin-left: 7rem;
-}
-
-// ─── Control rows ─────────────────────────────────────────────────────────────
+// ─── Control row layout ──────────────────────────────────────────────────────
 
 .body {
     display: flex;
@@ -333,7 +243,11 @@
     overflow: visible;
 }
 
-// Gap between icon button and control body.
+.controlRow + .controlRow {
+    margin-top: 2.5rem;
+}
+
+// Gap between left icon button and right-side controls.
 .controlBody {
     flex: 1 1 auto;
     min-width: 0;
@@ -344,16 +258,12 @@
     margin-left: 8rem;
 }
 
-.controlRow + .controlRow {
-    margin-top: 2.5rem;
-}
-
 .outlineRow {
     min-height: 38rem;
 }
 
-// space-between pushes swatch/presets left and reset right.
-// Reset position: increase padding-right to shift left.
+// Space-between pushes swatch/presets left and reset icon right.
+// Increase padding-right to move the reset icon left.
 .outlineControlBody {
     justify-content: space-between;
     box-sizing: border-box;
@@ -369,471 +279,8 @@
     margin-left: 4rem;
 }
 
-// Reset button, pushed right by outlineControlBody.
 .outlineRight {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-}
-
-// ─── Color swatch ─────────────────────────────────────────────────────────────
-// Compact vanilla ColorField launcher. No wrapper padding; it skews the checker strip.
-
-// ── Color swatch shell ────────────────────────────────────────────────────────
-// position:relative anchors the visible white hover border.
-// To change swatch width: edit the three matching outline width values below.
-// To change corner roundness: edit border-radius here AND search "border-radius: 6rem !important".
-.outlineFieldShell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    // Match this width with .outlineField and .outlineField button.
-    width: 42rem;
-    // Match preset slot height.
-    height: 26rem;
-    box-sizing: border-box;
-    padding: 0;
-    border-radius: 4rem; // also change matching 4rem !important values below
-    background-color: transparent;
-    box-shadow: none;
-    cursor: pointer;
-}
-
-// Real child span is more reliable than pseudo-elements over vanilla ColorField.
-// React also toggles outlineFieldShellHovered when Cohtml misses CSS hover.
-.outlineFieldHoverRing {
-    position: absolute;
-    top: -3rem;
-    right: -3rem;
-    bottom: -3rem;
-    left: -3rem;
-    z-index: 30;
-    pointer-events: none;
-    border: 3rem solid rgba(254, 255, 255, 0);
-    border-radius: 7rem;
-    box-shadow: none;
-    transition: border-color 120ms ease-out, box-shadow 120ms ease-out;
-}
-
-.outlineFieldShell:hover .outlineFieldHoverRing,
-.outlineFieldShellHovered .outlineFieldHoverRing {
-    border-color: rgba(254, 255, 255, 1);
-    box-shadow:
-        0 0 6rem rgba(254, 255, 255, 0.22);
-}
-
-.outlineFieldShell:hover .outlineField,
-.outlineFieldShell:hover .outlineField button,
-.outlineFieldShellHovered .outlineField,
-.outlineFieldShellHovered .outlineField button {
-    box-shadow: inset 0 0 0 2rem rgba(254, 255, 255, 0.82) !important;
-}
-
-// ── Swatch color field ────────────────────────────────────────────────────────
-// Clips the vanilla swatch to rounded corners. Width must match the shell.
-.outlineField {
-    width: 42rem !important; // match .outlineFieldShell width
-    height: 26rem !important;
-    display: block !important;
-    position: relative !important;
-    overflow: hidden !important;
-    border-radius: 4rem !important;
-    box-shadow: none !important;
-}
-
-.outlineField:hover,
-.outlineFieldShellHovered .outlineField {
-    box-shadow: 0 0 0 2rem rgba(254, 255, 255, 1) !important;
-}
-
-.outlineField button {
-    width: 42rem !important; // match .outlineFieldShell width
-    height: 26rem !important;
-    padding: 0 !important;
-    border: 0 !important;
-    border-radius: 4rem !important;
-    opacity: 1 !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
-    cursor: pointer !important;
-}
-
-// Scoped through .outlineField to avoid CSS-module global selector warnings.
-.outlineField:hover button,
-.outlineField button:hover,
-.outlineFieldShellHovered .outlineField button {
-    box-shadow: inset 0 0 0 2rem rgba(254, 255, 255, 1) !important;
-}
-
-// Compact owner swatch. Same pattern as guideline swatches:
-// hidden ColorField opens picker; visible preview/shell draw color + hover.
-.ownerFieldShell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 24rem;
-    height: 24rem;
-    box-sizing: border-box;
-    padding: 0;
-    // Gap from main outline swatch.
-    margin-left: 5rem;
-    border-radius: 4rem;
-    background-color: transparent;
-    transition: box-shadow 120ms ease-out;
-    cursor: pointer;
-}
-
-.ownerField {
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    z-index: 2;
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
-    overflow: visible !important;
-    border-radius: 4rem !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
-}
-
-.ownerField > button,
-.ownerField button {
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    padding: 0 !important;
-    border: 0 !important;
-    border-radius: 4rem !important;
-    opacity: 0 !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
-    cursor: pointer !important;
-}
-
-.ownerField button > div {
-    opacity: 0 !important;
-}
-
-.ownerColorPreview {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 3;
-    pointer-events: none;
-    border-radius: 4rem;
-    box-shadow: none;
-    transition: box-shadow 120ms ease-out;
-}
-
-// ─── Sliders ──────────────────────────────────────────────────────────────────
-
-.sliderRow {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding-left: 4rem;
-}
-
-.slider {
-    flex: 1 1 auto;
-    min-width: 0;
-    // Gap between slider track and percent box.
-    margin-right: 8rem;
-}
-
-.valueField {
-    width: 40rem;
-    height: 28rem;
-    flex: 0 0 40rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6rem;
-    border: 0;
-    // Plain text readout. Dark boxes made the Standard panel look heavier.
-    background-color: transparent;
-    box-shadow: none;
-    color: rgba(254, 255, 255, 0.96);
-    font-size: 12rem;
-    line-height: 1;
-}
-
-.sliderRow .valueField {
-    margin-right: -4rem;
-}
-
-// ─── Bottom action bar ────────────────────────────────────────────────────────
-
-.actions {
-  position: relative;
-  overflow: visible;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  // Divider line position: raise/lower this margin.
-  margin-top: -2rem;
-  // Bottom padding leaves room for drag grip.
-  padding: 5rem 8rem 4rem 8rem;
-  border-top: 1rem solid rgba(254, 255, 255, 0.12);
-}
-
-.surfaceActions,
-.presetActions {
-    display: flex;
-    align-items: center;
-}
-
-// Bottom action buttons. !important beats Cohtml ButtonFace background.
-.actionButton {
-    height: 32rem;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    // Use .buttonGap for spacing.
-    border-radius: 4rem;
-    border: 1rem solid transparent;
-    background-color: rgba(36, 54, 66, 0.58) !important;
-    background-image: none !important;
-    box-shadow: none !important;
-    // Cohtml ButtonText can become black.
-    color: rgba(254, 255, 255, 0.96) !important;
-    font-size: 12.5rem;
-    font-weight: 600;
-    line-height: 1;
-    text-align: center;
-    text-transform: none;
-    white-space: nowrap;
-    cursor: pointer;
-    position: relative;
-    overflow: visible;
-    transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out;
-
-    &:hover,
-    &:focus,
-    &:active {
-        background-color: rgba(108, 136, 150, 0.34) !important;
-        border-color: transparent;
-        box-shadow: none !important;
-        color: #ffffff !important;
-    }
-}
-
-// Explicit gap class for action buttons.
-.buttonGap {
-    margin-left: 4rem !important;
-}
-
-// Surface/District buttons: 32rem wide, 32rem tall.
-.surfaceButton {
-    width: 32rem;
-    min-width: 32rem;
-    overflow: visible !important; // keeps active indicator visible
-}
-
-.districtPickerButton {
-    position: relative;
-    overflow: visible;
-}
-
-.districtPickerButtonActive {
-    border-color: rgba(84, 215, 255, 0.88);
-}
-
-.districtPickerIcon {
-    position: relative;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.districtMenu {
-  position: absolute;
-  // Flyout position.
-  // Increase left to move farther right; decrease to move closer to the District button.
-  left: 118rem;
-  // Do not set top and bottom together; that can squash/cut off the menu.
-  top: auto;
-  bottom: 0rem;
-  // Future Phase 2: more district rows can grow until max-height, then scroll.
-  width: 208rem;
-  max-height: 68rem;
-  padding: 6rem;
-  box-sizing: border-box;
-  border-radius: 7rem;
-  background-color: rgba(17, 27, 35, 0.94);
-  box-shadow: 0 7rem 18rem rgba(0, 0, 0, 0.28);
-  z-index: 80;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.districtMenuRow {
-    display: flex;
-    align-items: center;
-    min-height: 28rem;
-}
-
-.districtMenuSwatch {
-    width: 22rem;
-    height: 22rem;
-    flex: 0 0 22rem;
-    position: relative;
-    border-radius: 4rem;
-    cursor: pointer;
-}
-
-.districtMenuSwatchPreview {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    pointer-events: none;
-    border-radius: 4rem;
-}
-
-.districtMenuName {
-    min-width: 0;
-    flex: 1 1 auto;
-    margin-left: 7rem;
-    max-width: 118rem;
-    color: rgba(254, 255, 255, 0.92);
-    font-size: 12rem;
-    font-weight: 650;
-    line-height: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.districtMenuReset {
-    height: 22rem;
-    flex: 0 0 auto;
-    margin-left: 6rem;
-    padding: 0 7rem;
-    border: 1rem solid transparent;
-    border-radius: 4rem;
-    background-color: rgba(36, 54, 66, 0.78);
-    color: rgba(254, 255, 255, 0.88);
-    font-size: 10rem;
-    font-weight: 700;
-    cursor: pointer;
-
-    &:hover,
-    &:focus {
-        background-color: rgba(72, 99, 114, 0.92);
-        color: #ffffff;
-    }
-}
-
-// Hidden ColorField target keeps vanilla popup layout and edge flipping.
-.districtColorField {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
-    overflow: visible !important;
-    border-radius: 4rem !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
-    z-index: 2;
-}
-
-.districtColorField > button,
-.districtColorField button {
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    padding: 0 !important;
-    border: 0 !important;
-    border-radius: 4rem !important;
-    opacity: 0 !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
-    cursor: pointer !important;
-}
-
-.districtColorField button * {
-    border-color: transparent !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
-    opacity: 0 !important;
-}
-
-// Active bar matches .vanillaActiveButton::after.
-
-// Active bar styles live in panel/_activeIndicators.scss.
-
-
-// ── Preset slot buttons ──────────────────────────────────────────────────────
-// Preset button styles live in panel/_presetButtons.scss.
-
-.actionIcon {
-    width: 20rem;
-    height: 20rem;
-    display: block;
-    pointer-events: none;
-    flex-shrink: 0;
-}
-
-// ─── Drag grip ────────────────────────────────────────────────────────────────
-// Drag grip styles live in panel/_dragGrip.scss.
-
-// Darker panel control overrides only.
-.panelDarker {
-    .infoButton,
-    .controlIconButton,
-    .actionButton,
-    .presetSlot {
-        background-color: rgba(25, 38, 61, 0.70) !important;
-        border-color: rgba(254, 255, 255, 0.26);
-    }
-
-        .controlIconButton:hover,
-        .actionButton:hover,
-        .actionButton:focus,
-        .actionButton:active {
-            border-color: rgba(254, 255, 255, 0.58);
-            box-shadow: inset 0 0 0 1rem rgba(254, 255, 255, 0.06) !important;
-        }
-
-    .guidelineColorShell,
-    .guidelineColorPreview,
-    .ownerColorPreview {
-        box-shadow: inset 0 0 0 1rem rgba(7, 13, 18, 0.32);
-    }
-
-    .infoButton {
-        background-color: transparent !important;
-        border-color: transparent;
-    }
-
-    .infoButtonActive {
-        background-color: rgba(30, 131, 170, 0.68) !important;
-        border-color: rgba(84, 215, 255, 0.55) !important;
-    }
-
-    .valueField {
-        // Readout, not a button.
-        background-color: transparent;
-        border: 0;
-    }
 }
