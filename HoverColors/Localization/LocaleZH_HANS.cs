@@ -4,9 +4,12 @@
 
 namespace HoverColors.Localization
 {
-    using Colossal;
-    using HoverColors.Settings;
     using System.Collections.Generic;
+
+    using Colossal;
+
+    using HoverColors.Settings;
+
     public sealed class LocaleZH_HANS : IDictionarySource
     {
         private readonly HoverColorsSettings m_Settings;
@@ -32,65 +35,113 @@ namespace HoverColors.Localization
                 { m_Settings.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Settings.GetOptionTabLocaleID(HoverColorsSettings.Actions), "æ“ä½œ" },
-                { m_Settings.GetOptionTabLocaleID(HoverColorsSettings.About), "å…³äºŽ" },
+                { m_Settings.GetOptionTabLocaleID(HoverColorsSettings.Actions), "操作" },
+                { m_Settings.GetOptionTabLocaleID(HoverColorsSettings.About), "关于" },
 
                 // Groups
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kToolColors), "å·¥å…·é¢œè‰²è¡Œä¸º" },
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kPanel), "é¢æ¿" },
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kKeyBindings), "æŒ‰é”®ç»‘å®š" },
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kGuidelines), "è¾…åŠ©çº¿" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kToolColors), "工具颜色行为" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kPanel), "面板" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kKeyBindings), "快捷键" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kGuidelines), "引导线" },
                 // AboutInfo + AboutLinks intentionally have empty group headers.
                 { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kAboutInfo), string.Empty },
                 { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kAboutLinks), string.Empty },
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kAboutDedication), "çŒ®è¯" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kAboutDedication), "献给" },
 
                 // Tool color behavior
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "æŽ¨åœŸæœº + é“è·¯" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "æŽ§åˆ¶æŽ¨åœŸæœºæˆ–é“è·¯å·¥å…·å¯ç”¨æ—¶çš„ä¸´æ—¶è½®å»“é¢œè‰²ã€‚\n\n**1. æŽ¨è**ï¼šæ‹†é™¤æ—¶ä½¿ç”¨æ¸¸æˆçš„è­¦å‘Šè‰²ï¼ˆé»„è‰²ï¼‰ï¼Œé“è·¯ä½¿ç”¨æ›´æŸ”å’Œçš„åŽŸç‰ˆè“è‰²ã€‚\n**2. åŽŸç‰ˆå·¥å…·é¢œè‰²**ï¼šæŽ¨åœŸæœºæˆ–é“è·¯å·¥å…·å¯ç”¨æ—¶æ¢å¤æ¸¸æˆæ­£å¸¸çš„åŽŸç‰ˆè“è‰²ã€‚\n**3. ä¿æŒæˆ‘çš„è‡ªå®šä¹‰é¢œè‰²**ï¼šæ‰€æœ‰åœ°æ–¹éƒ½ä½¿ç”¨ä½ é€‰æ‹©çš„é¢œè‰²ã€‚\n\nç”¨é€”ï¼šæœ‰äº›ç”¨æˆ·/æµ‹è¯•è€…è§‰å¾—æ‹†é™¤æ—¶è‡ªå®šä¹‰é¢œè‰²ä¸å®¹æ˜“çœ‹æ¸…ã€‚\nè¿™äº›é€‰é¡¹å¯åœ¨ä½¿ç”¨å·¥å…·æ—¶æä¾›é«˜å¯è§åº¦é¢œè‰²ã€‚\nä¸ä¼šè¦†ç›–é¢œè‰²é€‰æ‹©å™¨ä¸­è‡ªåŠ¨ä¿å­˜çš„è‡ªå®šä¹‰é¢œè‰²ã€‚" },
-                { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. æŽ¨è" },
-                { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. åŽŸç‰ˆå·¥å…·é¢œè‰²" },
-                { m_Settings.GetToolColorModeLocaleID("Custom"), "3. ä¿æŒæˆ‘çš„è‡ªå®šä¹‰é¢œè‰²" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "推土机 + 道路" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToolColorMode)),
+                    "当推土机或道路工具处于激活状态时，控制临时轮廓颜色。\n" +
+                    "\n" +
+                    "**1. 推荐**：拆除时使用游戏的警告色（黄色），道路工具使用更柔和的原版蓝。\n" +
+                    "**2. 原版工具颜色**：当推土机或道路工具处于激活状态时，恢复游戏正常的原版蓝。\n" +
+                    "**3. 保留我的自定义颜色**：在所有地方使用你选择的颜色。\n" +
+                    "\n" +
+                    "目的：一些用户/测试者在拆除时觉得自己的自定义颜色不够明显。\n" +
+                    "这些选项可在使用工具时提供高可见度颜色。\n" +
+                    "这不会覆盖颜色选择器中自动保存的自定义颜色。"
+                },
+                { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. 推荐" },
+                { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. 原版工具颜色" },
+                { m_Settings.GetToolColorModeLocaleID("Custom"), "3. 保留我的自定义颜色" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "å¯ç”¨é‡å ç‰©å“è½®å»“" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "<å»ºè®®å¯ç”¨>\nå½“å¯¹è±¡æˆ–ç½‘ç»œæ”¾ç½®è¢«é‡å ç‰©å“é˜»æŒ¡æ—¶ï¼Œä¿ç•™æ¸¸æˆåŽŸç‰ˆçš„é²‘çº¢è‰²è½®å»“ã€‚\nåŒºåŸŸé™åˆ¶ï¼ˆä¾‹å¦‚ä¸“ä¸šå·¥ä¸šå†œåœºåŠå¾„å¼•å¯¼çº¿ï¼‰ä¿æŒä¸å˜ã€‚\n\né€‚ç”¨äºŽæ‰€æœ‰æŽ¨åœŸæœº + é“è·¯æ¨¡å¼ï¼Œå¹¶ä¸”ä¸ä¼šè¦†ç›–å·²ä¿å­˜çš„è‡ªå®šä¹‰é¢œè‰²ã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "启用重叠项目轮廓" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "<推荐启用>\n" +
+                    "当对象或网络放置因重叠项目而被阻止时，保持游戏原版鲑红色轮廓可见。\n" +
+                    "区域限制，例如专业工业农场半径引导，不会被改变。\n" +
+                    "\n" +
+                    "适用于所有推土机 + 道路模式，并且不会覆盖你保存的自定义颜色。"
+                },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseCustomColorsForNetLanes)), "å…è®¸ NetLanes ä½¿ç”¨è‡ªå®šä¹‰é¢œè‰²" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseCustomColorsForNetLanes)), "<å»ºè®®å¯ç”¨>\næ”¾ç½® NetLane ç»†èŠ‚ç‰©å“æ—¶ä½¿ç”¨å·²ä¿å­˜çš„ HC é¢œè‰²/é€æ˜Žåº¦ï¼Œä¾‹å¦‚å›´æ ã€æ ‘ç¯±ã€æ ‡çº¿ä»¥åŠç±»ä¼¼çš„åŸºäºŽè½¦é“çš„å·¥å…·ã€‚\n\n- æ™®é€šé“è·¯ä»ä¼šéµå¾ªä½ åœ¨ä¸‹æ‹‰åˆ—è¡¨ä¸­é€‰æ‹©çš„æŽ¨åœŸæœº + é“è·¯è®¾ç½®ã€‚\n- å¦‚æžœå¸Œæœ›è¿™äº›å·¥å…·æ”¹ç”¨æ¸¸æˆåŽŸç‰ˆè“è‰²è½®å»“ï¼Œè¯·å…³é—­æ­¤é¡¹ã€‚\n- å¯ç”¨æ—¶ï¼Œé‡å é”™è¯¯é¢œè‰²ä»ç„¶ä¼˜å…ˆï¼ˆåŽŸç‰ˆé”™è¯¯é¢œè‰² = é²‘çº¢è‰²ï¼‰ã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseCustomColorsForNetLanes)), "允许 NetLanes 使用自定义颜色" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseCustomColorsForNetLanes)),
+                    "<推荐启用>\n" +
+                    "在放置 NetLane 细节项目（如围栏、树篱、标线以及类似的基于车道的工具）时，使用你保存的 HC 颜色/透明度。\n" +
+                    "\n" +
+                    "- 普通道路仍会遵循你在下拉列表中选择的推土机 + 道路设置。\n" +
+                    "- 如果你希望这些工具改用游戏的原版蓝，请关闭此选项。\n" +
+                    "- 启用时，重叠错误颜色仍然优先（原版错误颜色 = 鲑红色）。"
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "æ›´æ·±è‰²é¢æ¿" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "å¯ç”¨æ—¶ä½¿ç”¨ <æ·±è‰²é¢æ¿>ï¼šä¸ºæ—§ç‰ˆ UI çŽ©å®¶åˆ¶ä½œï¼›å¦‚æžœä½ å–œæ¬¢æ›´æ·±çš„é¢æ¿ï¼Œä¹Ÿå¯åœ¨ Modern UI ä¸­ä½¿ç”¨ã€‚\nå…³é—­æ—¶ä½¿ç”¨ <æ ‡å‡†é¢æ¿>ï¼šHover Colors è‡ªå®šä¹‰åŠé€æ˜Žæ ·å¼ã€‚\n- æ›´æ˜Žäº®ã€æ›´çŽ°ä»£çš„å¤–è§‚ã€‚\n- é€‚åˆå¤§å¤šæ•°ä½¿ç”¨æ–°ç‰ˆ Modern æ¸¸æˆ UI çš„çŽ©å®¶ã€‚\n\nä¸¤ç§éƒ½è¯•è¯•ï¼Œé€‰æ‹©ä½ å–œæ¬¢çš„ï¼è¿™åªä¼šæ›´æ”¹æ­¤æ¨¡ç»„é¢æ¿çš„èƒŒæ™¯ï¼Œä¸ä¼šæ›´æ”¹æ¸¸æˆ UIã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "更暗面板" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
+                    "启用 = <暗色面板>：为 Legacy UI 玩家制作；如果你喜欢更暗的面板，也可以在 Modern UI 中使用。\n" +
+                    "禁用 = <标准面板>：自定义半透明 Hover Colors 风格。\n" +
+                    "- 更浅、更现代的外观。\n" +
+                    "- 最适合使用新版 Modern UI 的大多数玩家。\n" +
+                    "\n" +
+                    "两个都试试，选择你喜欢的！这只会改变此模组面板的背景，不会改变游戏 UI。"
+                },
+
                 // Guidelines opacity slider
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "è¾…åŠ©çº¿ä¸é€æ˜Žåº¦ï¼ˆAlphaï¼‰" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "æŽ§åˆ¶è™šçº¿å¯¹é½è¾…åŠ©çº¿çš„ä¸é€æ˜Žåº¦ï¼Œæ”¾ç½®é“è·¯ã€å›´æ ã€é“å…·ç­‰æ—¶å¾ˆæœ‰ç”¨ã€‚\n\n**100%** ä¿æŒåŽŸç‰ˆé»˜è®¤å¤–è§‚ã€‚\n**é™ä½Ž** ä¼šè®©è¾…åŠ©çº¿æ›´é€æ˜Žã€‚\n**0%** ä¼šå®Œå…¨éšè— - <ä¸æŽ¨è>ã€‚\nå»ºè®®ä¿æŒåœ¨ 15% ä»¥ä¸Šï¼Œå¦åˆ™å¾ˆéš¾çœ‹æ¸…å‘ç”Ÿäº†ä»€ä¹ˆã€‚\nåŸŽå¸‚å†…æ¨¡ç»„é¢æ¿ä¹Ÿæœ‰ç›¸åŒæ»‘å—ã€‚ä¸¤è€…ä¼šåŒæ­¥ï¼›\næ›´æ”¹è¿™ä¸ªæ»‘å—æ—¶ï¼ŒåŸŽå¸‚å†…çš„æ»‘å—ä¹Ÿä¼šéšä¹‹æ›´æ”¹ã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "引导线不透明度（Alpha）" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)),
+                    "控制虚线对齐引导的不透明度，在放置道路、围栏、道具等时很有用。\n" +
+                    "\n" +
+                    "**100%** 保持原版默认外观。\n" +
+                    "**更低** 会让引导线更透明。\n" +
+                    "**0%** 会完全隐藏它们 - <不推荐>。\n" +
+                    "建议保持在 15% 以上，否则很难看清发生了什么。\n" +
+                    "同一个滑块也在城市中的模组面板里。两者会同步；\n" +
+                    "如果你改变这个，城市里的那个也会改变。"
+                },
 
                 // Keybinds
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)), "æ‰“å¼€/å…³é—­ä¸»é¢æ¿" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)), "ç”¨äºŽæ‰“å¼€ / å…³é—­åŸŽå¸‚å†… Hover å¯¹è±¡é¢œè‰²é¢æ¿çš„å¿«æ·é”®ã€‚" },
-                { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePanelActionName), "åˆ‡æ¢ Hover Colors é¢æ¿" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)), "打开/关闭主面板" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)),
+                    "用于打开 / 关闭城市中悬停对象颜色面板的快捷键。" },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePanelActionName), "切换 Hover Colors 面板" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "å¼€å…³ Surface å·¥å…·é¢„è§ˆ" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "æ”¾ç½® Surface æ—¶ï¼Œç”¨å¿«æ·é”®éšè—æˆ–æ¢å¤å½“å‰ Surface å·¥å…·è¾¹ç•Œé¢„è§ˆçº¿ã€‚" },
-                { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Surface å·¥å…·é¢„è§ˆå±‚ On/Off" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "切换 Surface 工具预览" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)),
+                    "放置表面时，用快捷键隐藏或恢复 Surface 工具的活动边界预览线。" },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Surface 预览图层开/关" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)), "åˆ‡æ¢é¢„è®¾ 1+2" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)), "ç”¨äºŽåœ¨é¢„è®¾æ§½ 1 å’Œæ§½ 2 ä¹‹é—´åˆ‡æ¢çš„å¿«æ·é”®ã€‚" },
-                { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePresetActionName), "åœ¨é¢„è®¾ 1 å’Œ 2 ä¹‹é—´åˆ‡æ¢" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)), "切换预设 1+2" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)),
+                    "用于在预设槽 1 和槽 2 之间切换的快捷键。" },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePresetActionName), "在预设 1 和 2 之间切换" },
 
-                // About â€” name + version
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.NameText)), "Mod" },
+                // About name + version
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.NameText)), "模组" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.NameText)), string.Empty },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.VersionText)), "Version" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.VersionText)), "版本" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.VersionText)), string.Empty },
 
-                // About â€” Paradox Mods link button (matches CityWatchdog phrasing)
+                // About Paradox Mods link button
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.OpenParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.OpenParadox)), "æ‰“å¼€ä½œè€…çš„ Paradox Mods é¡µé¢ã€‚" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.OpenParadox)), "打开作者的 Paradox Mods 页面。" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.MochiDedicationText)), "è°¨ä»¥æ­¤çºªå¿µ Mochiã€‚" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.MochiDedicationText)), "æ­¤æ¨¡ç»„çŒ®ç»™ Mochiã€‚å¥¹æ˜¯ä¸€åªæ·±å—å–œçˆ±çš„ç‹—ç‹—ï¼Œ7 å²æ—¶è¢«é¢†å…»ï¼Œ\nå¸¦æ¥äº† 13 å¹´çš„çˆ±ä¸Žå¿«ä¹ã€‚æ²¡æœ‰ Mochiï¼Œå°±ä¸ä¼šæœ‰è¿™ä¸ªæ¨¡ç»„ã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.MochiDedicationText)),
+                    "纪念 Mochi。"
+                },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.MochiDedicationText)),
+                    "此模组献给 Mochi。她是一只深受喜爱的狗狗，7 岁时被收养，\n" +
+                    "带来了 13 年的爱与快乐。没有 Mochi，就不会有这个模组。"
+                },
             };
         }
 

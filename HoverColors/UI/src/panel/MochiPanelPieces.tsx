@@ -12,7 +12,7 @@ type PresetSlotButtonProps = {
     active: boolean;
     holdActive: boolean;
     holdProgress: number;
-    tooltip?: string;
+    tooltip?: React.ReactNode;
     marginLeft: string;
     numberColor: string;
     presetPreviewStyle: (color: Color) => React.CSSProperties;
@@ -66,7 +66,7 @@ export const PresetSlotButton = ({
 
 type DragGripProps = {
     active: boolean;
-    tooltip?: string;
+    tooltip?: React.ReactNode;
     onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 

@@ -19,7 +19,7 @@ import resetIconSrc from "../../images/Reset_Button2.svg";
 import styles from "../MochiColorPickerPanel.module.scss";
 
 type PickerDirection = "up" | "down";
-type TooltipFn = (text: string) => string | undefined;
+type TooltipFn = (text: string) => React.ReactElement | undefined;
 type ColorFieldComponent = React.ComponentType<any>;
 type SliderComponent = React.ComponentType<any>;
 type PanelText = ReturnType<typeof useMochiPanelText>;

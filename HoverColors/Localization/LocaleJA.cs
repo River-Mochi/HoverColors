@@ -4,9 +4,12 @@
 
 namespace HoverColors.Localization
 {
-    using Colossal;
-    using HoverColors.Settings;
     using System.Collections.Generic;
+
+    using Colossal;
+
+    using HoverColors.Settings;
+
     public sealed class LocaleJA : IDictionarySource
     {
         private readonly HoverColorsSettings m_Settings;
@@ -32,65 +35,113 @@ namespace HoverColors.Localization
                 { m_Settings.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Settings.GetOptionTabLocaleID(HoverColorsSettings.Actions), "æ“ä½œ" },
-                { m_Settings.GetOptionTabLocaleID(HoverColorsSettings.About), "æƒ…å ±" },
+                { m_Settings.GetOptionTabLocaleID(HoverColorsSettings.Actions), "アクション" },
+                { m_Settings.GetOptionTabLocaleID(HoverColorsSettings.About), "情報" },
 
                 // Groups
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kToolColors), "ãƒ„ãƒ¼ãƒ«è‰²ã®å‹•ä½œ" },
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kPanel), "ãƒ‘ãƒãƒ«" },
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kKeyBindings), "ã‚­ãƒ¼å‰²ã‚Šå½“ã¦" },
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kGuidelines), "ã‚¬ã‚¤ãƒ‰ãƒ©ã‚¤ãƒ³" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kToolColors), "ツール色の動作" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kPanel), "パネル" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kKeyBindings), "キー割り当て" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kGuidelines), "ガイドライン" },
                 // AboutInfo + AboutLinks intentionally have empty group headers.
                 { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kAboutInfo), string.Empty },
                 { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kAboutLinks), string.Empty },
-                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kAboutDedication), "æ§ã’ã‚‹è¨€è‘‰" },
+                { m_Settings.GetOptionGroupLocaleID(HoverColorsSettings.kAboutDedication), "献辞" },
 
                 // Tool color behavior
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "ãƒ–ãƒ«ãƒ‰ãƒ¼ã‚¶ãƒ¼ + é“è·¯" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "ãƒ–ãƒ«ãƒ‰ãƒ¼ã‚¶ãƒ¼ã¾ãŸã¯é“è·¯ãƒ„ãƒ¼ãƒ«ãŒæœ‰åŠ¹ãªé–“ã®ä¸€æ™‚çš„ãªã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³è‰²ã‚’åˆ¶å¾¡ã—ã¾ã™ã€‚\n\n**1. ãŠã™ã™ã‚** ã¯ã€è§£ä½“ã«ã¯ã‚²ãƒ¼ãƒ ã®è­¦å‘Šè‰²ï¼ˆé»„è‰²ï¼‰ã€é“è·¯ã«ã¯å°‘ã—æŸ”ã‚‰ã‹ã„ãƒãƒ‹ãƒ©ãƒ–ãƒ«ãƒ¼ã‚’ä½¿ã„ã¾ã™ã€‚\n**2. ãƒãƒ‹ãƒ©ã®ãƒ„ãƒ¼ãƒ«è‰²** ã¯ã€ãƒ–ãƒ«ãƒ‰ãƒ¼ã‚¶ãƒ¼ã¾ãŸã¯é“è·¯ãƒ„ãƒ¼ãƒ«ãŒæœ‰åŠ¹ãªé–“ã€ã‚²ãƒ¼ãƒ æ¨™æº–ã®ãƒãƒ‹ãƒ©ãƒ–ãƒ«ãƒ¼ã«æˆ»ã—ã¾ã™ã€‚\n**3. ã‚«ã‚¹ã‚¿ãƒ è‰²ã‚’ç¶­æŒ** ã¯ã€é¸æŠžã—ãŸè‰²ã‚’ã™ã¹ã¦ã®å ´é¢ã§ä½¿ã„ã¾ã™ã€‚\n\nç›®çš„: ä¸€éƒ¨ã®ãƒ¦ãƒ¼ã‚¶ãƒ¼/ãƒ†ã‚¹ã‚¿ãƒ¼ã‹ã‚‰ã€è§£ä½“ä¸­ã«ã‚«ã‚¹ã‚¿ãƒ è‰²ãŒè¦‹ã¥ã‚‰ã„ã¨ã„ã†å£°ãŒã‚ã‚Šã¾ã—ãŸã€‚\nãƒ„ãƒ¼ãƒ«ä½¿ç”¨ä¸­ã«è¦‹ã‚„ã™ã„é«˜è¦–èªæ€§ã®è‰²ã‚’é¸ã¹ã‚‹ã‚ˆã†ã«ã—ã¾ã™ã€‚\nã‚«ãƒ©ãƒ¼ãƒ”ãƒƒã‚«ãƒ¼ã«è‡ªå‹•ä¿å­˜ã•ã‚ŒãŸã‚«ã‚¹ã‚¿ãƒ è‰²ã¯ä¸Šæ›¸ãã•ã‚Œã¾ã›ã‚“ã€‚" },
-                { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. ãŠã™ã™ã‚" },
-                { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. ãƒãƒ‹ãƒ©ã®ãƒ„ãƒ¼ãƒ«è‰²" },
-                { m_Settings.GetToolColorModeLocaleID("Custom"), "3. ã‚«ã‚¹ã‚¿ãƒ è‰²ã‚’ç¶­æŒ" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToolColorMode)), "ブルドーザー + 道路" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToolColorMode)),
+                    "ブルドーザーまたは道路ツールが有効な間、一時的なアウトライン色を制御します。\n" +
+                    "\n" +
+                    "**1. 推奨** は、解体にはゲームの警告色（黄色）を使い、道路にはやわらかいバニラブルーを使います。\n" +
+                    "**2. バニラのツール色** は、ブルドーザーまたは道路ツールが有効な間、ゲーム通常のバニラブルーに戻します。\n" +
+                    "**3. 自分のカスタム色を使う** は、選んだ色をすべての場面で使います。\n" +
+                    "\n" +
+                    "目的: 一部のユーザー/テスターは、解体中にカスタム色が見づらいと感じています。\n" +
+                    "ツール使用中に視認性の高い色を選べるようにします。\n" +
+                    "カラーピッカーに自動保存されたカスタム色は上書きされません。"
+                },
+                { m_Settings.GetToolColorModeLocaleID("Recommended"), "1. 推奨" },
+                { m_Settings.GetToolColorModeLocaleID("Vanilla"), "2. バニラのツール色" },
+                { m_Settings.GetToolColorModeLocaleID("Custom"), "3. 自分のカスタム色を使う" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "é‡ãªã‚Šé …ç›®ã®ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ã‚’æœ‰åŠ¹åŒ–" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "<æœ‰åŠ¹åŒ–ã‚’ãŠã™ã™ã‚ã—ã¾ã™>\nã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¾ãŸã¯ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®é…ç½®ãŒé‡ãªã‚Šã«ã‚ˆã£ã¦ãƒ–ãƒ­ãƒƒã‚¯ã•ã‚ŒãŸã¨ãã€ã‚²ãƒ¼ãƒ æ¨™æº–ã®ã‚µãƒ¼ãƒ¢ãƒ³ãƒ¬ãƒƒãƒ‰ã®ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ã‚’è¡¨ç¤ºã—ãŸã¾ã¾ã«ã—ã¾ã™ã€‚\nå°‚é–€ç”£æ¥­ã®è¾²å ´åŠå¾„ã‚¬ã‚¤ãƒ‰ãªã©ã®ã‚¨ãƒªã‚¢åˆ¶é™ã¯å¤‰æ›´ã—ã¾ã›ã‚“ã€‚\n\nã™ã¹ã¦ã®ãƒ–ãƒ«ãƒ‰ãƒ¼ã‚¶ãƒ¼ + é“è·¯ãƒ¢ãƒ¼ãƒ‰ã§æ©Ÿèƒ½ã—ã€ä¿å­˜æ¸ˆã¿ã®ã‚«ã‚¹ã‚¿ãƒ è‰²ã¯ä¸Šæ›¸ãã—ã¾ã›ã‚“ã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)), "重なったアイテムのアウトラインを有効化" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseOverlapWarningColor)),
+                    "<有効を推奨>\n" +
+                    "オブジェクトまたはネットワークの配置が重なりによってブロックされたとき、ゲームのバニラのサーモンレッドのアウトラインを表示したままにします。\n" +
+                    "特殊産業の農場半径ガイドなどのエリア制限は変更しません。\n" +
+                    "\n" +
+                    "すべてのブルドーザー + 道路モードで動作し、保存済みのカスタム色を上書きしません。"
+                },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseCustomColorsForNetLanes)), "NetLanes ã«ã‚«ã‚¹ã‚¿ãƒ è‰²ã‚’ä½¿ã†" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseCustomColorsForNetLanes)), "<æœ‰åŠ¹åŒ–ã‚’ãŠã™ã™ã‚ã—ã¾ã™>\nãƒ•ã‚§ãƒ³ã‚¹ã€åž£æ ¹ã€ãƒžãƒ¼ã‚­ãƒ³ã‚°ãªã©ã®ãƒ¬ãƒ¼ãƒ³ç³» NetLane è©³ç´°ã‚¢ã‚¤ãƒ†ãƒ ã‚’é…ç½®ã™ã‚‹ã¨ãã€ä¿å­˜æ¸ˆã¿ã® HC è‰²/é€æ˜Žåº¦ã‚’ä½¿ã„ã¾ã™ã€‚\n\n- é€šå¸¸ã®é“è·¯ã¯ã€ãƒ‰ãƒ­ãƒƒãƒ—ãƒ€ã‚¦ãƒ³ã§é¸ã‚“ã ãƒ–ãƒ«ãƒ‰ãƒ¼ã‚¶ãƒ¼ + é“è·¯è¨­å®šã«å¾“ã„ã¾ã™ã€‚\n- ã“ã‚Œã‚‰ã®ãƒ„ãƒ¼ãƒ«ã«ã‚²ãƒ¼ãƒ æ¨™æº–ã®ãƒãƒ‹ãƒ©ãƒ–ãƒ«ãƒ¼ã‚’ä½¿ã‚ã›ãŸã„å ´åˆã¯ç„¡åŠ¹ã«ã—ã¦ãã ã•ã„ã€‚\n- æœ‰åŠ¹ãªå ´åˆã€é‡ãªã‚Šã‚¨ãƒ©ãƒ¼è‰²ãŒå¼•ãç¶šãå„ªå…ˆã•ã‚Œã¾ã™ï¼ˆãƒãƒ‹ãƒ©ã®ã‚¨ãƒ©ãƒ¼è‰² = ã‚µãƒ¼ãƒ¢ãƒ³ãƒ¬ãƒƒãƒ‰ï¼‰ã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseCustomColorsForNetLanes)), "NetLanes にカスタム色を許可" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseCustomColorsForNetLanes)),
+                    "<有効を推奨>\n" +
+                    "フェンス、生け垣、マーキングなど、レーンベースの NetLane 詳細ツールを配置するときに、保存済みの HC 色/透明度を使います。\n" +
+                    "\n" +
+                    "- 通常の道路は、ドロップダウンで選んだブルドーザー + 道路設定に従います。\n" +
+                    "- これらのツールにゲームのバニラブルーを使わせたい場合は無効にしてください。\n" +
+                    "- 有効時は、重なりエラー色が引き続き優先されます（バニラのエラー色 = サーモンレッド）。"
+                },
 
                 // Darker panel
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "æš—ã‚ã®ãƒ‘ãƒãƒ«" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "æœ‰åŠ¹ã«ã™ã‚‹ã¨ <æš—ã„ãƒ‘ãƒãƒ«> ã‚’ä½¿ã„ã¾ã™: ãƒ¬ã‚¬ã‚·ãƒ¼ UI ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å‘ã‘ã§ã™ãŒã€æš—ã„ãƒ‘ãƒãƒ«ãŒå¥½ã¿ãªã‚‰ Modern UI ã§ã‚‚ä½¿ãˆã¾ã™ã€‚\nç„¡åŠ¹ã«ã™ã‚‹ã¨ <æ¨™æº–ãƒ‘ãƒãƒ«> ã‚’ä½¿ã„ã¾ã™: Hover Colors ç‹¬è‡ªã®åŠé€æ˜Žã‚¹ã‚¿ã‚¤ãƒ«ã§ã™ã€‚\n- ã‚ˆã‚Šæ˜Žã‚‹ãã€ã‚ˆã‚Šãƒ¢ãƒ€ãƒ³ãªè¦‹ãŸç›®ã€‚\n- æ–°ã—ã„ Modern UI ã‚’ä½¿ã†å¤šãã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãŠã™ã™ã‚ã§ã™ã€‚\n\nä¸¡æ–¹è©¦ã—ã¦å¥½ã¿ã®æ–¹ã‚’é¸ã‚“ã§ãã ã•ã„ï¼å¤‰æ›´ã•ã‚Œã‚‹ã®ã¯ã“ã® Mod ãƒ‘ãƒãƒ«ã®èƒŒæ™¯ã ã‘ã§ã€ã‚²ãƒ¼ãƒ ã® UI ã¯å¤‰ã‚ã‚Šã¾ã›ã‚“ã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)), "暗いパネル" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.UseDarkerPanel)),
+                    "有効 = <暗いパネル>: Legacy UI プレイヤー向けです。暗いパネルが好みなら Modern UI でも使用できます。\n" +
+                    "無効 = <標準パネル>: Hover Colors 独自の半透明スタイルです。\n" +
+                    "- より明るく、よりモダンな見た目です。\n" +
+                    "- 新しい Modern UI を使う多くのプレイヤーにおすすめです。\n" +
+                    "\n" +
+                    "両方試して好みの方を選んでください！変更されるのはこの Mod パネルの背景だけで、ゲームの UI ではありません。"
+                },
+
                 // Guidelines opacity slider
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "ã‚¬ã‚¤ãƒ‰ãƒ©ã‚¤ãƒ³ä¸é€æ˜Žåº¦ï¼ˆã‚¢ãƒ«ãƒ•ã‚¡ï¼‰" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "ç ´ç·šã®ä½ç½®åˆã‚ã›ã‚¬ã‚¤ãƒ‰ã®ä¸é€æ˜Žåº¦ã‚’åˆ¶å¾¡ã—ã¾ã™ã€‚é“è·¯ã€ãƒ•ã‚§ãƒ³ã‚¹ã€ãƒ—ãƒ­ãƒƒãƒ—ãªã©ã®é…ç½®æ™‚ã«ä¾¿åˆ©ã§ã™ã€‚\n\n**100%** ã¯ãƒãƒ‹ãƒ©ã®æ—¢å®šè¡¨ç¤ºã‚’ç¶­æŒã—ã¾ã™ã€‚\n**ä½Žãã™ã‚‹** ã¨ã‚¬ã‚¤ãƒ‰ãŒã‚ˆã‚Šé€æ˜Žã«ãªã‚Šã¾ã™ã€‚\n**0%** ã¯å®Œå…¨ã«éžè¡¨ç¤ºã«ã—ã¾ã™ - <éžæŽ¨å¥¨>ã€‚\n15%ä»¥ä¸Šã‚’æŽ¨å¥¨ã—ã¾ã™ã€‚ãã‚Œä»¥ä¸‹ã§ã¯çŠ¶æ³ãŒè¦‹ãˆã«ãããªã‚Šã¾ã™ã€‚\nåŒã˜ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ãŒè¡—ä¸­ã® Mod ãƒ‘ãƒãƒ«ã«ã‚‚ã‚ã‚Šã¾ã™ã€‚ä¸¡æ–¹ã¯åŒæœŸã•ã‚Œã¦ã„ã¾ã™ã€‚\nã“ã¡ã‚‰ã‚’å¤‰æ›´ã™ã‚‹ã¨ã€è¡—ä¸­ã®ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã‚‚åŒæ™‚ã«å¤‰æ›´ã•ã‚Œã¾ã™ã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)), "ガイドライン不透明度（アルファ）" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.GuidelineOpacityPercent)),
+                    "道路、フェンス、プロップなどを配置するときに便利な、破線の整列ガイドの不透明度を制御します。\n" +
+                    "\n" +
+                    "**100%** はバニラ既定の見た目を維持します。\n" +
+                    "**低くする** とガイドラインがより透明になります。\n" +
+                    "**0%** は完全に非表示にします - <非推奨>。\n" +
+                    "何が起きているか見づらくなるため、15%以上を推奨します。\n" +
+                    "同じスライダーは都市内の Mod パネルにもあります。両方は同期されています。\n" +
+                    "こちらを変更すると、都市内の方も変更されます。"
+                },
 
                 // Keybinds
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)), "ãƒ¡ã‚¤ãƒ³ãƒ‘ãƒãƒ«ã‚’é–‹ã/é–‰ã˜ã‚‹" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)), "è¡—ä¸­ã® Hover ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‰²ãƒ‘ãƒãƒ«ã‚’é–‹ã / é–‰ã˜ã‚‹ãƒ›ãƒƒãƒˆã‚­ãƒ¼ã§ã™ã€‚" },
-                { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePanelActionName), "Hover Colors ãƒ‘ãƒãƒ«ã‚’åˆ‡ã‚Šæ›¿ãˆ" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)), "メインパネルを開く/閉じる" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePanelBinding)),
+                    "都市内の Hover オブジェクト色パネルを開く / 閉じるキーボードショートカットです。" },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePanelActionName), "Hover Colors パネルを切り替え" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "Surface ãƒ„ãƒ¼ãƒ«ã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã‚’ã‚ªãƒ³/ã‚ªãƒ•" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "Surface ã‚’é…ç½®ä¸­ã€ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãª Surface ãƒ„ãƒ¼ãƒ«å¢ƒç•Œãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç·šã‚’éš ã™ã€ã¾ãŸã¯æˆ»ã™ãƒ›ãƒƒãƒˆã‚­ãƒ¼ã§ã™ã€‚" },
-                { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Surface ãƒ„ãƒ¼ãƒ« ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ãƒ¬ã‚¤ãƒ¤ãƒ¼ On/Off" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)), "Surface ツールのプレビューを切り替え" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.ToggleSurfaceToolAreasBinding)),
+                    "サーフェス配置中に、Surface ツールのアクティブな境界プレビュー線を非表示または復元するキーボードショートカットです。" },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kToggleSurfaceToolAreasActionName), "Surface プレビューレイヤー On/Off" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)), "ãƒ—ãƒªã‚»ãƒƒãƒˆ 1+2 ã‚’åˆ‡ã‚Šæ›¿ãˆ" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)), "ãƒ—ãƒªã‚»ãƒƒãƒˆã‚¹ãƒ­ãƒƒãƒˆ 1 ã¨ã‚¹ãƒ­ãƒƒãƒˆ 2 ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ãƒ›ãƒƒãƒˆã‚­ãƒ¼ã§ã™ã€‚" },
-                { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePresetActionName), "ãƒ—ãƒªã‚»ãƒƒãƒˆ 1 ã¨ 2 ã‚’åˆ‡ã‚Šæ›¿ãˆ" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)), "プリセット 1+2 を切り替え" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.TogglePresetBinding)),
+                    "プリセットスロット 1 と 2 を切り替えるキーボードショートカットです。" },
+                { m_Settings.GetBindingKeyLocaleID(Mod.kTogglePresetActionName), "プリセット 1 と 2 を切り替え" },
 
-                // About â€” name + version
+                // About name + version
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.NameText)), "Mod" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.NameText)), string.Empty },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.VersionText)), "Version" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.VersionText)), "バージョン" },
                 { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.VersionText)), string.Empty },
 
-                // About â€” Paradox Mods link button (matches CityWatchdog phrasing)
+                // About Paradox Mods link button
                 { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.OpenParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.OpenParadox)), "ä½œè€…ã® Paradox Mods ãƒšãƒ¼ã‚¸ã‚’é–‹ãã¾ã™ã€‚" },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.OpenParadox)), "作者の Paradox Mods ページを開きます。" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.MochiDedicationText)), "æ„›ã™ã‚‹ Mochi ã®æ€ã„å‡ºã«ã€‚" },
-                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.MochiDedicationText)), "ã“ã® Mod ã¯ Mochi ã«æ§ã’ã‚‰ã‚Œã¦ã„ã¾ã™ã€‚Mochi ã¯7æ­³ã§è¿Žãˆã‚‰ã‚ŒãŸå¤§åˆ‡ãªãƒ¯ãƒ³ã¡ã‚ƒã‚“ã§ã€\n13å¹´é–“ãŸãã•ã‚“ã®æ„›ã¨å–œã³ã‚’ãã‚Œã¾ã—ãŸã€‚ã“ã® Mod ã¯ Mochi ãªã—ã«ã¯ç”Ÿã¾ã‚Œã¾ã›ã‚“ã§ã—ãŸã€‚" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(HoverColorsSettings.MochiDedicationText)),
+                    "Mochi の思い出に捧げて。"
+                },
+                { m_Settings.GetOptionDescLocaleID(nameof(HoverColorsSettings.MochiDedicationText)),
+                    "この Mod は Mochi に捧げます。7歳で迎えられた、愛された犬でした。\n" +
+                    "そして13年間、愛と喜びを与えてくれました。Mochi なしではこの Mod は生まれませんでした。"
+                },
             };
         }
 

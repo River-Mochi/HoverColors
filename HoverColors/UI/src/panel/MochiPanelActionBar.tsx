@@ -12,7 +12,7 @@ import surfaceIconSrc from "../../images/Districts03.svg";
 import styles from "../MochiColorPickerPanel.module.scss";
 
 type PickerDirection = "up" | "down";
-type TooltipFn = (text: string) => string | undefined;
+type TooltipFn = (text: string) => React.ReactNode | undefined;
 type ColorFieldComponent = React.ComponentType<any>;
 type PanelText = ReturnType<typeof useMochiPanelText>;
 

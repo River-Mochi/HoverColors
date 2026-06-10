@@ -3,7 +3,7 @@
 // Layout: title bar + color control rows + bottom action bar.
 
 import React from "react";
-import { Button, Tooltip } from "cs2/ui";
+import { Button, FormattedParagraphs, Tooltip } from "cs2/ui";
 import { Color } from "cs2/bindings";
 import { trigger, useValue } from "cs2/api";
 import { VanillaComponentResolver } from "./utils/vanilla/VanillaComponentResolver";
@@ -117,8 +117,14 @@ export const MochiColorPickerPanel = () => {
 
     const text = useMochiPanelText();
     const tooltipsEnabled = useValue(panelTooltipsEnabled$);
+
+    // FormattedParagraphs lets vanilla Tooltip render JSON \n as real line breaks.
     const tt = React.useCallback(
-        (s: string): string | undefined => (tooltipsEnabled ? s : undefined),
+        (s: string): React.ReactElement | undefined => (
+            tooltipsEnabled
+                ? <FormattedParagraphs>{s.split("\n")}</FormattedParagraphs>
+                : undefined
+        ),
         [tooltipsEnabled],
     );
 
