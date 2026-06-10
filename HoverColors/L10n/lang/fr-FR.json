@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — appuyez pour appliquer, maintenez 0,8 s pour remplacer par votre couleur actuelle.\nLe raccourci K alterne entre le slot 1 et le slot 2.",
   "HoverColors.UI.Tooltip.Preset2": "Slot 2 — appuyez pour appliquer, maintenez 0,8 s pour remplacer par votre couleur actuelle.\nLe raccourci K alterne entre le slot 1 et le slot 2.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1er clic : réinitialise les deux slots aux valeurs par défaut du mod.\n↺ 2e clic : restaure vos couleurs précédentes.\nSi elles sont déjà par défaut, rien ne se passe.",
-  "HoverColors.UI.Tooltip.DistrictColors": "Cliquer pour la couleur/opacité du remplissage et de la bordure des districts."
+  "HoverColors.UI.Tooltip.DistrictColors": "Cliquer pour la couleur/opacité du remplissage et de la bordure des districts.",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }

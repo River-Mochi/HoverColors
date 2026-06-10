@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "슬롯 1 — 탭=적용, 0.8초 길게=현재 색 저장.\nK로 슬롯 1/2 전환.",
   "HoverColors.UI.Tooltip.Preset2": "슬롯 2 — 탭=적용, 0.8초 길게=현재 색 저장.\nK로 슬롯 1/2 전환.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1번 클릭: 두 슬롯을 모드 기본값으로.\n↺ 2번 클릭: 이전 색 복원.\n이미 기본값이면 변화 없음.",
-  "HoverColors.UI.Tooltip.DistrictColors": "District 채우기/경계선 색상과 불투명도."
+  "HoverColors.UI.Tooltip.DistrictColors": "District 채우기/경계선 색상과 불투명도.",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }

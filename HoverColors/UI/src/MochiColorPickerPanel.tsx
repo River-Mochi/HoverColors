@@ -900,14 +900,18 @@ export const MochiColorPickerPanel = () => {
                                         onClosePicker={() => setDistrictPickerOpen(false)}
                                     />
                                     </div>
-                                    <span className={styles.districtMenuName}>{text.districtMenuAllDistricts}</span>
-                                    <button
-                                        type="button"
-                                        className={styles.districtMenuReset}
-                                        onClick={handleResetDistrict}
-                                    >
-                                        {text.districtMenuResetAll}
-                                    </button>
+                    <span className={styles.districtMenuName}>{text.districtMenuAllDistricts}</span>
+
+                    <Tooltip tooltip={tt(text.tooltipResetDistrictColors)}>
+                      <button
+                        type="button"
+                        className={styles.districtMenuReset}
+                        onClick={handleResetDistrict}
+                      >
+                        {text.districtMenuResetAll}
+                      </button>
+                    </Tooltip>
+   
                                 </div>
                             </div>
                         )}

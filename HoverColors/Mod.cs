@@ -3,6 +3,8 @@
 
 namespace HoverColors
 {
+    using System;
+    using System.Reflection;
     using Colossal;
     using Colossal.IO.AssetDatabase;
     using Colossal.Localization;
@@ -15,8 +17,6 @@ namespace HoverColors
     using HoverColors.Settings;
     using HoverColors.Systems;
     using HoverColors.UI;
-    using System;
-    using System.Reflection;
     using Unity.Entities;
 
     public sealed class Mod : IMod
@@ -157,7 +157,10 @@ namespace HoverColors
 
         public void OnDispose()
         {
-            DebugLog(() => $"{ModTag} Mod Dispose");
+            #if DEBUG
+            LogUtils.Info(() => $"{ModTag} Mod Dispose");
+            #endif
+
 
             HoverColorsSettings? setting = Settings;
             if (setting != null)

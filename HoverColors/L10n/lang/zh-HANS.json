@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "槽位 1 — 点击应用，按住 0.8 秒用当前颜色覆盖。\n快捷键 K 在槽位 1 和槽位 2 之间切换。",
   "HoverColors.UI.Tooltip.Preset2": "槽位 2 — 点击应用，按住 0.8 秒用当前颜色覆盖。\n快捷键 K 在槽位 1 和槽位 2 之间切换。",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 第 1 次点击：将两个预设槽重置为模组默认值。\n↺ 第 2 次点击：恢复你之前的颜色。\n如果已经是默认值，则不执行任何操作。",
-  "HoverColors.UI.Tooltip.DistrictColors": "点击设置 District 填充和边界线颜色/不透明度。"
+  "HoverColors.UI.Tooltip.DistrictColors": "点击设置 District 填充和边界线颜色/不透明度。",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }

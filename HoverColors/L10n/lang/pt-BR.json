@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — toque para aplicar, segure 0,8 s para salvar a cor atual.\nK alterna slot 1/2.",
   "HoverColors.UI.Tooltip.Preset2": "Slot 2 — toque para aplicar, segure 0,8 s para salvar a cor atual.\nK alterna slot 1/2.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1º clique: dois slots voltam ao padrão do mod.\n↺ 2º clique: restaura suas cores.\nSe já estiver padrão, não faz nada.",
-  "HoverColors.UI.Tooltip.DistrictColors": "District: cor/opacidade do preenchimento e borda."
+  "HoverColors.UI.Tooltip.DistrictColors": "District: cor/opacidade do preenchimento e borda.",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }

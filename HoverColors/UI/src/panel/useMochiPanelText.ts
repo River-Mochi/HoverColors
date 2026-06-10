@@ -30,8 +30,10 @@ export const useMochiPanelText = () => {
             tooltipSurfaceToggle: l("HoverColors.UI.Tooltip.SurfaceToggle"),
             tooltipSpecializedIndustryToggle: l("HoverColors.UI.Tooltip.SpecializedIndustryToggle"),
             tooltipDistrictColors: l("HoverColors.UI.Tooltip.DistrictColors"),
+            tooltipResetDistrictColors: l("HoverColors.UI.Tooltip.ResetDistrictColors"),
             districtMenuAllDistricts: l("HoverColors.UI.DistrictMenu.AllDistricts"),
             districtMenuResetAll: l("HoverColors.UI.DistrictMenu.ResetAll"),
+
         };
     }, [translatePanel]);
 };

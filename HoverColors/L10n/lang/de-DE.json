@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — tippen = anwenden, 0,8s halten = aktuelle Farbe speichern.\nK wechselt Slot 1/2.",
   "HoverColors.UI.Tooltip.Preset2": "Slot 2 — tippen = anwenden, 0,8s halten = aktuelle Farbe speichern.\nK wechselt Slot 1/2.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1. Klick: beide Slots auf Mod-Standard.\n↺ 2. Klick: vorige Farben zurück.\nSchon Standard? Dann passiert nichts.",
-  "HoverColors.UI.Tooltip.DistrictColors": "District-Füllung und Rand: Farbe/Deckkraft."
+  "HoverColors.UI.Tooltip.DistrictColors": "District-Füllung und Rand: Farbe/Deckkraft.",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }

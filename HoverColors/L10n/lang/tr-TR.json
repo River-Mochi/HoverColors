@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — dokun=uygula, 0,8 sn tut=mevcut rengi kaydet.\nK slot 1/2 değiştirir.",
   "HoverColors.UI.Tooltip.Preset2": "Slot 2 — dokun=uygula, 0,8 sn tut=mevcut rengi kaydet.\nK slot 1/2 değiştirir.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1. tık: iki slot mod varsayılanına.\n↺ 2. tık: eski renklerini geri getirir.\nZaten varsayılan ise bir şey yapmaz.",
-  "HoverColors.UI.Tooltip.DistrictColors": "District dolgusu ve sınırı: renk/opaklık."
+  "HoverColors.UI.Tooltip.DistrictColors": "District dolgusu ve sınırı: renk/opaklık.",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }

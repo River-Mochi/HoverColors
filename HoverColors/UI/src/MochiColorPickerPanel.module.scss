@@ -577,15 +577,16 @@
 // ─── Bottom action bar ────────────────────────────────────────────────────────
 
 .actions {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    // Divider line position: raise/lower this margin.
-    margin-top: -2rem;
-    // Bottom padding leaves room for drag grip.
-    padding: 5rem 8rem 4rem 8rem;
-    border-top: 1rem solid rgba(254, 255, 255, 0.12);
+  position: relative;
+  overflow: visible;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // Divider line position: raise/lower this margin.
+  margin-top: -2rem;
+  // Bottom padding leaves room for drag grip.
+  padding: 5rem 8rem 4rem 8rem;
+  border-top: 1rem solid rgba(254, 255, 255, 0.12);
 }
 
 .surfaceActions,
@@ -658,18 +659,24 @@
 }
 
 .districtMenu {
-    position: absolute;
-    left: 80rem;
-    top: 5rem;
-    width: 208rem;
-    max-height: 136rem;
-    padding: 6rem;
-    box-sizing: border-box;
-    border-radius: 7rem;
-    background-color: rgba(17, 27, 35, 0.94);
-    box-shadow: 0 7rem 18rem rgba(0, 0, 0, 0.28);
-    z-index: 80;
-    overflow-y: auto;
+  position: absolute;
+  // Flyout position.
+  // Increase left to move farther right; decrease to move closer to the District button.
+  left: 118rem;
+  // Do not set top and bottom together; that can squash/cut off the menu.
+  top: auto;
+  bottom: 0rem;
+  // Future Phase 2: more district rows can grow until max-height, then scroll.
+  width: 208rem;
+  max-height: 68rem;
+  padding: 6rem;
+  box-sizing: border-box;
+  border-radius: 7rem;
+  background-color: rgba(17, 27, 35, 0.94);
+  box-shadow: 0 7rem 18rem rgba(0, 0, 0, 0.28);
+  z-index: 80;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .districtMenuRow {
@@ -830,28 +837,3 @@
         border: 0;
     }
 }
-
-/* ─── District mini-menu flyout override ────────────────────────────────────── */
-/* Opens the mini District panel to the right of the District button instead of
-   covering the button. Tweak --hc-district-menu-left to move it left/right. */
-
-.actions {
-  position: relative;
-  overflow: visible;
-}
-
-.districtMenu {
-  position: absolute !important;
-  // Position knob:
-  // increase = move menu farther right
-  // decrease = move menu left, closer to the District button
-  left: 118rem !important;
-  // Vertical knob:
-  // increase = move menu up
-  // decrease = move menu down
-  bottom: 8rem !important;
-  z-index: 50;
-  margin: 0 !important;
-  pointer-events: auto;
-}
-

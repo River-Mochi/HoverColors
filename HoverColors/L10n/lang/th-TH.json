@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "ช่อง 1 — แตะเพื่อใช้ กดค้าง 0.8 วิ เพื่อเซฟสีปัจจุบัน\nK สลับช่อง 1/2",
   "HoverColors.UI.Tooltip.Preset2": "ช่อง 2 — แตะเพื่อใช้ กดค้าง 0.8 วิ เพื่อเซฟสีปัจจุบัน\nK สลับช่อง 1/2",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ คลิก 1: รีเซ็ตทั้งสองช่องเป็นค่าม็อด\n↺ คลิก 2: คืนสีเดิมของคุณ\nถ้าเป็นค่าเดิมอยู่แล้ว จะไม่ทำอะไร",
-  "HoverColors.UI.Tooltip.DistrictColors": "District: สี/ความทึบของพื้นที่เติมและเส้นขอบ"
+  "HoverColors.UI.Tooltip.DistrictColors": "District: สี/ความทึบของพื้นที่เติมและเส้นขอบ",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }

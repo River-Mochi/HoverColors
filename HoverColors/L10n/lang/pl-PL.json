@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "Slot 1 — kliknij, by użyć; przytrzymaj 0,8 s, by zapisać obecny kolor.\nK przełącza slot 1/2.",
   "HoverColors.UI.Tooltip.Preset2": "Slot 2 — kliknij, by użyć; przytrzymaj 0,8 s, by zapisać obecny kolor.\nK przełącza slot 1/2.",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1. klik: oba sloty do domyślnych moda.\n↺ 2. klik: przywraca poprzednie kolory.\nJuż domyślne? Nic nie robi.",
-  "HoverColors.UI.Tooltip.DistrictColors": "District: kolor/krycie wypełnienia i granicy."
+  "HoverColors.UI.Tooltip.DistrictColors": "District: kolor/krycie wypełnienia i granicy.",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }

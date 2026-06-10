@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "槽位 1 — 點按套用，按住 0.8 秒儲存目前顏色。\nK 切換槽位 1/2。",
   "HoverColors.UI.Tooltip.Preset2": "槽位 2 — 點按套用，按住 0.8 秒儲存目前顏色。\nK 切換槽位 1/2。",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 第 1 次點擊：兩個槽位回到模組預設。\n↺ 第 2 次點擊：恢復之前的顏色。\n已是預設就不動。",
-  "HoverColors.UI.Tooltip.DistrictColors": "設定 District 填色與邊界線顏色/不透明度。"
+  "HoverColors.UI.Tooltip.DistrictColors": "設定 District 填色與邊界線顏色/不透明度。",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }

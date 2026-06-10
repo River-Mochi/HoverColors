@@ -18,5 +18,6 @@
   "HoverColors.UI.Tooltip.Preset1": "スロット1 — タップで適用、0.8秒長押しで現在色を保存。\nKでスロット1/2切替。",
   "HoverColors.UI.Tooltip.Preset2": "スロット2 — タップで適用、0.8秒長押しで現在色を保存。\nKでスロット1/2切替。",
   "HoverColors.UI.Tooltip.ResetPresets": "↺ 1回目: 両スロットをMOD既定に戻す。\n↺ 2回目: 前の色に戻す。\n既定なら何もしません。",
-  "HoverColors.UI.Tooltip.DistrictColors": "District塗りと境界線の色/不透明度。"
+  "HoverColors.UI.Tooltip.DistrictColors": "District塗りと境界線の色/不透明度。",
+  "HoverColors.UI.Tooltip.ResetDistrictColors": "Reset all districts to the game's vanilla blue."
 }
