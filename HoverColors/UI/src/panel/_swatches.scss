@@ -18,9 +18,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24rem;
+    width: 20rem;
     height: 24rem;
-    flex: 0 0 24rem;
+    flex: 0 0 20rem;
     position: relative;
     overflow: visible;
     border-radius: 4rem;
@@ -28,6 +28,10 @@
     background-color: rgb(179, 179, 255);
     box-shadow: none;
     transition: box-shadow 120ms ease-out;
+}
+
+.guidelineDashedColorShell {
+  margin-left: 4rem;
 }
 
 .guidelinePreviewColorShell {
