@@ -408,8 +408,9 @@ namespace HoverColors.Systems
             return true;
         }
 
-        // HDRP material: same RGB to both inner and outer (so the color covers the halo edge AND
-        // the fill overlay inside the silhouette). Two distinct alphas:
+        // HDRP material: keep vanilla material RGB as the neutral carrier.
+        // Per-object hover/owner colors come from RenderingSettingsData.m_HoveredColor
+        // and m_OwnerColor. Only the material alpha values are controlled here:
         //   _OuterColor.a = outlineA (halo edge opacity)
         //   _InnerColor.a = fillA    (fill overlay opacity inside the silhouette)
         private bool ApplyOutlineMaterialColors(float r, float g, float b, float outlineA, float fillA, EffectivePalette palette)
