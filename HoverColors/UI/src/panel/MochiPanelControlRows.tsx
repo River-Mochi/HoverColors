@@ -479,12 +479,12 @@ export const MochiPanelControlRows = ({
                                 onMouseLeave={() => setGuidelineDashedHovered(false)}
                                 onMouseDown={updateGuidelineDashedPickerDirection}
                             >
-                                {/* Dashed guideline color only; opacity stays on the slider. */}
+                                {/* Dashed alpha syncs with the guideline opacity slider. */}
                                 <ColorField
                                     focusKey={focusDisabled}
                                     className={styles.guidelineColorField}
                                     value={guidelineDashedColor}
-                                    alpha={false}
+                                    alpha={true}
                                     popupDirection={guidelineDashedPickerDirection}
                                     hideHint={true}
                                     hexInput={true}

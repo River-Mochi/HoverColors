@@ -138,6 +138,7 @@ namespace HoverColors.UI
             settings.GuidelineBackupDashedR = settings.GuidelineDashedR;
             settings.GuidelineBackupDashedG = settings.GuidelineDashedG;
             settings.GuidelineBackupDashedB = settings.GuidelineDashedB;
+            settings.GuidelineBackupOpacityPercent = settings.GuidelineOpacityPercent;
             settings.GuidelineVanillaToggleHasBackup = true;
         }
 
@@ -157,6 +158,7 @@ namespace HoverColors.UI
             settings.GuidelineDashedR = settings.GuidelineBackupDashedR;
             settings.GuidelineDashedG = settings.GuidelineBackupDashedG;
             settings.GuidelineDashedB = settings.GuidelineBackupDashedB;
+            settings.GuidelineOpacityPercent = settings.GuidelineBackupOpacityPercent;
         }
 
         private static void ApplyVanillaGuidelineSwatches(HoverColorsSettings settings)
@@ -178,6 +180,7 @@ namespace HoverColors.UI
             settings.GuidelineDashedR = dashed.r;
             settings.GuidelineDashedG = dashed.g;
             settings.GuidelineDashedB = dashed.b;
+            settings.GuidelineOpacityPercent = 100;
         }
     }
 }

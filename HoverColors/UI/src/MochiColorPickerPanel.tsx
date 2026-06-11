@@ -95,15 +95,14 @@ export const MochiColorPickerPanel = () => {
         b: useValue(guidelinePreviewColorB$),
         a: useValue(guidelinePreviewColorA$),
     };
+    const boundFillA = useValue(fillA$);
+    const boundGuideline = useValue(guidelineOpacity$);
     const boundGuidelineDashedColor: Color = {
         r: useValue(guidelineDashedColorR$),
         g: useValue(guidelineDashedColorG$),
         b: useValue(guidelineDashedColorB$),
-        a: 1,
+        a: Math.max(0, Math.min(1, boundGuideline / 100)),
     };
-
-    const boundFillA = useValue(fillA$);
-    const boundGuideline = useValue(guidelineOpacity$);
     const useDarkerPanel = useValue(useDarkerPanel$);
     const surfaceToolAreasSuppressed = useValue(surfaceToolAreasSuppressed$);
     const specializedIndustryAreasSuppressed = useValue(specializedIndustryAreasSuppressed$);
@@ -192,7 +191,7 @@ export const MochiColorPickerPanel = () => {
     React.useEffect(() => { setDistrictColor(boundDistrict); }, [boundDistrict.r, boundDistrict.g, boundDistrict.b, boundDistrict.a]);
     React.useEffect(() => { setGuidelineLinesColor(boundGuidelineLinesColor); }, [boundGuidelineLinesColor.r, boundGuidelineLinesColor.g, boundGuidelineLinesColor.b, boundGuidelineLinesColor.a]);
     React.useEffect(() => { setGuidelinePreviewColor(boundGuidelinePreviewColor); }, [boundGuidelinePreviewColor.r, boundGuidelinePreviewColor.g, boundGuidelinePreviewColor.b, boundGuidelinePreviewColor.a]);
-    React.useEffect(() => { setGuidelineDashedColor(boundGuidelineDashedColor); }, [boundGuidelineDashedColor.r, boundGuidelineDashedColor.g, boundGuidelineDashedColor.b]);
+    React.useEffect(() => { setGuidelineDashedColor(boundGuidelineDashedColor); }, [boundGuidelineDashedColor.r, boundGuidelineDashedColor.g, boundGuidelineDashedColor.b, boundGuidelineDashedColor.a]);
     React.useEffect(() => { setGuidelineOpacity(boundGuideline); }, [boundGuideline]);
 
     React.useEffect(() => {
@@ -328,14 +327,18 @@ export const MochiColorPickerPanel = () => {
 
     const handleGuidelineDashedColorChange = (value: Color) => {
         const syncedValue = normalizeColorFieldValue(value);
-        const colorOnlyValue = { ...syncedValue, a: 1 };
-        setGuidelineDashedColor(colorOnlyValue);
-        trigger(CHANNEL, "SetGuidelineDashedColor", colorOnlyValue.r, colorOnlyValue.g, colorOnlyValue.b);
+        const alpha = typeof syncedValue.a === "number" ? syncedValue.a : 1;
+        const percent = Math.max(0, Math.min(100, Math.round((alpha * 100) / 5) * 5));
+        const dashedValue = { ...syncedValue, a: percent / 100 };
+        setGuidelineDashedColor(dashedValue);
+        setGuidelineOpacity(percent);
+        trigger(CHANNEL, "SetGuidelineDashedColor", dashedValue.r, dashedValue.g, dashedValue.b, dashedValue.a);
     };
 
     const handleGuidelineChange = (v: number) => {
         const value = Math.max(0, Math.min(100, Math.round(v / 5) * 5));
         setGuidelineOpacity(value);
+        setGuidelineDashedColor(prev => ({ ...prev, a: value / 100 }));
         trigger(CHANNEL, "SetGuidelineOpacity", value);
     };
 

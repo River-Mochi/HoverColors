@@ -18,7 +18,7 @@ namespace HoverColors.UI
             AddBinding(new TriggerBinding<int>(Mod.ModId, "SetGuidelineOpacity", SetGuidelineOpacity));
             AddBinding(new TriggerBinding<float, float, float, float>(Mod.ModId, "SetGuidelineLinesColor", SetGuidelineLinesColor));
             AddBinding(new TriggerBinding<float, float, float, float>(Mod.ModId, "SetGuidelinePreviewColor", SetGuidelinePreviewColor));
-            AddBinding(new TriggerBinding<float, float, float>(Mod.ModId, "SetGuidelineDashedColor", SetGuidelineDashedColor));
+            AddBinding(new TriggerBinding<float, float, float, float>(Mod.ModId, "SetGuidelineDashedColor", SetGuidelineDashedColor));
             AddBinding(new TriggerBinding<float, float, float, float>(Mod.ModId, "SetDistrictColor", SetDistrictColor));
             AddBinding(new TriggerBinding(Mod.ModId, "ResetDistrictToVanilla", ResetDistrictToVanilla));
             AddBinding(new TriggerBinding(Mod.ModId, "ResetToVanilla", ResetToVanilla));
@@ -154,7 +154,7 @@ namespace HoverColors.UI
         }
 
 
-        private void SetGuidelineDashedColor(float r, float g, float b)
+        private void SetGuidelineDashedColor(float r, float g, float b, float a)
         {
             HoverColorsSettings? settings = Mod.Settings;
             if (settings == null) return;
@@ -162,27 +162,30 @@ namespace HoverColors.UI
             r = Clamp01(r);
             g = Clamp01(g);
             b = Clamp01(b);
+            a = Clamp01(a);
+            int percent = Math.Max(0, Math.Min(100, (int)(Math.Round(a * 20f) * 5f)));
 
             bool changed = settings.GuidelineDashedColorPreset != HoverColorsSettings.kGuidelineDashedColorPresetCustom
                 || settings.GuidelineVanillaToggleActive
                 || !ApproxEqual(settings.GuidelineDashedR, r)
                 || !ApproxEqual(settings.GuidelineDashedG, g)
-                || !ApproxEqual(settings.GuidelineDashedB, b);
+                || !ApproxEqual(settings.GuidelineDashedB, b)
+                || settings.GuidelineOpacityPercent != percent;
 
             if (!changed)
             {
                 return;
             }
 
-            // Dashed line opacity is controlled separately by GuidelineOpacityPercent.
+            // Dashed swatch alpha and the guideline opacity slider represent the same value.
             settings.GuidelineDashedColorPreset = HoverColorsSettings.kGuidelineDashedColorPresetCustom;
             settings.GuidelineDashedR = r;
             settings.GuidelineDashedG = g;
             settings.GuidelineDashedB = b;
+            settings.GuidelineOpacityPercent = percent;
             settings.GuidelineVanillaToggleActive = false;
             ApplySaveAndSync(settings);
         }
-
         private void SetDistrictColor(float r, float g, float b, float a)
         {
             HoverColorsSettings? settings = Mod.Settings;

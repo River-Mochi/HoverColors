@@ -204,8 +204,8 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public float GuidelineDashedB { get; set; }
 
-        // Guidelines icon toggle backup. First click saves S1/S2 + dashed color and applies vanilla;
-        // next click restores those colors. Opacity stays independent.
+        // Guidelines icon toggle backup. First click saves S1/S2/S3 + opacity and applies vanilla;
+        // next click restores those values.
         [SettingsUIHidden]
         public bool GuidelineVanillaToggleActive { get; set; }
 
@@ -253,6 +253,8 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public float GuidelineBackupDashedB { get; set; }
 
+        [SettingsUIHidden]
+        public int GuidelineBackupOpacityPercent { get; set; }
         // In-city info button preference. Hidden from Options UI; persisted here so
         // "tooltips off" survives closing/reopening the panel and game restarts.
         [SettingsUIHidden]
