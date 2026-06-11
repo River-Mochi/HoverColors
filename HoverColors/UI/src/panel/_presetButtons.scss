@@ -1,0 +1,209 @@
+// File: UI/src/panel/_presetButtons.scss
+// Purpose: Preset slot, reset, and hold-to-save styles for MochiColorPickerPanel.module.scss.
+//
+// Visual language:
+//   - Hover = thin soft white outline around the preset swatch button.
+//   - Selected = blue number + small blue dot + subtle tint on number half only.
+//   - Saved color swatch stays true color except during the temporary hold-to-save sweep.
+
+// Disable old pseudo-element rings if a stale rule survives elsewhere.
+.presetSlot::before,
+.presetSlot::after {
+    content: none !important;
+    display: none !important;
+}
+
+// Number first, full-height saved-color sliver second:
+//   [ 1 |█ ] [ 2 |█ ]
+.presetSlot {
+    width: 30rem !important;
+    min-width: 30rem !important;
+    height: 24rem !important;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    border-radius: 4rem;
+    border: 0;
+    background-color: rgba(26, 39, 48, 0.78) !important;
+    background-image: none !important;
+    overflow: hidden !important;
+    cursor: pointer;
+    position: relative !important;
+    flex-shrink: 0;
+    box-shadow: none !important;
+    transition: background-color 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+// Number side. TSX sets active/idle/hover text color inline.
+.presetNumber {
+    width: 18rem;
+    min-width: 18rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    position: relative;
+    border-radius: 4rem 0 0 4rem;
+    z-index: 10;
+    font-size: 12.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(254, 255, 255, 0.82);
+    text-shadow: 0 0 4rem rgba(0, 0, 0, 0.9);
+    transition: background-color 120ms ease-out;
+}
+
+// Saved-color preview sliver. Do not tint this in the selected state;
+// it must show the true saved preset color.
+.presetSwatch {
+    width: 12rem;
+    min-width: 12rem;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+    position: relative;
+    z-index: 10;
+    border-top-right-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    box-shadow: none;
+}
+
+// A little blue tint only behind the number half, never over the true color swatch.
+// Tweak: lower 0.12 for subtler selected state, or set transparent to remove.
+.presetSlotActive .presetNumber {
+    background-color: rgba(30, 131, 170, 0.12) !important;
+}
+
+// Real child hover ring. Explicit offsets instead of `inset` because Cohtml can
+// render `inset` inconsistently.
+.presetHoverRing {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 40;
+    display: block;
+    pointer-events: none;
+    border-radius: 4rem;
+    box-sizing: border-box;
+    border-top: 1rem solid rgba(254, 255, 255, 0);
+    border-right: 1rem solid rgba(254, 255, 255, 0);
+    border-bottom: 1rem solid rgba(254, 255, 255, 0);
+    border-left: 1rem solid rgba(254, 255, 255, 0);
+    opacity: 0;
+    background-color: transparent;
+    transition: opacity 120ms ease-out, border-color 120ms ease-out;
+}
+
+// Hover outline brightness knob: change 0.62 to 0.52 for softer or 0.70 for stronger.
+.presetSlot:hover .presetHoverRing,
+.presetSlot:focus .presetHoverRing,
+.presetSlot:focus-visible .presetHoverRing,
+.presetSlotActive:hover .presetHoverRing,
+.presetSlotActive:focus .presetHoverRing,
+.presetSlotActive:focus-visible .presetHoverRing {
+    opacity: 1;
+    border-top-color: rgba(254, 255, 255, 0.62) !important;
+    border-right-color: rgba(254, 255, 255, 0.62) !important;
+    border-bottom-color: rgba(254, 255, 255, 0.62) !important;
+    border-left-color: rgba(254, 255, 255, 0.62) !important;
+}
+
+// Selected preset marker: small blue dot bottom-left.
+// Position knobs: bottom/left. Size knob: width/height.
+.presetActiveRing {
+    position: absolute;
+    top: auto !important;
+    right: auto !important;
+    bottom: 1.8rem !important;
+    left: 1.8rem !important;
+    width: 5rem !important;
+    height: 5rem !important;
+    z-index: 41;
+    display: block;
+    pointer-events: none;
+    border: 0 !important;
+    border-radius: 50% !important;
+    box-sizing: border-box;
+    background-color: rgba(84, 215, 255, 0);
+    opacity: 0;
+    box-shadow: none;
+    transition: opacity 120ms ease-out, background-color 120ms ease-out;
+}
+
+.presetSlotActive .presetActiveRing,
+.panelDarker .presetSlotActive .presetActiveRing {
+    opacity: 1;
+    background-color: rgba(84, 215, 255, 0.86);
+    box-shadow: 0 0 3rem rgba(30, 131, 170, 0.34);
+}
+
+// Preset save sweep across both halves while holding. It temporarily tints the
+// true swatch during the hold animation only.
+.holdBar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(84, 215, 255, 0.42);
+    box-shadow: inset 0 0 0 1rem rgba(254, 255, 255, 0.20);
+    transform: scaleX(0);
+    transform-origin: left center;
+    pointer-events: none;
+    z-index: 35;
+}
+
+// SVG reset avoids missing glyph boxes in some CJK fonts.
+// Hover uses opacity/filter/transform only.
+.presetResetBare {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 24rem;
+    height: 24rem;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: rgba(254, 255, 255, 0.84) !important;
+    transition: background-color 120ms ease-out, color 120ms ease-out, transform 120ms ease-out;
+
+    &:hover,
+    &:focus {
+        background-color: rgba(84, 215, 255, 0.14) !important;
+        color: rgba(254, 255, 255, 1) !important;
+        transform: scale(1.08);
+    }
+}
+
+// Light gray at rest; hover filters to white.
+.resetIcon {
+    width: 14rem;
+    height: 14rem;
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+    opacity: 0.86;
+    filter: drop-shadow(0 0 3rem rgba(0, 0, 0, 0.42));
+    transform: scaleX(-1);
+    transition: filter 120ms ease-out, opacity 120ms ease-out, transform 120ms ease-out;
+}
+
+.presetResetBare:hover .resetIcon,
+.presetResetBare:focus .resetIcon {
+    opacity: 1;
+    filter: brightness(0) invert(1) drop-shadow(0 0 5rem rgba(254, 255, 255, 0.28)) drop-shadow(0 0 4rem rgba(0, 0, 0, 0.65));
+    transform: scaleX(-1) scale(1.2);
+}
+
+.resetButton {
+    width: 32rem;
+    min-width: 32rem;
+}

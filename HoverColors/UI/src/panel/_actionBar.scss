@@ -1,0 +1,81 @@
+// File: panel/_actionBar.scss
+// Purpose: Bottom action bar and shared bottom button styles.
+
+// ─── Bottom action bar ────────────────────────────────────────────────────────
+
+.actions {
+    position: relative;
+    overflow: visible;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -2rem; // divider line position: raise/lower this margin
+    padding: 5rem 8rem 4rem 8rem; // bottom padding leaves room for drag grip
+    border-top: 1rem solid rgba(254, 255, 255, 0.12);
+}
+
+.surfaceActions,
+.presetActions {
+    display: flex;
+    align-items: center;
+}
+
+// Bottom action buttons. !important beats Cohtml ButtonFace background.
+.actionButton {
+    height: 32rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4rem;
+    border: 1rem solid transparent;
+    background-color: rgba(36, 54, 66, 0.58) !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    color: rgba(254, 255, 255, 0.96) !important; // Cohtml ButtonText can become black
+    font-size: 12.5rem;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    text-transform: none;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+    overflow: visible;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: rgba(108, 136, 150, 0.34) !important;
+        border-color: transparent;
+        box-shadow: none !important;
+        color: #ffffff !important;
+    }
+}
+
+.buttonGap {
+    margin-left: 4rem !important; // explicit gap between bottom icon buttons
+}
+
+.surfaceButton {
+    width: 32rem;
+    min-width: 32rem;
+    overflow: visible !important; // keeps active indicator visible
+}
+
+.districtPickerButton {
+    position: relative;
+    overflow: visible;
+}
+
+.districtPickerButtonActive {
+    border-color: rgba(84, 215, 255, 0.88);
+}
+
+.districtPickerIcon {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+}
+

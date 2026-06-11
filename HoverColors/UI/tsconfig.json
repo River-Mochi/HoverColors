@@ -1,17 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
-    "module": "ESNext",
-    "moduleResolution": "node",
     "jsx": "react-jsx",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+
+    "isolatedModules": true,
     "strict": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
     "baseUrl": "src",
+    "skipLibCheck": true,
     "typeRoots": [ "./types", "./node_modules/@types" ],
-    "lib": [ "ES2021", "DOM" ]
+    "resolveJsonModule": true,
+
+    "paths": {
+      "mod.json": [ "../mod.json" ]
+    }
   },
   "include": [ "src", "types" ]
 }

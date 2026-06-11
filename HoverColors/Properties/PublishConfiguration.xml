@@ -4,58 +4,63 @@
 	<!--Name of the mod to display to players-->
 	<DisplayName Value="Hover Colors" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Change blue outlines to any color or opacity. Surface layers on/off, District colors, and Guideline opacity." />
-	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
-	<!--LongDescription Value="This is a long description" /-->
-	<LongDescription>
-### Mochi's Hover Colors
+    <ShortDescription Value="Change blue outlines to any color or opacity. Surface layers on/off, District colors."/>
+    <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
+<LongDescription>
+    ## Mochi's Hover Colors
 
-- Change the blue outline color that has haunted every part of your city.
-- If you can hover over it then you can probably change it: buildings, cars, trees, cims, etc.!
-- Guidelines: change opacity so you can see items being placed and not just a thick white line!
-- Surfaces: turn off preview layers while using the Surface tool so you can see the real ground colors without a cloudy layer on top.
-- District tool: change the color + opacity of district borders and overlays, or turn them off completely.
+    **Major additions in 0.9.0 update**: please check new city Hover Color panel
+    - added color swatches + tooltips and more choices in the mod's Options menu!
 
-## Important
-- Check the Options menu for bulldozer and road-tool color behavior.
-- To turn off panel tooltips, click the Info button in the top-left of the in-city panel.
-- **Darker panel** option. Recommended for LegacyUI or players who prefer darker high contrast. Try both panels and see what you like!
-- Alpha is transparency; it's the last bar on the color picker.
-- Tap preset 1 or 2 to switch your saved colors.
-- Change presets: select a color from the main color picker, then hold preset 1 or 2 until the fill bar completes.
-- Hotkeys are in the Options menu. Read the tooltips or Options Menu 3rd panel if you get lost.
-- Save-game safe and safe to remove any time.
-- No known compatibility issues. No Harmony patches.
+    - Change the blue outline color that has haunted every part of your city.
+    - If you can hover over it then you can probably change it: buildings, cars, trees, cims, etc.!
+    - Guidelines: change opacity so you can see items being placed and not just a thick white line!
+    - Surfaces: turn off preview layers while using the Surface tool so you can see the real ground colors without a cloudy layer on top.
+    - District tool: change the color + opacity of district borders and overlays, or turn them off completely.
 
-### Feedback and Support
-
-- Feedback is welcome through GitHub or Discord links on the right.
-- This mod took many months to overcome many obstacles in game code.
-- If you like free mods made with love and lots of late night coffee, give a Like :)
-
-### Credits
-- River-Mochi - modder/maintainer
-- Flashbond - collab, tech feedback, testing
-- yenyang - collab, tech feedback, testing
-- StarQ - tech feedback, testing
-- gagaxm - feature idea, testing
-- Dx, Necko1996, BugsyG, ElGendo87 - testing
-- =Noel= Thumbnail, testing
+    ## Important
+    - Check the Options menu for bulldozer and road-tool color behavior.
+    - To turn off panel tooltips, click the Info button in the top-left of the in-city panel.
+    - **Darker panel** option. Recommended for LegacyUI or players who prefer darker high contrast. Try both panels and see what you like!
+    - Alpha is transparency; it's the last bar on the color picker.
+    - Tap preset 1 or 2 to switch your saved colors.
+    - Change presets: select a color from the main color picker, then hold preset 1 or 2 until the fill bar completes.
+    - Hotkeys are in the Options menu. Read the tooltips or Options Menu 3rd panel if you get lost.
+    - Save-game safe and safe to remove any time.
+    - No known compatibility issues. No Harmony patches.
+    - Performance Optimized: when the panel is closed, it is not doing active layout work;
+    the C# systems mostly sit idle unless a relevant state changes, example, you change a color, mod takes action, then goes back idle.
 
 
-### 14 Languages
-- English, Français, Deutsch, Español, Italiano, Polski, 简体中文 , 한국어
-- Português Brasil, 繁體中文 , 日本語
-WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turkish Türkçe, EU Portuguese Português
+    ### Feedback
 
-tags: Mochi's blue scrubber, Highlight, border color, remove blue
+    - Please send suggestions, bug reports, or just say hi!
+    - This mod took many months to overcome many obstacles in game code.
+    - This is a passion project and I want to make it the best it can be,
+    so please share your thoughts and suggestions! -- River Mochi
+
+
+    ## ❤️ Special Thanks
+    * Huge shout out to everyone who tested or supported the mod on its long journey to release*
+    - Flashbond - collab, tech feedback, testing
+    - yenyang - collab, tech feedback, testing
+    - StarQ - tech feedback, testing
+    - gagaxm - feature idea, testing
+    - Dx, Necko1996, BugsyG, ElGendo87 - testing
+    - =Noel= Thumbnail, testing
+
+    ### 15+ Languages
+    - English, Français, Deutsch, Español, Italiano, Polski, 简体中文 , 한국어
+    - Português Brasil, 繁體中文 , 日本語
+    WIP: Thai ภาษาไทย, Vietnamese Tiếng Việt, Turkish Türkçe, EU Portuguese Português
+
+    tags: Mochi's blue scrubber, Highlight, border color, remove blue, guidelines, district colors, surface tool, custom colors, transparency.
 
 </LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail-building_cyan.jpg" />
 	<!--Screenshot, can be set multiple times-->
-    <Screenshot Value="Properties/10-image-before-after.jpg" />
-    <Screenshot Value="Properties/11-image-before-after.jpg" />
+    <Screenshot Value="Properties/12-image-before-after.jpg" />
 	<Screenshot Value="Properties/15-image-Options.jpg" />
     <Screenshot Value="Properties/20-image-ColorPicker.jpg" />
     <Screenshot Value="Properties/30-image-Guidelines.jpg" />
@@ -76,11 +81,11 @@ tags: Mochi's blue scrubber, Highlight, border color, remove blue
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - UI/UX improvements
-- UI/UX improvements
-- added two Guideline color swatches to customize the new road tool (circles with spacing lines and road overlay color).
-- clicking on Guideline icon button resets to vanilla blue colors.
-- added Options menu dropdown list of 4 selectable custom colors for Dashed Guideline (default white).
+- added 3 Guide line color preset swatches to customize the new road tool (for circles with spacing lines and road overlay color).
+- clicking on Guideline icon button resets to vanilla colors all guidelines and road overlays (usually cyan).
 - updated translations.
+- District tool: added reset to vanilla.
+- main keybind changed to "J". Now have "J", ""K", and "L" hotkeys - change or remove these in HC Options menu.
 </ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 	<ExternalLink Type="" Url="" />

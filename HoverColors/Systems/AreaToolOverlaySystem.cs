@@ -1,6 +1,6 @@
-// File: Systems/SurfaceToolOverlaySystem.cs
-// Purpose: Optional Surface-tool overlay suppression for creators who want to preview layered surfaces
-// without the active tool's blue boundary preview staying on top of the texture work.
+// File: Systems/AreaToolOverlaySystem.cs
+// Purpose: Optional Area-tool overlay suppression. Surface and Specialized Industry both write
+// ToolBaseSystem.requireAreas, so one system owns the combined mask to avoid toggle conflicts.
 
 namespace HoverColors.Systems
 {
@@ -13,7 +13,7 @@ namespace HoverColors.Systems
     using System.Reflection;
     using Unity.Entities;
 
-    public partial class SurfaceToolOverlaySystem : GameSystemBase
+    public partial class AreaToolOverlaySystem : GameSystemBase
     {
         private static readonly PropertyInfo? s_RequireAreasProperty =
             typeof(ToolBaseSystem).GetProperty(
@@ -23,18 +23,30 @@ namespace HoverColors.Systems
         private ToolSystem? m_ToolSystem;
         private AreaToolSystem? m_AreaToolSystem;
         private AreaTypeMask m_OriginalMask;
+        private AreaTypeMask m_LastSuppressedMask;
         private bool m_HasSuppressedMask;
 
         public static bool SuppressSurfaceToolAreas { get; private set; }
+        public static bool SuppressSpecializedIndustryToolAreas { get; private set; }
 
-        public static void ToggleSuppression()
+        public static void ToggleSurfaceSuppression()
         {
             SuppressSurfaceToolAreas = !SuppressSurfaceToolAreas;
         }
 
-        public static void SetSuppression(bool enabled)
+        public static void SetSurfaceSuppression(bool enabled)
         {
             SuppressSurfaceToolAreas = enabled;
+        }
+
+        public static void ToggleSpecializedIndustrySuppression()
+        {
+            SuppressSpecializedIndustryToolAreas = !SuppressSpecializedIndustryToolAreas;
+        }
+
+        public static void SetSpecializedIndustrySuppression(bool enabled)
+        {
+            SuppressSpecializedIndustryToolAreas = enabled;
         }
 
         protected override void OnCreate()
@@ -45,7 +57,7 @@ namespace HoverColors.Systems
             m_AreaToolSystem = World.GetOrCreateSystemManaged<AreaToolSystem>();
             Enabled = true;
 
-            LogUtils.Info(() => $"{Mod.ModTag} SurfaceToolOverlaySystem created");
+            LogUtils.Info(() => $"{Mod.ModTag} AreaToolOverlaySystem created");
         }
 
         protected override void OnDestroy()
@@ -63,25 +75,30 @@ namespace HoverColors.Systems
             }
 
             bool activeAreaTool = ReferenceEquals(m_ToolSystem.activeTool, m_AreaToolSystem);
-            if (!SuppressSurfaceToolAreas || !activeAreaTool)
+            AreaTypeMask suppressMask = GetSuppressMask();
+            if (suppressMask == AreaTypeMask.None || !activeAreaTool)
             {
                 RestoreIfNeeded();
                 return;
             }
 
             AreaTypeMask current = m_AreaToolSystem.requireAreas;
-            if ((current & AreaTypeMask.Surfaces) == 0)
+            if (m_HasSuppressedMask && current != (m_OriginalMask & ~m_LastSuppressedMask))
             {
-                if (m_HasSuppressedMask && current != (m_OriginalMask & ~AreaTypeMask.Surfaces))
-                {
-                    m_HasSuppressedMask = false;
-                }
+                // Selected Area prefab changed; drop stale restore data before applying a new mask.
+                m_HasSuppressedMask = false;
+                m_LastSuppressedMask = AreaTypeMask.None;
+            }
 
+            AreaTypeMask applicableMask = current & suppressMask;
+            if (applicableMask == AreaTypeMask.None)
+            {
                 return;
             }
 
             m_OriginalMask = current;
-            AreaTypeMask stripped = current & ~AreaTypeMask.Surfaces;
+            m_LastSuppressedMask = applicableMask;
+            AreaTypeMask stripped = current & ~applicableMask;
             if (SetRequireAreas(m_AreaToolSystem, stripped))
             {
                 m_HasSuppressedMask = true;
@@ -97,12 +114,30 @@ namespace HoverColors.Systems
             }
 
             AreaTypeMask current = m_AreaToolSystem.requireAreas;
-            if ((m_OriginalMask & AreaTypeMask.Surfaces) != 0 && (current & AreaTypeMask.Surfaces) == 0)
+            AreaTypeMask expected = m_OriginalMask & ~m_LastSuppressedMask;
+            if (current == expected)
             {
                 SetRequireAreas(m_AreaToolSystem, m_OriginalMask);
             }
 
             m_HasSuppressedMask = false;
+            m_LastSuppressedMask = AreaTypeMask.None;
+        }
+
+        private static AreaTypeMask GetSuppressMask()
+        {
+            AreaTypeMask mask = AreaTypeMask.None;
+            if (SuppressSurfaceToolAreas)
+            {
+                mask |= AreaTypeMask.Surfaces;
+            }
+
+            if (SuppressSpecializedIndustryToolAreas)
+            {
+                mask |= AreaTypeMask.Lots;
+            }
+
+            return mask;
         }
 
         private static bool SetRequireAreas(ToolBaseSystem tool, AreaTypeMask mask)
@@ -111,7 +146,7 @@ namespace HoverColors.Systems
             {
                 LogUtils.WarnOnce(
                     "surface-tool-require-areas-missing",
-                    () => $"{Mod.ModTag} Cannot toggle Surface tool overlay: requireAreas property not found.");
+                    () => $"{Mod.ModTag} Cannot toggle Area tool overlays: requireAreas property not found.");
                 return false;
             }
 
@@ -124,7 +159,7 @@ namespace HoverColors.Systems
             {
                 LogUtils.WarnOnce(
                     "surface-tool-require-areas-set-failed",
-                    () => $"{Mod.ModTag} Cannot toggle Surface tool overlay: {ex.GetType().Name}: {ex.Message}",
+                    () => $"{Mod.ModTag} Cannot toggle Area tool overlays: {ex.GetType().Name}: {ex.Message}",
                     ex);
                 return false;
             }

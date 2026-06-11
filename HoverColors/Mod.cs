@@ -3,7 +3,8 @@
 
 namespace HoverColors
 {
-    using Colossal;
+    using System;
+    using System.Reflection;
     using Colossal.IO.AssetDatabase;
     using Colossal.Localization;
     using Colossal.Logging;
@@ -15,8 +16,6 @@ namespace HoverColors
     using HoverColors.Settings;
     using HoverColors.Systems;
     using HoverColors.UI;
-    using System;
-    using System.Reflection;
     using Unity.Entities;
 
     public sealed class Mod : IMod
@@ -24,12 +23,13 @@ namespace HoverColors
         public const string ModName = "Hover Colors";
         public const string ModId = "HoverColors";
         public const string ModTag = "[HC]";
+
         public const string kTogglePanelActionName = "TogglePanel";
         public const string kToggleSurfaceToolAreasActionName = "ToggleSurfaceToolAreas";
         public const string kTogglePresetActionName = "TogglePreset";
 
         public static readonly string ModVersion =
-            Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.5.0";
+            Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
 
         public static string BuildFlavor =>
 #if DEBUG
@@ -43,58 +43,61 @@ namespace HoverColors
 
         public static HoverColorsSettings? Settings { get; private set; }
 
-        private static bool s_BannerLogged;
-
-        [System.Diagnostics.Conditional("DEBUG")]
-        internal static void DebugLog(string message)
-        {
-            LogUtils.Info(() => message);
-        }
-
-        [System.Diagnostics.Conditional("DEBUG")]
-        internal static void DebugLog(Func<string> messageFactory)
-        {
-            LogUtils.Info(messageFactory);
-        }
-
         public void OnLoad(UpdateSystem updateSystem)
         {
             LogUtils.Configure(ModId, s_Log);
-            LogStartupBanner();
+            LogUtils.Info($"{ModName} v{ModVersion} {BuildFlavor} loaded");
 
-            if (GameManager.instance == null)
+            GameManager? gameManager = GameManager.instance;
+            if (gameManager == null)
             {
-                LogUtils.Warn(() => $"{ModTag} GameManager.instance is null; {ModName} cannot initialize.");
+                LogUtils.Warn($"{ModTag} GameManager.instance is null; {ModName} cannot initialize.");
                 return;
             }
 
             HoverColorsSettings setting = new HoverColorsSettings(this);
             Settings = setting;
 
-            // Register localization sources before settings/options UI reads the dictionary so labels resolve.
-            AddLocaleSource("en-US", new LocaleEN(setting));
-            AddLocaleSource("fr-FR", new LocaleFR(setting));
-            AddLocaleSource("es-ES", new LocaleES(setting));
-            AddLocaleSource("de-DE", new LocaleDE(setting));
-            AddLocaleSource("it-IT", new LocaleIT(setting));
-            AddLocaleSource("ja-JP", new LocaleJA(setting));
-            AddLocaleSource("ko-KR", new LocaleKO(setting));
-            AddLocaleSource("pl-PL", new LocalePL(setting));
-            AddLocaleSource("pt-BR", new LocalePT_BR(setting));
-            AddLocaleSource("zh-HANS", new LocaleZH_HANS(setting));
-            AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));
-            AddLocaleSource("th-TH", new LocaleTH(setting));    // Thai
-            AddLocaleSource("vi-VN", new LocaleVI(setting));    // Vietnamese
-            AddLocaleSource("tr-TR", new LocaleTR(setting));    // Turkish
-            AddLocaleSource("pt-PT", new LocalePT_PT(setting)); // European Portuguese
+            try
+            {
+                LocalizationManager? localizationManager = gameManager.localizationManager;
+                if (localizationManager == null)
+                {
+                    LogUtils.Warn($"{ModTag} LocalizationManager is null; locale sources were not registered.");
+                }
+                else
+                {
+                    // Register localization before Options UI reads setting labels.
+                    localizationManager.AddSource("en-US", new LocaleEN(setting));
+                    localizationManager.AddSource("fr-FR", new LocaleFR(setting));
+                    localizationManager.AddSource("es-ES", new LocaleES(setting));
+                    localizationManager.AddSource("de-DE", new LocaleDE(setting));
+                    localizationManager.AddSource("it-IT", new LocaleIT(setting));
+                    localizationManager.AddSource("ja-JP", new LocaleJA(setting));
+                    localizationManager.AddSource("ko-KR", new LocaleKO(setting));
+                    localizationManager.AddSource("pl-PL", new LocalePL(setting));
+                    localizationManager.AddSource("pt-BR", new LocalePT_BR(setting));
+                    localizationManager.AddSource("pt-PT", new LocalePT_PT(setting));
+                    localizationManager.AddSource("zh-HANS", new LocaleZH_HANS(setting));
+                    localizationManager.AddSource("zh-HANT", new LocaleZH_HANT(setting));
+                    localizationManager.AddSource("th-TH", new LocaleTH(setting));
+                    localizationManager.AddSource("vi-VN", new LocaleVI(setting));
+                    localizationManager.AddSource("tr-TR", new LocaleTR(setting));
+                }
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Error($"{ModTag} Localization registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+            }
 
             try
             {
                 AssetDatabase.global.LoadSettings(ModId, setting, new HoverColorsSettings(this));
+                setting.MigrateAfterLoad();
             }
             catch (Exception ex)
             {
-                LogUtils.Error(() => $"{ModTag} Settings load failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error($"{ModTag} Settings load failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
             try
@@ -103,103 +106,46 @@ namespace HoverColors
             }
             catch (Exception ex)
             {
-                LogUtils.Error(() => $"{ModTag} Options UI registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error($"{ModTag} Options UI registration failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
             try
             {
-                // Registers the ProxyAction defined by Setting.TogglePanelBinding's
-                // [SettingsUIKeyboardBinding] attribute. UISystem then fetches + enables it
-                // and polls WasReleasedThisFrame() each tick (same as CityWatchdog).
+                // Registers J/L/K ProxyActions from the [SettingsUIKeyboardBinding] attributes.
+                // HoverColorsUISystem fetches/enables them and polls WasReleasedThisFrame().
                 setting.RegisterKeyBindings();
             }
             catch (Exception ex)
             {
-                LogUtils.Error(() => $"{ModTag} Keybinding registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error($"{ModTag} Keybinding registration failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
             try
             {
-                ScheduleSystems(updateSystem);
+                World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<OutlineColorSystem>();
+                updateSystem.UpdateAt<OutlineColorSystem>(SystemUpdatePhase.Rendering);
+
+                World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<GuidelineColorSystem>();
+                updateSystem.UpdateAt<GuidelineColorSystem>(SystemUpdatePhase.Rendering);
+
+                World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<AreaToolOverlaySystem>();
+                updateSystem.UpdateAt<AreaToolOverlaySystem>(SystemUpdatePhase.Rendering);
+
+                World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<DistrictColorSystem>();
+                updateSystem.UpdateAt<DistrictColorSystem>(SystemUpdatePhase.Rendering);
+
+                updateSystem.UpdateAt<HoverColorsUISystem>(SystemUpdatePhase.UIUpdate);
             }
             catch (Exception ex)
             {
-                LogUtils.Error(() => $"{ModTag} System scheduling failed: {ex.GetType().Name}: {ex.Message}", ex);
-            }
-        }
-
-        private static bool AddLocaleSource(string localeId, IDictionarySource source)
-        {
-            if (string.IsNullOrEmpty(localeId))
-            {
-                return false;
-            }
-
-            LocalizationManager? lm = GameManager.instance?.localizationManager;
-            if (lm == null)
-            {
-                LogUtils.Warn(() => $"{ModTag} AddLocaleSource: no LocalizationManager; '{localeId}' not registered.");
-                return false;
-            }
-
-            try
-            {
-                lm.AddSource(localeId, source);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LogUtils.Warn(() => $"{ModTag} AddLocaleSource('{localeId}') failed: {ex.GetType().Name}: {ex.Message}", ex);
-                return false;
+                LogUtils.Error($"{ModTag} System scheduling failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
         }
 
         public void OnDispose()
         {
-            DebugLog(() => $"{ModTag} Mod Dispose");
-
-            HoverColorsSettings? setting = Settings;
-            if (setting != null)
-            {
-                try
-                {
-                    setting.UnregisterInOptionsUI();
-                }
-                catch (Exception ex)
-                {
-                    LogUtils.Warn(() => $"{ModTag} UnregisterInOptionsUI failed: {ex.GetType().Name}: {ex.Message}", ex);
-                }
-            }
-
+            Settings?.UnregisterInOptionsUI();
             Settings = null;
-        }
-
-        private static void ScheduleSystems(UpdateSystem updateSystem)
-        {
-            World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<OutlineColorSystem>();
-            updateSystem.UpdateAt<OutlineColorSystem>(SystemUpdatePhase.Rendering);
-
-            World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<GuidelineColorSystem>();
-            updateSystem.UpdateAt<GuidelineColorSystem>(SystemUpdatePhase.Rendering);
-
-            World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<SurfaceToolOverlaySystem>();
-            updateSystem.UpdateAt<SurfaceToolOverlaySystem>(SystemUpdatePhase.Rendering);
-
-            World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<DistrictColorSystem>();
-            updateSystem.UpdateAt<DistrictColorSystem>(SystemUpdatePhase.Rendering);
-
-            updateSystem.UpdateAt<HoverColorsUISystem>(SystemUpdatePhase.UIUpdate);
-        }
-
-        private static void LogStartupBanner()
-        {
-            if (s_BannerLogged)
-            {
-                return;
-            }
-
-            s_BannerLogged = true;
-            LogUtils.Info(() => $"{ModName} v{ModVersion} {BuildFlavor} loaded");
         }
     }
 }

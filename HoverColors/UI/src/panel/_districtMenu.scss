@@ -1,0 +1,140 @@
+// File: panel/_districtMenu.scss
+// Purpose: District flyout menu, District swatch launcher, and reset button.
+
+// ─── District flyout menu ─────────────────────────────────────────────────────
+
+.districtMenu {
+    position: absolute;
+
+    // Flyout horizontal knob.
+    // Increase left to move farther right; decrease to move closer to the District button.
+    left: 118rem;
+
+    // Anchor from the bottom only. Do not set top and bottom together or Cohtml may squash the menu.
+    bottom: 0;
+
+    // Phase 2 district-list knobs.
+    // Row height is 28rem.
+    //   136rem = compact, starts scrolling after about 4 rows.
+    //   180rem = medium, starts scrolling after about 6 rows.
+    //   292rem = starts scrolling after about 10 rows.
+    // Current choice: 292rem because you asked for scrolling only after 10+ rows.
+    width: 208rem;
+    max-height: 292rem;
+
+    padding: 6rem;
+    box-sizing: border-box;
+    border-radius: 7rem;
+    background-color: rgba(17, 27, 35, 0.94);
+    box-shadow: 0 7rem 18rem rgba(0, 0, 0, 0.28);
+    z-index: 80;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.districtMenuRow {
+    display: flex;
+    align-items: center;
+    min-height: 28rem; // row height used by .districtMenu max-height math
+}
+
+.districtMenuSwatch {
+    width: 22rem;
+    height: 22rem;
+    flex: 0 0 22rem;
+    position: relative;
+    border-radius: 4rem;
+    cursor: pointer;
+}
+
+.districtMenuSwatchPreview {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    border-radius: 4rem;
+}
+
+.districtMenuName {
+    min-width: 0;
+    flex: 1 1 auto;
+    margin-left: 7rem;
+    max-width: 118rem;
+    color: rgba(254, 255, 255, 0.92);
+    font-size: 12rem;
+    font-weight: 650;
+    line-height: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.districtMenuReset {
+    height: 22rem;
+    flex: 0 0 auto;
+    margin-left: 6rem;
+    padding: 0 7rem;
+    border: 1rem solid transparent;
+    border-radius: 4rem;
+    background-color: rgba(36, 54, 66, 0.78);
+    color: rgba(254, 255, 255, 0.88);
+    font-size: 10rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        background-color: rgba(72, 99, 114, 0.92);
+        color: #ffffff;
+    }
+}
+
+// Hidden ColorField target keeps vanilla popup layout and edge flipping.
+.districtColorField {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    overflow: visible !important;
+    border-radius: 4rem !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    z-index: 2;
+}
+
+.districtColorField > button,
+.districtColorField button {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 4rem !important;
+    opacity: 0 !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    cursor: pointer !important;
+}
+
+.districtColorField button * {
+    border-color: transparent !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    opacity: 0 !important;
+}
+
+.actionIcon {
+    width: 20rem;
+    height: 20rem;
+    display: block;
+    pointer-events: none;
+    flex-shrink: 0;
+}

@@ -61,6 +61,7 @@ module.exports = {
               importLoaders: 1,
               modules: {
                 auto: true,
+                namedExport: false,
                 exportLocalsConvention: "camelCase",
                 localIdentName: "[local]_[hash:base64:3]",
               },

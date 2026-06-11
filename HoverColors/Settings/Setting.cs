@@ -1,3 +1,5 @@
+// Copyright (c) River Mochi.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // File: Settings/Setting.cs
 // Purpose: Defines Hover Colors settings, persistent storage, and the Options UI surface.
 // Layout: 2 tabs (Actions, About) following CityWatchdog/EasyZoning convention.
@@ -6,65 +8,66 @@
 
 namespace HoverColors.Settings
 {
-    using Colossal.IO.AssetDatabase;
-    using CS2Shared.RiverMochi;
-    using Game.Input;
-    using Game.Modding;
-    using Game.Settings;
-    using Game.UI;
-    using Game.UI.Widgets;
-    using System;
-    using UnityEngine;
+    using Colossal.IO.AssetDatabase; // FileLocation
+    using Game.Input;       // BindingKeyboard
+    using Game.Modding;     // IMod
+    using Game.Settings;    // ModSetting, attributes
+    using Game.UI;          // ProxyBinding
+    using Game.UI.Widgets;  // Unit.kPercentage
 
     [FileLocation("ModsSettings/HoverColors/HoverColors")]
     [SettingsUITabOrder(Actions, About)]
-    [SettingsUIGroupOrder(ToolColors, Panel, Guidelines, KeyBindings, AboutInfo, AboutLinks, AboutDedication)]
-    [SettingsUIShowGroupName(ToolColors, Panel, KeyBindings, Guidelines, AboutDedication)]
-    public class HoverColorsSettings : ModSetting
+    [SettingsUIGroupOrder(kToolColors, kPanel, kGuidelines, kKeyBindings, kAboutInfo, kAboutLinks, kAboutDedication)]
+    [SettingsUIShowGroupName(kToolColors, kPanel, kKeyBindings, kGuidelines, kAboutDedication)]
+    public partial class HoverColorsSettings : ModSetting
     {
         // Tab IDs
         internal const string Actions = nameof(Actions);
         internal const string About = nameof(About);
 
         // Group IDs
-        internal const string ToolColors = nameof(ToolColors);
-        internal const string Panel = nameof(Panel);
-        internal const string Guidelines = nameof(Guidelines);
-        internal const string KeyBindings = nameof(KeyBindings);
-        internal const string AboutInfo = nameof(AboutInfo);
-        internal const string AboutLinks = nameof(AboutLinks);
-        internal const string AboutDedication = nameof(AboutDedication);
+        internal const string kToolColors = nameof(kToolColors);
+        internal const string kPanel = nameof(kPanel);
+        internal const string kGuidelines = nameof(kGuidelines);
+        internal const string kKeyBindings = nameof(kKeyBindings);
+        internal const string kAboutInfo = nameof(kAboutInfo);
+        internal const string kAboutLinks = nameof(kAboutLinks);
+        internal const string kAboutDedication = nameof(kAboutDedication);
 
-        public const int ToolColorModeRecommended = 0;
-        public const int ToolColorModeVanilla = 1;
-        public const int ToolColorModeCustom = 2;
+        public const int kToolColorModeRecommended = 0;
+        public const int kToolColorModeVanilla = 1;
+        public const int kToolColorModeCustom = 2;
 
-        public const int GuidelineColorPresetVanilla = 0;
-        public const int GuidelineColorPresetCustom = 4;
+        public const int kGuidelineColorPresetVanilla = 0;
+        public const int kGuidelineColorPresetCustom = 4;
 
-        public const int GuidelineDashedColorPresetVanilla = 0;
-        public const int GuidelineDashedColorPresetYellow = 1;
-        public const int GuidelineDashedColorPresetGreen = 2;
-        public const int GuidelineDashedColorPresetPink = 3;
+        public const int kGuidelineDashedColorPresetVanilla = 0;
+        public const int kGuidelineDashedColorPresetYellow = 1;
+        public const int kGuidelineDashedColorPresetGreen = 2;
+        // Value 3 used to be an old test color; now it is Mochi Blue.
+        public const int kGuidelineDashedColorPresetMochiBlue = 3;
+        public const int kGuidelineDashedColorPresetCyanBlue = 4;
+        public const int kGuidelineDashedColorPresetCustom = 5;
 
-        // Centralised default for the guideline opacity slider.
+        // Centralized default for the guideline opacity slider.
         // Vanilla CS2 is 100; lower = more transparent. Keep TSX fallback bindings in sync.
-        public const int DefaultGuidelineOpacityPercent = 30;
+        public const int kDefaultGuidelineOpacityPercent = 30;
 
         // Kept for old local test .coc files. The city icon now resets guidelines to mod defaults.
         public int GuidelineDefaultPercent { get; set; }
 
-        private const string AboutLinksRow = nameof(AboutLinksRow);
+        private const string kAboutLinksRow = nameof(kAboutLinksRow);
+
         // Same Paradox URL pattern as CityWatchdog — lands on River-Mochi's author page filtered to CS2.
-        private const string UrlParadox =
+        private const string kUrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
         // -----------------------------------------------------------------------
         // In-city color-picker bindings (driven by Systems/HoverColorsUISystem)
-        // Not decorated for Options UI — these are data fields the cs2/api bindings read/write
+        // These are data fields the cs2/api bindings read/write
         // and the OutlineColorSystem applies. Field layout after the post-alpha redesign:
-        //   - OutlineR/G/B  → outline halo edge color + fill overlay color + lot-pattern tint
-        //     (one color choice drives every visible surface so the panel only needs one swatch)
+        //   - OutlineR/G/B → regular hover outline/fill color
+        //   - OwnerR/G/B   → parent/owner highlight color, e.g. main building while placing sub-buildings
         //   - OutlineA     → outline halo edge opacity  (material _OuterColor.a)
         //   - FillA        → fill overlay opacity inside the silhouette (material _InnerColor.a)
         // The dropped OutlineInner*/OutlineOuter* fields from the early alpha are gone — their
@@ -82,6 +85,18 @@ namespace HoverColors.Settings
 
         [SettingsUIHidden]
         public float OutlineA { get; set; }
+
+        [SettingsUIHidden]
+        public float OwnerR { get; set; }
+
+        [SettingsUIHidden]
+        public float OwnerG { get; set; }
+
+        [SettingsUIHidden]
+        public float OwnerB { get; set; }
+
+        [SettingsUIHidden]
+        public float OwnerA { get; set; }
 
         [SettingsUIHidden]
         public float FillA { get; set; }
@@ -175,6 +190,69 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public float GuidelinePreviewA { get; set; }
 
+        // Dashed alignment guide line color (GuideLineSettingsData High).
+        // Opacity stays controlled by GuidelineOpacityPercent.
+        [SettingsUIHidden]
+        public int GuidelineDashedColorPreset { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineDashedR { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineDashedG { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineDashedB { get; set; }
+
+        // Guidelines icon toggle backup. First click saves S1/S2 + dashed color and applies vanilla;
+        // next click restores those colors. Opacity stays independent.
+        [SettingsUIHidden]
+        public bool GuidelineVanillaToggleActive { get; set; }
+
+        [SettingsUIHidden]
+        public bool GuidelineVanillaToggleHasBackup { get; set; }
+
+        [SettingsUIHidden]
+        public int GuidelineBackupLinesColorPreset { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupLinesR { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupLinesG { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupLinesB { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupLinesA { get; set; }
+
+        [SettingsUIHidden]
+        public int GuidelineBackupPreviewColorPreset { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupPreviewR { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupPreviewG { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupPreviewB { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupPreviewA { get; set; }
+        [SettingsUIHidden]
+        public int GuidelineBackupDashedColorPreset { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupDashedR { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupDashedG { get; set; }
+
+        [SettingsUIHidden]
+        public float GuidelineBackupDashedB { get; set; }
+
         // In-city info button preference. Hidden from Options UI; persisted here so
         // "tooltips off" survives closing/reopening the panel and game restarts.
         [SettingsUIHidden]
@@ -185,6 +263,14 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public bool SurfaceToolAreasSuppressed { get; set; }
 
+        // Hidden in-city preference for Specialized Industry area fill previews.
+        // This is AreaTypeMask.Lots, so it must be handled with Surface in one system.
+        [SettingsUIHidden]
+        public bool SpecializedIndustryAreasSuppressed { get; set; }
+
+        [SettingsUIHidden]
+        public bool SpecializedIndustryAreasSuppressionInitialized { get; set; }
+
         // -----------------------------------------------------------------------
         // Actions tab — Tool color behavior
         // -----------------------------------------------------------------------
@@ -192,11 +278,16 @@ namespace HoverColors.Settings
         // player's saved swatch color in ModsSettings/HoverColors/HoverColors.coc.
 
         [SettingsUIDropdown(typeof(HoverColorsSettings), nameof(GetToolColorModeItems))]
-        [SettingsUISection(Actions, ToolColors)]
+        [SettingsUISection(Actions, kToolColors)]
         public int ToolColorMode { get; set; }
 
-        [SettingsUISection(Actions, ToolColors)]
+        [SettingsUISection(Actions, kToolColors)]
         public bool UseOverlapWarningColor { get; set; }
+
+        // NetLanes cover EDT-style fences/hedges/markings through NetTool.
+        // ON lets those detail tools use custom HC colors while normal roads keep road overrides.
+        [SettingsUISection(Actions, kToolColors)]
+        public bool UseCustomColorsForNetLanes { get; set; }
 
         // -----------------------------------------------------------------------
         // Actions tab — Panel readability
@@ -205,15 +296,14 @@ namespace HoverColors.Settings
         // the need for this, but Modern UI players can use it too if they prefer
         // stronger panel contrast.
 
-        [SettingsUISection(Actions, Panel)]
+        [SettingsUISection(Actions, kPanel)]
         public bool UseDarkerPanel { get; set; }
 
         // -----------------------------------------------------------------------
         // Actions tab — Guidelines
         // -----------------------------------------------------------------------
-        // Slider is 0..100 (percent) so the SettingsUISlider can use kPercentage units.
-        // GuidelineColorSystem divides by 100 and multiplies the game's default per-priority
-        // alphas, so 100 = no change, 50 = half as visible, 0 = fully invisible guidelines.
+        // Only opacity stays in Options. Dashed guide color moved to the in-city panel
+        // so players can use the same color picker pattern as the other guideline colors.
 
         [SettingsUIHidden]
         public int GuidelineLinesColorPreset { get; set; }
@@ -221,27 +311,23 @@ namespace HoverColors.Settings
         [SettingsUIHidden]
         public int GuidelinePreviewColorPreset { get; set; }
 
-        [SettingsUIDropdown(typeof(HoverColorsSettings), nameof(GetGuidelineDashedColorPresetItems))]
-        [SettingsUISection(Actions, Guidelines)]
-        public int GuidelineDashedColorPreset { get; set; }
-
         [SettingsUISlider(min = 0, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(Actions, Guidelines)]
+        [SettingsUISection(Actions, kGuidelines)]
         public int GuidelineOpacityPercent { get; set; }
 
         // -----------------------------------------------------------------------
         // Actions tab — Key bindings
         // -----------------------------------------------------------------------
 
-        [SettingsUISection(Actions, KeyBindings)]
+        [SettingsUISection(Actions, kKeyBindings)]
         [SettingsUIKeyboardBinding(BindingKeyboard.J, Mod.kTogglePanelActionName)]
         public ProxyBinding TogglePanelBinding { get; set; }
 
-        [SettingsUISection(Actions, KeyBindings)]
+        [SettingsUISection(Actions, kKeyBindings)]
         [SettingsUIKeyboardBinding(BindingKeyboard.L, Mod.kToggleSurfaceToolAreasActionName)]
         public ProxyBinding ToggleSurfaceToolAreasBinding { get; set; }
 
-        [SettingsUISection(Actions, KeyBindings)]
+        [SettingsUISection(Actions, kKeyBindings)]
         [SettingsUIKeyboardBinding(BindingKeyboard.K, Mod.kTogglePresetActionName)]
         public ProxyBinding TogglePresetBinding { get; set; }
 
@@ -249,10 +335,10 @@ namespace HoverColors.Settings
         // About tab
         // -----------------------------------------------------------------------
 
-        [SettingsUISection(About, AboutInfo)]
+        [SettingsUISection(About, kAboutInfo)]
         public string NameText => Mod.ModName;
 
-        [SettingsUISection(About, AboutInfo)]
+        [SettingsUISection(About, kAboutInfo)]
         public string VersionText =>
 #if DEBUG
             Mod.ModVersion + " (DEBUG)";
@@ -260,167 +346,30 @@ namespace HoverColors.Settings
             Mod.ModVersion;
 #endif
 
-        [SettingsUIButtonGroup(AboutLinksRow)]
+        [SettingsUIButtonGroup(kAboutLinksRow)]
         [SettingsUIButton]
-        [SettingsUISection(About, AboutLinks)]
+        [SettingsUISection(About, kAboutLinks)]
         public bool OpenParadox
         {
             set
             {
                 if (value)
                 {
-                    TryOpenUrl(UrlParadox);
+                    TryOpenUrl(kUrlParadox);
                 }
             }
         }
 
-        [SettingsUISection(About, AboutDedication)]
+        [SettingsUISection(About, kAboutDedication)]
         public string MochiDedicationText => string.Empty;
 
         // -----------------------------------------------------------------------
-        // Construction + defaults
+        // Construction
         // -----------------------------------------------------------------------
 
         public HoverColorsSettings(IMod mod) : base(mod)
         {
             SetDefaults();
-        }
-
-        public override void SetDefaults()
-        {
-            // Vanilla cyan-blue from the OutlinesWorldUIPass material defaults
-            OutlineR = 0.502f;
-            OutlineG = 0.869f;
-            OutlineB = 1f;
-            OutlineA = 0.855f;
-
-            // FillA=0 matches vanilla CS2: no extra silhouette overlay until the player turns it up.
-            FillA = 0f;
-
-            // Safe fallback for the District picker until DistrictColorSystem captures the authored
-            // default district prefab colors. Not applied unless DistrictColorEnabled is true.
-            DistrictColorEnabled = false;
-            DistrictR = 128f / 255f;
-            DistrictG = 128f / 255f;
-            DistrictB = 128f / 255f;
-            DistrictA = 64f / 255f;
-
-            // Starter presets (players can overwrite these with the panel's Save button).
-            // Slot 1 = Mochi's gentle gray-purple. Slot 2 = yenyang-inspired purple-gray.
-            Preset1R = 140f / 255f;
-            Preset1G = 140f / 255f;
-            Preset1B = 171f / 255f;
-            Preset1A = 0.5f;
-            Preset1FillA = 0f;
-
-            Preset2R = 0.25f;
-            Preset2G = 0.15f;
-            Preset2B = 0.25f;
-            Preset2A = 0.5f;
-            Preset2FillA = 0f;
-            Preset1GuidelinePercent = DefaultGuidelineOpacityPercent;
-            Preset2GuidelinePercent = DefaultGuidelineOpacityPercent;
-            GuidelineDefaultPercent = DefaultGuidelineOpacityPercent;
-            GuidelineLinesColorPreset = GuidelineColorPresetVanilla;
-            GuidelineLinesR = 0.7f;
-            GuidelineLinesG = 0.7f;
-            GuidelineLinesB = 1f;
-            GuidelineLinesA = 1f;
-            GuidelinePreviewColorPreset = GuidelineColorPresetVanilla;
-            GuidelinePreviewR = 0.7f;
-            GuidelinePreviewG = 0.7f;
-            GuidelinePreviewB = 1f;
-            GuidelinePreviewA = 1f;
-            GuidelineDashedColorPreset = GuidelineDashedColorPresetVanilla;
-            PanelTooltipsEnabled = true;
-            SurfaceToolAreasSuppressed = true;
-
-            // Release default: help players see demolition/road targets even if their custom
-            // alpha is very low, without changing their saved custom color.
-            ToolColorMode = ToolColorModeRecommended;
-            UseOverlapWarningColor = true;
-            UseDarkerPanel = false;
-
-            // 100 = vanilla default. Lower = more transparent guidelines.
-            GuidelineOpacityPercent = DefaultGuidelineOpacityPercent;
-        }
-
-        // -----------------------------------------------------------------------
-        // Helpers
-        // -----------------------------------------------------------------------
-
-        public DropdownItem<int>[] GetToolColorModeItems()
-        {
-            return new[]
-            {
-                new DropdownItem<int>
-                {
-                    value = ToolColorModeRecommended,
-                    displayName = GetToolColorModeLocaleID("Recommended"),
-                },
-                new DropdownItem<int>
-                {
-                    value = ToolColorModeVanilla,
-                    displayName = GetToolColorModeLocaleID("Vanilla"),
-                },
-                new DropdownItem<int>
-                {
-                    value = ToolColorModeCustom,
-                    displayName = GetToolColorModeLocaleID("Custom"),
-                },
-            };
-        }
-
-        public string GetToolColorModeLocaleID(string valueName)
-        {
-            return "Options[" + id + ".ToolColorMode." + valueName + "]";
-        }
-
-        public DropdownItem<int>[] GetGuidelineDashedColorPresetItems()
-        {
-            return new[]
-            {
-                new DropdownItem<int>
-                {
-                    value = GuidelineDashedColorPresetVanilla,
-                    displayName = GetGuidelineDashedColorPresetLocaleID("Vanilla"),
-                },
-                new DropdownItem<int>
-                {
-                    value = GuidelineDashedColorPresetYellow,
-                    displayName = GetGuidelineDashedColorPresetLocaleID("Yellow"),
-                },
-                new DropdownItem<int>
-                {
-                    value = GuidelineDashedColorPresetPink,
-                    displayName = GetGuidelineDashedColorPresetLocaleID("Pink"),
-                },
-                new DropdownItem<int>
-                {
-                    value = GuidelineDashedColorPresetGreen,
-                    displayName = GetGuidelineDashedColorPresetLocaleID("Green"),
-                },
-            };
-        }
-
-        public string GetGuidelineDashedColorPresetLocaleID(string valueName)
-        {
-            return "Options[" + id + ".GuidelineDashedColorPreset." + valueName + "]";
-        }
-
-        private static void TryOpenUrl(string url)
-        {
-            try
-            {
-                Application.OpenURL(url);
-            }
-            catch (Exception ex)
-            {
-                LogUtils.WarnOnce(
-                    "open-url-" + url,
-                    () => $"Failed to open URL '{url}': {ex.GetType().Name}: {ex.Message}",
-                    ex);
-            }
         }
     }
 }

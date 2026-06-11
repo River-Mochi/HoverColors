@@ -1,27 +1,19 @@
 // File: Systems/GuidelineColorSystem.cs
 // Purpose: Apply player guideline color/opacity to vanilla GuideLineSettingsData.
-// The game splits guideline overlays into priority colors. HC exposes the two
-// useful player-facing color groups. Dashed alignment helpers have an Options preset.
-//
-// Background: HighlightsAndGuidelinesTweaks repo pointed at GuideLineSettingsData on
-// the rendering-settings prefab. We instead write to the runtime singleton each time the slider
-// moves, which:
-//   - applies live without needing the player to reload the city, and
-//   - is read every frame by Game.Rendering.GuideLinesSystem
-//     (m_RenderingSettingsQuery.GetSingleton<GuideLineSettingsData>()).
-//
-// Performance — same as OutlineColorSystem.cs:
-//   - Capture the game's default colors once per rendering-settings singleton. The
-//     opacity multiplier scales those defaults; defaults themselves are never modified.
-//   - Compare current settings against last-applied values and early-return while idle.
+// The game splits guideline overlays into priority colors. HC exposes the useful
+// player-facing color groups in the in-city panel.
 
 namespace HoverColors.Systems
 {
     using CS2Shared.RiverMochi;
+
     using Game;
     using Game.Prefabs;
+
     using HoverColors.Settings;
+
     using Unity.Entities;
+
     using UnityEngine;
 
     public partial class GuidelineColorSystem : GameSystemBase
@@ -29,27 +21,28 @@ namespace HoverColors.Systems
         private EntityQuery m_Query;
 
         // Vanilla prefab fallbacks from Game.Prefabs.GuideLineSettings. Runtime capture wins.
-        private static readonly Color FallbackVeryLowGuidelineColor = new(0.7f, 0.7f, 1f, 0.025f);
-        private static readonly Color FallbackLowGuidelineColor = new(0.7f, 0.7f, 1f, 0.05f);
-        private static readonly Color FallbackMediumGuidelineColor = new(0.7f, 0.7f, 1f, 0.1f);
-        private static readonly Color FallbackHighGuidelineColor = new(0.7f, 0.7f, 1f, 0.2f);
-        private static readonly Color FallbackPositiveGuidelineColor = new(0.5f, 1f, 0.5f, 0.1f);
-        private static readonly Color HighVisibilityYellowGuidelineColor = new(1f, 0.92f, 0.2f, 1f);
-        private static readonly Color HighVisibilityGreenGuidelineColor = new(0.28f, 1f, 0.35f, 1f);
-        private static readonly Color MochiPinkGuidelineColor = new(1f, 0.714f, 0.757f, 1f);
+        private static readonly Color s_FallbackVeryLowGuidelineColor = new(0.7f, 0.7f, 1f, 0.025f);
+        private static readonly Color s_FallbackLowGuidelineColor = new(0.7f, 0.7f, 1f, 0.05f);
+        private static readonly Color s_FallbackMediumGuidelineColor = new(0.7f, 0.7f, 1f, 0.1f);
+        private static readonly Color s_FallbackHighGuidelineColor = new(0.7f, 0.7f, 1f, 0.2f);
+        private static readonly Color s_FallbackPositiveGuidelineColor = new(0.5f, 1f, 0.5f, 0.1f);
+        private static readonly Color s_HighVisibilityYellowGuidelineColor = new(1f, 0.92f, 0.2f, 1f);
+        private static readonly Color s_HighVisibilityGreenGuidelineColor = new(0.28f, 1f, 0.35f, 1f);
+        private static readonly Color s_MochiBlueGuidelineColor = new(0.137f, 1f, 0.973f, 1f); // #23FFF8
+        private static readonly Color s_CyanBlueGuidelineColor = new(0.329f, 0.843f, 1f, 1f); // #54D7FF
 
         // Snapshot of the game's default colors. Opacity scales default alphas.
-        private Color m_DefVeryLow = FallbackVeryLowGuidelineColor;
-        private Color m_DefLow = FallbackLowGuidelineColor;
-        private Color m_DefMedium = FallbackMediumGuidelineColor;
-        private Color m_DefHigh = FallbackHighGuidelineColor;
-        private Color m_DefPositive = FallbackPositiveGuidelineColor;
+        private Color m_DefVeryLow = s_FallbackVeryLowGuidelineColor;
+        private Color m_DefLow = s_FallbackLowGuidelineColor;
+        private Color m_DefMedium = s_FallbackMediumGuidelineColor;
+        private Color m_DefHigh = s_FallbackHighGuidelineColor;
+        private Color m_DefPositive = s_FallbackPositiveGuidelineColor;
         private bool m_DefaultsCaptured;
         private Entity m_LastEntity = Entity.Null;
 
-        public static Color CapturedVanillaGuidelineLinesColor { get; private set; } = WithoutAlpha(FallbackLowGuidelineColor);
-        public static Color CapturedVanillaGuidelinePreviewColor { get; private set; } = WithoutAlpha(FallbackMediumGuidelineColor);
-        public static Color CapturedVanillaGuidelineDashedColor { get; private set; } = WithoutAlpha(FallbackHighGuidelineColor);
+        public static Color CapturedVanillaGuidelineLinesColor { get; private set; } = WithoutAlpha(s_FallbackLowGuidelineColor);
+        public static Color CapturedVanillaGuidelinePreviewColor { get; private set; } = WithoutAlpha(s_FallbackMediumGuidelineColor);
+        public static Color CapturedVanillaGuidelineDashedColor { get; private set; } = WithoutAlpha(s_FallbackHighGuidelineColor);
 
         // Last applied values. NaN/int sentinels ensure the first apply always runs.
         private float m_LastOpacity = float.NaN;
@@ -64,6 +57,9 @@ namespace HoverColors.Systems
         private float m_LastPreviewB = float.NaN;
         private float m_LastPreviewA = float.NaN;
         private int m_LastDashedPreset = int.MinValue;
+        private float m_LastDashedR = float.NaN;
+        private float m_LastDashedG = float.NaN;
+        private float m_LastDashedB = float.NaN;
 
         protected override void OnCreate()
         {
@@ -92,6 +88,9 @@ namespace HoverColors.Systems
             float previewB = Mathf.Clamp01(settings.GuidelinePreviewB);
             float previewA = Mathf.Clamp01(settings.GuidelinePreviewA);
             int dashedPreset = settings.GuidelineDashedColorPreset;
+            float dashedR = Mathf.Clamp01(settings.GuidelineDashedR);
+            float dashedG = Mathf.Clamp01(settings.GuidelineDashedG);
+            float dashedB = Mathf.Clamp01(settings.GuidelineDashedB);
 
             if (m_Query.IsEmptyIgnoreFilter)
             {
@@ -115,7 +114,10 @@ namespace HoverColors.Systems
                 && previewG == m_LastPreviewG
                 && previewB == m_LastPreviewB
                 && previewA == m_LastPreviewA
-                && dashedPreset == m_LastDashedPreset)
+                && dashedPreset == m_LastDashedPreset
+                && dashedR == m_LastDashedR
+                && dashedG == m_LastDashedG
+                && dashedB == m_LastDashedB)
             {
                 return;
             }
@@ -149,7 +151,7 @@ namespace HoverColors.Systems
             data.m_VeryLowPriorityColor = ApplyGuidelineColor(m_DefVeryLow, linesRgb, linesA);
             data.m_LowPriorityColor = ApplyGuidelineColor(m_DefLow, linesRgb, linesA);
             data.m_MediumPriorityColor = ApplyGuidelineColor(m_DefMedium, previewRgb, previewA);
-            // High draws dashed alignment/telegraph helpers. Options choose RGB; slider scales alpha.
+            // High draws dashed alignment/telegraph helpers. RGB comes from the panel; slider scales alpha.
             data.m_HighPriorityColor = ApplyGuidelineColor(m_DefHigh, dashedRgb, dashedOpacity);
 
             // Leave positive placement feedback fully vanilla so valid-placement green stays familiar.
@@ -168,6 +170,9 @@ namespace HoverColors.Systems
             m_LastPreviewB = previewB;
             m_LastPreviewA = previewA;
             m_LastDashedPreset = dashedPreset;
+            m_LastDashedR = dashedR;
+            m_LastDashedG = dashedG;
+            m_LastDashedB = dashedB;
         }
 
         public static Color GetGuidelineLinesColor(HoverColorsSettings? settings)
@@ -209,9 +214,15 @@ namespace HoverColors.Systems
 
             return settings.GuidelineDashedColorPreset switch
             {
-                HoverColorsSettings.GuidelineDashedColorPresetYellow => HighVisibilityYellowGuidelineColor,
-                HoverColorsSettings.GuidelineDashedColorPresetPink => MochiPinkGuidelineColor,
-                HoverColorsSettings.GuidelineDashedColorPresetGreen => HighVisibilityGreenGuidelineColor,
+                HoverColorsSettings.kGuidelineDashedColorPresetCustom => new Color(
+                    Mathf.Clamp01(settings.GuidelineDashedR),
+                    Mathf.Clamp01(settings.GuidelineDashedG),
+                    Mathf.Clamp01(settings.GuidelineDashedB),
+                    1f),
+                HoverColorsSettings.kGuidelineDashedColorPresetYellow => s_HighVisibilityYellowGuidelineColor,
+                HoverColorsSettings.kGuidelineDashedColorPresetMochiBlue => s_MochiBlueGuidelineColor,
+                HoverColorsSettings.kGuidelineDashedColorPresetCyanBlue => s_CyanBlueGuidelineColor,
+                HoverColorsSettings.kGuidelineDashedColorPresetGreen => s_HighVisibilityGreenGuidelineColor,
                 _ => CapturedVanillaGuidelineDashedColor,
             };
         }
@@ -220,7 +231,7 @@ namespace HoverColors.Systems
         {
             return preset switch
             {
-                HoverColorsSettings.GuidelineColorPresetCustom => new Color(
+                HoverColorsSettings.kGuidelineColorPresetCustom => new Color(
                     Mathf.Clamp01(r),
                     Mathf.Clamp01(g),
                     Mathf.Clamp01(b),

@@ -1,6 +1,8 @@
+// File: UI/src/entry/ModIconButton.module.scss
 // .anchor only positions the panel relative to the GTL button.
-// GTL button uses pure vanilla CS2 styling via <Button variant="floating" src={...} selected={...} /> — no custom
+// GTL button uses vanilla hover styling only; no selected prop so open panels do not stay tinted.
 // img overrides here (legacy maskImage rules used to paint the button white).
+
 .anchor {
     position: relative;
     display: flex;

@@ -1,0 +1,43 @@
+// File: panel/_sliders.scss
+// Purpose: Shared slider row and percentage readout styles.
+
+.sliderRow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding-left: 4rem;
+}
+
+.slider {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-right: 8rem; // gap between slider track and percent box
+}
+
+.valueField {
+    width: 40rem;
+    height: 28rem;
+    flex: 0 0 40rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6rem;
+    border: 0;
+    background-color: transparent; // plain text readout; dark boxes make Standard panel heavy
+    box-shadow: none;
+    color: rgba(254, 255, 255, 0.96);
+    font-size: 12rem;
+    line-height: 1;
+}
+
+.sliderRow .valueField {
+    margin-right: -4rem; // align readout with the right edge of the panel controls
+}
+
+.guidelineSliderRow {
+    width: auto;
+    flex: 1 1 auto;
+    padding-left: 0;
+    margin-left: 6rem; // gap after three guideline swatches
+}

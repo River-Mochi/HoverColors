@@ -4,16 +4,20 @@
 
 namespace HoverColors.UI
 {
+    using System;
+    using System.Collections.Generic;
+
     using Colossal.UI.Binding;
+
     using CS2Shared.RiverMochi;
+
     using Game;
     using Game.Input;
     using Game.SceneFlow;
     using Game.UI;
+
     using HoverColors.Settings;
     using HoverColors.Systems;
-    using System;
-    using System.Collections.Generic;
 
     public partial class HoverColorsUISystem : UISystemBase
     {
@@ -32,6 +36,10 @@ namespace HoverColors.UI
         private ValueBinding<float> m_OutlineGBinding = null!;
         private ValueBinding<float> m_OutlineBBinding = null!;
         private ValueBinding<float> m_OutlineABinding = null!;
+        private ValueBinding<float> m_OwnerRBinding = null!;
+        private ValueBinding<float> m_OwnerGBinding = null!;
+        private ValueBinding<float> m_OwnerBBinding = null!;
+        private ValueBinding<float> m_OwnerABinding = null!;
         private ValueBinding<float> m_FillABinding = null!;
         private ValueBinding<float> m_DistrictRBinding = null!;
         private ValueBinding<float> m_DistrictGBinding = null!;
@@ -45,12 +53,16 @@ namespace HoverColors.UI
         private ValueBinding<float> m_GuidelinePreviewColorGBinding = null!;
         private ValueBinding<float> m_GuidelinePreviewColorBBinding = null!;
         private ValueBinding<float> m_GuidelinePreviewColorABinding = null!;
+        private ValueBinding<float> m_GuidelineDashedColorRBinding = null!;
+        private ValueBinding<float> m_GuidelineDashedColorGBinding = null!;
+        private ValueBinding<float> m_GuidelineDashedColorBBinding = null!;
         private ValueBinding<int> m_GuidelineOpacityBinding = null!;
         private ValueBinding<int> m_GuidelineDefaultBinding = null!;
         private ValueBinding<bool> m_PanelOpenBinding = null!;
         private ValueBinding<bool> m_PanelTooltipsEnabledBinding = null!;
         private ValueBinding<bool> m_UseDarkerPanelBinding = null!;
         private ValueBinding<bool> m_SurfaceToolAreasSuppressedBinding = null!;
+        private ValueBinding<bool> m_SpecializedIndustryAreasSuppressedBinding = null!;
         private ValueBinding<bool> m_VanillaOutlineActiveBinding = null!;
 
         // Preset slot bindings — panel reads stored colors for swatch previews + active-state dots.
@@ -90,294 +102,8 @@ namespace HoverColors.UI
             LogUtils.Info(() => $"{Mod.ModTag} HoverColorsUISystem created");
 
             InitializeKeybindActions();
-
             RegisterValueBindings();
-
-            AddBinding(new TriggerBinding<float, float, float, float>(
-                Mod.ModId,
-                "SetOutlineColor",
-                (r, g, b, a) =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    settings.OutlineR = r;
-                    settings.OutlineG = g;
-                    settings.OutlineB = b;
-                    settings.OutlineA = a;
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            AddBinding(new TriggerBinding<float>(
-                Mod.ModId,
-                "SetFillAlpha",
-                a =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    settings.FillA = a;
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            AddBinding(new TriggerBinding<int>(
-                Mod.ModId,
-                "SetGuidelineOpacity",
-                percent =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    if (percent < 0) percent = 0;
-                    if (percent > 100) percent = 100;
-
-                    settings.GuidelineOpacityPercent = percent;
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            AddBinding(new TriggerBinding<float, float, float, float>(
-                Mod.ModId,
-                "SetGuidelineLinesColor",
-                (r, g, b, a) =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    settings.GuidelineLinesColorPreset = HoverColorsSettings.GuidelineColorPresetCustom;
-                    settings.GuidelineLinesR = Math.Max(0f, Math.Min(1f, r));
-                    settings.GuidelineLinesG = Math.Max(0f, Math.Min(1f, g));
-                    settings.GuidelineLinesB = Math.Max(0f, Math.Min(1f, b));
-                    settings.GuidelineLinesA = Math.Max(0f, Math.Min(1f, a));
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            AddBinding(new TriggerBinding<float, float, float, float>(
-                Mod.ModId,
-                "SetGuidelinePreviewColor",
-                (r, g, b, a) =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    settings.GuidelinePreviewColorPreset = HoverColorsSettings.GuidelineColorPresetCustom;
-                    settings.GuidelinePreviewR = Math.Max(0f, Math.Min(1f, r));
-                    settings.GuidelinePreviewG = Math.Max(0f, Math.Min(1f, g));
-                    settings.GuidelinePreviewB = Math.Max(0f, Math.Min(1f, b));
-                    settings.GuidelinePreviewA = Math.Max(0f, Math.Min(1f, a));
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            AddBinding(new TriggerBinding<float, float, float, float>(
-                Mod.ModId,
-                "SetDistrictColor",
-                (r, g, b, a) =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    settings.DistrictColorEnabled = true;
-                    settings.DistrictR = r;
-                    settings.DistrictG = g;
-                    settings.DistrictB = b;
-                    settings.DistrictA = a;
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            AddBinding(new TriggerBinding(
-                Mod.ModId,
-                "ResetToVanilla",
-                () =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    UnityEngine.Color hovered = OutlineColorSystem.CapturedHoveredColor;
-                    settings.OutlineR = hovered.r;
-                    settings.OutlineG = hovered.g;
-                    settings.OutlineB = hovered.b;
-                    settings.OutlineA = OutlineColorSystem.CapturedOutlineA;
-                    settings.FillA = OutlineColorSystem.CapturedFillA;
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            AddBinding(new TriggerBinding(
-                Mod.ModId,
-                "ResetOutlineToVanilla",
-                () =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    UnityEngine.Color hovered = OutlineColorSystem.CapturedHoveredColor;
-                    settings.OutlineR = hovered.r;
-                    settings.OutlineG = hovered.g;
-                    settings.OutlineB = hovered.b;
-                    settings.OutlineA = OutlineColorSystem.CapturedOutlineA;
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            AddBinding(new TriggerBinding<bool>(
-                Mod.ModId,
-                "SetPanelOpen",
-                SetPanelOpen));
-
-            AddBinding(new TriggerBinding<bool>(
-                Mod.ModId,
-                "SetPanelTooltipsEnabled",
-                enabled =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    settings.PanelTooltipsEnabled = enabled;
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            AddBinding(new TriggerBinding(
-                Mod.ModId,
-                "ToggleSurfaceToolAreas",
-                ToggleSurfaceToolAreas));
-
-            // Apply a stored preset slot (slot = 1 or 2) — pushes that slot's color to live swatch.
-            AddBinding(new TriggerBinding<int>(
-                Mod.ModId,
-                "ApplyPreset",
-                slot =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    if (slot == 1)
-                    {
-                        settings.OutlineR = settings.Preset1R;
-                        settings.OutlineG = settings.Preset1G;
-                        settings.OutlineB = settings.Preset1B;
-                        settings.OutlineA = settings.Preset1A;
-                        settings.FillA = settings.Preset1FillA;
-                        settings.GuidelineOpacityPercent = settings.Preset1GuidelinePercent;
-                    }
-                    else if (slot == 2)
-                    {
-                        settings.OutlineR = settings.Preset2R;
-                        settings.OutlineG = settings.Preset2G;
-                        settings.OutlineB = settings.Preset2B;
-                        settings.OutlineA = settings.Preset2A;
-                        settings.FillA = settings.Preset2FillA;
-                        settings.GuidelineOpacityPercent = settings.Preset2GuidelinePercent;
-                    }
-
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            // Save the current live color into a preset slot. Persisted to .coc automatically.
-            AddBinding(new TriggerBinding<int>(
-                Mod.ModId,
-                "SavePreset",
-                slot =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    if (slot == 1)
-                    {
-                        settings.Preset1R = settings.OutlineR;
-                        settings.Preset1G = settings.OutlineG;
-                        settings.Preset1B = settings.OutlineB;
-                        settings.Preset1A = settings.OutlineA;
-                        settings.Preset1FillA = settings.FillA;
-                        settings.Preset1GuidelinePercent = settings.GuidelineOpacityPercent;
-                    }
-                    else if (slot == 2)
-                    {
-                        settings.Preset2R = settings.OutlineR;
-                        settings.Preset2G = settings.OutlineG;
-                        settings.Preset2B = settings.OutlineB;
-                        settings.Preset2A = settings.OutlineA;
-                        settings.Preset2FillA = settings.FillA;
-                        settings.Preset2GuidelinePercent = settings.GuidelineOpacityPercent;
-                    }
-
-                    settings.ApplyAndSave();
-                    SyncValueBindings(); // updates Preset*Active + stored color bindings
-                }));
-
-            // Toggle preset slots between current player values and mod factory defaults.
-            // First press: saves current slots as in-memory backup, applies defaults.
-            // Second press: restores the backup.
-            // If already at defaults with no backup (fresh install), does nothing.
-            AddBinding(new TriggerBinding(
-                Mod.ModId,
-                "TogglePresetDefaults",
-                () =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    if (!PresetsAtDefaults(settings))
-                    {
-                        // Save current player colors then apply defaults.
-                        m_BkP1R = settings.Preset1R; m_BkP1G = settings.Preset1G; m_BkP1B = settings.Preset1B;
-                        m_BkP1A = settings.Preset1A; m_BkP1FillA = settings.Preset1FillA; m_BkP1Guideline = settings.Preset1GuidelinePercent;
-                        m_BkP2R = settings.Preset2R; m_BkP2G = settings.Preset2G; m_BkP2B = settings.Preset2B;
-                        m_BkP2A = settings.Preset2A; m_BkP2FillA = settings.Preset2FillA; m_BkP2Guideline = settings.Preset2GuidelinePercent;
-                        m_PresetBackupExists = true;
-
-                        settings.Preset1R = DefaultPreset1R; settings.Preset1G = DefaultPreset1G; settings.Preset1B = DefaultPreset1B;
-                        settings.Preset1A = DefaultPreset1A; settings.Preset1FillA = DefaultPreset1FillA;
-                        settings.Preset1GuidelinePercent = HoverColorsSettings.DefaultGuidelineOpacityPercent;
-                        settings.Preset2R = DefaultPreset2R; settings.Preset2G = DefaultPreset2G; settings.Preset2B = DefaultPreset2B;
-                        settings.Preset2A = DefaultPreset2A; settings.Preset2FillA = DefaultPreset2FillA;
-                        settings.Preset2GuidelinePercent = HoverColorsSettings.DefaultGuidelineOpacityPercent;
-                    }
-                    else if (m_PresetBackupExists)
-                    {
-                        // Restore backup.
-                        settings.Preset1R = m_BkP1R; settings.Preset1G = m_BkP1G; settings.Preset1B = m_BkP1B;
-                        settings.Preset1A = m_BkP1A; settings.Preset1FillA = m_BkP1FillA; settings.Preset1GuidelinePercent = m_BkP1Guideline;
-                        settings.Preset2R = m_BkP2R; settings.Preset2G = m_BkP2G; settings.Preset2B = m_BkP2B;
-                        settings.Preset2A = m_BkP2A; settings.Preset2FillA = m_BkP2FillA; settings.Preset2GuidelinePercent = m_BkP2Guideline;
-                        m_PresetBackupExists = false;
-                    }
-                    // Already at defaults with no backup → no-op (nothing to restore).
-
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
-
-            // Reset only the two city swatches. Dashed guide color/opacity are Options preferences.
-            AddBinding(new TriggerBinding(
-                Mod.ModId,
-                "ResetGuidelines",
-                () =>
-                {
-                    HoverColorsSettings? settings = Mod.Settings;
-                    if (settings == null) return;
-
-                    UnityEngine.Color lines = GuidelineColorSystem.CapturedVanillaGuidelineLinesColor;
-                    UnityEngine.Color preview = GuidelineColorSystem.CapturedVanillaGuidelinePreviewColor;
-                    settings.GuidelineLinesColorPreset = HoverColorsSettings.GuidelineColorPresetVanilla;
-                    settings.GuidelineLinesR = lines.r;
-                    settings.GuidelineLinesG = lines.g;
-                    settings.GuidelineLinesB = lines.b;
-                    settings.GuidelineLinesA = 1f;
-                    settings.GuidelinePreviewColorPreset = HoverColorsSettings.GuidelineColorPresetVanilla;
-                    settings.GuidelinePreviewR = preview.r;
-                    settings.GuidelinePreviewG = preview.g;
-                    settings.GuidelinePreviewB = preview.b;
-                    settings.GuidelinePreviewA = 1f;
-                    settings.ApplyAndSave();
-                    SyncValueBindings();
-                }));
+            RegisterTriggerBindings();
         }
 
         protected override void OnUpdate()
@@ -415,47 +141,31 @@ namespace HoverColors.UI
             }
         }
 
-        private void ApplyPresetSlot(int slot)
-        {
-            HoverColorsSettings? settings = Mod.Settings;
-            if (settings == null) return;
-
-            if (slot == 1)
-            {
-                settings.OutlineR = settings.Preset1R; settings.OutlineG = settings.Preset1G;
-                settings.OutlineB = settings.Preset1B; settings.OutlineA = settings.Preset1A;
-                settings.FillA = settings.Preset1FillA;
-                settings.GuidelineOpacityPercent = settings.Preset1GuidelinePercent;
-            }
-            else
-            {
-                settings.OutlineR = settings.Preset2R; settings.OutlineG = settings.Preset2G;
-                settings.OutlineB = settings.Preset2B; settings.OutlineA = settings.Preset2A;
-                settings.FillA = settings.Preset2FillA;
-                settings.GuidelineOpacityPercent = settings.Preset2GuidelinePercent;
-            }
-
-            settings.ApplyAndSave();
-            SyncValueBindings();
-        }
-
         private void RegisterValueBindings()
         {
             HoverColorsSettings? settings = Mod.Settings;
             bool suppressSurfaceToolAreas = settings?.SurfaceToolAreasSuppressed ?? true;
-            SurfaceToolOverlaySystem.SetSuppression(suppressSurfaceToolAreas);
+            bool suppressSpecializedIndustryAreas = settings?.SpecializedIndustryAreasSuppressed ?? true;
+            AreaToolOverlaySystem.SetSurfaceSuppression(suppressSurfaceToolAreas);
+            AreaToolOverlaySystem.SetSpecializedIndustrySuppression(suppressSpecializedIndustryAreas);
 
             m_OutlineRBinding = AddValueBinding("OutlineR", settings?.OutlineR ?? 0.502f);
             m_OutlineGBinding = AddValueBinding("OutlineG", settings?.OutlineG ?? 0.869f);
             m_OutlineBBinding = AddValueBinding("OutlineB", settings?.OutlineB ?? 1f);
             m_OutlineABinding = AddValueBinding("OutlineA", settings?.OutlineA ?? 0.855f);
+            m_OwnerRBinding = AddValueBinding("OwnerR", settings?.OwnerR ?? 0.247f);
+            m_OwnerGBinding = AddValueBinding("OwnerG", settings?.OwnerG ?? 0.981f);
+            m_OwnerBBinding = AddValueBinding("OwnerB", settings?.OwnerB ?? 0.247f);
+            m_OwnerABinding = AddValueBinding("OwnerA", settings?.OwnerA ?? 0.702f);
             m_FillABinding = AddValueBinding("FillA", settings?.FillA ?? 0f);
             m_DistrictRBinding = AddValueBinding("DistrictR", settings?.DistrictR ?? 128f / 255f);
             m_DistrictGBinding = AddValueBinding("DistrictG", settings?.DistrictG ?? 128f / 255f);
             m_DistrictBBinding = AddValueBinding("DistrictB", settings?.DistrictB ?? 128f / 255f);
             m_DistrictABinding = AddValueBinding("DistrictA", settings?.DistrictA ?? 64f / 255f);
+
             UnityEngine.Color guidelineLinesColor = GuidelineColorSystem.GetGuidelineLinesColor(settings);
             UnityEngine.Color guidelinePreviewColor = GuidelineColorSystem.GetGuidelinePreviewColor(settings);
+            UnityEngine.Color guidelineDashedColor = GuidelineColorSystem.GetGuidelineDashedColor(settings);
             m_GuidelineLinesColorRBinding = AddValueBinding("GuidelineLinesColorR", guidelineLinesColor.r);
             m_GuidelineLinesColorGBinding = AddValueBinding("GuidelineLinesColorG", guidelineLinesColor.g);
             m_GuidelineLinesColorBBinding = AddValueBinding("GuidelineLinesColorB", guidelineLinesColor.b);
@@ -464,12 +174,16 @@ namespace HoverColors.UI
             m_GuidelinePreviewColorGBinding = AddValueBinding("GuidelinePreviewColorG", guidelinePreviewColor.g);
             m_GuidelinePreviewColorBBinding = AddValueBinding("GuidelinePreviewColorB", guidelinePreviewColor.b);
             m_GuidelinePreviewColorABinding = AddValueBinding("GuidelinePreviewColorA", settings?.GuidelinePreviewA ?? 1f);
-            m_GuidelineOpacityBinding = AddValueBinding("GuidelineOpacityPercent", settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
-            m_GuidelineDefaultBinding = AddValueBinding("GuidelineDefaultPercent", settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
+            m_GuidelineDashedColorRBinding = AddValueBinding("GuidelineDashedColorR", guidelineDashedColor.r);
+            m_GuidelineDashedColorGBinding = AddValueBinding("GuidelineDashedColorG", guidelineDashedColor.g);
+            m_GuidelineDashedColorBBinding = AddValueBinding("GuidelineDashedColorB", guidelineDashedColor.b);
+            m_GuidelineOpacityBinding = AddValueBinding("GuidelineOpacityPercent", settings?.GuidelineOpacityPercent ?? HoverColorsSettings.kDefaultGuidelineOpacityPercent);
+            m_GuidelineDefaultBinding = AddValueBinding("GuidelineDefaultPercent", settings?.GuidelineDefaultPercent ?? HoverColorsSettings.kDefaultGuidelineOpacityPercent);
             m_PanelOpenBinding = AddValueBinding("PanelOpen", s_PanelOpen);
             m_PanelTooltipsEnabledBinding = AddValueBinding("PanelTooltipsEnabled", settings?.PanelTooltipsEnabled ?? true);
             m_UseDarkerPanelBinding = AddValueBinding("UseDarkerPanel", settings?.UseDarkerPanel ?? false);
             m_SurfaceToolAreasSuppressedBinding = AddValueBinding("SurfaceToolAreasSuppressed", suppressSurfaceToolAreas);
+            m_SpecializedIndustryAreasSuppressedBinding = AddValueBinding("SpecializedIndustryAreasSuppressed", suppressSpecializedIndustryAreas);
             m_VanillaOutlineActiveBinding = AddValueBinding("VanillaOutlineActive", IsVanillaOutlineActive());
 
             // Preset slot stored-color bindings (swatch previews + active-state).
@@ -501,13 +215,19 @@ namespace HoverColors.UI
             UpdateIfChanged(m_OutlineGBinding, settings?.OutlineG ?? 0.869f);
             UpdateIfChanged(m_OutlineBBinding, settings?.OutlineB ?? 1f);
             UpdateIfChanged(m_OutlineABinding, settings?.OutlineA ?? 0.855f);
+            UpdateIfChanged(m_OwnerRBinding, settings?.OwnerR ?? 0.247f);
+            UpdateIfChanged(m_OwnerGBinding, settings?.OwnerG ?? 0.981f);
+            UpdateIfChanged(m_OwnerBBinding, settings?.OwnerB ?? 0.247f);
+            UpdateIfChanged(m_OwnerABinding, settings?.OwnerA ?? 0.702f);
             UpdateIfChanged(m_FillABinding, settings?.FillA ?? 0f);
             UpdateIfChanged(m_DistrictRBinding, settings?.DistrictR ?? 128f / 255f);
             UpdateIfChanged(m_DistrictGBinding, settings?.DistrictG ?? 128f / 255f);
             UpdateIfChanged(m_DistrictBBinding, settings?.DistrictB ?? 128f / 255f);
             UpdateIfChanged(m_DistrictABinding, settings?.DistrictA ?? 64f / 255f);
+
             UnityEngine.Color guidelineLinesColor = GuidelineColorSystem.GetGuidelineLinesColor(settings);
             UnityEngine.Color guidelinePreviewColor = GuidelineColorSystem.GetGuidelinePreviewColor(settings);
+            UnityEngine.Color guidelineDashedColor = GuidelineColorSystem.GetGuidelineDashedColor(settings);
             UpdateIfChanged(m_GuidelineLinesColorRBinding, guidelineLinesColor.r);
             UpdateIfChanged(m_GuidelineLinesColorGBinding, guidelineLinesColor.g);
             UpdateIfChanged(m_GuidelineLinesColorBBinding, guidelineLinesColor.b);
@@ -516,12 +236,16 @@ namespace HoverColors.UI
             UpdateIfChanged(m_GuidelinePreviewColorGBinding, guidelinePreviewColor.g);
             UpdateIfChanged(m_GuidelinePreviewColorBBinding, guidelinePreviewColor.b);
             UpdateIfChanged(m_GuidelinePreviewColorABinding, settings?.GuidelinePreviewA ?? 1f);
-            UpdateIfChanged(m_GuidelineOpacityBinding, settings?.GuidelineOpacityPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
-            UpdateIfChanged(m_GuidelineDefaultBinding, settings?.GuidelineDefaultPercent ?? HoverColorsSettings.DefaultGuidelineOpacityPercent);
+            UpdateIfChanged(m_GuidelineDashedColorRBinding, guidelineDashedColor.r);
+            UpdateIfChanged(m_GuidelineDashedColorGBinding, guidelineDashedColor.g);
+            UpdateIfChanged(m_GuidelineDashedColorBBinding, guidelineDashedColor.b);
+            UpdateIfChanged(m_GuidelineOpacityBinding, settings?.GuidelineOpacityPercent ?? HoverColorsSettings.kDefaultGuidelineOpacityPercent);
+            UpdateIfChanged(m_GuidelineDefaultBinding, settings?.GuidelineDefaultPercent ?? HoverColorsSettings.kDefaultGuidelineOpacityPercent);
             UpdateIfChanged(m_PanelOpenBinding, s_PanelOpen);
             UpdateIfChanged(m_PanelTooltipsEnabledBinding, settings?.PanelTooltipsEnabled ?? true);
             UpdateIfChanged(m_UseDarkerPanelBinding, settings?.UseDarkerPanel ?? false);
-            UpdateIfChanged(m_SurfaceToolAreasSuppressedBinding, SurfaceToolOverlaySystem.SuppressSurfaceToolAreas);
+            UpdateIfChanged(m_SurfaceToolAreasSuppressedBinding, AreaToolOverlaySystem.SuppressSurfaceToolAreas);
+            UpdateIfChanged(m_SpecializedIndustryAreasSuppressedBinding, AreaToolOverlaySystem.SuppressSpecializedIndustryToolAreas);
             UpdateIfChanged(m_VanillaOutlineActiveBinding, IsVanillaOutlineActive());
 
             // Preset stored colors + active flags
@@ -553,74 +277,6 @@ namespace HoverColors.UI
         {
             s_PanelOpen = open;
             UpdateIfChanged(m_PanelOpenBinding, s_PanelOpen);
-        }
-
-        private void ToggleSurfaceToolAreas()
-        {
-            bool enabled = !SurfaceToolOverlaySystem.SuppressSurfaceToolAreas;
-            SurfaceToolOverlaySystem.SetSuppression(enabled);
-
-            HoverColorsSettings? settings = Mod.Settings;
-            if (settings != null)
-            {
-                settings.SurfaceToolAreasSuppressed = enabled;
-                settings.ApplyAndSave();
-            }
-
-            UpdateIfChanged(m_SurfaceToolAreasSuppressedBinding, SurfaceToolOverlaySystem.SuppressSurfaceToolAreas);
-        }
-
-        private static bool IsVanillaOutlineActive()
-        {
-            HoverColorsSettings? settings = Mod.Settings;
-            return settings != null
-                && OutlineColorSystem.MatchesCapturedVanillaProfile(
-                    settings.OutlineR,
-                    settings.OutlineG,
-                    settings.OutlineB,
-                    settings.OutlineA,
-                    settings.FillA);
-        }
-
-        // True when the live swatch exactly matches what's stored in that slot.
-        private static bool IsPresetActive(int slot)
-        {
-            HoverColorsSettings? s = Mod.Settings;
-            if (s == null) return false;
-
-            if (slot == 1)
-            {
-                return ApproxEqual(s.OutlineR, s.Preset1R)
-                    && ApproxEqual(s.OutlineG, s.Preset1G)
-                    && ApproxEqual(s.OutlineB, s.Preset1B)
-                    && ApproxEqual(s.OutlineA, s.Preset1A)
-                    && ApproxEqual(s.FillA, s.Preset1FillA);
-            }
-
-            if (slot == 2)
-            {
-                return ApproxEqual(s.OutlineR, s.Preset2R)
-                    && ApproxEqual(s.OutlineG, s.Preset2G)
-                    && ApproxEqual(s.OutlineB, s.Preset2B)
-                    && ApproxEqual(s.OutlineA, s.Preset2A)
-                    && ApproxEqual(s.FillA, s.Preset2FillA);
-            }
-
-            return false;
-        }
-
-        private static bool ApproxEqual(float a, float b) => Math.Abs(a - b) < 0.0005f;
-
-        private static bool PresetsAtDefaults(HoverColorsSettings s)
-        {
-            return ApproxEqual(s.Preset1R, DefaultPreset1R) && ApproxEqual(s.Preset1G, DefaultPreset1G)
-                && ApproxEqual(s.Preset1B, DefaultPreset1B) && ApproxEqual(s.Preset1A, DefaultPreset1A)
-                && ApproxEqual(s.Preset1FillA, DefaultPreset1FillA)
-                && s.Preset1GuidelinePercent == HoverColorsSettings.DefaultGuidelineOpacityPercent
-                && ApproxEqual(s.Preset2R, DefaultPreset2R) && ApproxEqual(s.Preset2G, DefaultPreset2G)
-                && ApproxEqual(s.Preset2B, DefaultPreset2B) && ApproxEqual(s.Preset2A, DefaultPreset2A)
-                && ApproxEqual(s.Preset2FillA, DefaultPreset2FillA)
-                && s.Preset2GuidelinePercent == HoverColorsSettings.DefaultGuidelineOpacityPercent;
         }
 
         private void InitializeKeybindActions()

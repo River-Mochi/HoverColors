@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="32"
+     height="32"
+     viewBox="0 0 32 32"
+     role="img"
+     aria-label="House outline icon">
+
+  <g transform="translate(16 16) scale(0.95 0.92) translate(-16 -16)"
+     fill="none"
+     stroke="#FFFFFF"
+     stroke-width="2.35"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+    <path d="M4 9.185
+             L9.4 4.55
+             L21.351 1.248
+             L28.005 9.561
+             L28.005 23.561
+             L16 29.563
+             L4 23.561
+             Z"/>
+
+    <path d="M4 9.185
+             L16 15.176
+             L28.005 9.561"/>
+
+    <path d="M9.4 4.55
+             L16 15.176
+             L16 29.563"/>
+  </g>
+</svg>

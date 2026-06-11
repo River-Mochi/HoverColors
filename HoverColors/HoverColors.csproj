@@ -142,7 +142,7 @@
 
         <Message Text="$(AssemblyTitle) PublishConfig: syncing ModVersion + normalizing EOL/BOM + left-aligning blocks..." Importance="high" />
 
-        <Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(PublishConfigScript)&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -Eol crlf -LeftAlignBlocks" />
+        <Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(PublishConfigScript)&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -Eol lf -LeftAlignBlocks" />
     </Target>
 
     <!-- Run npm ci AFTER C# build, only when needed (first time, or package-lock.json changed). -->

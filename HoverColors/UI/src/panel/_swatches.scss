@@ -1,0 +1,240 @@
+// File: panel/_swatches.scss
+// Purpose: Compact color swatches and their hidden ColorField click targets.
+// Pattern: visible shell/preview draws the swatch; hidden ColorField owns the vanilla picker.
+
+// ─── Guideline swatches ───────────────────────────────────────────────────────
+
+.guidelineControlBody {
+    justify-content: flex-start;
+}
+
+.guidelineSwatches {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+}
+
+.guidelineColorShell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // Narrower than before so the dashed-line swatch fits before the opacity slider.
+    width: 20rem;
+    height: 24rem;
+    flex: 0 0 20rem;
+    position: relative;
+    overflow: visible;
+    border-radius: 4rem;
+    cursor: pointer;
+    background-color: rgb(179, 179, 255);
+    box-shadow: none;
+    transition: box-shadow 120ms ease-out;
+}
+
+.guidelinePreviewColorShell {
+    margin-left: 4rem; // gap between S1/S2 guideline swatches
+}
+
+.guidelineDashedColorShell {
+    margin-left: 4rem; // third swatch: dashed alignment guideline color
+}
+
+.guidelineColorField {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    z-index: 2;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    overflow: visible !important;
+    border-radius: 4rem !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+
+.guidelineColorField > button,
+.guidelineColorField button {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 4rem !important;
+    opacity: 0 !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    cursor: pointer !important;
+}
+
+.guidelineColorField button > div {
+    opacity: 0 !important;
+}
+
+// Visible guideline swatch. Hover stays on shell because extra rings can render as dots in Cohtml.
+.guidelineColorPreview {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    pointer-events: none;
+    border-radius: 4rem;
+    box-shadow: none;
+    transition: box-shadow 120ms ease-out;
+}
+
+// ─── Outline swatch ───────────────────────────────────────────────────────────
+
+.outlineFieldShell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 42rem; // match .outlineField and .outlineField button width
+    height: 26rem; // match preset slot height
+    box-sizing: border-box;
+    padding: 0;
+    border-radius: 4rem; // also change matching 4rem !important values below
+    background-color: transparent;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+// Real child span is more reliable than pseudo-elements over vanilla ColorField.
+.outlineFieldHoverRing {
+    position: absolute;
+    top: -3rem;
+    right: -3rem;
+    bottom: -3rem;
+    left: -3rem;
+    z-index: 30;
+    pointer-events: none;
+    border: 3rem solid rgba(254, 255, 255, 0);
+    border-radius: 7rem;
+    box-shadow: none;
+    transition: border-color 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+.outlineFieldShell:hover .outlineFieldHoverRing,
+.outlineFieldShellHovered .outlineFieldHoverRing {
+    border-color: rgba(254, 255, 255, 1);
+    box-shadow: 0 0 6rem rgba(254, 255, 255, 0.22);
+}
+
+.outlineFieldShell:hover .outlineField,
+.outlineFieldShell:hover .outlineField button,
+.outlineFieldShellHovered .outlineField,
+.outlineFieldShellHovered .outlineField button {
+    box-shadow: inset 0 0 0 2rem rgba(254, 255, 255, 0.82) !important;
+}
+
+// Clips the vanilla swatch to rounded corners. Width must match the shell.
+.outlineField {
+    width: 42rem !important;
+    height: 26rem !important;
+    display: block !important;
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 4rem !important;
+    box-shadow: none !important;
+}
+
+.outlineField:hover,
+.outlineFieldShellHovered .outlineField {
+    box-shadow: 0 0 0 2rem rgba(254, 255, 255, 1) !important;
+}
+
+.outlineField button {
+    width: 42rem !important;
+    height: 26rem !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 4rem !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    cursor: pointer !important;
+}
+
+.outlineField:hover button,
+.outlineField button:hover,
+.outlineFieldShellHovered .outlineField button {
+    box-shadow: inset 0 0 0 2rem rgba(254, 255, 255, 1) !important;
+}
+
+// ─── Owner swatch ─────────────────────────────────────────────────────────────
+
+.ownerFieldShell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 24rem;
+    height: 24rem;
+    box-sizing: border-box;
+    padding: 0;
+    margin-left: 5rem; // gap from main outline swatch
+    border-radius: 4rem;
+    background-color: transparent;
+    transition: box-shadow 120ms ease-out;
+    cursor: pointer;
+}
+
+.ownerField {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    z-index: 2;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    overflow: visible !important;
+    border-radius: 4rem !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+
+.ownerField > button,
+.ownerField button {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 4rem !important;
+    opacity: 0 !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    cursor: pointer !important;
+}
+
+.ownerField button > div {
+    opacity: 0 !important;
+}
+
+.ownerColorPreview {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    pointer-events: none;
+    border-radius: 4rem;
+    box-shadow: none;
+    transition: box-shadow 120ms ease-out;
+}

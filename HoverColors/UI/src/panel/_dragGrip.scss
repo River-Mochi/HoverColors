@@ -1,0 +1,48 @@
+// File: UI/src/panel/_dragGrip.scss
+// Purpose: Tiny draggable foot for MochiColorPickerPanel.module.scss.
+//
+// Final design: no dots. The small pill turns blue on hover/drag, which is enough
+// affordance without adding visual noise.
+
+.dragGrip {
+    position: absolute;
+    right: 8rem;
+    bottom: 9rem; // increase = moves up, decrease = moves down
+    width: 20rem !important;
+    min-width: 20rem !important;
+    height: 11rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    gap: 0 !important;
+    // Idle visibility knob. Raise alpha if the pill is too hard to see at 100% panel opacity.
+    background-color: rgba(155, 178, 190, 0.24);
+    border: 1rem solid rgba(254, 255, 255, 0.12);
+    border-radius: 4rem;
+    box-sizing: border-box;
+    cursor: move;
+    user-select: none;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+.dragGrip:hover,
+.dragGripActive {
+    background-color: #1E83AA;
+    border-color: rgba(254, 255, 255, 0.34);
+    box-shadow: 0 0 3rem rgba(84, 215, 255, 0.20);
+}
+
+
+// Darker panel gets the same hover behavior, with a slightly quieter idle fill.
+.panelDarker .dragGrip {
+    background-color: rgba(130, 155, 168, 0.38);
+    border-color: rgba(254, 255, 255, 0.10);
+}
+
+.panelDarker .dragGrip:hover,
+.panelDarker .dragGripActive {
+    background-color: #1E83AA;
+    border-color: rgba(254, 255, 255, 0.34);
+    box-shadow: 0 0 3rem rgba(84, 215, 255, 0.20);
+}

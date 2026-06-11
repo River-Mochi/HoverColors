@@ -1,19 +1,20 @@
 // File: Systems/OutlineColorSystem.cs
 // Purpose: Apply user-chosen outline color + fill/outline alpha to the game's selection highlight.
-// Can temporarily override colors while the player is using Bulldoze / Better Bulldozer or
-// Net (road) tools so invisible-alpha settings don't make targets impossible to see.
+// Can temporarily override colors while the player is using Bulldoze / Better Bulldozer,
+// road tools, or detail-style NetTool lanes so invisible-alpha settings don't get in the way.
 //
 // Surfaces written (one color choice covers all of them, two alpha sliders control opacity):
 //   - RenderingSettingsData.m_HoveredColor.RGB   ← Outline RGB (lot-pattern tint on hovered building)
-//   - RenderingSettingsData.m_OwnerColor.RGB     ← Outline RGB (parent/owner objects of placed building)
+//   - RenderingSettingsData.m_OwnerColor.RGBA    ← Owner color (parent/owned objects while placing)
 //   - Material _OuterColor.RGB                   ← Outline RGB (the visible halo edge color)
 //   - Material _OuterColor.a                     ← OutlineA   (halo edge opacity)
 //   - Material _InnerColor.RGB                   ← Outline RGB (color of fill overlay inside silhouette)
 //   - Material _InnerColor.a                     ← FillA      (fill overlay opacity)
 //
 // Tool override: controlled by HoverColorsSettings.ToolColorMode.
-//   - Overlapping / invalid placement errors: optional vanilla ErrorColor wins first.
+//   - Object/network placement errors: optional vanilla ErrorColor wins first.
 //   - Recommended: WarningColor for bulldozer, softer vanilla blue for roads.
+//   - Detail NetTools: optional custom color for fences/hedges/lanes from detailing mods.
 //   - Vanilla: captured vanilla hover profile while those tools are active.
 //   - Custom: player color everywhere.
 // The dirty-flag tracks the *effective* values so an idle tool session is still ~free per frame.
@@ -22,7 +23,7 @@
 //   - The HDRP CustomPassVolume / OutlinesWorldUIPass / Material refs are found ONCE and cached.
 //     The fallback scene scan is throttled while loading so we never call
 //     Object.FindObjectsOfType<CustomPassVolume>() every frame.
-//   - Last-applied 5-float snapshot is kept, so OnUpdate early-returns (5 compares + return) when
+//   - Last-applied effective color snapshot is kept, so OnUpdate early-returns when
 //     neither the sliders nor the active-tool override flag changed.
 //   - Cache invalidates only when the Material reference goes destroyed-null (e.g. scene reload).
 
@@ -33,6 +34,7 @@ namespace HoverColors.Systems
     using Game.Prefabs;
     using Game.Rendering;
     using Game.Tools;
+    using HoverColors.Localization;
     using HoverColors.Settings;
     using System;
     using System.Reflection;
@@ -81,6 +83,7 @@ namespace HoverColors.Systems
 
         // Last-applied EFFECTIVE values (after tool-override decision).
         private float m_LastR, m_LastG, m_LastB, m_LastOutlineA, m_LastFillA;
+        private float m_LastOwnerR, m_LastOwnerG, m_LastOwnerB, m_LastOwnerA;
         private EffectivePalette m_LastPalette;
         private bool m_Applied;
         private ToolBaseSystem? m_CachedErrorTool;
@@ -94,7 +97,8 @@ namespace HoverColors.Systems
         {
             None,
             Bulldoze,
-            Net,
+            NetRoad,
+            NetDetailing,
         }
 
         private enum EffectivePalette
@@ -125,11 +129,11 @@ namespace HoverColors.Systems
 
             TryCaptureVanillaDefaults();
 
-            float r, g, b, outlineA, fillA;
+            float r, g, b, outlineA, fillA, ownerR, ownerG, ownerB, ownerA;
             EffectivePalette palette;
             ToolBaseSystem? activeToolSystem = m_ToolSystem?.activeTool;
             ToolKind activeTool = GetActiveToolKind(activeToolSystem);
-            if (settings.UseOverlapWarningColor && HasBlockingToolError(activeToolSystem))
+            if (settings.UseOverlapWarningColor && HasSupportedPlacementError(activeToolSystem))
             {
                 Color error = CapturedErrorColor;
                 r = error.r;
@@ -137,9 +141,13 @@ namespace HoverColors.Systems
                 b = error.b;
                 outlineA = error.a;
                 fillA = CapturedFillA;
+                ownerR = CapturedOwnerColor.r;
+                ownerG = CapturedOwnerColor.g;
+                ownerB = CapturedOwnerColor.b;
+                ownerA = CapturedOwnerColor.a;
                 palette = EffectivePalette.VanillaToolError;
             }
-            else if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeRecommended
+            else if (settings.ToolColorMode == HoverColorsSettings.kToolColorModeRecommended
                 && activeTool == ToolKind.Bulldoze)
             {
                 Color warning = CapturedWarningColor;
@@ -148,10 +156,46 @@ namespace HoverColors.Systems
                 b = warning.b;
                 outlineA = warning.a;
                 fillA = CapturedFillA;
+                ownerR = warning.r;
+                ownerG = warning.g;
+                ownerB = warning.b;
+                ownerA = warning.a;
                 palette = EffectivePalette.RecommendedBulldoze;
             }
-            else if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeRecommended
-                && activeTool == ToolKind.Net)
+            else if (activeTool == ToolKind.NetDetailing)
+            {
+                if (settings.UseCustomColorsForNetLanes)
+                {
+                    r = settings.OutlineR;
+                    g = settings.OutlineG;
+                    b = settings.OutlineB;
+                    outlineA = settings.OutlineA;
+                    fillA = settings.FillA;
+                    ownerR = settings.OwnerR;
+                    ownerG = settings.OwnerG;
+                    ownerB = settings.OwnerB;
+                    ownerA = settings.OwnerA;
+                    palette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA, ownerR, ownerG, ownerB, ownerA)
+                        ? EffectivePalette.CapturedVanilla
+                        : EffectivePalette.Custom;
+                }
+                else
+                {
+                    Color hovered = CapturedHoveredColor;
+                    r = hovered.r;
+                    g = hovered.g;
+                    b = hovered.b;
+                    outlineA = CapturedOutlineA;
+                    fillA = CapturedFillA;
+                    ownerR = CapturedOwnerColor.r;
+                    ownerG = CapturedOwnerColor.g;
+                    ownerB = CapturedOwnerColor.b;
+                    ownerA = CapturedOwnerColor.a;
+                    palette = EffectivePalette.CapturedVanilla;
+                }
+            }
+            else if (settings.ToolColorMode == HoverColorsSettings.kToolColorModeRecommended
+                && activeTool == ToolKind.NetRoad)
             {
                 Color hovered = CapturedHoveredColor;
                 r = hovered.r;
@@ -159,10 +203,14 @@ namespace HoverColors.Systems
                 b = hovered.b;
                 outlineA = Mathf.Min(CapturedOutlineA, RoadRecommendedOutlineA);
                 fillA = CapturedFillA;
+                ownerR = CapturedOwnerColor.r;
+                ownerG = CapturedOwnerColor.g;
+                ownerB = CapturedOwnerColor.b;
+                ownerA = Mathf.Min(CapturedOwnerColor.a, outlineA);
                 palette = EffectivePalette.RecommendedNet;
             }
-            else if (settings.ToolColorMode == HoverColorsSettings.ToolColorModeVanilla
-                && activeTool != ToolKind.None)
+            else if (settings.ToolColorMode == HoverColorsSettings.kToolColorModeVanilla
+                && (activeTool == ToolKind.Bulldoze || activeTool == ToolKind.NetRoad))
             {
                 Color hovered = CapturedHoveredColor;
                 r = hovered.r;
@@ -170,6 +218,10 @@ namespace HoverColors.Systems
                 b = hovered.b;
                 outlineA = CapturedOutlineA;
                 fillA = CapturedFillA;
+                ownerR = CapturedOwnerColor.r;
+                ownerG = CapturedOwnerColor.g;
+                ownerB = CapturedOwnerColor.b;
+                ownerA = CapturedOwnerColor.a;
                 palette = EffectivePalette.CapturedVanilla;
             }
             else
@@ -179,7 +231,11 @@ namespace HoverColors.Systems
                 b = settings.OutlineB;
                 outlineA = settings.OutlineA;
                 fillA = settings.FillA;
-                palette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA)
+                ownerR = settings.OwnerR;
+                ownerG = settings.OwnerG;
+                ownerB = settings.OwnerB;
+                ownerA = settings.OwnerA;
+                palette = MatchesCapturedVanillaProfile(r, g, b, outlineA, fillA, ownerR, ownerG, ownerB, ownerA)
                     ? EffectivePalette.CapturedVanilla
                     : EffectivePalette.Custom;
             }
@@ -191,12 +247,16 @@ namespace HoverColors.Systems
                 && b == m_LastB
                 && outlineA == m_LastOutlineA
                 && fillA == m_LastFillA
+                && ownerR == m_LastOwnerR
+                && ownerG == m_LastOwnerG
+                && ownerB == m_LastOwnerB
+                && ownerA == m_LastOwnerA
                 && palette == m_LastPalette)
             {
                 return;
             }
 
-            bool ecsOk = ApplyRenderingSettingsColors(r, g, b, outlineA, palette);
+            bool ecsOk = ApplyRenderingSettingsColors(r, g, b, outlineA, ownerR, ownerG, ownerB, ownerA, palette);
             bool matOk = ApplyOutlineMaterialColors(r, g, b, outlineA, fillA, palette);
 
             // Only cache the snapshot when BOTH writes land — otherwise retry next frame.
@@ -207,6 +267,10 @@ namespace HoverColors.Systems
                 m_LastB = b;
                 m_LastOutlineA = outlineA;
                 m_LastFillA = fillA;
+                m_LastOwnerR = ownerR;
+                m_LastOwnerG = ownerG;
+                m_LastOwnerB = ownerB;
+                m_LastOwnerA = ownerA;
                 m_LastPalette = palette;
                 m_Applied = true;
             }
@@ -282,7 +346,16 @@ namespace HoverColors.Systems
         // Building lots clamp this alpha internally, but area/surface borders read it directly,
         // so we forward OutlineA here to make extractor and painted-area borders respect the
         // same outline-opacity control as the main hover highlight.
-        private bool ApplyRenderingSettingsColors(float r, float g, float b, float outlineA, EffectivePalette palette)
+        private bool ApplyRenderingSettingsColors(
+            float r,
+            float g,
+            float b,
+            float outlineA,
+            float ownerR,
+            float ownerG,
+            float ownerB,
+            float ownerA,
+            EffectivePalette palette)
         {
             if (m_RenderSettingsQuery.IsEmptyIgnoreFilter)
             {
@@ -324,9 +397,8 @@ namespace HoverColors.Systems
                     data.m_OwnerColor = owner;
                     break;
                 default:
-                    Color rgb = new Color(r, g, b, outlineA);
-                    data.m_HoveredColor = rgb;
-                    data.m_OwnerColor = rgb;
+                    data.m_HoveredColor = new Color(r, g, b, outlineA);
+                    data.m_OwnerColor = new Color(ownerR, ownerG, ownerB, ownerA);
                     break;
             }
 
@@ -379,7 +451,7 @@ namespace HoverColors.Systems
             return true;
         }
 
-        private static ToolKind GetActiveToolKind(ToolBaseSystem? tool)
+        private ToolKind GetActiveToolKind(ToolBaseSystem? tool)
         {
             if (tool == null)
             {
@@ -391,9 +463,9 @@ namespace HoverColors.Systems
                 return ToolKind.Bulldoze;
             }
 
-            if (tool is NetToolSystem)
+            if (tool is NetToolSystem netTool)
             {
-                return ToolKind.Net;
+                return GetNetToolKind(netTool);
             }
 
             // Better Bulldozer may still drive vanilla BulldozeToolSystem, but this keeps the
@@ -410,9 +482,46 @@ namespace HoverColors.Systems
             return ToolKind.None;
         }
 
-        private bool HasBlockingToolError(ToolBaseSystem? tool)
+        private ToolKind GetNetToolKind(NetToolSystem netTool)
+        {
+            if (m_PrefabSystem == null)
+            {
+                return ToolKind.NetRoad;
+            }
+
+            PrefabBase? selectedPrefab = netTool.GetPrefab();
+            if (selectedPrefab == null || !m_PrefabSystem.TryGetEntity(selectedPrefab, out Entity prefabEntity))
+            {
+                return ToolKind.NetRoad;
+            }
+
+            if (EntityManager.HasComponent<RoadData>(prefabEntity))
+            {
+                return ToolKind.NetRoad;
+            }
+
+            // EDT fences/hedges/markings and similar detail tools enter through NetTool
+            // as lanes or fence prefabs. Keep this check cheap: selected prefab only.
+            if (selectedPrefab is NetLanePrefab
+                || EntityManager.HasComponent<NetLaneData>(prefabEntity)
+                || EntityManager.HasComponent<FenceData>(prefabEntity))
+            {
+                return ToolKind.NetDetailing;
+            }
+
+            return ToolKind.NetRoad;
+        }
+
+        private bool HasSupportedPlacementError(ToolBaseSystem? tool)
         {
             if (tool == null)
+            {
+                return false;
+            }
+
+            // Keep this option scoped to item/network placement. AreaTool uses Error for
+            // extractor/district/surface limits too, and those should not become salmon.
+            if (tool is not ObjectToolSystem && tool is not NetToolSystem)
             {
                 return false;
             }
@@ -427,8 +536,8 @@ namespace HoverColors.Systems
 
             try
             {
-                // Vanilla ToolBaseSystem.GetAllowApply() checks this same query. It only becomes
-                // non-empty for real blocking tool errors, including Overlapping items.
+                // Vanilla ToolBaseSystem.GetAllowApply() checks this same query. In these
+                // tools it covers blocking placement errors, including Overlapping items.
                 if (!ReferenceEquals(m_CachedErrorTool, tool))
                 {
                     object? value = s_ToolErrorQueryField.GetValue(tool);
@@ -466,11 +575,38 @@ namespace HoverColors.Systems
 
         public static bool MatchesCapturedVanillaProfile(float r, float g, float b, float outlineA, float fillA)
         {
+            return MatchesCapturedVanillaProfile(
+                r,
+                g,
+                b,
+                outlineA,
+                fillA,
+                CapturedOwnerColor.r,
+                CapturedOwnerColor.g,
+                CapturedOwnerColor.b,
+                CapturedOwnerColor.a);
+        }
+
+        public static bool MatchesCapturedVanillaProfile(
+            float r,
+            float g,
+            float b,
+            float outlineA,
+            float fillA,
+            float ownerR,
+            float ownerG,
+            float ownerB,
+            float ownerA)
+        {
             return ApproximatelyEqual(r, CapturedHoveredColor.r)
                 && ApproximatelyEqual(g, CapturedHoveredColor.g)
                 && ApproximatelyEqual(b, CapturedHoveredColor.b)
                 && ApproximatelyEqual(outlineA, CapturedOutlineA)
-                && ApproximatelyEqual(fillA, CapturedFillA);
+                && ApproximatelyEqual(fillA, CapturedFillA)
+                && ApproximatelyEqual(ownerR, CapturedOwnerColor.r)
+                && ApproximatelyEqual(ownerG, CapturedOwnerColor.g)
+                && ApproximatelyEqual(ownerB, CapturedOwnerColor.b)
+                && ApproximatelyEqual(ownerA, CapturedOwnerColor.a);
         }
 
         private static bool ApproximatelyEqual(float a, float b)

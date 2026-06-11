@@ -16,6 +16,7 @@ namespace HoverColors.Systems
     using Game.Common;
     using Game.Prefabs;
     using Game.Serialization;
+    using HoverColors.Localization;
     using HoverColors.Settings;
     using Unity.Entities;
     using UnityEngine;
@@ -32,9 +33,13 @@ namespace HoverColors.Systems
 
         private static readonly Color s_FallbackDistrictFill = new(128f / 255f, 128f / 255f, 128f / 255f, 64f / 255f);
         private static readonly Color s_FallbackDistrictEdge = new(128f / 255f, 128f / 255f, 128f / 255f, 128f / 255f);
+        private static readonly Color s_FallbackDistrictSelectionFill = new(128f / 255f, 128f / 255f, 128f / 255f, 128f / 255f);
+        private static readonly Color s_FallbackDistrictSelectionEdge = new(128f / 255f, 128f / 255f, 128f / 255f, 1f);
 
         public static Color CapturedDistrictFillColor { get; private set; } = s_FallbackDistrictFill;
         public static Color CapturedDistrictEdgeColor { get; private set; } = s_FallbackDistrictEdge;
+        private static Color CapturedDistrictSelectionFillColor { get; set; } = s_FallbackDistrictSelectionFill;
+        private static Color CapturedDistrictSelectionEdgeColor { get; set; } = s_FallbackDistrictSelectionEdge;
         public static bool HasCapturedDistrictDefaults { get; private set; }
 
         private PrefabSystem? m_PrefabSystem;
@@ -98,6 +103,13 @@ namespace HoverColors.Systems
 
             if (!enabled)
             {
+                ApplyDistrictColors(
+                    CapturedDistrictFillColor,
+                    CapturedDistrictEdgeColor,
+                    CapturedDistrictSelectionFillColor,
+                    CapturedDistrictSelectionEdgeColor);
+                MarkDistrictAreasUpdated();
+
                 m_LastEnabled = false;
                 m_LastR = r;
                 m_LastG = g;
@@ -107,7 +119,8 @@ namespace HoverColors.Systems
                 return;
             }
 
-            ApplyDistrictColors(new Color(r, g, b, a));
+            Color customColor = new(r, g, b, a);
+            ApplyDistrictColors(customColor, customColor, customColor, customColor);
             MarkDistrictAreasUpdated();
 
             m_LastEnabled = true;
@@ -131,6 +144,8 @@ namespace HoverColors.Systems
             {
                 CapturedDistrictFillColor = areaPrefab.m_Color;
                 CapturedDistrictEdgeColor = areaPrefab.m_EdgeColor;
+                CapturedDistrictSelectionFillColor = areaPrefab.m_SelectionColor;
+                CapturedDistrictSelectionEdgeColor = areaPrefab.m_SelectionEdgeColor;
                 HasCapturedDistrictDefaults = true;
             }
             else
@@ -138,6 +153,8 @@ namespace HoverColors.Systems
                 PrefabAreaColorData colorData = EntityManager.GetComponentData<PrefabAreaColorData>(prefabEntity);
                 CapturedDistrictFillColor = colorData.m_FillColor;
                 CapturedDistrictEdgeColor = colorData.m_EdgeColor;
+                CapturedDistrictSelectionFillColor = colorData.m_SelectionFillColor;
+                CapturedDistrictSelectionEdgeColor = colorData.m_SelectionEdgeColor;
                 HasCapturedDistrictDefaults = true;
             }
 
@@ -148,7 +165,11 @@ namespace HoverColors.Systems
                     $"RGBA=({CapturedDistrictFillColor.r:F3}, {CapturedDistrictFillColor.g:F3}, " +
                     $"{CapturedDistrictFillColor.b:F3}, {CapturedDistrictFillColor.a:F3}); edge " +
                     $"RGBA=({CapturedDistrictEdgeColor.r:F3}, {CapturedDistrictEdgeColor.g:F3}, " +
-                    $"{CapturedDistrictEdgeColor.b:F3}, {CapturedDistrictEdgeColor.a:F3})");
+                    $"{CapturedDistrictEdgeColor.b:F3}, {CapturedDistrictEdgeColor.a:F3}); selection fill " +
+                    $"RGBA=({CapturedDistrictSelectionFillColor.r:F3}, {CapturedDistrictSelectionFillColor.g:F3}, " +
+                    $"{CapturedDistrictSelectionFillColor.b:F3}, {CapturedDistrictSelectionFillColor.a:F3}); selection edge " +
+                    $"RGBA=({CapturedDistrictSelectionEdgeColor.r:F3}, {CapturedDistrictSelectionEdgeColor.g:F3}, " +
+                    $"{CapturedDistrictSelectionEdgeColor.b:F3}, {CapturedDistrictSelectionEdgeColor.a:F3})");
             }
         }
 
@@ -168,23 +189,25 @@ namespace HoverColors.Systems
             m_SeededSettingsFromCapture = true;
         }
 
-        private void ApplyDistrictColors(Color color)
+        private void ApplyDistrictColors(
+            Color fillColor,
+            Color edgeColor,
+            Color selectionFillColor,
+            Color selectionEdgeColor)
         {
             if (!TryGetDefaultDistrictPrefab(out Entity prefabEntity))
             {
                 return;
             }
 
-            Color32 color32 = color;
-
             PrefabAreaColorData data = EntityManager.GetComponentData<PrefabAreaColorData>(prefabEntity);
 
             // AreaBufferSystem consumes all four colors. Driving edge + selection edge here
             // is what controls the persistent District boundary line shown while editing.
-            data.m_FillColor = color32;
-            data.m_EdgeColor = color32;
-            data.m_SelectionFillColor = color32;
-            data.m_SelectionEdgeColor = color32;
+            data.m_FillColor = fillColor;
+            data.m_EdgeColor = edgeColor;
+            data.m_SelectionFillColor = selectionFillColor;
+            data.m_SelectionEdgeColor = selectionEdgeColor;
             EntityManager.SetComponentData(prefabEntity, data);
         }
 
